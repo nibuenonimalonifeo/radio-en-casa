@@ -1,0 +1,136 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import url('https://fonts.googleapis.com/css2?family=Special+Gothic+Expanded+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Special+Gothic+Condensed+One&family=Special+Gothic+Expanded+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fjalla+One&display=swap');
+
+@font-face {
+  font-family: 'Boldonse';
+  src: url('/fonts/Boldonse.woff2') format('woff2'),
+       url('/fonts/Boldonse.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+.font-special-gothic {
+  font-family: 'Special Gothic Expanded One', sans-serif;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+@keyframes glitch-main {
+  0% { transform: translate(0); }
+  20% { transform: translate(-3px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(3px, 1px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitch-red {
+  0% { clip-path: inset(40% 0 50% 0); transform: translate(-5px, -2px); }
+  20% { clip-path: inset(85% 0 2% 0); transform: translate(4px, 1px); }
+  40% { clip-path: inset(10% 0 75% 0); transform: translate(-4px, 3px); }
+  60% { clip-path: inset(65% 0 15% 0); transform: translate(5px, -1px); }
+  80% { clip-path: inset(20% 0 60% 0); transform: translate(-3px, 2px); }
+  100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+}
+
+@keyframes glitch-cyan {
+  0% { clip-path: inset(15% 0 65% 0); transform: translate(5px, 2px); }
+  20% { clip-path: inset(60% 0 20% 0); transform: translate(-4px, -1px); }
+  40% { clip-path: inset(75% 0 5% 0); transform: translate(4px, -3px); }
+  60% { clip-path: inset(25% 0 55% 0); transform: translate(-5px, 1px); }
+  80% { clip-path: inset(5% 0 80% 0); transform: translate(3px, -2px); }
+  100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+}
+
+.animate-glitch-main {
+  animation: glitch-main 0.15s ease infinite alternate;
+}
+
+.animate-glitch-red {
+  animation: glitch-red 0.25s steps(2, end) infinite;
+}
+
+.animate-glitch-cyan {
+  animation: glitch-cyan 0.2s steps(2, end) infinite;
+}
+/* ANIMACIONES GLITCH DE BACKGROUND GLOBAL */
+
+@keyframes bg-glitch {
+  0% { transform: translate(0, 0); }
+  10% { transform: translate(-3px, 2px); }
+  20% { transform: translate(2px, -3px); }
+  30% { transform: translate(-4px, 1px); }
+  40% { transform: translate(3px, 3px); }
+  50% { transform: translate(-2px, -2px); }
+  60% { transform: translate(4px, -1px); }
+  70% { transform: translate(-1px, 4px); }
+  80% { transform: translate(2px, -2px); }
+  90% { transform: translate(-3px, 1px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes bg-glitch-red {
+  0% { clip-path: inset(10% 0 80% 0); transform: translate(-8px, -4px); }
+  25% { clip-path: inset(60% 0 10% 0); transform: translate(6px, 2px); }
+  50% { clip-path: inset(30% 0 50% 0); transform: translate(-6px, 4px); }
+  75% { clip-path: inset(80% 0 5% 0); transform: translate(8px, -2px); }
+  100% { clip-path: inset(0 0 0 0); transform: translate(0, 0); }
+}
+
+@keyframes bg-glitch-cyan {
+  0% { clip-path: inset(50% 0 20% 0); transform: translate(8px, 4px); }
+  25% { clip-path: inset(10% 0 70% 0); transform: translate(-6px, -2px); }
+  50% { clip-path: inset(75% 0 15% 0); transform: translate(6px, -4px); }
+  75% { clip-path: inset(25% 0 55% 0); transform: translate(-8px, 2px); }
+  100% { clip-path: inset(0 0 0 0); transform: translate(0, 0); }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.animate-bg-glitch {
+  animation: bg-glitch 0.12s steps(2, end) infinite;
+}
+
+.animate-bg-glitch-red {
+  animation: bg-glitch-red 0.2s steps(2, end) infinite;
+}
+
+.animate-bg-glitch-cyan {
+  animation: bg-glitch-cyan 0.18s steps(2, end) infinite;
+}
+
+.animate-scanline {
+  animation: scanline 1.2s linear infinite;
+}
+@keyframes soundWavePulse {
+  0% {
+    transform: scaleY(0.25);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scaleY(1.15);
+    opacity: 0.95;
+  }
+  100% {
+    transform: scaleY(0.4);
+    opacity: 0.5;
+  }
+}
+@font-face {
+  font-family: 'Special Gothic Condensed';
+  src: url('/fonts/SpecialGothicCondensed.woff2') format('woff2'),
+       url('/fonts/SpecialGothicCondensed.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

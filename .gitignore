@@ -1,0 +1,19 @@
+# Dependencias de Node
+node_modules/
+
+# Archivos de compilación de Next.js
+.next/
+out/
+
+# Variables de entorno locales
+.env*.local
+.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Caché del sistema operativo
+.DS_Store
+*.pem

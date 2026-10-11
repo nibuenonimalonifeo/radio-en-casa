@@ -1016,12 +1016,15 @@ export default function Page() {
     return () => clearInterval(interval);
   }, []);
 
+  // --- HANDLERS ACTUALIZADOS PARA TOGGLES EXCLUYENTES ---
   const handleTogglePlayer = () => {
     setIsOpenPlayer((prev) => {
       const nextState = !prev;
       if (nextState) {
         setIsOpenTrends(false);
         setIsOpenChat(false);
+      } else {
+        setIsOpenChat(true);
       }
       return nextState;
     });
@@ -1033,6 +1036,8 @@ export default function Page() {
       if (nextState) {
         setIsOpenPlayer(false);
         setIsOpenChat(false);
+      } else {
+        setIsOpenChat(true);
       }
       return nextState;
     });
@@ -1049,21 +1054,30 @@ export default function Page() {
     });
   };
 
+  // Condición calculada: Si Player y Trends están cerrados, el Chat SE MUESTRA SÍ O SÍ
+  const isChatVisible = isOpenChat || (!isOpenPlayer && !isOpenTrends);
+
   const [uniqueListeners, setUniqueListeners] = useState<number>(142);
-  const [isMiniPlaying, setIsMiniPlaying] = useState<boolean>(true);
+  const [isMiniPlaying, setIsMiniPlaying] = useState<boolean>(false);
   const [miniVolume, setMiniVolume] = useState<number>(80);
   const [historiaParallaxOffset, setHistoriaParallaxOffset] = useState<number>(0);
 
   const toggleMiniAudio = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setIsMiniPlaying(!isMiniPlaying);
     const audioElement = document.getElementById('radio-audio-element') as HTMLAudioElement;
-    if (audioElement) {
-      if (isMiniPlaying) {
+
+    if (isMiniPlaying) {
+      if (audioElement) {
         audioElement.pause();
-      } else {
-        audioElement.play().catch((err) => console.warn(err));
       }
+      setIsMiniPlaying(false);
+    } else {
+      if (audioElement) {
+        audioElement.src = `/api/stream/audio?t=${Date.now()}`;
+        audioElement.volume = miniVolume / 100;
+        audioElement.play().catch((err) => console.warn('Error al reproducir audio:', err));
+      }
+      setIsMiniPlaying(true);
     }
   };
 
@@ -1648,7 +1662,31 @@ export default function Page() {
         .animate-scroll-pulse {
           animation: scrollPulse 1.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
+
+        @keyframes marquee {
+          0% { transform: translateX(0%); }
+          100% { transform: translateX(-50%); }
+        }
+
+        .animate-marquee {
+          display: inline-block;
+          white-space: nowrap;
+          will-change: transform;
+          animation: marquee 10s linear infinite;
+        }
+
+        .animate-marquee:hover {
+          animation-play-state: paused;
+        }
       `}</style>
+
+      {/* ELEMENTO DE AUDIO GLOBAL PARA PÁGINA / SIDEBAR */}
+      <audio
+        id="radio-audio-element"
+        preload="none"
+        playsInline
+        crossOrigin="anonymous"
+      />
 
       {/* BARRA DE SCROLL ROJA */}
       <div className="fixed top-0 right-0 lg:right-0 w-[20px] h-full z-[30] pointer-events-none overflow-hidden">
@@ -1796,17 +1834,18 @@ export default function Page() {
               
               <div 
                 onClick={handleTogglePlayer}
-                className="w-full flex items-center justify-between cursor-pointer select-none font-datatype p-3 pr-3 pt-3 gap-2"
+                className="w-full flex items-center justify-between cursor-pointer select-none font-datatype p-3 pr-10 pt-3 gap-2 relative min-h-[44px]"
               >
                 {!isOpenPlayer && (
-                  <div className="flex flex-col gap-2.5 w-full overflow-hidden" onClick={(e) => e.stopPropagation()}>
-                    <div className="flex items-center gap-2.5 bg-[#1a1a1a] px-3 py-1.5 rounded-full border border-white/10 w-full flex-shrink-0">
+                  <div className="flex flex-col gap-3 w-full min-w-0 pr-2" onClick={(e) => e.stopPropagation()}>
+                    <div className="flex items-center gap-2.5 bg-[#1a1a1a] px-3 py-2 rounded-full border border-white/10 w-full flex-shrink-0">
+                      {/* BOTÓN CON ICONO DE PAUSA/PLAY UNIFICADO */}
                       <button
                         onClick={toggleMiniAudio}
-                        className="w-7 h-7 bg-[#f74a35] hover:bg-[#d93a26] text-white rounded-full flex items-center justify-center hover:scale-105 transition-transform flex-shrink-0 cursor-pointer shadow-md p-1"
+                        className="w-8 h-8 bg-[#f74a35] hover:bg-[#d93a26] text-white rounded-full flex items-center justify-center hover:scale-105 transition-transform flex-shrink-0 cursor-pointer shadow-md p-0"
                         title={isMiniPlaying ? 'Pausar' : 'Reproducir'}
                       >
-                        <span className="leading-none flex items-center justify-center text-center font-extrabold text-[8px]">
+                        <span className="leading-none flex items-center justify-center text-center font-extrabold text-xs select-none">
                           {isMiniPlaying ? '❚❚' : '▶'}
                         </span>
                       </button>
@@ -1826,18 +1865,24 @@ export default function Page() {
                       </div>
                     </div>
 
-                    <div className="w-full min-w-0 flex items-center justify-start text-left px-0.5 font-datatype pt-1">
-                      <p className="text-neutral-300 text-[8.5px] font-bold truncate leading-tight font-datatype uppercase m-0 w-full" title={nowPlayingText}>
-                        <strong className="text-[#f74a35] mr-1.5 font-datatype font-bold uppercase tracking-widest text-[8.5px]">
-                          NOW PLAYING:
-                        </strong>
-                        {nowPlayingText}
-                      </p>
+                    {/* NOMBRE DE LA CANCIÓN EN MARQUESINA */}
+                    <div className="w-full min-w-0 flex flex-col items-start text-left px-0.5 font-datatype pt-1 overflow-hidden">
+                      <div className="relative w-full overflow-hidden whitespace-nowrap">
+                        <div className="inline-block animate-marquee">
+                          <span className="text-base sm:text-lg font-black text-neutral-100 font-datatype pr-12 uppercase">
+                            {nowPlayingText}
+                          </span>
+                          <span className="text-base sm:text-lg font-black text-neutral-100 font-datatype pr-12 uppercase">
+                            {nowPlayingText}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
 
-                <div className="flex items-center justify-center flex-shrink-0 ml-auto self-center">
+                {/* FLECHA CON POSICIÓN FIJA EXACTA E IDÉNTICA */}
+                <div className="absolute top-3.5 right-3.5 flex items-center justify-center flex-shrink-0 z-20 pointer-events-none">
                   <span className={`inline-block transition-transform duration-300 ${isOpenPlayer ? 'rotate-180' : 'rotate-0'}`}>
                     <svg width="10" height="10" viewBox="0 0 10 10" className="fill-[#f74a35]" style={{ shapeRendering: 'crispEdges' }}>
                       <path d="M0 2H10V4H8V6H6V8H4V6H2V4H0V2Z" />
@@ -1883,7 +1928,7 @@ export default function Page() {
           >
             <button
               onClick={handleToggleTrends}
-              className="w-full flex items-center justify-between text-left cursor-pointer select-none font-datatype gap-2 p-3 pr-3 pt-3"
+              className="w-full flex items-center justify-between text-left cursor-pointer select-none font-datatype gap-2 p-3 pr-8 pt-3 relative min-h-[44px]"
             >
               <div className="flex items-center gap-1.5 font-datatype flex-1 min-w-0">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#f74a35] animate-ping flex-shrink-0" />
@@ -1891,7 +1936,9 @@ export default function Page() {
                   TOP 10 TRENDS
                 </span>
               </div>
-              <div className="flex items-center justify-center flex-shrink-0 ml-auto">
+
+              {/* FLECHA 2: UBICACIÓN EXACTA Y ALINEADA */}
+              <div className="absolute top-3.5 right-3.5 flex items-center justify-center flex-shrink-0 z-20">
                 <span className={`inline-block transition-transform duration-300 ${isOpenTrends ? 'rotate-180' : 'rotate-0'}`}>
                   <svg width="10" height="10" viewBox="0 0 10 10" className="fill-[#f74a35]" style={{ shapeRendering: 'crispEdges' }}>
                     <path d="M0 2H10V4H8V6H6V8H4V6H2V4H0V2Z" />
@@ -1932,7 +1979,7 @@ export default function Page() {
           >
             <button
               onClick={handleToggleChat}
-              className="w-full flex items-center justify-between text-left select-none cursor-pointer font-datatype pb-1 flex-shrink-0 gap-2 p-3 pr-3 pt-3"
+              className="w-full flex items-center justify-between text-left select-none cursor-pointer font-datatype pb-1 flex-shrink-0 gap-2 p-3 pr-8 pt-3 relative min-h-[44px]"
             >
               <div className="flex items-center gap-1.5 font-datatype flex-1 min-w-0">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#f74a35] animate-pulse flex-shrink-0" />
@@ -1940,8 +1987,10 @@ export default function Page() {
                   SOMOS {uniqueListeners} ONLINE
                 </span>
               </div>
-              <div className="flex items-center justify-center flex-shrink-0 ml-auto">
-                <span className={`inline-block transition-transform duration-300 ${isOpenChat ? 'rotate-180' : 'rotate-0'}`}>
+
+              {/* FLECHA 3: UBICACIÓN EXACTA Y ALINEADA */}
+              <div className="absolute top-3.5 right-3.5 flex items-center justify-center flex-shrink-0 z-20">
+                <span className={`inline-block transition-transform duration-300 ${isChatVisible ? 'rotate-180' : 'rotate-0'}`}>
                   <svg width="10" height="10" viewBox="0 0 10 10" className="fill-[#f74a35]" style={{ shapeRendering: 'crispEdges' }}>
                     <path d="M0 2H10V4H8V6H6V8H4V6H2V4H0V2Z" />
                   </svg>
@@ -1950,7 +1999,7 @@ export default function Page() {
             </button>
 
             <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden w-full origin-top ${
-              isOpenChat ? 'grid-rows-[1fr] opacity-100 pt-1 scale-y-100' : 'grid-rows-[0fr] opacity-0 pt-0 scale-y-0 -translate-y-2'
+              isChatVisible ? 'grid-rows-[1fr] opacity-100 pt-1 scale-y-100' : 'grid-rows-[0fr] opacity-0 pt-0 scale-y-0 -translate-y-2'
             }`}>
               <div className="overflow-hidden w-full h-full flex flex-col">
                 <div className="overflow-hidden flex flex-col h-full min-h-[440px] w-full bg-black rounded-xl border border-white/10 flex-1">
@@ -2007,21 +2056,32 @@ export default function Page() {
               <IframePlayer width={300} />
 
               {recentTracks && recentTracks.length > 0 && (
-                <div className="w-full mt-1 pt-2 border-t border-white/10 flex flex-col gap-1.5 font-datatype text-left bg-black/80 p-3 rounded-xl border border-white/10 shadow-inner">
-                  <span className="text-[#f74a35] font-bold text-[10px] uppercase tracking-widest block font-datatype mb-1">
-                    ÚLTIMOS TEMAS:
-                  </span>
-                  <div className="flex flex-col gap-1 max-h-[140px] overflow-y-auto no-scrollbar">
-                    {recentTracks.slice(0, 10).map((track: string, idx: number) => (
-                      <div key={idx} className="w-full flex items-center min-h-[1.4rem] py-1 border-b border-white/5 text-[10px] text-neutral-300 hover:text-[#f74a35] transition-colors font-datatype">
-                        <span className="truncate w-full font-datatype leading-normal">
-                          {track}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+  <div className="w-full max-w-[280px] mt-1 pt-2 border-t border-white/10 flex flex-col gap-1.5 font-datatype text-left bg-black/80 p-3 rounded-xl shadow-inner">
+    <span className="text-[#f74a35] font-bold text-[8.5px] uppercase tracking-widest block font-datatype mb-1">
+      ÚLTIMOS TEMAS:
+    </span>
+    <div className="flex flex-col gap-1 max-h-[180px] overflow-y-auto no-scrollbar">
+      {recentTracks.slice(0, 10).map((track: string, idx: number) => {
+        // Limpiamos etiquetas <br>, <br/> y saltos de línea del texto del tema
+        const cleanTrack = track
+          .replace(/<br\s*\/?>/gi, ' - ')
+          .replace(/\s+/g, ' ')
+          .trim();
+
+        return (
+          <div 
+            key={idx} 
+            className="w-full flex items-center min-h-[1.5rem] py-1 border-b border-white/5 text-[8.5px] text-neutral-300 hover:text-[#f74a35] transition-colors font-datatype"
+          >
+            <span className="truncate w-full font-datatype leading-normal" title={cleanTrack}>
+              {cleanTrack}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+)}
             </div>
           </div>
 
@@ -2058,8 +2118,9 @@ export default function Page() {
                   onClick={() => {
                     const audioElement = document.getElementById('radio-audio-element') as HTMLAudioElement;
                     if (audioElement) {
-                      audioElement.src = `/api/stream?nocache=${Date.now()}`;
+                      audioElement.src = `/api/stream/audio?nocache=${Date.now()}`;
                       audioElement.play().catch((err) => console.warn('Disparo de audio bloqueado:', err));
+                      setIsMiniPlaying(true);
                     }
 
                     setShowTuningNotice(false);

@@ -1,56 +1,83 @@
 import { NextResponse } from 'next/server';
 import http from 'http';
-import https from 'https';
+import { Readable } from 'stream';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 
 export async function GET() {
-  const STREAM_URL = 'http://streaming01.shockmedia.com.ar:9018/stream';
+  const STREAM_URL = 'http://streaming01.shockmedia.com.ar:9018/;';
 
-  const stream = new ReadableStream({
+  const passThrough = new Readable({
+    read() {} // Administrado mediante push de eventos
+  });
+
+  const req = http.get(
+    STREAM_URL,
+    {
+      headers: {
+        'User-Agent': 'VLC/3.0.18 LibVLC/3.0.18',
+        'Accept': '*/*',
+        'Icy-MetaData': '0',
+        'Connection': 'keep-alive',
+      },
+    },
+    (res) => {
+      // Reenviar datos de audio de forma continua sin buffer de cierre
+      res.on('data', (chunk) => {
+        passThrough.push(chunk);
+      });
+
+      res.on('end', () => {
+        passThrough.push(null);
+      });
+
+      res.on('error', (err) => {
+        console.error('Error en el socket de audio:', err);
+        passThrough.destroy(err);
+      });
+    }
+  );
+
+  req.on('error', (err) => {
+    console.error('Error al conectar con Shockmedia:', err);
+    passThrough.destroy(err);
+  });
+
+  // Convertir el stream de Node a un Web ReadableStream continuo
+  const webStream = new ReadableStream({
     start(controller) {
-      const client = STREAM_URL.startsWith('https') ? https : http;
-
-      const req = client.get(
-        STREAM_URL,
-        {
-          headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
-            'Icy-MetaData': '1',
-          },
-        },
-        (res) => {
-          res.on('data', (chunk) => {
-            try {
-              controller.enqueue(chunk);
-            } catch (e) {
-              // Si el cliente cierra el navegador
-            }
-          });
-
-          res.on('end', () => {
-            try { controller.close(); } catch (e) {}
-          });
-
-          res.on('error', (err) => {
-            try { controller.error(err); } catch (e) {}
-          });
+      passThrough.on('data', (chunk) => {
+        try {
+          controller.enqueue(chunk);
+        } catch (e) {
+          // El cliente (navegador) cerró la conexión
         }
-      );
+      });
 
-      req.on('error', (err) => {
+      passThrough.on('end', () => {
+        try { controller.close(); } catch (e) {}
+      });
+
+      passThrough.on('error', (err) => {
         try { controller.error(err); } catch (e) {}
       });
     },
+    cancel() {
+      // Abortar la petición a Shockmedia si el usuario detiene la música
+      req.destroy();
+      passThrough.destroy();
+    }
   });
 
-  return new NextResponse(stream, {
+  return new NextResponse(webStream, {
     status: 200,
     headers: {
       'Content-Type': 'audio/mpeg',
-      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
       'Pragma': 'no-cache',
       'Expires': '0',
+      'Connection': 'keep-alive',
       'Access-Control-Allow-Origin': '*',
     },
   });

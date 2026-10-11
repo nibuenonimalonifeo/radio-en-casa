@@ -6,10 +6,11 @@ export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 export async function GET() {
-  const STREAM_URL = 'http://streaming01.shockmedia.com.ar:9018/;';
+  // Punto de montaje nativo para SHOUTcast v2 AAC
+  const STREAM_URL = 'http://streaming01.shockmedia.com.ar:9018/stream/1/';
 
   const passThrough = new Readable({
-    read() {} // Administrado mediante push de eventos
+    read() {}
   });
 
   const req = http.get(
@@ -23,7 +24,6 @@ export async function GET() {
       },
     },
     (res) => {
-      // Reenviar datos de audio de forma continua sin buffer de cierre
       res.on('data', (chunk) => {
         passThrough.push(chunk);
       });
@@ -44,15 +44,12 @@ export async function GET() {
     passThrough.destroy(err);
   });
 
-  // Convertir el stream de Node a un Web ReadableStream continuo
   const webStream = new ReadableStream({
     start(controller) {
       passThrough.on('data', (chunk) => {
         try {
           controller.enqueue(chunk);
-        } catch (e) {
-          // El cliente (navegador) cerró la conexión
-        }
+        } catch (e) {}
       });
 
       passThrough.on('end', () => {
@@ -64,7 +61,6 @@ export async function GET() {
       });
     },
     cancel() {
-      // Abortar la petición a Shockmedia si el usuario detiene la música
       req.destroy();
       passThrough.destroy();
     }
@@ -73,7 +69,7 @@ export async function GET() {
   return new NextResponse(webStream, {
     status: 200,
     headers: {
-      'Content-Type': 'audio/mpeg',
+      'Content-Type': 'audio/aac',
       'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
       'Pragma': 'no-cache',
       'Expires': '0',

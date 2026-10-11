@@ -2662,24 +2662,14 @@ export default function Page() {
         </section>
 
         {/* 6. COMUNIDAD */}
-        <section id="comunidad" className="w-full pt-28 sm:pt-48 md:pt-56 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 relative bg-black text-[#e3e3e3] z-10 flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
-          <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
-            <video
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="w-full h-full object-cover filter brightness-50 contrast-125 opacity-40"
-            >
-              <source src="/images/video/REC_Video_Background_02.mp4" type="video/mp4" />
-            </video>
-            <div 
-              className="absolute inset-0 z-10"
-              style={{
-                backgroundImage: 'repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) 2px, transparent 2px, transparent 4px)',
-              }}
-            />
-          </div>
+        <section 
+          id="comunidad" 
+          className="w-full pt-28 sm:pt-48 md:pt-56 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 relative bg-black text-[#e3e3e3] z-10 flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('/images/historia/Radio_en_Casa_Background_Historia_01.png')`,
+          }}
+        >
+          <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none z-0" />
 
           <div className="w-full max-w-[1100px] mx-auto space-y-6 sm:space-y-8 relative z-10 px-0 sm:px-4 md:px-0">
             <AnimateOnScroll duration={600} offset={25}>

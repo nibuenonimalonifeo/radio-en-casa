@@ -1,46 +1,57 @@
 import { NextResponse } from 'next/server';
+import http from 'http';
+import https from 'https';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
-  const candidateUrls = [
-    'http://streaming01.shockmedia.com.ar:9018/stream',
-    'http://streaming01.shockmedia.com.ar:9018/;',
-    'https://streaming01.shockmedia.com.ar/9018/stream',
-  ];
+  const STREAM_URL = 'http://streaming01.shockmedia.com.ar:9018/stream';
 
-  for (const streamUrl of candidateUrls) {
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 4000); // 4 seg de timeout por intento
+  const stream = new ReadableStream({
+    start(controller) {
+      const client = STREAM_URL.startsWith('https') ? https : http;
 
-      const response = await fetch(streamUrl, {
-        signal: controller.signal,
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-          'Accept': '*/*',
-          'Icy-MetaData': '1',
-        },
-      });
-
-      clearTimeout(timeoutId);
-
-      if ((response.ok || response.status === 200) && response.body) {
-        return new NextResponse(response.body as ReadableStream, {
-          status: 200,
+      const req = client.get(
+        STREAM_URL,
+        {
           headers: {
-            'Content-Type': 'audio/mpeg',
-            'Cache-Control': 'no-cache, no-store, must-revalidate',
-            'Pragma': 'no-cache',
-            'Expires': '0',
-            'Access-Control-Allow-Origin': '*',
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+            'Icy-MetaData': '1',
           },
-        });
-      }
-    } catch (err) {
-      console.warn(`Falló la conexión con ${streamUrl}:`, err);
-    }
-  }
+        },
+        (res) => {
+          res.on('data', (chunk) => {
+            try {
+              controller.enqueue(chunk);
+            } catch (e) {
+              // Si el cliente cierra el navegador
+            }
+          });
 
-  return new NextResponse('Stream no disponible', { status: 503 });
+          res.on('end', () => {
+            try { controller.close(); } catch (e) {}
+          });
+
+          res.on('error', (err) => {
+            try { controller.error(err); } catch (e) {}
+          });
+        }
+      );
+
+      req.on('error', (err) => {
+        try { controller.error(err); } catch (e) {}
+      });
+    },
+  });
+
+  return new NextResponse(stream, {
+    status: 200,
+    headers: {
+      'Content-Type': 'audio/mpeg',
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0',
+      'Access-Control-Allow-Origin': '*',
+    },
+  });
 }

@@ -50,21 +50,36 @@ export default function IframePlayer({
     return () => clearInterval(interval);
   }, []);
 
+  // Registrar MediaSession para evitar que el navegador congele el audio al cambiar de pestaña
+  useEffect(() => {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: streamInfo.nowPlaying || 'Radio en Casa',
+        artist: 'EN VIVO',
+        album: 'Radio en Casa',
+        artwork: [
+          { src: streamInfo.image || '/images/radio-en-casa-favicon.svg', sizes: '512x512', type: 'image/png' }
+        ]
+      });
+    }
+  }, [streamInfo.nowPlaying, streamInfo.image]);
+
   const togglePlay = () => {
     if (!audioRef.current) return;
 
     if (isPlaying) {
       audioRef.current.pause();
-      audioRef.current.removeAttribute('src');
-      audioRef.current.load();
+      // En transmisiones en vivo, vaciamos el src sin hacer removeAttribute
+      audioRef.current.src = '';
       setIsPlaying(false);
       setIsLoading(false);
     } else {
       setIsLoading(true);
+      // Forzamos la conexión limpia a la API de streaming
       const audioSource = `/api/stream/audio?t=${Date.now()}`;
       audioRef.current.src = audioSource;
-      audioRef.current.load();
-
+      audioRef.current.volume = isMuted ? 0 : volume / 100;
+      
       const playPromise = audioRef.current.play();
       if (playPromise !== undefined) {
         playPromise
@@ -112,9 +127,16 @@ export default function IframePlayer({
         ref={audioRef}
         id="radio-audio-element"
         preload="none"
+        playsInline
+        crossOrigin="anonymous"
         onWaiting={() => setIsLoading(true)}
+        onPlaying={() => {
+          setIsLoading(false);
+          setIsPlaying(true);
+        }}
         onCanPlay={() => setIsLoading(false)}
-        onError={() => {
+        onError={(e) => {
+          console.error('Audio element error:', e);
           setIsLoading(false);
           setIsPlaying(false);
         }}

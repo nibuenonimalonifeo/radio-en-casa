@@ -1358,10 +1358,15 @@ export default function Page() {
     }
   };
 
-  const fetchLiveXTrends = async () => {
+  const fetchLiveXTrends = async (countryCode?: string, city?: string) => {
     setIsLoadingTrends(true);
     try {
-      const res = await fetch('/api/trends', { cache: 'no-store' });
+      // Pasamos el país o ciudad detectada como query param
+      const queryParams = new URLSearchParams();
+      if (countryCode) queryParams.append('country', countryCode);
+      if (city) queryParams.append('city', city);
+
+      const res = await fetch(`/api/trends?${queryParams.toString()}`, { cache: 'no-store' });
       if (res.ok) {
         const data = await res.json();
         setTrends(data);
@@ -1374,17 +1379,12 @@ export default function Page() {
   };
 
   useEffect(() => {
-    fetchLiveXTrends();
-    const interval = setInterval(fetchLiveXTrends, 300000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const { latitude, longitude } = position.coords;
           try {
+            // Clima
             const weatherRes = await fetch(
               `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m`
             );
@@ -1392,6 +1392,7 @@ export default function Page() {
             const temp = Math.round(weatherData.current.temperature_2m);
             setTemperature(`${temp}°C`);
 
+            // Reverso para ciudad y código de país (ISO-2 e.g. AR, ES, MX)
             const geoRes = await fetch(
               `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
             );
@@ -1401,20 +1402,28 @@ export default function Page() {
               geoData.address.town ||
               geoData.address.village ||
               'UBICACIÓN';
+            const countryCode = geoData.address.country_code?.toUpperCase() || 'AR';
+
             setCityName(city.toUpperCase());
+
+            // Disparamos la búsqueda de Trends para el país específico del usuario
+            fetchLiveXTrends(countryCode, city);
           } catch (error) {
             setCityName('CLIMA');
             setTemperature('N/A');
+            fetchLiveXTrends('AR'); // Fallback por defecto (ej. Argentina)
           }
         },
         () => {
           setCityName('BA');
           setTemperature('21°C');
+          fetchLiveXTrends('AR');
         }
       );
     } else {
       setCityName('BA');
       setTemperature('21°C');
+      fetchLiveXTrends('AR');
     }
   }, []);
 
@@ -1948,7 +1957,7 @@ export default function Page() {
   </div>
 </div>
 
-          {/* MÓDULO 3: TOP 10 TRENDS */}
+          {/* MÓDULO 3: TOP 10 X TRENDS */}
           <div 
             className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-2xl p-2.5 border border-white/10 shadow-2xl space-y-1.5 font-datatype flex-shrink-0 ${
               isHeroIntroComplete ? 'animate-slide-bottom-ease' : 'opacity-0'
@@ -1962,7 +1971,7 @@ export default function Page() {
               <div className="flex items-center gap-1.5 font-datatype flex-1 min-w-0 pr-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#f74a35] animate-ping flex-shrink-0" />
                 <span className="text-[#f74a35] font-bold text-[8.5px] uppercase tracking-widest font-datatype truncate">
-                  TOP 10 TRENDS
+                  TOP 10 X TRENDS
                 </span>
               </div>
 
@@ -2013,7 +2022,7 @@ export default function Page() {
               <div className="flex items-center gap-1.5 font-datatype flex-1 min-w-0 pr-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#f74a35] animate-pulse flex-shrink-0" />
                 <span className="font-bold text-white text-[8.5px] uppercase tracking-widest font-datatype truncate">
-                  SOMOS {uniqueListeners} ONLINE - CHAT
+                  CHAT — SOMOS {uniqueListeners} ONLINE
                 </span>
               </div>
 

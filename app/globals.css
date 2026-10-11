@@ -1,9 +1,8 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fjalla+One&family=Special+Gothic+Condensed+One&family=Special+Gothic+Expanded+One&display=swap');
+
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-@import url('https://fonts.googleapis.com/css2?family=Special+Gothic+Expanded+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Special+Gothic+Condensed+One&family=Special+Gothic+Expanded+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fjalla+One&display=swap');
 
 @font-face {
   font-family: 'Boldonse';
@@ -13,6 +12,7 @@
   font-style: normal;
   font-display: swap;
 }
+/* El resto de tus clases y animaciones sigue igual abajo */
 .font-special-gothic {
   font-family: 'Special Gothic Expanded One', sans-serif;
 }

@@ -1,141 +1,192 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
-interface SonicInfo {
-  nowplaying?: string;
-  song?: string;
-  artist?: string;
-  title?: string;
-  [key: string]: unknown;
+interface StreamInfo {
+  nowPlaying: string;
+  image: string;
+  onlineListeners: number;
+  uniqueListeners: number;
+  history: string[];
+  streamUrl: string;
 }
 
-interface IframePlayerProps {
-  width?: number | null;
-}
+export default function IframePlayer({ 
+  width = 280,
+  isForceCollapsed = false 
+}: { 
+  width?: number;
+  isForceCollapsed?: boolean;
+}) {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [volume, setVolume] = useState<number>(80);
+  const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [streamInfo, setStreamInfo] = useState<StreamInfo>({
+    nowPlaying: 'Radio en Casa - En Vivo',
+    image: '',
+    onlineListeners: 0,
+    uniqueListeners: 0,
+    history: [],
+    streamUrl: '/api/stream/audio',
+  });
 
-export default function IframePlayer({ width }: IframePlayerProps) {
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [sonicInfo, setSonicInfo] = useState<SonicInfo | null>(null);
+  const fetchStreamData = async () => {
+    try {
+      const res = await fetch('/api/stream', { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
+        setStreamInfo(data);
+      }
+    } catch (err) {
+      console.warn('Error cargando info del stream:', err);
+    }
+  };
 
   useEffect(() => {
-    const fetchSonicInfo = async () => {
-      try {
-        const res = await fetch('/api/sonic', { cache: 'no-store' });
-        if (res.ok) {
-          const data = await res.json();
-          setSonicInfo(data);
-        }
-      } catch (error) {
-        console.error('Error cargando el tema en vivo:', error);
-      }
-    };
-
-    fetchSonicInfo();
-    const interval = setInterval(fetchSonicInfo, 10000);
+    fetchStreamData();
+    const interval = setInterval(fetchStreamData, 10000);
     return () => clearInterval(interval);
   }, []);
 
-  const excludedTrack = 'FAITH NO MORE - Smaller And Smaller';
+  const togglePlay = () => {
+    if (!audioRef.current) return;
 
-  const rawNowPlaying =
-    sonicInfo?.nowplaying ||
-    sonicInfo?.song ||
-    (sonicInfo?.artist && sonicInfo?.title
-      ? `${sonicInfo.artist} - ${sonicInfo.title}`
-      : sonicInfo?.title || 'SINTONIZANDO...');
+    if (isPlaying) {
+      audioRef.current.pause();
+      audioRef.current.removeAttribute('src');
+      audioRef.current.load();
+      setIsPlaying(false);
+      setIsLoading(false);
+    } else {
+      setIsLoading(true);
+      const audioSource = `/api/stream/audio?t=${Date.now()}`;
+      audioRef.current.src = audioSource;
+      audioRef.current.load();
 
-  const nowPlayingTrack =
-    rawNowPlaying.trim().toUpperCase() === excludedTrack.toUpperCase()
-      ? 'Radio en Casa — Transmisión Oficial'
-      : rawNowPlaying;
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+            setIsLoading(false);
+          })
+          .catch((err) => {
+            console.error('Error al reproducir audio:', err);
+            setIsPlaying(false);
+            setIsLoading(false);
+          });
+      }
+    }
+  };
 
-  const defaultImageUrl =
-    'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300&q=80';
+  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = Number(e.target.value);
+    setVolume(val);
+    if (audioRef.current) {
+      audioRef.current.volume = val / 100;
+      setIsMuted(val === 0);
+    }
+  };
+
+  const toggleMute = () => {
+    if (!audioRef.current) return;
+    if (isMuted) {
+      audioRef.current.volume = volume / 100;
+      setIsMuted(false);
+    } else {
+      audioRef.current.volume = 0;
+      setIsMuted(true);
+    }
+  };
 
   return (
-    <div
-      className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[70] pointer-events-auto font-mono select-none flex items-center justify-between gap-3 h-[52px]"
-      style={{
-        width: width ? `${width}px` : '64vw',
-        maxWidth: '100vw',
-      }}
+    <div 
+      className={`w-full bg-[#121212] border-0 p-3 shadow-2xl flex flex-col items-center gap-3 font-datatype text-left rounded-none ${
+        isForceCollapsed ? 'hidden' : 'block'
+      }`}
+      style={{ maxWidth: `${width}px` }}
     >
-      {/* 1. LOGO CON REBOTE SUTIL (CUBIC-BEZIER SUAVE) */}
-      <button
-        onClick={() => setIsCollapsed(!isCollapsed)}
-        className="group cursor-pointer block flex-shrink-0 outline-none h-full z-20 transition-transform duration-500"
-        style={{
-          transform: isCollapsed
-            ? `translateX(calc(${width ? width / 2 : 300}px - 26px))`
-            : 'translateX(0px)',
-          transitionTimingFunction: 'cubic-bezier(0.34, 1.15, 0.64, 1)',
+      <audio
+        ref={audioRef}
+        id="radio-audio-element"
+        preload="none"
+        onWaiting={() => setIsLoading(true)}
+        onCanPlay={() => setIsLoading(false)}
+        onError={() => {
+          setIsLoading(false);
+          setIsPlaying(false);
         }}
-        aria-label={isCollapsed ? 'Expandir reproductor' : 'Colapsar reproductor'}
-        title={isCollapsed ? 'Click para expandir' : 'Click para ocultar reproductor'}
-      >
-        <div className="w-[52px] h-[52px] bg-[#f74a35] rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-105 shadow-xl animate-pulse">
+      />
+
+      {/* PORTADA EN GRANDE OCUPANDO EL ANCHO DEL MÓDULO */}
+      <div className="w-full h-44 bg-black/90 border-0 overflow-hidden relative flex-shrink-0 flex items-center justify-center rounded-none">
+        {streamInfo.image ? (
           <img
-            src="/icon.svg"
-            alt="Radio en Casa"
-            className="h-5 w-auto filter drop-shadow"
-          />
-        </div>
-      </button>
-
-      {/* 2. CONTENEDOR DESPLEGABLE */}
-      <div
-        className={`bg-[#f2f2f2] text-neutral-900 border border-neutral-400/80 shadow-2xl flex items-center justify-between gap-3 md:gap-4 overflow-hidden transition-all duration-500 ease-in-out flex-1 h-[52px] ${
-          isCollapsed
-            ? 'max-w-0 opacity-0 pointer-events-none px-0 py-0 border-opacity-0 scale-95'
-            : 'max-w-full opacity-100 translate-x-0 px-4 py-0 border-opacity-100 scale-100'
-        }`}
-      >
-        {/* TEXTO EN VIVO */}
-        <div className="flex-shrink-0 flex items-center text-[#f74a35] text-[11px] md:text-xs font-bold uppercase tracking-widest pl-1">
-          <span>EN VIVO</span>
-        </div>
-
-        {/* PORTADA RECTA */}
-        <div className="relative w-[36px] h-[36px] border border-neutral-300 overflow-hidden flex-shrink-0 bg-neutral-900">
-          <img
-            src={defaultImageUrl}
-            alt="Radio en Casa"
-            className="w-full h-full object-cover filter contrast-110 grayscale hover:grayscale-0 transition-all duration-300"
-          />
-        </div>
-
-        {/* PLAYER DE AUDIO */}
-        <div className="flex-shrink-0 w-[160px] sm:w-[190px] md:w-[220px] h-[36px] flex items-center overflow-hidden border-l border-neutral-300 pl-2">
-          <audio
-            id="stream"
-            controls
-            autoPlay
-            preload="auto"
-            className="w-full"
-            style={{
-              transform: 'scale(0.92)',
-              transformOrigin: 'center center',
+            src={streamInfo.image}
+            alt="Tapa del tema"
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.display = 'none';
             }}
-          >
-            <source src="https://streaming01.shockmedia.com.ar/9018/;" type="audio/mpeg" />
-            Tu navegador no soporta audio.
-          </audio>
-        </div>
-
-        {/* MARQUESINA $NOWPLAYING */}
-        <div className="flex items-center gap-2 border-l border-neutral-300 pl-3 overflow-hidden flex-1 h-[36px]">
-          <div className="flex-shrink-0 bg-[#2a2a2a] text-white px-2 py-1 text-[10px] font-bold uppercase tracking-wider border border-neutral-800">
-            <span>NOW PLAYING:</span>
+          />
+        ) : (
+          <span className="text-[#f74a35] font-black text-xl font-datatype">RADIO EN CASA</span>
+        )}
+        
+        {isPlaying && (
+          <div className="absolute top-2 left-2 bg-[#f74a35] text-white text-[8px] font-bold px-1.5 py-0.5 uppercase tracking-wider animate-pulse font-datatype z-10 shadow-md rounded-none">
+            LIVE
           </div>
+        )}
+      </div>
 
-          <div className="overflow-hidden w-full relative flex items-center">
-            <div className="flex w-max animate-marquee space-x-6 whitespace-nowrap text-[11px] md:text-xs font-bold text-[#f74a35]">
-              <span>{nowPlayingTrack}</span>
-              <span>{nowPlayingTrack}</span>
-            </div>
-          </div>
+      {/* CONTROLES DEL PLAYER (PLAY / PAUSA Y VOLUMEN) */}
+      <div className="w-full bg-black/80 p-2 border-0 flex items-center justify-between gap-2.5 rounded-none">
+        <button
+          onClick={togglePlay}
+          className="w-9 h-9 rounded-full bg-[#f74a35] hover:bg-[#d93a26] text-white flex items-center justify-center text-xs font-bold shadow-lg transition-transform active:scale-95 flex-shrink-0 cursor-pointer"
+          title={isPlaying ? 'Pausar transmisión' : 'Escuchar en vivo'}
+        >
+          {isLoading ? (
+            <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+          ) : isPlaying ? (
+            '❚❚'
+          ) : (
+            '▶'
+          )}
+        </button>
+
+        <div className="flex-1 flex items-center gap-2 px-1">
+          <button onClick={toggleMute} className="text-neutral-400 hover:text-white transition-colors cursor-pointer" title={isMuted ? 'Activar sonido' : 'Silenciar'}>
+            <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
+              {isMuted || volume === 0 ? (
+                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" />
+              ) : (
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+              )}
+            </svg>
+          </button>
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={isMuted ? 0 : volume}
+            onChange={handleVolumeChange}
+            className="w-full h-1 accent-[#f74a35] bg-neutral-800 cursor-pointer rounded-none"
+          />
         </div>
+      </div>
+
+      {/* TÍTULO DEL TEMA SONANDO EN VIVO */}
+      <div className="w-full bg-black/60 p-2.5 border-0 font-datatype text-left space-y-1 rounded-none">
+        <span className="text-[8.5px] uppercase font-bold text-[#f74a35] tracking-widest block font-datatype">
+          NOW PLAYING:
+        </span>
+        <p className="text-neutral-200 !text-[13px] sm:!text-[14px] font-bold leading-relaxed font-datatype m-0 truncate" title={streamInfo.nowPlaying}>
+          {streamInfo.nowPlaying}
+        </p>
       </div>
     </div>
   );

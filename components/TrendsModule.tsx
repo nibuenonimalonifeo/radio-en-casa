@@ -54,23 +54,25 @@ export default async function TrendsModule() {
         <div className="flex items-center justify-between border-b border-neutral-800 pb-3 mb-4">
           <h3 className="text-xs font-bold uppercase tracking-widest text-[#f74a35] flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#f74a35] animate-pulse" />
-            TOP 5 TENDENCIAS — {countryName.toUpperCase()} ({countryCode})
+            TOP 10 TENDENCIAS — {countryName.toUpperCase()} ({countryCode})
           </h3>
           <span className="text-[10px] text-neutral-500 uppercase">
             Google Trends en vivo
           </span>
         </div>
 
-        <ol className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        {/* Maquetación adaptada a 10 ítems (2 filas de 5 en pantallas medianas / grandes) */}
+        <ol className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
           {trends.length > 0 ? (
-            trends.slice(0, 5).map((item, index) => (
+            // CAMBIO AQUÍ: Se toma hasta los 10 primeros elementos (o el array completo)
+            trends.slice(0, 10).map((item, index) => (
               <li
                 key={item.id || index}
                 className="bg-[#242424] p-3 border-l-2 border-[#f74a35] flex flex-col justify-between"
               >
                 <div>
                   <span className="text-[10px] text-[#f74a35] font-bold block mb-1">
-                    0{index + 1}
+                    {String(index + 1).padStart(2, '0')}
                   </span>
                   <p className="text-sm font-bold truncate text-white" title={item.topic}>
                     {item.topic}
@@ -84,7 +86,7 @@ export default async function TrendsModule() {
               </li>
             ))
           ) : (
-            <p className="text-xs text-neutral-500 col-span-5">
+            <p className="text-xs text-neutral-500 col-span-full">
               Cargando tendencias...
             </p>
           )}

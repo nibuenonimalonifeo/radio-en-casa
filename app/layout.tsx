@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Guapo.studio',
-  description: 'Estudio de diseño y desarrollo web con narrativas horizontales.',
+  title: 'RADIO EN CASA | Radio + Podcast + Streaming + Outdoor',
+  description: 'Mudamos la forma de hacer radio. Estudio profesional de radio, podcast y streaming en Palermo, Buenos Aires.',
 };
 
 export default function RootLayout({

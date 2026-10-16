@@ -130,15 +130,20 @@ function SubstackFanzineFeed() {
   );
 }
 
-// --- COMPONENTE CHAT EN VIVO DE TLK.IO ---
+// --- COMPONENTE CHAT EN VIVO DE TLK.IO (WIDGET EMBEBIDO) ---
 
 function TlkioChat() {
   return (
     <div className="w-full h-full relative min-h-[380px] bg-black">
-      <iframe
-        src="https://tlk.io/radioencasa"
-        className="w-full h-full border-0 absolute inset-0"
-        title="Radio en Casa Chat"
+      <div
+        id="tlkio"
+        data-channel="hey"
+        data-theme="theme--night"
+        style={{ width: '100%', height: '100%' }}
+      />
+      <Script
+        src="https://tlk.io/embed.js"
+        strategy="lazyOnload"
       />
     </div>
   );

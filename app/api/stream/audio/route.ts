@@ -13,6 +13,20 @@ export async function GET() {
     read() {}
   });
 
+  // Manejador de errores interno para limpiar silenciosamente el stream local
+  const handleStreamError = (err: any) => {
+    if (err?.code === 'ECONNRESET' || err?.code === 'ECONNABORTED' || err?.message?.includes('aborted')) {
+      console.warn('Proxy de audio: Conexión cerrada o reiniciada por el servidor de streaming.');
+    } else {
+      console.error('Proxy de audio: Error en la transmisión:', err);
+    }
+    if (!passThrough.destroyed) {
+      passThrough.destroy();
+    }
+  };
+
+  passThrough.on('error', handleStreamError);
+
   const req = http.get(
     STREAM_URL,
     {
@@ -24,24 +38,36 @@ export async function GET() {
       },
     },
     (res) => {
+      // Prevenir el fallo 'socket hang up' escuchando el evento 'aborted' de la respuesta HTTP
+      res.on('aborted', () => {
+        console.warn('Proxy de audio: La respuesta remota fue abortada.');
+        handleStreamError({ code: 'ECONNRESET' });
+      });
+
       res.on('data', (chunk) => {
-        passThrough.push(chunk);
+        if (!passThrough.destroyed) {
+          passThrough.push(chunk);
+        }
       });
 
       res.on('end', () => {
-        passThrough.push(null);
+        if (!passThrough.destroyed) {
+          passThrough.push(null);
+        }
       });
 
-      res.on('error', (err) => {
-        console.error('Error en el socket de audio:', err);
-        passThrough.destroy(err);
-      });
+      res.on('error', handleStreamError);
     }
   );
 
-  req.on('error', (err) => {
-    console.error('Error al conectar con Shockmedia:', err);
-    passThrough.destroy(err);
+  // Prevenir que errores de conexión a nivel de socket TCP tumben el proceso de Node.js
+  req.on('error', handleStreamError);
+
+  // Capturar el evento de cierre sobre la conexión de socket TCP directamente
+  req.on('socket', (socket) => {
+    socket.on('error', (err) => {
+      handleStreamError(err);
+    });
   });
 
   const webStream = new ReadableStream({
@@ -53,11 +79,15 @@ export async function GET() {
       });
 
       passThrough.on('end', () => {
-        try { controller.close(); } catch (e) {}
+        try {
+          controller.close();
+        } catch (e) {}
       });
 
       passThrough.on('error', (err) => {
-        try { controller.error(err); } catch (e) {}
+        try {
+          controller.error(err);
+        } catch (e) {}
       });
     },
     cancel() {

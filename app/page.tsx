@@ -1011,9 +1011,8 @@ export default function Page() {
   const [isOpenChat, setIsOpenChat] = useState<boolean>(false);
 
   const [nowPlayingText, setNowPlayingText] = useState<string>('Radio en Casa - En Vivo');
-  const [recentTracks, setRecentTracks] = useState<string[]>([]);
 
-  // DECODIFICACIÓN Y SEPARACIÓN LIMPIA DE CANCIONES DE LA API
+  // DECODIFICACIÓN Y OBTENCIÓN DE LA INFORMACIÓN DE LA TRANSMISIÓN
   useEffect(() => {
     const fetchStreamInfo = async () => {
       try {
@@ -1022,26 +1021,6 @@ export default function Page() {
           const data = await res.json();
           if (data?.nowPlaying) {
             setNowPlayingText(data.nowPlaying);
-          }
-          if (Array.isArray(data?.history)) {
-            const rawText = data.history.join(' ');
-            
-            const txt = document.createElement('textarea');
-            txt.innerHTML = rawText;
-            const decodedText = txt.value;
-
-            const cleanTracks = decodedText
-              .split(/<br\s*\/?>|\n|\r|#/gi)
-              .map((item) => 
-                item
-                  .replace(/<[^>]*>?/gm, '')
-                  .replace(/br$/gi, '')
-                  .replace(/^[\s#\-\/br]+|[\s#\-\/br]+$/gi, '')
-                  .trim()
-              )
-              .filter((item) => item.length > 2 && item.toLowerCase() !== 'br');
-
-            setRecentTracks(cleanTracks);
           }
         }
       } catch (err) {
@@ -1897,23 +1876,6 @@ export default function Page() {
               }`}>
                 <div className="overflow-hidden w-full flex flex-col justify-center items-center gap-3 bg-transparent">
                   <IframePlayer width={280} />
-
-                  {recentTracks && recentTracks.length > 0 && (
-                    <div className="w-full max-w-[280px] mt-1 pt-2 border-t border-white/10 flex flex-col gap-1.5 font-datatype text-left bg-transparent p-3 rounded-none shadow-none">
-                      <span className="text-[#f74a35] font-bold text-[8.5px] uppercase tracking-widest block font-datatype mb-1">
-                        ÚLTIMOS TEMAS:
-                      </span>
-                      <div className="flex flex-col gap-1 max-h-[180px] overflow-y-auto no-scrollbar">
-                        {recentTracks.slice(0, 10).map((track: string, idx: number) => (
-                          <div key={idx} className="w-full flex items-center min-h-[1.5rem] py-1 border-b border-white/5 text-[8.5px] text-neutral-300 hover:text-[#f74a35] transition-colors font-datatype">
-                            <span className="truncate w-full font-datatype leading-normal" title={track}>
-                              {track}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
 
@@ -2003,26 +1965,6 @@ export default function Page() {
               </div>
 
               <IframePlayer width={300} />
-
-              {recentTracks && recentTracks.length > 0 && (
-                <div className="w-full max-w-[280px] mt-1 pt-2 border-t border-white/10 flex flex-col gap-1.5 font-datatype text-left bg-[#121212] p-3 rounded-xl shadow-none">
-                  <span className="text-[#f74a35] font-bold text-[8.5px] uppercase tracking-widest block font-datatype mb-1">
-                    ÚLTIMOS TEMAS:
-                  </span>
-                  <div className="flex flex-col gap-1 max-h-[180px] overflow-y-auto no-scrollbar">
-                    {recentTracks.slice(0, 10).map((track: string, idx: number) => (
-                      <div
-                        key={idx}
-                        className="w-full flex items-center min-h-[1.5rem] py-1 border-b border-white/5 text-[8.5px] text-neutral-300 hover:text-[#f74a35] transition-colors font-datatype"
-                      >
-                        <span className="truncate w-full font-datatype leading-normal" title={track}>
-                          {track}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           </div>
 

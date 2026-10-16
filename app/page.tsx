@@ -136,13 +136,11 @@ function TlkioChat() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Si ya existe el script inyectado previamente, lo removemos para forzar el reinicio
     const existingScript = document.getElementById('tlkio-script');
     if (existingScript) {
       existingScript.remove();
     }
 
-    // Inyectamos el script dinámicamente asegurando protocolo HTTPS para producción
     const script = document.createElement('script');
     script.id = 'tlkio-script';
     script.src = 'https://tlk.io/embed.js';
@@ -154,7 +152,6 @@ function TlkioChat() {
     }
 
     return () => {
-      // Limpieza al desmontar
       const s = document.getElementById('tlkio-script');
       if (s) s.remove();
     };
@@ -609,12 +606,6 @@ function AnimateOnScroll({
   );
 }
 
-interface TrendItem {
-  id: number;
-  topic: string;
-  volume: string;
-}
-
 const homeHeroImages = Array.from({ length: 5 }, (_, i) => {
   const num = String(i + 1).padStart(2, '0');
   return `/images/home/Radio_en_Casa_Galeria_Home_${num}.jpg`;
@@ -1015,9 +1006,9 @@ export default function Page() {
 
   const [activeMembership, setActiveMembership] = useState<string | null>(null);
 
-  const [isOpenPlayer, setIsOpenPlayer] = useState<boolean>(false);
-  const [isOpenTrends, setIsOpenTrends] = useState<boolean>(false);
-  const [isOpenChat, setIsOpenChat] = useState<boolean>(true);
+  // PLAYER ABIERTO POR DEFECTO Y CHAT CERRADO INICIALMENTE
+  const [isOpenPlayer, setIsOpenPlayer] = useState<boolean>(true);
+  const [isOpenChat, setIsOpenChat] = useState<boolean>(false);
 
   const [nowPlayingText, setNowPlayingText] = useState<string>('Radio en Casa - En Vivo');
   const [recentTracks, setRecentTracks] = useState<string[]>([]);
@@ -1068,20 +1059,6 @@ export default function Page() {
     setIsOpenPlayer((prev) => {
       const nextState = !prev;
       if (nextState) {
-        setIsOpenTrends(false);
-        setIsOpenChat(false);
-      } else {
-        setIsOpenChat(true);
-      }
-      return nextState;
-    });
-  };
-
-  const handleToggleTrends = () => {
-    setIsOpenTrends((prev) => {
-      const nextState = !prev;
-      if (nextState) {
-        setIsOpenPlayer(false);
         setIsOpenChat(false);
       } else {
         setIsOpenChat(true);
@@ -1095,13 +1072,12 @@ export default function Page() {
       const nextState = !prev;
       if (nextState) {
         setIsOpenPlayer(false);
-        setIsOpenTrends(false);
       }
       return nextState;
     });
   };
 
-  const isChatVisible = isOpenChat || (!isOpenPlayer && !isOpenTrends);
+  const isChatVisible = isOpenChat || !isOpenPlayer;
 
   const [uniqueListeners, setUniqueListeners] = useState<number>(142);
   const [isMiniPlaying, setIsMiniPlaying] = useState<boolean>(false);
@@ -1145,15 +1121,6 @@ export default function Page() {
     }, 4000);
 
     return () => clearInterval(listenersTimer);
-  }, []);
-
-  const [trendSlideIndex, setTrendSlideIndex] = useState<number>(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTrendSlideIndex((prev) => (prev === 0 ? 1 : 0));
-    }, 5000);
-    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -1288,9 +1255,6 @@ export default function Page() {
   );
   const [philosophySlideIndex, setPhilosophySlideIndex] = useState<number>(0);
 
-  const [trends, setTrends] = useState<TrendItem[]>([]);
-  const [isLoadingTrends, setIsLoadingTrends] = useState<boolean>(true);
-
   const [temperature, setTemperature] = useState<string | null>(null);
   const [cityName, setCityName] = useState<string>('CARGANDO...');
 
@@ -1387,33 +1351,12 @@ export default function Page() {
     }
   };
 
-  const fetchLiveXTrends = async (countryCode?: string, city?: string) => {
-    setIsLoadingTrends(true);
-    try {
-      // Pasamos el país o ciudad detectada como query param
-      const queryParams = new URLSearchParams();
-      if (countryCode) queryParams.append('country', countryCode);
-      if (city) queryParams.append('city', city);
-
-      const res = await fetch(`/api/trends?${queryParams.toString()}`, { cache: 'no-store' });
-      if (res.ok) {
-        const data = await res.json();
-        setTrends(data);
-      }
-    } catch (error) {
-      console.error('Error fetching X trends:', error);
-    } finally {
-      setIsLoadingTrends(false);
-    }
-  };
-
   useEffect(() => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
         async (position) => {
           const { latitude, longitude } = position.coords;
           try {
-            // Clima
             const weatherRes = await fetch(
               `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m`
             );
@@ -1421,7 +1364,6 @@ export default function Page() {
             const temp = Math.round(weatherData.current.temperature_2m);
             setTemperature(`${temp}°C`);
 
-            // Reverso para ciudad y código de país (ISO-2 e.g. AR, ES, MX)
             const geoRes = await fetch(
               `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
             );
@@ -1431,28 +1373,21 @@ export default function Page() {
               geoData.address.town ||
               geoData.address.village ||
               'UBICACIÓN';
-            const countryCode = geoData.address.country_code?.toUpperCase() || 'AR';
 
             setCityName(city.toUpperCase());
-
-            // Disparamos la búsqueda de Trends para el país específico del usuario
-            fetchLiveXTrends(countryCode, city);
           } catch (error) {
             setCityName('CLIMA');
             setTemperature('N/A');
-            fetchLiveXTrends('AR'); // Fallback por defecto (ej. Argentina)
           }
         },
         () => {
           setCityName('BA');
           setTemperature('21°C');
-          fetchLiveXTrends('AR');
         }
       );
     } else {
       setCityName('BA');
       setTemperature('21°C');
-      fetchLiveXTrends('AR');
     }
   }, []);
 
@@ -1889,160 +1824,108 @@ export default function Page() {
           </div>
 
           {/* MÓDULO 2: REPRODUCTOR DE AUDIO */}
-<div 
-  className={`w-full transition-all duration-300 relative overflow-hidden shadow-2xl flex flex-col font-datatype flex-shrink-0 ${
-    isOpenPlayer ? 'bg-transparent p-0 border-0 shadow-none' : 'bg-[#121212]/90 backdrop-blur-md p-2.5 border-0 rounded-none'
-  } ${
-    isHeroIntroComplete ? 'animate-slide-bottom-ease' : 'opacity-0'
-  }`}
-  style={{ animationDelay: '1100ms' }}
->
-  <div className={`w-full transition-all duration-300 relative flex flex-col items-center justify-center font-datatype ${
-    isOpenPlayer ? 'bg-transparent p-0' : 'bg-[#121212] p-2.5 rounded-none'
-  }`}>
-    
-    <div 
-      onClick={handleTogglePlayer}
-      className="w-full flex items-center justify-between cursor-pointer select-none font-datatype p-3 pr-10 pt-3 gap-2 relative min-h-[44px]"
-    >
-      {!isOpenPlayer && (
-        <div className="flex flex-col gap-3 w-full min-w-0 pr-2" onClick={(e) => e.stopPropagation()}>
-          <div className="flex items-center gap-2.5 bg-[#1a1a1a] px-3 py-2 rounded-full border border-white/10 w-full flex-shrink-0">
-            <button
-              onClick={toggleMiniAudio}
-              className="w-8 h-8 bg-[#f74a35] hover:bg-[#d93a26] text-white rounded-full flex items-center justify-center hover:scale-105 transition-transform flex-shrink-0 cursor-pointer shadow-md p-0"
-              title={isMiniPlaying ? 'Pausar' : 'Reproducir'}
-            >
-              <span className="leading-none flex items-center justify-center text-center font-extrabold text-xs select-none">
-                {isMiniPlaying ? '❚❚' : '▶'}
-              </span>
-            </button>
-
-            <div className="flex items-center gap-2 w-full min-w-0">
-              <svg className="w-3.5 h-3.5 fill-current text-neutral-400 flex-shrink-0" viewBox="0 0 24 24">
-                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-              </svg>
-              <input
-                type="range"
-                min="0"
-                max="100"
-                value={miniVolume}
-                onChange={handleMiniVolumeChange}
-                className="w-full h-1 accent-[#f74a35] cursor-pointer min-w-0"
-              />
-            </div>
-          </div>
-
-          <div className="w-full min-w-0 flex flex-col items-start text-left px-0.5 font-datatype pt-1 overflow-hidden">
-            <div className="relative w-full overflow-hidden whitespace-nowrap">
-              <div className="inline-block animate-marquee">
-                <span className="text-base sm:text-lg font-black text-neutral-100 font-datatype pr-12 uppercase">
-                  {nowPlayingText}
-                </span>
-                <span className="text-base sm:text-lg font-black text-neutral-100 font-datatype pr-12 uppercase">
-                  {nowPlayingText}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* FLECHA ALINEADA */}
-      <div className="absolute top-3.5 right-3.5 flex items-center justify-center flex-shrink-0 z-20 pointer-events-none">
-        <span className={`inline-block transition-transform duration-300 ${isOpenPlayer ? 'rotate-180' : 'rotate-0'}`}>
-          <svg width="10" height="10" viewBox="0 0 10 10" className="fill-[#f74a35]" style={{ shapeRendering: 'crispEdges' }}>
-            <path d="M0 2H10V4H8V6H6V8H4V6H2V4H0V2Z" />
-          </svg>
-        </span>
-      </div>
-    </div>
-
-    <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden w-full ${
-      isOpenPlayer ? 'grid-rows-[1fr] opacity-100 pt-2 pb-1 bg-transparent' : 'grid-rows-[0fr] opacity-0 pt-0 pb-0'
-    }`}>
-      <div className="overflow-hidden w-full flex flex-col justify-center items-center gap-3 bg-transparent">
-        <IframePlayer width={280} />
-
-        {recentTracks && recentTracks.length > 0 && (
-          <div className="w-full max-w-[280px] mt-1 pt-2 border-t border-white/10 flex flex-col gap-1.5 font-datatype text-left bg-transparent p-3 rounded-none shadow-none">
-            <span className="text-[#f74a35] font-bold text-[8.5px] uppercase tracking-widest block font-datatype mb-1">
-              ÚLTIMOS TEMAS:
-            </span>
-            <div className="flex flex-col gap-1 max-h-[180px] overflow-y-auto no-scrollbar">
-              {recentTracks.slice(0, 10).map((track: string, idx: number) => (
-                <div key={idx} className="w-full flex items-center min-h-[1.5rem] py-1 border-b border-white/5 text-[8.5px] text-neutral-300 hover:text-[#f74a35] transition-colors font-datatype">
-                  <span className="truncate w-full font-datatype leading-normal" title={track}>
-                    {track}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-
-  </div>
-</div>
-
-          {/* MÓDULO 3: TOP 10 X TRENDS */}
           <div 
-            className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-2xl p-2.5 border border-white/10 shadow-2xl space-y-1.5 font-datatype flex-shrink-0 ${
+            className={`w-full transition-all duration-300 relative overflow-hidden shadow-2xl flex flex-col font-datatype flex-shrink-0 ${
+              isOpenPlayer ? 'bg-transparent p-0 border-0 shadow-none' : 'bg-[#121212]/90 backdrop-blur-md p-2.5 border-0 rounded-none'
+            } ${
               isHeroIntroComplete ? 'animate-slide-bottom-ease' : 'opacity-0'
             }`}
-            style={{ animationDelay: '1250ms' }}
+            style={{ animationDelay: '1100ms' }}
           >
-            <button
-              onClick={handleToggleTrends}
-              className="w-full flex items-center justify-between text-left cursor-pointer select-none font-datatype gap-2 p-3 pr-10 pt-3 relative min-h-[44px]"
-            >
-              <div className="flex items-center gap-1.5 font-datatype flex-1 min-w-0 pr-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#f74a35] animate-ping flex-shrink-0" />
-                <span className="text-[#f74a35] font-bold text-[8.5px] uppercase tracking-widest font-datatype truncate">
-                  TOP 10 X TRENDS
-                </span>
-              </div>
-
-              {/* FLECHA ALINEADA PERFECTAMENTE */}
-              <div className="absolute top-3.5 right-3.5 flex items-center justify-center flex-shrink-0 z-20 pointer-events-none">
-                <span className={`inline-block transition-transform duration-300 ${isOpenTrends ? 'rotate-180' : 'rotate-0'}`}>
-                  <svg width="10" height="10" viewBox="0 0 10 10" className="fill-[#f74a35]" style={{ shapeRendering: 'crispEdges' }}>
-                    <path d="M0 2H10V4H8V6H6V8H4V6H2V4H0V2Z" />
-                  </svg>
-                </span>
-              </div>
-            </button>
-
-            <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden ${
-              isOpenTrends ? 'grid-rows-[1fr] opacity-100 pt-0.5' : 'grid-rows-[0fr] opacity-0'
+            <div className={`w-full transition-all duration-300 relative flex flex-col items-center justify-center font-datatype ${
+              isOpenPlayer ? 'bg-transparent p-0' : 'bg-[#121212] p-2.5 rounded-none'
             }`}>
-              <div className="overflow-hidden space-y-1 max-h-[150px] overflow-y-auto no-scrollbar text-left font-datatype pt-1">
-                {isLoadingTrends ? (
-                  <span className="text-neutral-500 text-[8px] font-datatype">Cargando tendencias...</span>
-                ) : (
-                  trends.slice(0, 10).map((item, idx) => (
-                    <a
-                      key={idx}
-                      href={`https://x.com/search?q=${encodeURIComponent(item.topic)}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-between text-[8.5px] text-neutral-300 hover:text-[#f74a35] transition-colors py-0.5 border-b border-white/5 font-datatype"
-                    >
-                      <span className="truncate font-datatype"><strong className="text-[#f74a35] mr-1 font-datatype">[{item.id}]</strong>{item.topic}</span>
-                    </a>
-                  ))
+              
+              <div 
+                onClick={handleTogglePlayer}
+                className="w-full flex items-center justify-between cursor-pointer select-none font-datatype p-3 pr-10 pt-3 gap-2 relative min-h-[44px]"
+              >
+                {!isOpenPlayer && (
+                  <div className="flex flex-col gap-3 w-full min-w-0 pr-2" onClick={(e) => e.stopPropagation()}>
+                    <div className="flex items-center gap-2.5 bg-[#1a1a1a] px-3 py-2 rounded-full border border-white/10 w-full flex-shrink-0">
+                      <button
+                        onClick={toggleMiniAudio}
+                        className="w-8 h-8 bg-[#f74a35] hover:bg-[#d93a26] text-white rounded-full flex items-center justify-center hover:scale-105 transition-transform flex-shrink-0 cursor-pointer shadow-md p-0"
+                        title={isMiniPlaying ? 'Pausar' : 'Reproducir'}
+                      >
+                        <span className="leading-none flex items-center justify-center text-center font-extrabold text-xs select-none">
+                          {isMiniPlaying ? '❚❚' : '▶'}
+                        </span>
+                      </button>
+
+                      <div className="flex items-center gap-2 w-full min-w-0">
+                        <svg className="w-3.5 h-3.5 fill-current text-neutral-400 flex-shrink-0" viewBox="0 0 24 24">
+                          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                        </svg>
+                        <input
+                          type="range"
+                          min="0"
+                          max="100"
+                          value={miniVolume}
+                          onChange={handleMiniVolumeChange}
+                          className="w-full h-1 accent-[#f74a35] cursor-pointer min-w-0"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="w-full min-w-0 flex flex-col items-start text-left px-0.5 font-datatype pt-1 overflow-hidden">
+                      <div className="relative w-full overflow-hidden whitespace-nowrap">
+                        <div className="inline-block animate-marquee">
+                          <span className="text-base sm:text-lg font-black text-neutral-100 font-datatype pr-12 uppercase">
+                            {nowPlayingText}
+                          </span>
+                          <span className="text-base sm:text-lg font-black text-neutral-100 font-datatype pr-12 uppercase">
+                            {nowPlayingText}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 )}
+
+                <div className="absolute top-3.5 right-3.5 flex items-center justify-center flex-shrink-0 z-20 pointer-events-none">
+                  <span className={`inline-block transition-transform duration-300 ${isOpenPlayer ? 'rotate-180' : 'rotate-0'}`}>
+                    <svg width="10" height="10" viewBox="0 0 10 10" className="fill-[#f74a35]" style={{ shapeRendering: 'crispEdges' }}>
+                      <path d="M0 2H10V4H8V6H6V8H4V6H2V4H0V2Z" />
+                    </svg>
+                  </span>
+                </div>
               </div>
+
+              <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden w-full ${
+                isOpenPlayer ? 'grid-rows-[1fr] opacity-100 pt-2 pb-1 bg-transparent' : 'grid-rows-[0fr] opacity-0 pt-0 pb-0'
+              }`}>
+                <div className="overflow-hidden w-full flex flex-col justify-center items-center gap-3 bg-transparent">
+                  <IframePlayer width={280} />
+
+                  {recentTracks && recentTracks.length > 0 && (
+                    <div className="w-full max-w-[280px] mt-1 pt-2 border-t border-white/10 flex flex-col gap-1.5 font-datatype text-left bg-transparent p-3 rounded-none shadow-none">
+                      <span className="text-[#f74a35] font-bold text-[8.5px] uppercase tracking-widest block font-datatype mb-1">
+                        ÚLTIMOS TEMAS:
+                      </span>
+                      <div className="flex flex-col gap-1 max-h-[180px] overflow-y-auto no-scrollbar">
+                        {recentTracks.slice(0, 10).map((track: string, idx: number) => (
+                          <div key={idx} className="w-full flex items-center min-h-[1.5rem] py-1 border-b border-white/5 text-[8.5px] text-neutral-300 hover:text-[#f74a35] transition-colors font-datatype">
+                            <span className="truncate w-full font-datatype leading-normal" title={track}>
+                              {track}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
             </div>
           </div>
 
-          {/* MÓDULO 4: CHAT EN VIVO */}
+          {/* MÓDULO 3: CHAT EN VIVO */}
           <div 
             className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-2xl p-2.5 border border-white/10 shadow-2xl flex flex-col font-datatype flex-1 min-h-0 ${
               isHeroIntroComplete ? 'animate-slide-bottom-ease' : 'opacity-0'
             }`}
-            style={{ animationDelay: '1400ms' }}
+            style={{ animationDelay: '1250ms' }}
           >
             <button
               onClick={handleToggleChat}
@@ -2055,7 +1938,6 @@ export default function Page() {
                 </span>
               </div>
 
-              {/* FLECHA ALINEADA PERFECTAMENTE */}
               <div className="absolute top-3.5 right-3.5 flex items-center justify-center flex-shrink-0 z-20 pointer-events-none">
                 <span className={`inline-block transition-transform duration-300 ${isChatVisible ? 'rotate-180' : 'rotate-0'}`}>
                   <svg width="10" height="10" viewBox="0 0 10 10" className="fill-[#f74a35]" style={{ shapeRendering: 'crispEdges' }}>

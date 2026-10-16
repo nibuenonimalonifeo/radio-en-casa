@@ -130,20 +130,44 @@ function SubstackFanzineFeed() {
   );
 }
 
-// --- COMPONENTE CHAT EN VIVO DE TLK.IO (WIDGET EMBEBIDO) ---
+// --- COMPONENTE CHAT EN VIVO DE TLK.IO (WIDGET EMBEBIDO DARK) ---
 
 function TlkioChat() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Si ya existe el script inyectado previamente, lo removemos para forzar el reinicio
+    const existingScript = document.getElementById('tlkio-script');
+    if (existingScript) {
+      existingScript.remove();
+    }
+
+    // Inyectamos el script dinámicamente asegurando protocolo HTTPS para producción
+    const script = document.createElement('script');
+    script.id = 'tlkio-script';
+    script.src = 'https://tlk.io/embed.js';
+    script.type = 'text/javascript';
+    script.async = true;
+
+    if (containerRef.current) {
+      containerRef.current.appendChild(script);
+    }
+
+    return () => {
+      // Limpieza al desmontar
+      const s = document.getElementById('tlkio-script');
+      if (s) s.remove();
+    };
+  }, []);
+
   return (
-    <div className="w-full h-full relative min-h-[380px] bg-black">
+    <div ref={containerRef} className="w-full h-full relative min-h-[380px] bg-[#121212] overflow-hidden rounded-xl border border-white/10">
       <div
         id="tlkio"
         data-channel="hey"
         data-theme="theme--night"
+        className="w-full h-full min-h-[380px]"
         style={{ width: '100%', height: '100%' }}
-      />
-      <Script
-        src="https://tlk.io/embed.js"
-        strategy="lazyOnload"
       />
     </div>
   );

@@ -130,7 +130,7 @@ function SubstackFanzineFeed() {
   );
 }
 
-// --- COMPONENTE CHAT EN VIVO DE TLK.IO (CANAL radioencasa) ---
+// --- COMPONENTE CHAT EN VIVO DE TLK.IO ---
 
 function TlkioChat() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -837,6 +837,7 @@ const rawArchiveTextHTML = `<strong class="font-extrabold text-[#f74a35]">70/30<
 
 const rawBrandsTextHTML = `Ad Hoc Comunicación · Apciba · Bercomat · BNP Paribas Cardif · Bunker · Centro Simon Wiesenthal · Comiqueando · Cryptomate · Dot Hotels · Ecomm Experts · Escuela Libre de Psicoanálisis · Fundación Andreani · Fundación Cippec · Fundación Konrad Adenauer · Gran Logia de la Argentina · La Cosa Cine · La licuadora deportiva · LetterMafia · Meretz Argentina · Meridiana Comics · Milbrands · Museo Judío · Naldo · Natura · Nerdearla · Noticias en red · Open Folk · Parque podcast · Podlab · Press Over · Rayo podcasts · Revista Txtura · Sys Army · TTD Trabajadores Tango Danza · UMAI · Unplastify · XFC`;
 
+// ÍCONOS DE MENÚ CON COMUNIDAD Y FAMILIA INTERCAMBIADOS
 const menuItems = [
   { 
     id: 'historia', 

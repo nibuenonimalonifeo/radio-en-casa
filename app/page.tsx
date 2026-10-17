@@ -130,7 +130,7 @@ function SubstackFanzineFeed() {
   );
 }
 
-// --- COMPONENTE CHAT EN VIVO DE TLK.IO (WIDGET EMBEBIDO DARK) ---
+// --- COMPONENTE CHAT EN VIVO DE TLK.IO (CANAL radioencasa) ---
 
 function TlkioChat() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -161,7 +161,7 @@ function TlkioChat() {
     <div ref={containerRef} className="w-full h-full relative min-h-[380px] bg-[#121212] overflow-hidden rounded-xl border border-white/10">
       <div
         id="tlkio"
-        data-channel="hey"
+        data-channel="radioencasa"
         data-theme="theme--night"
         className="w-full h-full min-h-[380px]"
         style={{ width: '100%', height: '100%' }}
@@ -170,7 +170,7 @@ function TlkioChat() {
   );
 }
 
-// --- MINI SLIDER PARA SALGO ARRIBA (VECINOS) ---
+// --- MINI SLIDER PARA SALGO ARRIBA (FAMILIA) ---
 
 function SalgoArribaSlider() {
   const images = [
@@ -837,6 +837,7 @@ const rawArchiveTextHTML = `<strong class="font-extrabold text-[#f74a35]">70/30<
 
 const rawBrandsTextHTML = `Ad Hoc Comunicación · Apciba · Bercomat · BNP Paribas Cardif · Bunker · Centro Simon Wiesenthal · Comiqueando · Cryptomate · Dot Hotels · Ecomm Experts · Escuela Libre de Psicoanálisis · Fundación Andreani · Fundación Cippec · Fundación Konrad Adenauer · Gran Logia de la Argentina · La Cosa Cine · La licuadora deportiva · LetterMafia · Meretz Argentina · Meridiana Comics · Milbrands · Museo Judío · Naldo · Natura · Nerdearla · Noticias en red · Open Folk · Parque podcast · Podlab · Press Over · Rayo podcasts · Revista Txtura · Sys Army · TTD Trabajadores Tango Danza · UMAI · Unplastify · XFC`;
 
+// ÍCONOS DE MENÚ CON COMUNIDAD Y FAMILIA INTERCAMBIADOS
 const menuItems = [
   { 
     id: 'historia', 
@@ -879,16 +880,16 @@ const menuItems = [
     label: 'Comunidad',
     icon: (
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+        <path d="M16.5 13c-1.2 0-3.07.34-4.24 1-1.17-.66-3.04-1-4.26-1C6.2 13 2 13.9 2 15.5V18h18v-2.5c0-1.6-4.2-2.5-5.5-2.5zM6 11c1.66 0 3-1.34 3-3S7.66 5 6 5 3 6.34 3 8s1.34 3 3 3zm12 0c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3z" />
       </svg>
     )
   },
   { 
-    id: 'vecinos', 
-    label: 'Vecinos',
+    id: 'familia', 
+    label: 'Familia',
     icon: (
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-        <path d="M16.5 13c-1.2 0-3.07.34-4.24 1-1.17-.66-3.04-1-4.26-1C6.2 13 2 13.9 2 15.5V18h18v-2.5c0-1.6-4.2-2.5-5.5-2.5zM6 11c1.66 0 3-1.34 3-3S7.66 5 6 5 3 6.34 3 8s1.34 3 3 3zm12 0c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3z" />
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
       </svg>
     )
   },
@@ -1012,7 +1013,6 @@ export default function Page() {
 
   const [nowPlayingText, setNowPlayingText] = useState<string>('Radio en Casa - En Vivo');
 
-  // DECODIFICACIÓN Y OBTENCIÓN DE LA INFORMACIÓN DE LA TRANSMISIÓN
   useEffect(() => {
     const fetchStreamInfo = async () => {
       try {
@@ -1033,7 +1033,6 @@ export default function Page() {
     return () => clearInterval(interval);
   }, []);
 
-  // --- HANDLERS ACTUALIZADOS PARA TOGGLES EXCLUYENTES ---
   const handleTogglePlayer = () => {
     setIsOpenPlayer((prev) => {
       const nextState = !prev;
@@ -1058,7 +1057,6 @@ export default function Page() {
 
   const isChatVisible = isOpenChat || !isOpenPlayer;
 
-  const [uniqueListeners, setUniqueListeners] = useState<number>(142);
   const [isMiniPlaying, setIsMiniPlaying] = useState<boolean>(false);
   const [miniVolume, setMiniVolume] = useState<number>(80);
   const [historiaParallaxOffset, setHistoriaParallaxOffset] = useState<number>(0);
@@ -1090,17 +1088,6 @@ export default function Page() {
       audioElement.volume = val / 100;
     }
   };
-
-  useEffect(() => {
-    const listenersTimer = setInterval(() => {
-      setUniqueListeners((prev) => {
-        const delta = Math.floor(Math.random() * 5) - 2;
-        return Math.max(110, prev + delta);
-      });
-    }, 4000);
-
-    return () => clearInterval(listenersTimer);
-  }, []);
 
   useEffect(() => {
     const el = homeRef.current;
@@ -1521,22 +1508,6 @@ export default function Page() {
           scrollbar-width: none;
         }
 
-        @keyframes gradientTripleShift {
-          0% {
-            background-color: #242424;
-          }
-          50% {
-            background-color: #f9b92f;
-          }
-          100% {
-            background-color: #f74a35;
-          }
-        }
-
-        .animate-triple-shift-hover {
-          animation: gradientTripleShift 0.5s ease-out forwards;
-        }
-
         @keyframes continuousZoom {
           0% {
             transform: scale(1);
@@ -1553,35 +1524,6 @@ export default function Page() {
         .animated-logo-svg svg path[stroke],
         .animated-logo-svg svg line[stroke] {
           stroke: rgb(227, 227, 227) !important;
-        }
-
-        @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(-6px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        .animate-fadeIn {
-          animation: fadeIn 0.25s ease-out forwards;
-        }
-
-        @keyframes slideInFromRight {
-          0% {
-            opacity: 0;
-            transform: translateX(100%);
-          }
-          100% {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-
-        .animate-slide-in-right {
-          animation: slideInFromRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
         @keyframes bounceDown {
@@ -1679,7 +1621,7 @@ export default function Page() {
         />
       </div>
 
-      {/* 1. BARRA LATERAL (NAV DOCK DE ÍCONOS) */}
+      {/* 1. BARRA LATERAL (NAV DOCK DE ÍCONOS - SIN REDES SOCIALES) */}
       <nav
         className={`fixed top-0 right-0 lg:right-auto lg:left-0 w-[70px] sm:w-[88px] h-screen bg-[#0e0e0e] border-l lg:border-l-0 lg:border-r border-[#262626] z-[9999] flex flex-col items-center justify-between py-4 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isHeroIntroComplete 
@@ -1733,35 +1675,6 @@ export default function Page() {
             );
           })}
         </div>
-
-        <div className="w-full flex flex-col items-center justify-center gap-3.5 border-t border-[#262626] pt-4 pb-2 overflow-visible">
-          {socialMenuItems.map((social, idx) => (
-            <div 
-              key={idx} 
-              className={`relative group flex items-center justify-center w-full overflow-visible ${
-                isHeroIntroComplete ? 'animate-bounce-icon' : 'lg:opacity-0 opacity-100'
-              }`}
-              style={{ animationDelay: `${200 + (menuItems.length + idx) * 70}ms` }}
-            >
-              <a
-                href={social.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={social.label}
-                className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-[#161616] border border-white/10 flex items-center justify-center text-neutral-400 hover:text-[#f74a35] transition-all duration-200 font-datatype"
-              >
-                {social.icon}
-              </a>
-
-              <div className="absolute right-[78px] lg:right-auto lg:left-[78px] opacity-0 pointer-events-none translate-x-[6px] lg:translate-x-[-6px] group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-x-0 transition-all duration-200 ease-out z-[10000] pr-2 lg:pr-0 lg:pl-2">
-                <div className="bg-[#121212] text-white border border-white/20 font-datatype font-bold text-[10px] tracking-wider uppercase px-3 py-1.5 rounded-full shadow-[0_10px_25px_rgba(0,0,0,0.8)] whitespace-nowrap flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-white/60" />
-                  {social.label}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
       </nav>
 
       {/* 2. SIDEBAR SECUNDARIA / DECK DE CONTENIDOS (EXCLUSIVA DE DESKTOP) */}
@@ -1802,17 +1715,17 @@ export default function Page() {
             </div>
           </div>
 
-          {/* MÓDULO 2: REPRODUCTOR DE AUDIO */}
+          {/* MÓDULO 2: REPRODUCTOR DE AUDIO (CON BACKGROUND ROJO) */}
           <div 
             className={`w-full transition-all duration-300 relative overflow-hidden shadow-2xl flex flex-col font-datatype flex-shrink-0 ${
-              isOpenPlayer ? 'bg-transparent p-0 border-0 shadow-none' : 'bg-[#121212]/90 backdrop-blur-md p-2.5 border-0 rounded-none'
+              isOpenPlayer ? 'bg-[#f74a35] p-3 rounded-2xl border border-white/20' : 'bg-[#121212]/90 backdrop-blur-md p-2.5 border-0 rounded-none'
             } ${
               isHeroIntroComplete ? 'animate-slide-bottom-ease' : 'opacity-0'
             }`}
             style={{ animationDelay: '1100ms' }}
           >
             <div className={`w-full transition-all duration-300 relative flex flex-col items-center justify-center font-datatype ${
-              isOpenPlayer ? 'bg-transparent p-0' : 'bg-[#121212] p-2.5 rounded-none'
+              isOpenPlayer ? 'bg-[#f74a35] p-0' : 'bg-[#121212] p-2.5 rounded-none'
             }`}>
               
               <div 
@@ -1864,7 +1777,7 @@ export default function Page() {
 
                 <div className="absolute top-3.5 right-3.5 flex items-center justify-center flex-shrink-0 z-20 pointer-events-none">
                   <span className={`inline-block transition-transform duration-300 ${isOpenPlayer ? 'rotate-180' : 'rotate-0'}`}>
-                    <svg width="10" height="10" viewBox="0 0 10 10" className="fill-[#f74a35]" style={{ shapeRendering: 'crispEdges' }}>
+                    <svg width="10" height="10" viewBox="0 0 10 10" className={isOpenPlayer ? 'fill-white' : 'fill-[#f74a35]'} style={{ shapeRendering: 'crispEdges' }}>
                       <path d="M0 2H10V4H8V6H6V8H4V6H2V4H0V2Z" />
                     </svg>
                   </span>
@@ -1882,7 +1795,7 @@ export default function Page() {
             </div>
           </div>
 
-          {/* MÓDULO 3: CHAT EN VIVO */}
+          {/* MÓDULO 3: CHAT EN VIVO ("CHAT — Hablemos en vivo") */}
           <div 
             className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-2xl p-2.5 border border-white/10 shadow-2xl flex flex-col font-datatype flex-1 min-h-0 ${
               isHeroIntroComplete ? 'animate-slide-bottom-ease' : 'opacity-0'
@@ -1896,7 +1809,7 @@ export default function Page() {
               <div className="flex items-center gap-1.5 font-datatype flex-1 min-w-0 pr-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#f74a35] animate-pulse flex-shrink-0" />
                 <span className="font-bold text-white text-[8.5px] uppercase tracking-widest font-datatype truncate">
-                  CHAT — SOMOS {uniqueListeners} ONLINE
+                  CHAT — HABLEMOS EN VIVO
                 </span>
               </div>
 
@@ -1918,6 +1831,23 @@ export default function Page() {
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* REDES SOCIALES HORIZONTALES EN EL PIE DEL ASIDE */}
+          <div className="w-full pt-3 pb-1 border-t border-white/10 flex items-center justify-around gap-2 flex-shrink-0">
+            {socialMenuItems.map((social, idx) => (
+              <a
+                key={idx}
+                href={social.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.label}
+                title={social.label}
+                className="w-9 h-9 rounded-full bg-[#161616] border border-white/10 flex items-center justify-center text-neutral-300 hover:text-white hover:bg-[#f74a35] hover:border-[#f74a35] transition-all duration-300 font-datatype shadow-md"
+              >
+                {social.icon}
+              </a>
+            ))}
           </div>
 
         </div>
@@ -2740,8 +2670,8 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 7. VECINOS */}
-        <section id="vecinos" className="w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
+        {/* 7. FAMILIA (ANTES VECINOS) */}
+        <section id="familia" className="w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
             style={{

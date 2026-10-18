@@ -35,7 +35,7 @@ function SubstackFanzineFeed() {
         }
       } catch (err) {
         console.warn('Error al cargar publicaciones de Substack:', err);
-      } finally {
+      } font-datatype
         setLoading(false);
       }
     }
@@ -446,28 +446,30 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
       </div>
 
       <div className="flex items-center gap-6 mt-12 sm:mt-20 z-40 justify-center md:justify-start w-full max-w-[460px]">
+        {/* BOTÓN IZQUIERDO: AMARILLO CON ÍCONO AGRANDADO */}
         <button
           onClick={handlePrev}
-          className="bg-[#242424] text-[#e3e3e3] hover:bg-[#f74a35] hover:text-white flex items-center justify-center transition-all duration-300 shadow-xl border border-transparent cursor-pointer rounded-none font-datatype p-3.5 sm:p-4 group"
+          className="bg-[#ffcc00] text-[#121212] hover:bg-[#e6b800] flex items-center justify-center transition-all duration-300 shadow-xl border border-transparent cursor-pointer rounded-none font-datatype p-3.5 sm:p-4 group"
           aria-label="Anterior"
           title="Hito anterior"
         >
           <svg 
-            className="w-5 h-5 sm:w-6 sm:h-6 fill-current transform transition-transform duration-300 group-hover:-translate-x-1" 
+            className="w-7 h-7 sm:w-8 sm:h-8 fill-current transform transition-transform duration-300 group-hover:-translate-x-1" 
             viewBox="0 0 24 24"
           >
             <path d="M11 17.25L4.25 12L11 6.75V17.25ZM19.75 17.25L13 12L19.75 6.75V17.25Z" />
           </svg>
         </button>
 
+        {/* BOTÓN DERECHO: ROJO CON ÍCONO AGRANDADO */}
         <button
           onClick={handleNext}
-          className="bg-[#242424] text-[#e3e3e3] hover:bg-[#f74a35] hover:text-white flex items-center justify-center transition-all duration-300 shadow-xl border border-transparent cursor-pointer rounded-none font-datatype p-3.5 sm:p-4 group"
+          className="bg-[#f74a35] text-white hover:bg-[#d93a26] flex items-center justify-center transition-all duration-300 shadow-xl border border-transparent cursor-pointer rounded-none font-datatype p-3.5 sm:p-4 group"
           aria-label="Siguiente"
           title="Siguiente hito"
         >
           <svg 
-            className="w-5 h-5 sm:w-6 sm:h-6 fill-current transform transition-transform duration-300 group-hover:translate-x-1" 
+            className="w-7 h-7 sm:w-8 sm:h-8 fill-current transform transition-transform duration-300 group-hover:translate-x-1" 
             viewBox="0 0 24 24"
           >
             <path d="M13 6.75L19.75 12L13 17.25V6.75ZM4.25 6.75L11 12L4.25 17.25V6.75Z" />
@@ -837,7 +839,6 @@ const rawArchiveTextHTML = `<strong class="font-extrabold text-[#f74a35]">70/30<
 
 const rawBrandsTextHTML = `Ad Hoc Comunicación · Apciba · Bercomat · BNP Paribas Cardif · Bunker · Centro Simon Wiesenthal · Comiqueando · Cryptomate · Dot Hotels · Ecomm Experts · Escuela Libre de Psicoanálisis · Fundación Andreani · Fundación Cippec · Fundación Konrad Adenauer · Gran Logia de la Argentina · La Cosa Cine · La licuadora deportiva · LetterMafia · Meretz Argentina · Meridiana Comics · Milbrands · Museo Judío · Naldo · Natura · Nerdearla · Noticias en red · Open Folk · Parque podcast · Podlab · Press Over · Rayo podcasts · Revista Txtura · Sys Army · TTD Trabajadores Tango Danza · UMAI · Unplastify · XFC`;
 
-// ÍCONOS DE MENÚ CON COMUNIDAD Y FAMILIA INTERCAMBIADOS
 const menuItems = [
   { 
     id: 'historia', 
@@ -1723,7 +1724,7 @@ export default function Page() {
             </div>
           </div>
 
-          {/* MÓDULO 2: REPRODUCTOR DE AUDIO (SIN BORDE EN ROJO / CON BORDE Y REDONDEADO EN NEGRO) */}
+          {/* MÓDULO 2: REPRODUCTOR DE AUDIO */}
           <div 
             className={`w-full transition-all duration-300 relative overflow-hidden shadow-2xl flex flex-col font-datatype flex-shrink-0 ${
               isOpenPlayer ? 'bg-[#f74a35] p-3 rounded-2xl border-0 shadow-2xl' : 'bg-[#121212]/90 backdrop-blur-md p-2.5 border border-white/10 rounded-2xl shadow-xl'
@@ -1841,7 +1842,7 @@ export default function Page() {
             </div>
           </div>
 
-          {/* REDES SOCIALES HORIZONTALES CON HOVER EN COLOR WHATSAPP */}
+          {/* REDES SOCIALES HORIZONTALES */}
           <div className="w-full pt-3 pb-1 border-t border-white/10 flex items-center justify-around gap-2 flex-shrink-0">
             {socialMenuItems.map((social, idx) => (
               <a
@@ -1906,8 +1907,8 @@ export default function Page() {
             </div>
           </div>
 
-          {/* VISTA DESKTOP */}
-          <div className="hidden lg:flex flex-col justify-between items-center w-full h-full min-h-screen relative">
+          {/* VISTA DESKTOP: CENTRADO HORIZONTAL Y VERTICAL PERFECTO */}
+          <div className="hidden lg:flex flex-col justify-center items-center w-full h-full min-h-screen relative">
             <div className={`absolute inset-0 h-full pointer-events-none z-0 overflow-hidden transition-all duration-700 ease-out ${
               isHeroIntroComplete ? 'w-full ml-0' : 'w-screen ml-0'
             }`}>
@@ -1961,7 +1962,8 @@ export default function Page() {
               </div>
             )}
 
-            <div className="w-full flex-1 mt-[40px] mb-[40px] pt-[120px] px-0 flex flex-col items-center justify-center pointer-events-auto z-10 relative">
+            {/* CONTENEDOR CENTRADO SIN DESFASE DE MÁRGENES */}
+            <div className="w-full flex-1 flex flex-col items-center justify-center pointer-events-auto z-10 relative">
               <div 
                 ref={heroLogoRef} 
                 key={logoAnimKey}

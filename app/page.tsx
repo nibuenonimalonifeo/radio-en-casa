@@ -22,26 +22,27 @@ function SubstackFanzineFeed() {
   const [posts, setPosts] = useState<SubstackPost[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    async function fetchSubstackPosts() {
-      try {
-        setLoading(true);
-        const res = await fetch('/api/substack');
-        if (!res.ok) throw new Error('Error al conectar con el RSS');
-        const data = await res.json();
-        
-        if (Array.isArray(data) && data.length > 0) {
-          setPosts(data);
-        }
-      } catch (err) {
-        console.warn('Error al cargar publicaciones de Substack:', err);
-      } font-datatype
-        setLoading(false);
+  // ✅ CÓDIGO CORREGIDO:
+useEffect(() => {
+  async function fetchSubstackPosts() {
+    try {
+      setLoading(true);
+      const res = await fetch('/api/substack');
+      if (!res.ok) throw new Error('Error al conectar con el RSS');
+      const data = await res.json();
+      
+      if (Array.isArray(data) && data.length > 0) {
+        setPosts(data);
       }
+    } catch (err) {
+      console.warn('Error al cargar publicaciones de Substack:', err);
+    } finally {
+      setLoading(false);
     }
+  }
 
-    fetchSubstackPosts();
-  }, []);
+  fetchSubstackPosts();
+}, []);
 
   if (loading) {
     return (

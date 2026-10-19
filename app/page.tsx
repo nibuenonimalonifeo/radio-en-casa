@@ -478,7 +478,7 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
   );
 }
 
-// --- RECONOCIMIENTOS EN 1 COLUMNA PARA MOBILE Y 3 COLUMNAS PARA DESKTOP (SIN VIDEOS DE CABECERA) ---
+// --- RECONOCIMIENTOS EN 1 COLUMNA PARA MOBILE Y 3 COLUMNAS PARA DESKTOP ---
 
 function Recognitions3Columns({ items }: { items: typeof recognitionsData; scrollProgress?: number }) {
   return (
@@ -815,7 +815,7 @@ const rawArchiveTextHTML = `<strong class="font-extrabold text-[#f74a35]">70/30<
 
 const rawBrandsTextHTML = `Ad Hoc Comunicación · Apciba · Bercomat · BNP Paribas Cardif · Bunker · Centro Simon Wiesenthal · Comiqueando · Cryptomate · Dot Hotels · Ecomm Experts · Escuela Libre de Psicoanálisis · Fundación Andreani · Fundación Cippec · Fundación Konrad Adenauer · Gran Logia de la Argentina · La Cosa Cine · La licuadora deportiva · LetterMafia · Meretz Argentina · Meridiana Comics · Milbrands · Museo Judío · Naldo · Natura · Nerdearla · Noticias en red · Open Folk · Parque podcast · Podlab · Press Over · Rayo podcasts · Revista Txtura · Sys Army · TTD Trabajadores Tango Danza · UMAI · Unplastify · XFC`;
 
-// MENÚ LATERAL CON ALIANZAS (2 CÍRCULOS ENTRELAZADOS) Y CONTACTO
+// MENÚ LATERAL
 const menuItems = [
   { 
     id: 'historia', 
@@ -2059,7 +2059,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 3. FILOSOFÍA (TÍTULO FILOSOFÍA / TEXTO REUBICADO) */}
+        {/* 3. FILOSOFÍA */}
         <section
           ref={filosofiaRef}
           id="filosofia"
@@ -2209,7 +2209,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 4. SERVICIOS (TOGGLES HORIZONTALES CROMÁTICOS + TEXTO ABAJO) */}
+        {/* 4. SERVICIOS */}
         <section ref={serviciosRef} id="servicios" className="w-full min-h-screen relative flex flex-col justify-center items-center transform-gpu overflow-hidden p-0 m-0 bg-[#181818]">
           <div 
             className="absolute inset-0 w-full h-full z-0 pointer-events-none opacity-40"
@@ -2582,7 +2582,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 7. ALIANZAS (SOLO 1 COLUMNA: SALGO ARRIBA) */}
+        {/* 7. ALIANZAS (VIDEO EMBEBIDO A LA IZQUIERDA + SALGO ARRIBA A LA DERECHA) */}
         <section id="alianzas" className="w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
@@ -2614,10 +2614,33 @@ export default function Page() {
               </div>
             </AnimateOnScroll>
 
-            {/* VISTA EN 1 SOLA COLUMNA CON SALGO ARRIBA */}
-            <div className="w-full font-datatype">
+            {/* DOS COLUMNAS: VIDEO A LA IZQUIERDA Y SALGO ARRIBA A LA DERECHA */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-datatype items-stretch">
+              
+              {/* COLUMNA IZQUIERDA: VIDEO EMBEBIDO DE YOUTUBE */}
               <AnimateOnScroll delay={200} duration={700} offset={45}>
-                <div className="bg-[#1e1e1e]/90 backdrop-blur-md border border-[#5c5c5c]/60 p-6 sm:p-8 shadow-xl flex flex-col justify-between space-y-6 hover:border-[#f74a35] transition-colors duration-300 font-datatype rounded-none max-w-2xl mx-auto">
+                <div className="bg-[#1e1e1e]/90 backdrop-blur-md border border-[#5c5c5c]/60 p-5 sm:p-6 shadow-xl flex flex-col justify-between space-y-4 hover:border-[#f74a35] transition-colors duration-300 h-full font-datatype rounded-none">
+                  <div className="space-y-4 font-datatype flex-1 flex flex-col justify-between">
+                    <div className="w-full aspect-video overflow-hidden rounded-none border border-white/10 bg-black shadow-inner">
+                      <iframe
+                        src="https://www.youtube.com/embed/LJbSpPJivuc"
+                        title="Alianzas Radio en Casa"
+                        className="w-full h-full border-0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="text-[#e3e3e3] tracking-tight font-extrabold font-boldonse text-base sm:text-lg h4-custom">Comunidad & Alianzas</h4>
+                      <p className="text-xs sm:text-sm md:text-base text-neutral-300 leading-relaxed font-datatype">Conoce las experiencias y contenidos que construimos junto a nuestros espacios y proyectos aliados.</p>
+                    </div>
+                  </div>
+                </div>
+              </AnimateOnScroll>
+
+              {/* COLUMNA DERECHA: SALGO ARRIBA */}
+              <AnimateOnScroll delay={350} duration={850} offset={55}>
+                <div className="bg-[#1e1e1e]/90 backdrop-blur-md border border-[#5c5c5c]/60 p-5 sm:p-6 shadow-xl flex flex-col justify-between space-y-4 hover:border-[#f74a35] transition-colors duration-300 h-full font-datatype rounded-none">
                   <div className="space-y-4 font-datatype">
                     <div className="h-14 sm:h-16 w-auto flex items-center justify-start">
                       <img src="/images/programas/Salgo_Arriba_Logo_Radio_en_Casa.png" alt="Salgo Arriba Logo" className="max-h-full w-auto object-contain filter brightness-0 invert opacity-100" />
@@ -2625,23 +2648,24 @@ export default function Page() {
 
                     <SalgoArribaSlider />
 
-                    <h4 className="text-[#e3e3e3] tracking-tight font-extrabold font-boldonse text-lg sm:text-xl h4-custom">Salgo Arriba</h4>
-                    <p className="text-sm sm:text-base text-neutral-300 leading-relaxed font-datatype">Espacio para eventos, experiencias y producciones audiovisuales situado en Recoleta.</p>
+                    <h4 className="text-[#e3e3e3] tracking-tight font-extrabold font-boldonse text-base sm:text-lg h4-custom">Salgo Arriba</h4>
+                    <p className="text-xs sm:text-sm md:text-base text-neutral-300 leading-relaxed font-datatype">Espacio para eventos, experiencias y producciones audiovisuales situado en Recoleta.</p>
                   </div>
 
-                  <div className="pt-4 border-t border-[#5c5c5c]/40 flex flex-wrap items-center justify-between gap-2 font-mono text-xs sm:text-sm font-datatype">
+                  <div className="pt-3 border-t border-[#5c5c5c]/40 flex flex-wrap items-center justify-between gap-2 font-mono text-xs sm:text-sm font-datatype">
                     <span className="text-[#f74a35] font-bold">@salgoarriba</span>
-                    <a href="https://www.salgoarriba.com" target="_blank" rel="noopener noreferrer" className="inline-block relative bg-[#181818] text-[#e6e1d5] font-mono border-2 border-[#e6e1d5] border-b-[8px] px-4 py-2 text-xs font-bold tracking-[0.15em] text-left hover:bg-[#e6e1d5] hover:text-neutral-900 transition-all duration-200">
+                    <a href="https://www.salgoarriba.com" target="_blank" rel="noopener noreferrer" className="inline-block relative bg-[#181818] text-[#e6e1d5] font-mono border-2 border-[#e6e1d5] border-b-[8px] px-3 py-1.5 text-xs font-bold tracking-[0.15em] text-left hover:bg-[#e6e1d5] hover:text-neutral-900 transition-all duration-200">
                       www.salgoarriba.com →
                     </a>
                   </div>
                 </div>
               </AnimateOnScroll>
+
             </div>
           </div>
         </section>
 
-        {/* 8. RECONOCIMIENTOS (SIN VIDEOS DE YOUTUBE) */}
+        {/* 8. RECONOCIMIENTOS */}
         <section 
           id="reconocimientos" 
           className="w-full h-auto py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-white text-neutral-900 relative flex flex-col justify-center items-center transform-gpu bg-contain md:bg-cover bg-center bg-no-repeat"
@@ -2711,7 +2735,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 10. STORE (TÍTULO STORE / TEXTO REUBICADO) */}
+        {/* 10. STORE */}
         <section
           ref={storeRef}
           id="store"
@@ -2765,7 +2789,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 11. CONTACTO (ANTES LA CASA) */}
+        {/* 11. CONTACTO */}
         <section id="contacto" className="w-full pt-0 pb-0 mb-0 bg-[#181818] text-[#ececec] relative flex flex-col justify-between overflow-hidden transform-gpu min-h-screen">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"

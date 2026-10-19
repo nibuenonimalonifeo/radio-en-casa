@@ -170,52 +170,6 @@ function TlkioChat() {
   );
 }
 
-// --- MINI SLIDER PARA SALGO ARRIBA (ALIANZAS) ---
-
-function SalgoArribaSlider() {
-  const images = [
-    '/images/vecinos/Radio_en_Casa_Vecinos_Salgo_Arriba_01.png',
-    '/images/vecinos/Radio_en_Casa_Vecinos_Salgo_Arriba_02.png',
-    '/images/vecinos/Radio_en_Casa_Vecinos_Salgo_Arriba_03.png',
-  ];
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setIndex((prev) => (prev + 1) % images.length);
-    }, 3500);
-    return () => clearInterval(timer);
-  }, [images.length]);
-
-  return (
-    <div className="w-full h-48 sm:h-64 overflow-hidden rounded-none bg-black border border-white/10 relative my-3">
-      {images.map((img, i) => (
-        <img
-          key={i}
-          src={img}
-          alt={`Salgo Arriba Slide ${i + 1}`}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${
-            i === index ? 'opacity-100' : 'opacity-0'
-          }`}
-          onError={(e) => {
-            (e.currentTarget as HTMLImageElement).style.display = 'none';
-          }}
-        />
-      ))}
-      <div className="absolute bottom-2 right-2 flex gap-1 z-10">
-        {images.map((_, i) => (
-          <span
-            key={i}
-            className={`w-1.5 h-1.5 rounded-full ${
-              i === index ? 'bg-[#f74a35]' : 'bg-white/40'
-            }`}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-
 // --- COMPONENTE TIPO MÁQUINA DE ESCRIBIR PARA DATOS DINÁMICOS ---
 
 function TypewriterText({ text, speed = 30 }: { text: string; speed?: number }) {
@@ -2582,7 +2536,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 7. ALIANZAS (1 SOLA COLUMNA CON VIDEO ARRIBA Y SALGO ARRIBA ABAJO) */}
+        {/* 7. ALIANZAS (ANCHO TOTAL max-w-[1100px] SIN SLIDER DE IMÁGENES) */}
         <section id="alianzas" className="w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
@@ -2614,8 +2568,8 @@ export default function Page() {
               </div>
             </AnimateOnScroll>
 
-            {/* UNIFICACIÓN A 1 SOLA COLUMNA */}
-            <div className="w-full max-w-3xl mx-auto space-y-6 font-datatype">
+            {/* UNIFICADO A ANCHO COMPLETO max-w-[1100px] SIN SLIDER */}
+            <div className="w-full font-datatype">
               <AnimateOnScroll delay={200} duration={700} offset={45}>
                 <div className="bg-[#1e1e1e]/90 backdrop-blur-md border border-[#5c5c5c]/60 p-5 sm:p-8 shadow-xl flex flex-col space-y-6 hover:border-[#f74a35] transition-colors duration-300 font-datatype rounded-none">
                   
@@ -2630,13 +2584,11 @@ export default function Page() {
                     />
                   </div>
 
-                  {/* BLOQUE SALGO ARRIBA */}
+                  {/* BLOQUE SALGO ARRIBA (SIN SLIDER DE IMÁGENES) */}
                   <div className="space-y-4 pt-2">
                     <div className="h-14 sm:h-16 w-auto flex items-center justify-start">
                       <img src="/images/programas/Salgo_Arriba_Logo_Radio_en_Casa.png" alt="Salgo Arriba Logo" className="max-h-full w-auto object-contain filter brightness-0 invert opacity-100" />
                     </div>
-
-                    <SalgoArribaSlider />
 
                     <h4 className="text-[#e3e3e3] tracking-tight font-extrabold font-boldonse text-lg sm:text-xl h4-custom">Salgo Arriba</h4>
                     <p className="text-xs sm:text-sm md:text-base text-neutral-300 leading-relaxed font-datatype">Espacio para eventos, experiencias y producciones audiovisuales situado en Recoleta.</p>

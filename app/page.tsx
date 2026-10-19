@@ -22,27 +22,26 @@ function SubstackFanzineFeed() {
   const [posts, setPosts] = useState<SubstackPost[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  // ✅ CÓDIGO CORREGIDO:
-useEffect(() => {
-  async function fetchSubstackPosts() {
-    try {
-      setLoading(true);
-      const res = await fetch('/api/substack');
-      if (!res.ok) throw new Error('Error al conectar con el RSS');
-      const data = await res.json();
-      
-      if (Array.isArray(data) && data.length > 0) {
-        setPosts(data);
+  useEffect(() => {
+    async function fetchSubstackPosts() {
+      try {
+        setLoading(true);
+        const res = await fetch('/api/substack');
+        if (!res.ok) throw new Error('Error al conectar con el RSS');
+        const data = await res.json();
+        
+        if (Array.isArray(data) && data.length > 0) {
+          setPosts(data);
+        }
+      } catch (err) {
+        console.warn('Error al cargar publicaciones de Substack:', err);
+      } finally {
+        setLoading(false);
       }
-    } catch (err) {
-      console.warn('Error al cargar publicaciones de Substack:', err);
-    } finally {
-      setLoading(false);
     }
-  }
 
-  fetchSubstackPosts();
-}, []);
+    fetchSubstackPosts();
+  }, []);
 
   if (loading) {
     return (
@@ -171,7 +170,7 @@ function TlkioChat() {
   );
 }
 
-// --- MINI SLIDER PARA SALGO ARRIBA (FAMILIA) ---
+// --- MINI SLIDER PARA SALGO ARRIBA (ALIANZAS) ---
 
 function SalgoArribaSlider() {
   const images = [
@@ -189,7 +188,7 @@ function SalgoArribaSlider() {
   }, [images.length]);
 
   return (
-    <div className="w-full h-36 overflow-hidden rounded-none bg-black border border-white/10 relative my-3">
+    <div className="w-full h-48 overflow-hidden rounded-none bg-black border border-white/10 relative my-3">
       {images.map((img, i) => (
         <img
           key={i}
@@ -447,7 +446,6 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
       </div>
 
       <div className="flex items-center gap-6 mt-12 sm:mt-20 z-40 justify-center md:justify-start w-full max-w-[460px]">
-        {/* BOTÓN IZQUIERDO: AMARILLO CON ÍCONO AGRANDADO */}
         <button
           onClick={handlePrev}
           className="bg-[#ffcc00] text-[#121212] hover:bg-[#e6b800] flex items-center justify-center transition-all duration-300 shadow-xl border border-transparent cursor-pointer rounded-none font-datatype p-3.5 sm:p-4 group"
@@ -462,7 +460,6 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
           </svg>
         </button>
 
-        {/* BOTÓN DERECHO: ROJO CON ÍCONO AGRANDADO */}
         <button
           onClick={handleNext}
           className="bg-[#f74a35] text-white hover:bg-[#d93a26] flex items-center justify-center transition-all duration-300 shadow-xl border border-transparent cursor-pointer rounded-none font-datatype p-3.5 sm:p-4 group"
@@ -481,26 +478,13 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
   );
 }
 
-// --- RECONOCIMIENTOS EN 1 COLUMNA PARA MOBILE Y 3 COLUMNAS PARA DESKTOP ---
+// --- RECONOCIMIENTOS EN 1 COLUMNA PARA MOBILE Y 3 COLUMNAS PARA DESKTOP (SIN VIDEOS DE CABECERA) ---
 
 function Recognitions3Columns({ items }: { items: typeof recognitionsData; scrollProgress?: number }) {
-  const renderVideoHeader = () => (
-    <div className="w-full aspect-video mb-4 overflow-hidden rounded-none border border-neutral-300 shadow-sm bg-black flex-shrink-0">
-      <iframe
-        src="https://www.youtube.com/embed/CcGWn2xLLJY"
-        title="Reconocimientos Radio en Casa"
-        className="w-full h-full border-0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      />
-    </div>
-  );
-
   return (
     <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 font-datatype">
       {/* VISTA MÓVIL */}
       <div className="flex md:hidden flex-col gap-4 w-full">
-        {renderVideoHeader()}
         {items.map((rec) => (
           <div
             key={rec.id}
@@ -534,7 +518,6 @@ function Recognitions3Columns({ items }: { items: typeof recognitionsData; scrol
           key={colIndex}
           className="hidden md:block max-h-[60vh] overflow-y-auto space-y-4 pr-1.5 custom-scrollbar overscroll-contain"
         >
-          {renderVideoHeader()}
           {colItems.map((rec) => (
             <div
               key={rec.id}
@@ -694,34 +677,26 @@ const historyCardsData = [
 const servicesQuadrants = [
   {
     id: 'radio',
-    label: 'Hacemos radio',
-    bgColor: 'rgba(22, 22, 22, 0.85)',
-    accentColor: '#e3e3e3',
-    shortDesc: 'Radio en vivo online transmitida para todo el mundo con calidad profesional.',
+    label: 'RADIO',
+    borderColor: '#f74a35',
     fullText: 'Un formato para quienes, como nosotros, creen que la radio nunca va a morir. Fue la forma en la que empezamos en 2016 y sigue siendo parte de nuestra identidad. Por eso seguimos ofreciendo la posibilidad de crear programas de radio transmitidos en vivo a través de nuestra web, desde donde también difundimos artistas que forman parte de nuestra comunidad. A diferencia de los medios tradicionales, la transmisión online permite que tu contenido pueda escucharse desde cualquier lugar del mundo. Además, formamos parte de plataformas como TuneIn y RadioCut.',
   },
   {
     id: 'podcast',
-    label: 'Hacemos podcast',
-    bgColor: 'rgba(32, 32, 32, 0.85)',
-    accentColor: '#e3e3e3',
-    shortDesc: 'Producción integral de audio y video podcast de alta fidelidad.',
+    label: 'PODCAST',
+    borderColor: '#ff7700',
     fullText: 'El podcast es probablemente el formato donde más recorrido tenemos. Durante varios años fuimos el estudio elegido por Posta, participando del crecimiento de una industria que recién comenzaba a desarrollarse y grabando en 2019 los primeros contenidos originales de Spotify producidos en nuestro país. Acompañamos proyectos independientes como Concha Podcast y Quemar un Patrullero. Realizamos podcasts en formato audio y video, ofreciendo grabación, edición y diseño sonoro.',
   },
   {
     id: 'streaming',
-    label: 'Hacemos streaming',
-    bgColor: 'rgba(26, 26, 26, 0.85)',
-    accentColor: '#e3e3e3',
-    shortDesc: 'Transmisiones multicámara Full HD en vivo para YouTube, Twitch e Instagram.',
+    label: 'STREAMING',
+    borderColor: '#ffcc00',
     fullText: 'El streaming puede parecer un formato nuevo, pero para nosotros empezó antes. En 2018 realizamos nuestras primeras transmisiones audiovisuales en vivo, cuando este formato todavía no tenía la dimensión que alcanzaría años después. Producimos streamings para canales propios o plataformas como YouTube, Twitch, Facebook, X e Instagram. Trabajamos con un sistema multicámara Full HD 1920x1080, switcher profesional y cámaras inalámbricas.',
   },
   {
     id: 'outdoor',
-    label: 'Vamos a donde digas',
-    bgColor: 'rgba(18, 18, 18, 0.85)',
-    accentColor: '#e3e3e3',
-    shortDesc: 'Coberturas audiovisuales, unidades móviles y eventos en exteriores.',
+    label: 'OUTDOOR',
+    borderColor: '#215164',
     fullText: 'Así llamamos a todo aquello que hacemos fuera del estudio. Llevamos nuestra experiencia, tecnología y manera de hacer contenidos a nuevos escenarios. Realizamos coberturas, transmisiones y registros audiovisuales en eventos, teatros, festivales y locaciones privadas. Ideal para entrevistas en exteriores o formatos presenciales. A lo largo de los años realizamos producciones en Ciudad Cultural Konex, Teatro Margarita Xirgu y nuestro espacio Salgo Arriba.',
   },
 ];
@@ -840,6 +815,7 @@ const rawArchiveTextHTML = `<strong class="font-extrabold text-[#f74a35]">70/30<
 
 const rawBrandsTextHTML = `Ad Hoc Comunicación · Apciba · Bercomat · BNP Paribas Cardif · Bunker · Centro Simon Wiesenthal · Comiqueando · Cryptomate · Dot Hotels · Ecomm Experts · Escuela Libre de Psicoanálisis · Fundación Andreani · Fundación Cippec · Fundación Konrad Adenauer · Gran Logia de la Argentina · La Cosa Cine · La licuadora deportiva · LetterMafia · Meretz Argentina · Meridiana Comics · Milbrands · Museo Judío · Naldo · Natura · Nerdearla · Noticias en red · Open Folk · Parque podcast · Podlab · Press Over · Rayo podcasts · Revista Txtura · Sys Army · TTD Trabajadores Tango Danza · UMAI · Unplastify · XFC`;
 
+// MENÚ LATERAL CON ALIANZAS (2 CÍRCULOS ENTRELAZADOS) Y CONTACTO
 const menuItems = [
   { 
     id: 'historia', 
@@ -887,11 +863,12 @@ const menuItems = [
     )
   },
   { 
-    id: 'familia', 
-    label: 'Familia',
+    id: 'alianzas', 
+    label: 'Alianzas',
     icon: (
-      <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+      <svg className="w-5 h-5 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
+        <circle cx="9" cy="12" r="6" />
+        <circle cx="15" cy="12" r="6" />
       </svg>
     )
   },
@@ -923,8 +900,8 @@ const menuItems = [
     )
   },
   { 
-    id: 'la-casa', 
-    label: 'La Casa',
+    id: 'contacto', 
+    label: 'Contacto',
     icon: (
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
@@ -1234,24 +1211,8 @@ export default function Page() {
   const [temperature, setTemperature] = useState<string | null>(null);
   const [cityName, setCityName] = useState<string>('CARGANDO...');
 
-  const [activeQuadrant, setActiveQuadrant] = useState<string | null>(null);
-
-  const centerServicesSection = () => {
-    if (serviciosRef.current) {
-      serviciosRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-      });
-    }
-  };
-
-  const handleServiceInteraction = (serviceId: string) => {
-    const nextState = activeQuadrant === serviceId ? null : serviceId;
-    setActiveQuadrant(nextState);
-    if (nextState !== null) {
-      centerServicesSection();
-    }
-  };
+  // ESTADO PARA TOGGLES HORIZONTALES EN SERVICIOS
+  const [activeServiceId, setActiveServiceId] = useState<string | null>('radio');
 
   useEffect(() => {
     const homeInterval = setInterval(() => {
@@ -1433,9 +1394,6 @@ export default function Page() {
   useEffect(() => {
     setCurrentYear(new Date().getFullYear());
   }, []);
-
-  const topRowServices = servicesQuadrants.slice(0, 2);
-  const bottomRowServices = servicesQuadrants.slice(2, 4);
 
   return (
     <div
@@ -1631,7 +1589,7 @@ export default function Page() {
         />
       </div>
 
-      {/* 1. BARRA LATERAL (NAV DOCK DE ÍCONOS - SIN REDES SOCIALES) */}
+      {/* 1. BARRA LATERAL (NAV DOCK DE ÍCONOS - ALIANZAS Y CONTACTO) */}
       <nav
         className={`fixed top-0 right-0 lg:right-auto lg:left-0 w-[70px] sm:w-[88px] h-screen bg-[#0e0e0e] border-l lg:border-l-0 lg:border-r border-[#262626] z-[9999] flex flex-col items-center justify-between py-4 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isHeroIntroComplete 
@@ -1908,7 +1866,7 @@ export default function Page() {
             </div>
           </div>
 
-          {/* VISTA DESKTOP: CENTRADO HORIZONTAL Y VERTICAL PERFECTO */}
+          {/* VISTA DESKTOP */}
           <div className="hidden lg:flex flex-col justify-center items-center w-full h-full min-h-screen relative">
             <div className={`absolute inset-0 h-full pointer-events-none z-0 overflow-hidden transition-all duration-700 ease-out ${
               isHeroIntroComplete ? 'w-full ml-0' : 'w-screen ml-0'
@@ -1963,7 +1921,6 @@ export default function Page() {
               </div>
             )}
 
-            {/* CONTENEDOR CENTRADO SIN DESFASE DE MÁRGENES */}
             <div className="w-full flex-1 flex flex-col items-center justify-center pointer-events-auto z-10 relative">
               <div 
                 ref={heroLogoRef} 
@@ -2002,7 +1959,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 2. HISTORIA */}
+        {/* 2. HISTORIA (TÍTULO: NACIMOS EN 2016) */}
         <section
           ref={historiaRef}
           id="historia"
@@ -2024,7 +1981,7 @@ export default function Page() {
                 <div className="mb-4 sm:mb-6 md:mb-10 w-full">
                   {isHistoriaInView ? (
                     <TypewriterHeadingUnificado
-                      text="RADIO EN CASA NACE EN NOVIEMBRE DE 2016"
+                      text="NACIMOS EN 2016"
                       className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold text-[#e3e3e3] font-boldonse tracking-tight relative h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
                       onComplete={() => setIsHistoriaTitleDone(true)}
                     />
@@ -2102,7 +2059,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 3. FILOSOFÍA */}
+        {/* 3. FILOSOFÍA (TÍTULO FILOSOFÍA / TEXTO REUBICADO) */}
         <section
           ref={filosofiaRef}
           id="filosofia"
@@ -2173,13 +2130,13 @@ export default function Page() {
                   }}
                 >
                   <TypewriterHeadingUnificado
-                    text="ESTAMOS EN UN PH ANTIGUO RECICLADO EN PALERMO, BUENOS AIRES, ARGENTINA"
+                    text="FILOSOFÍA"
                     className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold text-[#e3e3e3] font-boldonse tracking-tight relative h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
                   />
                 </div>
               </div>
 
-              <div className="space-y-6 text-sm sm:text-base md:text-lg font-normal leading-relaxed text-neutral-300 font-datatype pt-6 sm:pt-12 md:pt-32">
+              <div className="space-y-6 text-sm sm:text-base md:text-lg font-normal leading-relaxed text-neutral-300 font-datatype pt-2 sm:pt-4 md:pt-6">
                 <div 
                   className="w-full space-y-6 transition-transform duration-100 ease-out"
                   style={{
@@ -2188,6 +2145,12 @@ export default function Page() {
                 >
                   <ScrollFadeText delay={100}>
                     <p className="text-[#e3e3e3] font-bold text-base sm:text-lg md:text-xl border-l-4 border-[#f74a35] pl-4 py-3 sm:py-4 my-0 bg-[#121212]/95 backdrop-blur-md border border-[#5c5c5c]/40 rounded-none font-datatype shadow-2xl">
+                      ESTAMOS EN UN PH ANTIGUO RECICLADO EN PALERMO, BUENOS AIRES, ARGENTINA
+                    </p>
+                  </ScrollFadeText>
+
+                  <ScrollFadeText delay={150}>
+                    <p className="text-neutral-200">
                       Un espacio con historia que transformamos para crear algo nuevo, y eso es parte de lo que nos define.
                     </p>
                   </ScrollFadeText>
@@ -2222,7 +2185,7 @@ export default function Page() {
                     <p className="text-sm sm:text-base md:text-lg font-datatype text-[#f74a35] font-bold">
                       Si sentís que tenés algo para contar,{' '}
                       <button
-                        onClick={() => scrollToSection('la-casa')}
+                        onClick={() => scrollToSection('contacto')}
                         className="group inline-relative inline-flex flex-col cursor-pointer bg-transparent border-none p-0 m-0 text-left align-baseline"
                       >
                         <span className="text-[#e3e3e3] transition-colors duration-300 group-hover:text-[#f74a35] hover:underline">
@@ -2246,7 +2209,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 4. SERVICIOS */}
+        {/* 4. SERVICIOS (TOGGLES HORIZONTALES CROMÁTICOS + TEXTO ABAJO) */}
         <section ref={serviciosRef} id="servicios" className="w-full min-h-screen relative flex flex-col justify-center items-center transform-gpu overflow-hidden p-0 m-0 bg-[#181818]">
           <div 
             className="absolute inset-0 w-full h-full z-0 pointer-events-none opacity-40"
@@ -2260,136 +2223,74 @@ export default function Page() {
             }}
           />
 
-          <div className="relative z-10 w-full h-full min-h-screen flex flex-col justify-center items-center pt-24 sm:pt-36 md:pt-48 pb-16 sm:pb-20 px-4 sm:px-6 md:px-12 lg:px-0 box-sizing-border max-w-[1100px] mx-auto">
-            <div className="flex flex-col w-full gap-6 sm:gap-8 items-stretch my-auto justify-center">
+          <div className="relative z-10 w-full h-full min-h-screen flex flex-col justify-center items-center pt-24 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 md:px-12 lg:px-0 box-sizing-border max-w-[1100px] mx-auto">
+            <div className="flex flex-col w-full gap-8 items-stretch my-auto justify-center">
               
-              <div className="w-full space-y-4 sm:space-y-6 font-datatype text-xs sm:text-sm md:text-base leading-relaxed text-neutral-200">
-                <TypewriterHeadingUnificado
-                  text="SERVICIOS"
-                  className="text-[1.5rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold text-[#e3e3e3] font-boldonse tracking-tight relative h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
-                />
+              <TypewriterHeadingUnificado
+                text="SERVICIOS"
+                className="text-[1.5rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold text-[#e3e3e3] font-boldonse tracking-tight relative h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
+              />
 
-                <div className="space-y-3 sm:space-y-4 max-w-4xl">
-                  <ScrollFadeText delay={100}>
-                    <p>
-                      Si tenés una idea, un proyecto o una comunidad que querés hacer crecer, en Radio en Casa encontrás el espacio y la infraestructura necesaria para desarrollarla.
-                    </p>
-                  </ScrollFadeText>
-
-                  <ScrollFadeText delay={200}>
-                    <p>
-                      No alquilamos solamente un estudio. Abrimos una casa con más de diez años de experiencia creando contenidos, acompañando proyectos y formando parte de la evolución de la radio, el podcast y el streaming en Argentina. Ponemos a disposición un estudio profesional, cómodo y completamente equipado para realizar programas de radio, podcasts y streaming.
-                    </p>
-                  </ScrollFadeText>
-
-                  <ScrollFadeText delay={300}>
-                    <p className="font-bold text-[#e3e3e3] bg-[#222222] border-l-4 border-[#f74a35] p-4 sm:pt-5 sm:pb-5 sm:pl-6 sm:pr-6 shadow-xl my-3 font-datatype">
-                      Porque para nosotros un buen contenido necesita dos cosas: una infraestructura profesional y un espacio donde las ideas puedan sentirse cómodas.
-                    </p>
-                  </ScrollFadeText>
-
-                  <ScrollFadeText delay={400}>
-                    <p>
-                      Contamos con una mesa para 6 personas con micrófonos profesionales, efectos de voz y luces, croma para entornos virtuales, living, barra, monitor, teléfono fijo, WhatsApp, instrumentos y todos los recursos necesarios para que cada producción encuentre su mejor versión.
-                    </p>
-                  </ScrollFadeText>
-                </div>
-              </div>
-
-              <div className="w-full flex flex-col gap-2 justify-center mt-2 bg-transparent">
-                {[
-                  { ...topRowServices[0], label: 'RADIO' },
-                  { ...topRowServices[1], label: 'PODCAST' },
-                  { ...bottomRowServices[0], label: 'STREAMING' },
-                  { ...bottomRowServices[1], label: 'OUTDOOR' },
-                ].map((service, idx) => {
-                  const isActive = activeQuadrant === service.id;
-                  
-                  const vhsStripColors = ['#f74a35', '#ff7700', '#ffcc00', '#215164'];
-                  const serviceColor = vhsStripColors[idx % vhsStripColors.length];
-                  const serviceNumber = String(idx + 1).padStart(2, '0');
-                  
+              {/* MÓDULO HORIZONTAL DE 4 UNIDADES DE SERVICIO */}
+              <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-4 items-stretch font-datatype">
+                {servicesQuadrants.map((service) => {
+                  const isActive = activeServiceId === service.id;
                   return (
-                    <ScrollFadeText key={service.id} delay={500 + idx * 100}>
-                      <div className="flex flex-col w-full font-datatype">
-                        <div
-                          onMouseEnter={() => handleServiceInteraction(service.id)}
-                          onMouseLeave={() => setActiveQuadrant(null)}
-                          onClick={() => handleServiceInteraction(service.id)}
-                          className={`group relative flex flex-row items-center cursor-pointer border-2 bg-[#1b1b1b] rounded-none shadow-xl overflow-hidden w-full h-[60px] sm:h-[64px] min-h-[60px] max-h-[64px] transition-all duration-300 ease-out ${
-                            isActive 
-                              ? 'border-[#f74a35] shadow-2xl bg-[#222222]' 
-                              : 'border-[#2a2a2a] hover:border-[#555]'
-                          }`}
-                          style={{
-                            backgroundImage: 'radial-gradient(circle, #242424 0%, #151515 100%)',
-                          }}
+                    <div
+                      key={service.id}
+                      onClick={() => setActiveServiceId(isActive ? null : service.id)}
+                      className={`cursor-pointer transition-all duration-500 ease-out bg-[#141414] p-5 border-2 shadow-2xl flex flex-col justify-between font-datatype relative overflow-hidden ${
+                        isActive ? 'scale-105 z-20 bg-[#1a1a1a]' : 'opacity-85 hover:opacity-100 hover:scale-[1.02]'
+                      }`}
+                      style={{ borderColor: service.borderColor }}
+                    >
+                      <div className="flex items-center justify-between border-b pb-3 mb-3 border-white/10">
+                        <h3 
+                          className="font-boldonse text-xl sm:text-2xl font-black uppercase tracking-wider"
+                          style={{ color: service.borderColor }}
                         >
-                          <div className="h-full w-10 sm:w-12 bg-[#111111] border-r border-[#282828] flex flex-col items-center justify-between p-1.5 font-mono text-neutral-500 flex-shrink-0">
-                            <div className="border border-[#333] rounded-none bg-black/80 flex items-center justify-center w-2.5 h-4 sm:h-5">
-                              <div className="w-0.5 h-1 bg-[#222]" />
-                            </div>
-                            <span className="tracking-tighter opacity-60 uppercase font-mono leading-none rotate-90 my-auto text-[2px] whitespace-nowrap">
-                              NV-VP {new Date().getFullYear()}
-                            </span>
-                          </div>
-
-                          <div 
-                            className="flex-1 h-full rounded-none flex flex-row items-center justify-between relative overflow-hidden border border-[#d6cbbe] shadow-inner ml-1.5 sm:ml-2 p-2 sm:p-2.5 md:p-3"
-                            style={{
-                              backgroundColor: isActive ? '#f7f2ea' : '#efe8dc',
-                              backgroundImage: `
-                                linear-gradient(to right, rgba(180, 160, 140, 0.18) 1px, transparent 1px),
-                                linear-gradient(to bottom, rgba(180, 160, 140, 0.18) 1px, transparent 1px)
-                              `,
-                              backgroundSize: '12px 12px'
-                            }}
-                          >
-                            <div className="flex-1 flex flex-row items-center h-full w-full gap-2 sm:gap-3">
-                              <div 
-                                className="relative rounded-none shadow-sm flex-shrink-0 w-4 sm:w-6 h-full overflow-hidden"
-                                style={{ backgroundColor: serviceColor }}
-                              />
-
-                              <div className="flex-1 flex flex-row items-center justify-between h-full">
-                                <h2 className="font-extrabold font-boldonse uppercase leading-tight text-[#1a1a1a] tracking-wider text-left text-sm sm:text-lg md:text-xl">
-                                  {service.label}
-                                </h2>
-
-                                <span className="font-mono font-black text-black bg-white shadow-sm rounded-none flex items-center gap-1.5 text-[9px] sm:text-[10px] md:text-xs px-1.5 sm:px-2 py-0.5">
-                                  <span className="text-[7px] sm:text-[8px] md:text-[9px] tracking-tighter text-[#111111]">▶▶▶</span> 
-                                  <span className="font-extrabold">{serviceNumber}</span>
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div className="flex items-center justify-center flex-shrink-0 px-3 sm:px-4">
-                            <span 
-                              className={`font-bold text-xs transition-transform duration-300 ${
-                                isActive ? 'rotate-180 text-[#f74a35]' : 'text-neutral-400 group-hover:text-white'
-                              }`}
-                            >
-                              ▼
-                            </span>
-                          </div>
-                        </div>
-
-                        <div 
-                          className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden ${
-                            isActive ? 'grid-rows-[1fr] opacity-100 mt-2' : 'grid-rows-[0fr] opacity-0'
-                          }`}
-                        >
-                          <div className="overflow-hidden bg-[#141414] border-2 border-[#f74a35] rounded-none p-4 sm:p-5 shadow-2xl text-neutral-200">
-                            <p className="text-xs sm:text-sm md:text-lg leading-relaxed text-neutral-300 font-datatype">
-                              {service.fullText}
-                            </p>
-                          </div>
-                        </div>
+                          {service.label}
+                        </h3>
+                        <span className="text-xs font-bold text-neutral-400">
+                          {isActive ? '◀' : '▶'}
+                        </span>
                       </div>
-                    </ScrollFadeText>
+
+                      <div className={`transition-all duration-300 font-datatype ${isActive ? 'block' : 'hidden md:block'}`}>
+                        <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-datatype">
+                          {service.fullText}
+                        </p>
+                      </div>
+                    </div>
                   );
                 })}
+              </div>
+
+              {/* BLOQUE DESCRIPTIVO MOVIDO ABAJO DE LOS TOGGLES */}
+              <div className="w-full space-y-4 font-datatype text-xs sm:text-sm md:text-base leading-relaxed text-neutral-200 border-t border-white/10 pt-6">
+                <ScrollFadeText delay={100}>
+                  <p>
+                    Si tenés una idea, un proyecto o una comunidad que querés hacer crecer, en Radio en Casa encontrás el espacio y la infraestructura necesaria para desarrollarla.
+                  </p>
+                </ScrollFadeText>
+
+                <ScrollFadeText delay={200}>
+                  <p>
+                    No alquilamos solamente un estudio. Abrimos una casa con más de diez años de experiencia creando contenidos, acompañando proyectos y formando parte de la evolución de la radio, el podcast y el streaming en Argentina. Ponemos a disposición un estudio profesional, cómodo y completamente equipado para realizar programas de radio, podcasts y streaming.
+                  </p>
+                </ScrollFadeText>
+
+                <ScrollFadeText delay={300}>
+                  <p className="font-bold text-[#e3e3e3] bg-[#222222] border-l-4 border-[#f74a35] p-4 sm:pt-5 sm:pb-5 sm:pl-6 sm:pr-6 shadow-xl my-3 font-datatype">
+                    Porque para nosotros un buen contenido necesita dos cosas: una infraestructura profesional y un espacio donde las ideas puedan sentirse cómodas.
+                  </p>
+                </ScrollFadeText>
+
+                <ScrollFadeText delay={400}>
+                  <p>
+                    Contamos con una mesa para 6 personas con micrófonos profesionales, efectos de voz y luces, croma para entornos virtuales, living, barra, monitor, teléfono fijo, WhatsApp, instrumentos y todos los recursos necesarios para que cada producción encuentre su mejor versión.
+                  </p>
+                </ScrollFadeText>
               </div>
 
             </div>
@@ -2525,7 +2426,7 @@ export default function Page() {
                           </p>
                           <p className="text-neutral-300 font-datatype text-xs sm:text-sm md:text-base font-medium flex flex-wrap items-baseline gap-1">
                             <button
-                              onClick={() => scrollToSection('la-casa')}
+                              onClick={() => scrollToSection('contacto')}
                               className="group inline-relative inline-flex flex-col cursor-pointer bg-transparent border-none p-0 m-0 text-left align-baseline font-datatype"
                             >
                               <span className="text-[#e3e3e3] font-bold text-xs sm:text-sm md:text-base transition-colors duration-300 group-hover:text-[#f74a35] font-datatype">
@@ -2681,8 +2582,8 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 7. FAMILIA (ANTES VECINOS) */}
-        <section id="familia" className="w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
+        {/* 7. ALIANZAS (SOLO 1 COLUMNA: SALGO ARRIBA) */}
+        <section id="alianzas" className="w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
             style={{
@@ -2713,9 +2614,10 @@ export default function Page() {
               </div>
             </AnimateOnScroll>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-datatype">
+            {/* VISTA EN 1 SOLA COLUMNA CON SALGO ARRIBA */}
+            <div className="w-full font-datatype">
               <AnimateOnScroll delay={200} duration={700} offset={45}>
-                <div className="bg-[#1e1e1e]/90 backdrop-blur-md border border-[#5c5c5c]/60 p-5 sm:p-6 shadow-xl flex flex-col justify-between space-y-4 hover:border-[#f74a35] transition-colors duration-300 h-full font-datatype rounded-none">
+                <div className="bg-[#1e1e1e]/90 backdrop-blur-md border border-[#5c5c5c]/60 p-6 sm:p-8 shadow-xl flex flex-col justify-between space-y-6 hover:border-[#f74a35] transition-colors duration-300 font-datatype rounded-none max-w-2xl mx-auto">
                   <div className="space-y-4 font-datatype">
                     <div className="h-14 sm:h-16 w-auto flex items-center justify-start">
                       <img src="/images/programas/Salgo_Arriba_Logo_Radio_en_Casa.png" alt="Salgo Arriba Logo" className="max-h-full w-auto object-contain filter brightness-0 invert opacity-100" />
@@ -2723,41 +2625,14 @@ export default function Page() {
 
                     <SalgoArribaSlider />
 
-                    <h4 className="text-[#e3e3e3] tracking-tight font-extrabold font-boldonse text-base sm:text-lg h4-custom">Salgo Arriba</h4>
-                    <p className="text-xs sm:text-sm md:text-base text-neutral-300 leading-relaxed font-datatype">Espacio para eventos, experiencias y producciones audiovisuales situado en Recoleta.</p>
+                    <h4 className="text-[#e3e3e3] tracking-tight font-extrabold font-boldonse text-lg sm:text-xl h4-custom">Salgo Arriba</h4>
+                    <p className="text-sm sm:text-base text-neutral-300 leading-relaxed font-datatype">Espacio para eventos, experiencias y producciones audiovisuales situado en Recoleta.</p>
                   </div>
 
-                  <div className="pt-3 border-t border-[#5c5c5c]/40 flex flex-wrap items-center justify-between gap-2 font-mono text-xs sm:text-sm font-datatype">
+                  <div className="pt-4 border-t border-[#5c5c5c]/40 flex flex-wrap items-center justify-between gap-2 font-mono text-xs sm:text-sm font-datatype">
                     <span className="text-[#f74a35] font-bold">@salgoarriba</span>
-                    <a href="https://www.salgoarriba.com" target="_blank" rel="noopener noreferrer" className="inline-block relative bg-[#181818] text-[#e6e1d5] font-mono border-2 border-[#e6e1d5] border-b-[8px] px-3 py-1.5 text-xs font-bold tracking-[0.15em] text-left hover:bg-[#e6e1d5] hover:text-neutral-900 transition-all duration-200">
+                    <a href="https://www.salgoarriba.com" target="_blank" rel="noopener noreferrer" className="inline-block relative bg-[#181818] text-[#e6e1d5] font-mono border-2 border-[#e6e1d5] border-b-[8px] px-4 py-2 text-xs font-bold tracking-[0.15em] text-left hover:bg-[#e6e1d5] hover:text-neutral-900 transition-all duration-200">
                       www.salgoarriba.com →
-                    </a>
-                  </div>
-                </div>
-              </AnimateOnScroll>
-
-              <AnimateOnScroll delay={350} duration={850} offset={55}>
-                <div className="bg-[#1e1e1e]/90 backdrop-blur-md border border-[#5c5c5c]/60 p-5 sm:p-6 shadow-xl flex flex-col justify-between space-y-4 hover:border-[#f74a35] transition-colors duration-300 h-full font-datatype rounded-none">
-                  <div className="space-y-4 font-datatype">
-                    <div className="w-full h-36 overflow-hidden rounded-none bg-black border border-white/10 relative my-3">
-                      <img
-                        src="/images/galeria/Radio_en_Casa_Galeria_05.jpg"
-                        alt="Proyecto Rosca Arquitectura"
-                        className="w-full h-full object-cover filter brightness-90 contrast-110"
-                        onError={(e) => {
-                          (e.currentTarget as HTMLImageElement).src = philosophyImages[0];
-                        }}
-                      />
-                    </div>
-
-                    <h4 className="text-[#e3e3e3] tracking-tight font-extrabold font-boldonse text-base sm:text-lg h4-custom">Proyecto Rosca</h4>
-                    <p className="text-xs sm:text-sm md:text-base text-neutral-300 leading-relaxed font-datatype">Estudio de diseño y arquitectura especializado en la puesta en valor de espacios, marcas e identidad visual.</p>
-                  </div>
-
-                  <div className="pt-3 border-t border-[#5c5c5c]/40 flex flex-wrap items-center justify-between gap-2 font-mono text-xs sm:text-sm font-datatype">
-                    <span className="text-[#f74a35] font-bold">@proyectorosca</span>
-                    <a href="https://www.proyectorosca.com" target="_blank" rel="noopener noreferrer" className="inline-block relative bg-[#181818] text-[#e6e1d5] font-mono border-2 border-[#e6e1d5] border-b-[8px] px-3 py-1.5 text-xs font-bold tracking-[0.15em] text-left hover:bg-[#e6e1d5] hover:text-neutral-900 transition-all duration-200">
-                      www.proyectorosca.com →
                     </a>
                   </div>
                 </div>
@@ -2766,7 +2641,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 8. RECONOCIMIENTOS */}
+        {/* 8. RECONOCIMIENTOS (SIN VIDEOS DE YOUTUBE) */}
         <section 
           id="reconocimientos" 
           className="w-full h-auto py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-white text-neutral-900 relative flex flex-col justify-center items-center transform-gpu bg-contain md:bg-cover bg-center bg-no-repeat"
@@ -2836,7 +2711,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 10. STORE */}
+        {/* 10. STORE (TÍTULO STORE / TEXTO REUBICADO) */}
         <section
           ref={storeRef}
           id="store"
@@ -2863,21 +2738,16 @@ export default function Page() {
           <div className="w-full max-w-[1100px] mx-auto space-y-6 sm:space-y-8 relative z-20 -mt-10 sm:-mt-20 px-4 sm:px-6 md:px-12 lg:px-0">
             <AnimateOnScroll delay={150} duration={600} offset={25}>
               <div className="bg-white p-5 sm:p-8 md:p-10 border border-[#111111]/20 rounded-none shadow-2xl space-y-4 sm:space-y-6 font-datatype text-xs sm:text-sm md:text-base text-neutral-800 leading-relaxed">
-                <div className="space-y-1">
-                  <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#111111] font-boldonse h1-custom leading-[1.8rem] sm:leading-[3.82rem]">
-                    LA MEJOR MANERA
-                  </h1>
-                  <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#111111] font-boldonse h1-custom leading-[1.8rem] sm:leading-[3.82rem]">
-                    DE LLEVARTE UN PEDACITO
-                  </h1>
-                  <TypewriterHeadingUnificado
-                    text="DE RADIO EN CASA"
-                    className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#f74a35] font-boldonse h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
-                  />
-                </div>
+                <TypewriterHeadingUnificado
+                  text="STORE"
+                  className="text-[1.5rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#111111] font-boldonse h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
+                />
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-16 pt-2 font-datatype">
                   <div className="space-y-3 font-datatype">
+                    <p className="text-[#f74a35] font-bold text-base sm:text-lg border-l-4 border-[#f74a35] pl-3 py-1 font-datatype">
+                      LA MEJOR MANERA DE LLEVARTE UN PEDACITO DE RADIO EN CASA
+                    </p>
                     <p className="text-neutral-800 font-datatype">En esta tienda vas a encontrar productos diseñados para quienes forman parte de nuestra comunidad: desde merchandising hasta ediciones especiales y objetos creados junto a artistas y proyectos amigos.</p>
                   </div>
                   <div className="space-y-3 font-datatype">
@@ -2895,8 +2765,8 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 11. LA CASA */}
-        <section id="la-casa" className="w-full pt-0 pb-0 mb-0 bg-[#181818] text-[#ececec] relative flex flex-col justify-between overflow-hidden transform-gpu min-h-screen">
+        {/* 11. CONTACTO (ANTES LA CASA) */}
+        <section id="contacto" className="w-full pt-0 pb-0 mb-0 bg-[#181818] text-[#ececec] relative flex flex-col justify-between overflow-hidden transform-gpu min-h-screen">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
             style={{

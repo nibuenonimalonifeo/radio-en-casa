@@ -188,7 +188,7 @@ function SalgoArribaSlider() {
   }, [images.length]);
 
   return (
-    <div className="w-full h-48 overflow-hidden rounded-none bg-black border border-white/10 relative my-3">
+    <div className="w-full h-48 sm:h-64 overflow-hidden rounded-none bg-black border border-white/10 relative my-3">
       {images.map((img, i) => (
         <img
           key={i}
@@ -2582,7 +2582,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 7. ALIANZAS (VIDEO EMBEBIDO A LA IZQUIERDA + SALGO ARRIBA A LA DERECHA) */}
+        {/* 7. ALIANZAS (1 SOLA COLUMNA CON VIDEO ARRIBA Y SALGO ARRIBA ABAJO) */}
         <section id="alianzas" className="w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
@@ -2614,53 +2614,43 @@ export default function Page() {
               </div>
             </AnimateOnScroll>
 
-            {/* DOS COLUMNAS: VIDEO A LA IZQUIERDA Y SALGO ARRIBA A LA DERECHA */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-datatype items-stretch">
-              
-              {/* COLUMNA IZQUIERDA: VIDEO EMBEBIDO DE YOUTUBE */}
+            {/* UNIFICACIÓN A 1 SOLA COLUMNA */}
+            <div className="w-full max-w-3xl mx-auto space-y-6 font-datatype">
               <AnimateOnScroll delay={200} duration={700} offset={45}>
-                <div className="bg-[#1e1e1e]/90 backdrop-blur-md border border-[#5c5c5c]/60 p-5 sm:p-6 shadow-xl flex flex-col justify-between space-y-4 hover:border-[#f74a35] transition-colors duration-300 h-full font-datatype rounded-none">
-                  <div className="space-y-4 font-datatype flex-1 flex flex-col justify-between">
-                    <div className="w-full aspect-video overflow-hidden rounded-none border border-white/10 bg-black shadow-inner">
-                      <iframe
-                        src="https://www.youtube.com/embed/LJbSpPJivuc"
-                        title="Alianzas Radio en Casa"
-                        className="w-full h-full border-0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-[#e3e3e3] tracking-tight font-extrabold font-boldonse text-base sm:text-lg h4-custom">Comunidad & Alianzas</h4>
-                      <p className="text-xs sm:text-sm md:text-base text-neutral-300 leading-relaxed font-datatype">Conoce las experiencias y contenidos que construimos junto a nuestros espacios y proyectos aliados.</p>
-                    </div>
+                <div className="bg-[#1e1e1e]/90 backdrop-blur-md border border-[#5c5c5c]/60 p-5 sm:p-8 shadow-xl flex flex-col space-y-6 hover:border-[#f74a35] transition-colors duration-300 font-datatype rounded-none">
+                  
+                  {/* VIDEO EMBEBIDO AL PRINCIPIO */}
+                  <div className="w-full aspect-video overflow-hidden rounded-none border border-white/10 bg-black shadow-2xl">
+                    <iframe
+                      src="https://www.youtube.com/embed/LJbSpPJivuc"
+                      title="Alianzas Radio en Casa"
+                      className="w-full h-full border-0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
                   </div>
-                </div>
-              </AnimateOnScroll>
 
-              {/* COLUMNA DERECHA: SALGO ARRIBA */}
-              <AnimateOnScroll delay={350} duration={850} offset={55}>
-                <div className="bg-[#1e1e1e]/90 backdrop-blur-md border border-[#5c5c5c]/60 p-5 sm:p-6 shadow-xl flex flex-col justify-between space-y-4 hover:border-[#f74a35] transition-colors duration-300 h-full font-datatype rounded-none">
-                  <div className="space-y-4 font-datatype">
+                  {/* BLOQUE SALGO ARRIBA */}
+                  <div className="space-y-4 pt-2">
                     <div className="h-14 sm:h-16 w-auto flex items-center justify-start">
                       <img src="/images/programas/Salgo_Arriba_Logo_Radio_en_Casa.png" alt="Salgo Arriba Logo" className="max-h-full w-auto object-contain filter brightness-0 invert opacity-100" />
                     </div>
 
                     <SalgoArribaSlider />
 
-                    <h4 className="text-[#e3e3e3] tracking-tight font-extrabold font-boldonse text-base sm:text-lg h4-custom">Salgo Arriba</h4>
+                    <h4 className="text-[#e3e3e3] tracking-tight font-extrabold font-boldonse text-lg sm:text-xl h4-custom">Salgo Arriba</h4>
                     <p className="text-xs sm:text-sm md:text-base text-neutral-300 leading-relaxed font-datatype">Espacio para eventos, experiencias y producciones audiovisuales situado en Recoleta.</p>
                   </div>
 
-                  <div className="pt-3 border-t border-[#5c5c5c]/40 flex flex-wrap items-center justify-between gap-2 font-mono text-xs sm:text-sm font-datatype">
+                  <div className="pt-4 border-t border-[#5c5c5c]/40 flex flex-wrap items-center justify-between gap-2 font-mono text-xs sm:text-sm font-datatype">
                     <span className="text-[#f74a35] font-bold">@salgoarriba</span>
-                    <a href="https://www.salgoarriba.com" target="_blank" rel="noopener noreferrer" className="inline-block relative bg-[#181818] text-[#e6e1d5] font-mono border-2 border-[#e6e1d5] border-b-[8px] px-3 py-1.5 text-xs font-bold tracking-[0.15em] text-left hover:bg-[#e6e1d5] hover:text-neutral-900 transition-all duration-200">
+                    <a href="https://www.salgoarriba.com" target="_blank" rel="noopener noreferrer" className="inline-block relative bg-[#181818] text-[#e6e1d5] font-mono border-2 border-[#e6e1d5] border-b-[8px] px-4 py-2 text-xs font-bold tracking-[0.15em] text-left hover:bg-[#e6e1d5] hover:text-neutral-900 transition-all duration-200">
                       www.salgoarriba.com →
                     </a>
                   </div>
+
                 </div>
               </AnimateOnScroll>
-
             </div>
           </div>
         </section>

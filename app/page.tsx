@@ -2696,7 +2696,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 9. FANZINE (EN 2 COLUMNAS CON LOGO REC-05) */}
+        {/* 9. FANZINE (REESTRUCTURADO EN 2 COLUMNAS) */}
         <section id="fanzine" className="w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
@@ -2723,14 +2723,15 @@ export default function Page() {
                 {/* ESTRUCTURA EN 2 COLUMNAS */}
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
                   
-                  {/* COLUMNA 1: LOGO REC-05 */}
-                  <div className="md:col-span-4 flex items-center justify-center p-2">
+                  {/* COLUMNA 1: LOGO REC-05 DIRECTO */}
+                  <div className="md:col-span-4 flex items-center justify-center p-2 min-h-[160px]">
                     <img
                       src="/images/servicios/Radio_en_Casa_logo_REC-05.svg"
                       alt="Logo REC Fanzine"
                       className="w-full max-w-[180px] sm:max-w-[220px] h-auto object-contain filter brightness-0 invert"
                       onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).style.display = 'none';
+                        // Fallback alternativo en caso de que la imagen SVG esté en la raíz de images
+                        (e.currentTarget as HTMLImageElement).src = '/images/Radio_en_Casa_logo_REC-05.svg';
                       }}
                     />
                   </div>

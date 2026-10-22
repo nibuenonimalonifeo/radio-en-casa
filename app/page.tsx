@@ -35,6 +35,7 @@ function SubstackFanzineFeed() {
         }
       } catch (err) {
         console.warn('Error al cargar publicaciones de Substack:', err);
+      } font-datatype
       } finally {
         setLoading(false);
       }
@@ -872,6 +873,7 @@ const menuItems = [
   },
 ];
 
+// --- NÚMERO DE WHATSAPP ACTUALIZADO A +54 9 11 2899-9200 ---
 const socialMenuItems = [
   {
     label: 'Instagram',
@@ -905,7 +907,7 @@ const socialMenuItems = [
   },
   {
     label: 'WhatsApp',
-    link: 'https://wa.me/541148317132',
+    link: 'https://wa.me/5491128999200',
     hoverClass: 'hover:text-white hover:bg-[#25D366] hover:border-[#25D366]',
     icon: (
       <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
@@ -2388,7 +2390,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 6. COMUNIDAD (ALINEADA AL TOP + DESTACADO ESTILO CONTACTO + DERECHA CON TEXTO UNIFICADOR Y MEMBRESÍAS SIN "REC") */}
+        {/* 6. COMUNIDAD (TEXTO UNIFICADOR ALINEADO A LA IZQUIERDA) */}
         <section 
           id="comunidad" 
           className="w-full pt-8 sm:pt-12 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 relative bg-black text-[#e3e3e3] z-10 flex flex-col justify-start items-center transform-gpu min-h-screen overflow-hidden bg-cover bg-center bg-no-repeat"
@@ -2440,7 +2442,7 @@ export default function Page() {
               </div>
             </AnimateOnScroll>
 
-            {/* GRUPO DE MEMBRESÍAS CON TEXTO UNIFICADOR EN LA DERECHA */}
+            {/* GRUPO DE MEMBRESÍAS CON TEXTO UNIFICADOR ALINEADO A LA IZQUIERDA */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-8 sm:mt-10 md:mt-14 font-datatype items-stretch">
               
               {/* 1. IZQUIERDA: GROUPIE */}
@@ -2490,11 +2492,11 @@ export default function Page() {
                 );
               })()}
 
-              {/* 2. DERECHA: GRUPO DE 3 TARJETAS CON TEXTO UNIFICADOR */}
+              {/* 2. DERECHA: GRUPO DE 3 TARJETAS CON TEXTO UNIFICADOR ALINEADO A LA IZQUIERDA */}
               <div className="lg:col-span-9 bg-black/60 border-2 border-[#f74a35] p-3 sm:p-4 md:p-6 backdrop-blur-sm shadow-2xl relative flex flex-col justify-between space-y-4">
                 
-                {/* TEXTO UNIFICADOR SUPERIOR */}
-                <div className="w-full bg-[#121212]/90 border border-[#f74a35]/40 p-3 text-xs sm:text-sm font-datatype text-neutral-200 font-bold uppercase tracking-wider text-center">
+                {/* TEXTO UNIFICADOR SUPERIOR ALINEADO A LA IZQUIERDA */}
+                <div className="w-full bg-[#121212]/90 border border-[#f74a35]/40 p-3 text-xs sm:text-sm font-datatype text-neutral-200 font-bold uppercase tracking-wider text-left">
                   Pensados para artistas que quieran sonar en la radio, tener nuestro apoyo y nuestra difusión
                 </div>
 
@@ -2750,7 +2752,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 11. CONTACTO */}
+        {/* 11. CONTACTO (TELÉFONO Y WHATSAPP ACTUALIZADOS) */}
         <section id="contacto" className="w-full pt-0 pb-0 mb-0 bg-[#181818] text-[#ececec] relative flex flex-col justify-between overflow-hidden transform-gpu min-h-screen">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
@@ -2808,11 +2810,13 @@ export default function Page() {
               </a>
 
               <a
-                href="tel:+541148317132"
+                href="https://wa.me/5491128999200"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block group"
               >
                 <TypewriterHeadingUnificado
-                  text="(+54 11) 4831-7132"
+                  text="(+54 9 11) 2899-9200"
                   className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom cursor-pointer leading-[1.8rem] sm:leading-[4.5rem]"
                 />
               </a>

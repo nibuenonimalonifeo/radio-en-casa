@@ -2723,18 +2723,14 @@ export default function Page() {
                 {/* ESTRUCTURA EN 2 COLUMNAS */}
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
                   
-                  {/* COLUMNA 1: LOGO REC-05 DIRECTO */}
-                  <div className="md:col-span-4 flex items-center justify-center p-2 min-h-[160px]">
-                    <img
-                      src="/images/servicios/Radio_en_Casa_logo_REC-05.svg"
-                      alt="Logo REC Fanzine"
-                      className="w-full max-w-[180px] sm:max-w-[220px] h-auto object-contain filter brightness-0 invert"
-                      onError={(e) => {
-                        // Fallback alternativo en caso de que la imagen SVG esté en la raíz de images
-                        (e.currentTarget as HTMLImageElement).src = '/images/Radio_en_Casa_logo_REC-05.svg';
-                      }}
-                    />
-                  </div>
+                  {/* COLUMNA 1: LOGO REC-05 */}
+<div className="md:col-span-4 flex items-center justify-center p-2 min-h-[160px]">
+  <img
+    src="/images/servicios/Radio_en_Casa_logo_REC-05.svg"
+    alt="Logo REC Fanzine"
+    className="w-full max-w-[180px] sm:max-w-[220px] h-auto object-contain filter brightness-0 invert"
+  />
+</div>
 
                   {/* COLUMNA 2: CONTENIDO FANZINE */}
                   <div className="md:col-span-8 space-y-4 font-datatype">

@@ -2021,11 +2021,11 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 3. FILOSOFÍA (DISPOSICIÓN EN 2 COLUMNAS DE 50% CADA UNA) */}
+        {/* 3. FILOSOFÍA (SLIDER FULL HEIGHT PEGADO A LA IZQUIERDA Y AL TOP) */}
         <section
           ref={filosofiaRef}
           id="filosofia"
-          className="w-full min-h-screen relative overflow-hidden bg-[#181818] py-16 sm:py-24 px-4 sm:px-6 md:px-12 lg:px-16 flex flex-col justify-center items-center"
+          className="w-full min-h-screen relative overflow-hidden bg-[#181818] p-0 flex flex-col justify-center items-center"
         >
           <div 
             className="absolute inset-0 w-full h-full z-0 pointer-events-none opacity-40"
@@ -2039,11 +2039,11 @@ export default function Page() {
             }}
           />
 
-          <div className="w-full max-w-[1200px] mx-auto relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center my-auto">
+          <div className="w-full min-h-screen relative z-10 grid grid-cols-1 md:grid-cols-2 gap-0 items-stretch">
             
-            {/* COLUMNA IZQUIERDA: SLIDER VERTICAL DE IMÁGENES (50% ANCHO) */}
+            {/* COLUMNA IZQUIERDA: SLIDER FULL HEIGHT (PEGADO TOP Y LEFT AL ASIDE) */}
             <div
-              className={`w-full h-[70vh] min-h-[450px] bg-black overflow-hidden relative border border-white/10 shadow-2xl transition-all duration-500 ease-out transform-gpu ${
+              className={`w-full h-screen bg-black overflow-hidden relative border-r border-white/10 shadow-2xl transition-all duration-500 ease-out transform-gpu ${
                 isFilosofiaInView
                   ? 'opacity-100 translate-x-0 filter blur-0'
                   : 'opacity-0 -translate-x-12 filter blur-sm'
@@ -2071,7 +2071,7 @@ export default function Page() {
                 );
               })}
 
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-30 overflow-x-auto max-w-[90%] no-scrollbar px-3 py-1 bg-black/60 backdrop-blur-sm rounded-full border border-white/10">
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-30 overflow-x-auto max-w-[90%] no-scrollbar px-3 py-1 bg-black/60 backdrop-blur-sm rounded-full border border-white/10">
                 {philosophyImages.map((_, idx) => (
                   <button
                     key={idx}
@@ -2085,8 +2085,8 @@ export default function Page() {
               </div>
             </div>
 
-            {/* COLUMNA DERECHA: TITULAR "FILOSOFÍA" Y TEXTOS (50% ANCHO) */}
-            <div className="space-y-6 text-sm sm:text-base md:text-lg font-normal leading-relaxed text-neutral-300 font-datatype flex flex-col justify-center">
+            {/* COLUMNA DERECHA: TITULAR "FILOSOFÍA" Y TEXTOS (CON PADDING) */}
+            <div className="p-6 sm:p-10 md:p-12 lg:p-16 space-y-6 text-sm sm:text-base md:text-lg font-normal leading-relaxed text-neutral-300 font-datatype flex flex-col justify-center my-auto min-h-screen">
               
               <TypewriterHeadingUnificado
                 text="FILOSOFÍA"
@@ -2579,7 +2579,7 @@ export default function Page() {
                     />
                   </div>
 
-                  {/* BLOQUE SALGO ARRIBA */}
+                  {/* BLOQUE SALGO ARRIBA (SIN SLIDER DE IMÁGENES) */}
                   <div className="space-y-4 pt-2">
                     <div className="h-14 sm:h-16 w-auto flex items-center justify-start">
                       <img src="/images/programas/Salgo_Arriba_Logo_Radio_en_Casa.png" alt="Salgo Arriba Logo" className="max-h-full w-auto object-contain filter brightness-0 invert opacity-100" />

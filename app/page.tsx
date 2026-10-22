@@ -35,7 +35,6 @@ function SubstackFanzineFeed() {
         }
       } catch (err) {
         console.warn('Error al cargar publicaciones de Substack:', err);
-      } font-datatype
       } finally {
         setLoading(false);
       }

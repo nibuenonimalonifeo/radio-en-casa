@@ -556,6 +556,7 @@ const philosophyImages = Array.from({ length: 15 }, (_, i) => {
   return `/images/galeria/Radio_en_Casa_Galeria_${num}.jpg`;
 });
 
+// --- ELIMINADO LOGO_13.PNG DEL CARRUSEL DE CLIENTES ---
 const clientLogos = [
   '/images/clientes/logo_1.png',
   '/images/clientes/logo_2.png',
@@ -569,7 +570,6 @@ const clientLogos = [
   '/images/clientes/logo_10.png',
   '/images/clientes/logo_11.png',
   '/images/clientes/logo_12.png',
-  '/images/clientes/logo_13.png',
   '/images/clientes/logo_14.png',
   '/images/clientes/logo_15.png',
   '/images/clientes/logo_16.png',
@@ -773,7 +773,8 @@ const recognitionsData = [
   }
 ];
 
-const rawArchiveTextHTML = `<strong class="font-extrabold text-[#f74a35]">70/30</strong> · 4ta Nota · Acabar · Aguante comiquero · Al demonio con el diablo · Alfred Pennyworth Presenta · Argentina Inglaterra 1986 · Arrodillate y pedime perdón · A ser · Así pega · Batalla cultural · Beyond deadlines · Birra en casa · Boomerang 2.0 · Bruja moderna · Buen día banda · Cada una · Café con java · Café con psicoanálisis · Café fandango · Campos imaginarios · Casi Famosas · Catástrofes cotidianas · <strong class="font-extrabold text-[#f74a35]">Centro Simon Wiesenthal</strong> · Charlas en el camino · Charlas entre almas · Checa en la radio · Cine ersátil y más · <strong class="font-extrabold text-[#f74a35]">Comadre</strong> · Comedia · Cómo hacíamos sin vos · Compañero de ruta · <strong class="font-extrabold text-[#f74a35]">Concha Podcast</strong> · Con eso no se jode · Copa o gulag · Corre Forest · Corazonada · Cosa rara · Cryptomate · Debe haber algo mejor · Datamundi · Debe haber algo mejor · Demasiados libros · Detrás del algoritmo · Disneycast · Don borbotón · <strong class="font-extrabold text-[#f74a35]">Dot Hotels</strong> · Dos amigos hablando de musicales · Ecos · Efecto placebo · El amor después · El camino del héroe · El camino es hacia adentro · El Deseo de Pandora · Electrocíclicas · El fin del mundo · El Gourmet: 20 años siendo parte de tu vida · El gran podcast ilustrado · El grupo de los miércoles · <strong class="font-extrabold text-[#f74a35]">El navío azul</strong> · El pasaje · El podcast de Chequeado · El poder de NosOtras · El probador · El refugio · <strong class="font-extrabold text-[#f74a35]">Encendidas</strong> · Entre caníbales · Entre sabanas y diván · Eso que te mueve · Épico y bizarro · Es una trampa · Esto con Nat no pasaba · Euphoria: El Podcast · Expediente abierto · F5 Minds · Familia tipo · Feria americana · Familia Baredes · Filtrado · Filosa y jugosa · Filosos · Filtrado · Final del juego · Fomo · Formula Fan · Futuro abierto · Garys Road · Gatocracia · Geeky legal · Generación Y · Gente de mierd · Gorda podcast · <strong class="font-extrabold text-[#f74a35]">Gran Logia de la Argentina</strong> · Guía de supervivencia · Hablemos de música · Happening · Happy Hour · Hasta acá llegamos · Hasta la vista · #hellobaires · His Dark Materials: El Podcast · Hodor Hodor Hodor · Hotel, dulce hotel · <strong class="font-extrabold text-[#f74a35]">Hoy trasnoche</strong> · Humanos · Humanos y Robots · <strong class="font-extrabold text-[#f74a35]">Hundido</strong> · Hypeados · Inprevia · Intensos · Ir a más · Jaula de negocios · Juego interior · Juro que es Posta · Justo en el centro · La bruja y el cura · La chica de rulos · La crisis del amor · Lag mental · La gota · La hora Secretum · La papa · La podcast · La previa en casa · <strong class="font-extrabold text-[#f74a35]">La radio MAK</strong> · La runfla · La scaloneta · La trama · La vida después de · La vuelta · Lettera 22 · Libre de Gluten · Linaje de brujas · Lineas paralelas · <strong class="font-extrabold text-[#f74a35]">Locos & Bohemios</strong> · Los animales no se aburren · Los de afuera son de palo · Lucía y sus gemelas · Lupulados · Made in casa · Malas y Santas · Mas 54 radio · Más cerca del cielo · Mas rebeldes · Mega Viajeros Adventure · Mejor país del mundo · Mercurias · Misión presidencial · Modo positivo · <strong class="font-extrabold text-[#f74a35]">Mondongo, el décimo arte</strong> · Mujeres extraordinarias · Mujeres soberanas · Mujeres teníamos que ser · Multicast · Mundo Vice · Mypod · <strong class="font-extrabold text-[#f74a35]">Nerdearla</strong> · Nenes de mamá · Niños indigo · No era el plan · No es lo que parece · No hay apuro · No hay backup · No me olvidé de vos · Nos tapó el agua · <strong class="font-extrabold text-[#f74a35]">Notirey</strong> · No todo está perdido · Nunca ames a nadie · Off the record · Omitir intro · On the road · Opiniones memeticas · Pata de lana · Pausa Podcast · Pedí delivery · Pendejos madurando · Pernocte · <strong class="font-extrabold text-[#f74a35]">Pica en Punta</strong> · Pila de libros · Pip podcast · Placeres violentos · Planeta 57 · Podcast 934 · Podcast al 13013 · Podcasteros del zodíaco · Podestodo · Podkas · Polémica en /VAR · Ponele · Por un puñado de dólares · <strong class="font-extrabold text-[#f74a35]">Quemar un Patrullero</strong> · ¿Qué pasa? · Radio Guachafa · Radio La Flor · Rapidas y Furiosas · Rayuela · Realidad morosa · Remodelatour · <strong class="font-extrabold text-[#f74a35]">Rompiendo la 4ta pared</strong> · Sana · Secuencia modulada · Sendero · <strong class="font-extrabold text-[#f74a35]">Seremos Historia</strong> · Servicio Completo · Shelter · Shot de Tania · Sin barbijo · Sin dimensión · Sin filtro · <strong class="font-extrabold text-[#f74a35]">Skyvan</strong> · Soltate el pelo · Somos FE · Somos novios · Subite al pony · Sumar inversión · Swingirls · <strong class="font-extrabold text-[#f74a35]">Sys Army</strong> · Tecla cualquiera · Te cuento lo que veo · Tematizados · Territorio · Te sigo desde memento · The 8 agency · The Rebuild · Tiempo para más · Tiktalks · Todo es fake · Todo sobre la mesa · Tradición y futuro · Tradoctas · Tres pibas · Tripulación Atucha · Tu pregunta no molesta · Universo de posibilidades · Un mixtape · <strong class="font-extrabold text-[#f74a35]">Un nuevo match</strong> · UPS · Urocast · Vale 4 · Vidas paralelas · Vivir Mashiaj · Volver al cine · Wachas · Watchmen: El Podcast · <strong class="font-extrabold text-[#f74a35]">Who you are</strong> · Yonki · Y parió la abuela!`;
+// --- SE AGREGÓ "DIVORCIADAS" EN ORDEN ALFABÉTICO Y DESTACADO EN ROJO ---
+const rawArchiveTextHTML = `<strong class="font-extrabold text-[#f74a35]">70/30</strong> · 4ta Nota · Acabar · Aguante comiquero · Al demonio con el diablo · Alfred Pennyworth Presenta · Argentina Inglaterra 1986 · Arrodillate y pedime perdón · A ser · Así pega · Batalla cultural · Beyond deadlines · Birra en casa · Boomerang 2.0 · Bruja moderna · Buen día banda · Cada una · Café con java · Café con psicoanálisis · Café fandango · Campos imaginarios · Casi Famosas · Catástrofes cotidianas · <strong class="font-extrabold text-[#f74a35]">Centro Simon Wiesenthal</strong> · Charlas en el camino · Charlas entre almas · Checa en la radio · Cine ersátil y más · <strong class="font-extrabold text-[#f74a35]">Comadre</strong> · Comedia · Cómo hacíamos sin vos · Compañero de ruta · <strong class="font-extrabold text-[#f74a35]">Concha Podcast</strong> · Con eso no se jode · Copa o gulag · Corre Forest · Corazonada · Cosa rara · Cryptomate · Debe haber algo mejor · Datamundi · Debe haber algo mejor · Demasiados libros · Detrás del algoritmo · Disneycast · <strong class="font-extrabold text-[#f74a35]">Divorciadas</strong> · Don borbotón · <strong class="font-extrabold text-[#f74a35]">Dot Hotels</strong> · Dos amigos hablando de musicales · Ecos · Efecto placebo · El amor después · El camino del héroe · El camino es hacia adentro · El Deseo de Pandora · Electrocíclicas · El fin del mundo · El Gourmet: 20 años siendo parte de tu vida · El gran podcast ilustrado · El grupo de los miércoles · <strong class="font-extrabold text-[#f74a35]">El navío azul</strong> · El pasaje · El podcast de Chequeado · El poder de NosOtras · El probador · El refugio · <strong class="font-extrabold text-[#f74a35]">Encendidas</strong> · Entre caníbales · Entre sabanas y diván · Eso que te mueve · Épico y bizarro · Es una trampa · Esto con Nat no pasaba · Euphoria: El Podcast · Expediente abierto · F5 Minds · Familia tipo · Feria americana · Familia Baredes · Filtrado · Filosa y jugosa · Filosos · Filtrado · Final del juego · Fomo · Formula Fan · Futuro abierto · Garys Road · Gatocracia · Geeky legal · Generación Y · Gente de mierd · Gorda podcast · <strong class="font-extrabold text-[#f74a35]">Gran Logia de la Argentina</strong> · Guía de supervivencia · Hablemos de música · Happening · Happy Hour · Hasta acá llegamos · Hasta la vista · #hellobaires · His Dark Materials: El Podcast · Hodor Hodor Hodor · Hotel, dulce hotel · <strong class="font-extrabold text-[#f74a35]">Hoy trasnoche</strong> · Humanos · Humanos y Robots · <strong class="font-extrabold text-[#f74a35]">Hundido</strong> · Hypeados · Inprevia · Intensos · Ir a más · Jaula de negocios · Juego interior · Juro que es Posta · Justo en el centro · La bruja y el cura · La chica de rulos · La crisis del amor · Lag mental · La gota · La hora Secretum · La papa · La podcast · La previa en casa · <strong class="font-extrabold text-[#f74a35]">La radio MAK</strong> · La runfla · La scaloneta · La trama · La vida después de · La vuelta · Lettera 22 · Libre de Gluten · Linaje de brujas · Lineas paralelas · <strong class="font-extrabold text-[#f74a35]">Locos & Bohemios</strong> · Los animales no se aburren · Los de afuera son de palo · Lucía y sus gemelas · Lupulados · Made in casa · Malas y Santas · Mas 54 radio · Más cerca del cielo · Mas rebeldes · Mega Viajeros Adventure · Mejor país del mundo · Mercurias · Misión presidencial · Modo positivo · <strong class="font-extrabold text-[#f74a35]">Mondongo, el décimo arte</strong> · Mujeres extraordinarias · Mujeres soberanas · Mujeres teníamos que ser · Multicast · Mundo Vice · Mypod · <strong class="font-extrabold text-[#f74a35]">Nerdearla</strong> · Nenes de mamá · Niños indigo · No era el plan · No es lo que parece · No hay apuro · No hay backup · No me olvidé de vos · Nos tapó el agua · <strong class="font-extrabold text-[#f74a35]">Notirey</strong> · No todo está perdido · Nunca ames a nadie · Off the record · Omitir intro · On the road · Opiniones memeticas · Pata de lana · Pausa Podcast · Pedí delivery · Pendejos madurando · Pernocte · <strong class="font-extrabold text-[#f74a35]">Pica en Punta</strong> · Pila de libros · Pip podcast · Placeres violentos · Planeta 57 · Podcast 934 · Podcast al 13013 · Podcasteros del zodíaco · Podestodo · Podkas · Polémica en /VAR · Ponele · Por un puñado de dólares · <strong class="font-extrabold text-[#f74a35]">Quemar un Patrullero</strong> · ¿Qué pasa? · Radio Guachafa · Radio La Flor · Rapidas y Furiosas · Rayuela · Realidad morosa · Remodelatour · <strong class="font-extrabold text-[#f74a35]">Rompiendo la 4ta pared</strong> · Sana · Secuencia modulada · Sendero · <strong class="font-extrabold text-[#f74a35]">Seremos Historia</strong> · Servicio Completo · Shelter · Shot de Tania · Sin barbijo · Sin dimensión · Sin filtro · <strong class="font-extrabold text-[#f74a35]">Skyvan</strong> · Soltate el pelo · Somos FE · Somos novios · Subite al pony · Sumar inversión · Swingirls · <strong class="font-extrabold text-[#f74a35]">Sys Army</strong> · Tecla cualquiera · Te cuento lo que veo · Tematizados · Territorio · Te sigo desde memento · The 8 agency · The Rebuild · Tiempo para más · Tiktalks · Todo es fake · Todo sobre la mesa · Tradición y futuro · Tradoctas · Tres pibas · Tripulación Atucha · Tu pregunta no molesta · Universo de posibilidades · Un mixtape · <strong class="font-extrabold text-[#f74a35]">Un nuevo match</strong> · UPS · Urocast · Vale 4 · Vidas paralelas · Vivir Mashiaj · Volver al cine · Wachas · Watchmen: El Podcast · <strong class="font-extrabold text-[#f74a35]">Who you are</strong> · Yonki · Y parió la abuela!`;
 
 const rawBrandsTextHTML = `Ad Hoc Comunicación · Apciba · Bercomat · BNP Paribas Cardif · Bunker · Centro Simon Wiesenthal · Comiqueando · Cryptomate · Dot Hotels · Ecomm Experts · Escuela Libre de Psicoanálisis · Fundación Andreani · Fundación Cippec · Fundación Konrad Adenauer · Gran Logia de la Argentina · La Cosa Cine · La licuadora deportiva · LetterMafia · Meretz Argentina · Meridiana Comics · Milbrands · Museo Judío · Naldo · Natura · Nerdearla · Noticias en red · Open Folk · Parque podcast · Podlab · Press Over · Rayo podcasts · Revista Txtura · Sys Army · TTD Trabajadores Tango Danza · UMAI · Unplastify · XFC`;
 
@@ -2021,11 +2022,11 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 3. FILOSOFÍA (SLIDER FULL HEIGHT PEGADO A LA IZQUIERDA Y AL TOP) */}
+        {/* 3. FILOSOFÍA (SLIDER STICKY 100% ALTO A LA IZQUIERDA Y SCROLL DE TEXTO A LA DERECHA) */}
         <section
           ref={filosofiaRef}
           id="filosofia"
-          className="w-full min-h-screen relative overflow-hidden bg-[#181818] p-0 flex flex-col justify-center items-center"
+          className="w-full min-h-screen relative bg-[#181818] p-0"
         >
           <div 
             className="absolute inset-0 w-full h-full z-0 pointer-events-none opacity-40"
@@ -2039,16 +2040,10 @@ export default function Page() {
             }}
           />
 
-          <div className="w-full min-h-screen relative z-10 grid grid-cols-1 md:grid-cols-2 gap-0 items-stretch">
+          <div className="w-full min-h-screen relative z-10 grid grid-cols-1 md:grid-cols-2 gap-0 items-start">
             
-            {/* COLUMNA IZQUIERDA: SLIDER FULL HEIGHT (PEGADO TOP Y LEFT AL ASIDE) */}
-            <div
-              className={`w-full h-screen bg-black overflow-hidden relative border-r border-white/10 shadow-2xl transition-all duration-500 ease-out transform-gpu ${
-                isFilosofiaInView
-                  ? 'opacity-100 translate-x-0 filter blur-0'
-                  : 'opacity-0 -translate-x-12 filter blur-sm'
-              }`}
-            >
+            {/* COLUMNA IZQUIERDA: SLIDER STICKY 100% ALTO (PEGADO AL TOP Y AL ASIDE) */}
+            <div className="w-full h-screen sticky top-0 bg-black overflow-hidden border-r border-white/10 shadow-2xl z-20">
               {philosophyImages.map((imgUrl, idx) => {
                 const isActive = philosophySlideIndex === idx;
                 return (
@@ -2085,8 +2080,8 @@ export default function Page() {
               </div>
             </div>
 
-            {/* COLUMNA DERECHA: TITULAR "FILOSOFÍA" Y TEXTOS (CON PADDING) */}
-            <div className="p-6 sm:p-10 md:p-12 lg:p-16 space-y-6 text-sm sm:text-base md:text-lg font-normal leading-relaxed text-neutral-300 font-datatype flex flex-col justify-center my-auto min-h-screen">
+            {/* COLUMNA DERECHA: TEXTO SCROLLABLE HASTA COMPLETARSE */}
+            <div className="p-6 sm:p-10 md:p-12 lg:p-16 space-y-6 text-sm sm:text-base md:text-lg font-normal leading-relaxed text-neutral-300 font-datatype flex flex-col justify-center py-16 sm:py-24 min-h-screen">
               
               <TypewriterHeadingUnificado
                 text="FILOSOFÍA"
@@ -2246,8 +2241,8 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 5. ARCHIVO */}
-        <section ref={archivoRef} id="archivo" className="w-full min-h-screen relative p-0 m-0 bg-[#181818] text-[#e3e3e3]">
+        {/* 5. ARCHIVO (REORDENADO: 1. TITULAR, 2. TEXTO, 3. LOGOS, 4. CONTENIDO) */}
+        <section ref={archivoRef} id="archivo" className="w-full min-h-screen relative p-0 m-0 bg-[#181818] text-[#e3e3e3] py-16 sm:py-24">
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
             <div 
               className="absolute inset-0 w-full h-[140%] z-0 opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
@@ -2267,15 +2262,27 @@ export default function Page() {
             />
           </div>
 
-          <div 
-            className="w-full font-datatype sticky top-0 z-40 pt-4 pb-2 bg-transparent pointer-events-auto"
-            style={{
-              position: 'sticky',
-              top: 0,
-              zIndex: 40,
-            }}
-          >
-            <div className="w-full max-w-[1100px] mx-auto px-4 md:px-0">
+          <div className="relative z-10 w-full max-w-[1100px] mx-auto px-4 md:px-0 space-y-8 sm:space-y-12">
+            
+            {/* 1. TITULAR Y 2. TEXTO */}
+            <div className="space-y-3 sm:space-y-4 w-full font-datatype">
+              <ScrollFadeText delay={100}>
+                <TypewriterHeadingUnificado
+                  text="ARCHIVO"
+                  className="text-[1.5rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider font-boldonse text-[#e3e3e3] h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
+                />
+              </ScrollFadeText>
+              <ScrollFadeText delay={200}>
+                <p className="font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed font-medium">
+                  <span className="bg-black/85 text-[#e3e3e3] px-2.5 py-1 rounded-none [box-decoration-break:clone] [-webkit-box-decoration-break:clone] font-datatype">
+                    Durante más de diez años trabajamos junto a proyectos independientes, empresas, organizaciones y comunidades que encontraron en Radio en Casa un espacio para desarrollar sus contenidos.
+                  </span>
+                </p>
+              </ScrollFadeText>
+            </div>
+
+            {/* 3. MÓDULO DE CARRUSEL DE LOGOS */}
+            <div className="w-full font-datatype">
               <div className="relative bg-[#1e1e1e]/95 p-3 sm:p-4 md:p-5 rounded-none border border-[#5c5c5c]/60 shadow-2xl w-full font-datatype">
                 <div className="bg-[#141414] border border-neutral-800 rounded-none p-4 sm:p-5 md:p-6 overflow-hidden relative shadow-inner w-full">
                   <div className="animate-scroll-infinite flex items-center space-x-8 sm:space-x-12 md:space-x-16">
@@ -2283,7 +2290,7 @@ export default function Page() {
                       <div key={idx} className="h-10 sm:h-12 md:h-14 w-28 sm:w-32 md:w-36 flex items-center justify-center flex-shrink-0">
                         <img
                           src={src}
-                          alt={`Cliente ${(idx % 17) + 1}`}
+                          alt={`Cliente ${(idx % 16) + 1}`}
                           className="max-h-full max-w-full object-contain filter brightness-0 invert opacity-100"
                           onError={(e) => {
                             (e.currentTarget as HTMLImageElement).style.display = 'none';
@@ -2304,25 +2311,8 @@ export default function Page() {
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="relative z-10 w-full min-h-screen pt-4 pb-16 px-4 md:px-0 box-sizing-border max-w-[1100px] mx-auto space-y-8 sm:space-y-12">
-            <div className="space-y-3 sm:space-y-4 w-full relative z-10 font-datatype pt-4">
-              <ScrollFadeText delay={100}>
-                <TypewriterHeadingUnificado
-                  text="ARCHIVO"
-                  className="text-[1.5rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider font-boldonse text-[#e3e3e3] h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
-                />
-              </ScrollFadeText>
-              <ScrollFadeText delay={200}>
-                <p className="font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed font-medium">
-                  <span className="bg-black/85 text-[#e3e3e3] px-2.5 py-1 rounded-none [box-decoration-break:clone] [-webkit-box-decoration-break:clone] font-datatype">
-                    Durante más de diez años trabajamos junto a proyectos independientes, empresas, organizaciones y comunidades que encontraron en Radio en Casa un espacio para desarrollar sus contenidos.
-                  </span>
-                </p>
-              </ScrollFadeText>
-            </div>
-
+            {/* 4. RESTO DEL CONTENIDO */}
             <div className="w-full relative z-10">
               <ScrollFadeText delay={220}>
                 <div className="bg-black/85 backdrop-blur-md border border-[#5c5c5c]/40 p-5 sm:p-8 md:p-10 shadow-2xl rounded-none space-y-4 font-datatype w-full text-neutral-200">
@@ -2399,10 +2389,10 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 6. COMUNIDAD */}
+        {/* 6. COMUNIDAD (ALINEADO AL TOP + LOGO REC EN EL TITULAR) */}
         <section 
           id="comunidad" 
-          className="w-full pt-28 sm:pt-48 md:pt-56 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 relative bg-black text-[#e3e3e3] z-10 flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden bg-cover bg-center bg-no-repeat"
+          className="w-full pt-8 sm:pt-12 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 relative bg-black text-[#e3e3e3] z-10 flex flex-col justify-start items-center transform-gpu min-h-screen overflow-hidden bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `url('/images/historia/Radio_en_Casa_Background_Historia_01.png')`,
           }}
@@ -2412,13 +2402,28 @@ export default function Page() {
           <div className="w-full max-w-[1100px] mx-auto space-y-6 sm:space-y-8 relative z-10 px-0 sm:px-4 md:px-0">
             <AnimateOnScroll duration={600} offset={25}>
               <div className="bg-black/85 backdrop-blur-md p-5 sm:p-8 md:p-10 rounded-none border border-[#5c5c5c]/40 shadow-2xl space-y-4 font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed">
-                <TypewriterHeadingUnificado
-                  text="FORMÁ PARTE DE RADIO EN CASA"
-                  className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold text-[#e3e3e3] font-boldonse tracking-tight relative h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
-                />
+                
+                {/* TITULAR "COMUNIDAD" CON LOGO RADIO EN CASA A LA DERECHA */}
+                <div className="flex items-center justify-between gap-4 border-b border-[#5c5c5c]/40 pb-4">
+                  <TypewriterHeadingUnificado
+                    text="COMUNIDAD"
+                    className="text-[1.5rem] sm:text-[2rem] md:text-[2.5rem] lg:text-[3.25rem] font-extrabold text-[#e3e3e3] font-boldonse tracking-tight relative h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
+                  />
+                  <img
+                    src="/images/Radio_en_Casa_logo_REC.svg"
+                    alt="Logo Radio en Casa REC"
+                    className="h-10 sm:h-12 md:h-16 w-auto object-contain filter brightness-0 invert flex-shrink-0"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).style.display = 'none';
+                    }}
+                  />
+                </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-16 pt-2 sm:pt-4">
                   <div className="space-y-3 font-datatype">
+                    <p className="text-[#e3e3e3] font-bold text-base sm:text-lg border-l-4 border-[#f74a35] pl-3 py-1 font-datatype">
+                      FORMÁ PARTE DE RADIO EN CASA
+                    </p>
                     <p>En 2016 empezamos haciendo radio desde una casa. Hoy seguimos creyendo en la misma idea: crear un espacio libre para la música, las historias y las personas que tienen algo para decir.</p>
                     <p>Si alguna vez una canción, un programa, una charla o una historia nacida en Radio en Casa formó parte de tu vida, hoy podés ayudarnos a que este proyecto siga creciendo y llegue cada vez más lejos.</p>
                   </div>
@@ -2672,7 +2677,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 10. STORE */}
+        {/* 10. STORE (BOTÓN CON ESTILO VISUAL DE COMUNIDAD) */}
         <section
           ref={storeRef}
           id="store"
@@ -2716,8 +2721,14 @@ export default function Page() {
                   </div>
                 </div>
 
+                {/* BOTÓN CON ESTILO VISUAL DE LAS CARDS DE COMUNIDAD */}
                 <div className="pt-2 sm:pt-4 flex justify-start font-datatype">
-                  <a href="https://radioencasa.mitiendanube.com/" target="_blank" rel="noopener noreferrer" className="inline-block relative bg-[#181818] text-[#e6e1d5] font-mono border-2 border-[#181818] border-b-[8px] sm:border-b-[12px] px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-bold tracking-[0.2em] text-left hover:bg-[#f74a35] hover:text-white hover:border-[#f74a35] transition-all duration-200 font-datatype">
+                  <a 
+                    href="https://radioencasa.mitiendanube.com/" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="inline-block relative bg-[#181818] text-[#e6e1d5] font-mono border-2 border-[#181818] border-b-[8px] sm:border-b-[12px] px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-bold tracking-[0.2em] text-left hover:bg-[#e6e1d5] hover:text-neutral-900 transition-all duration-200 font-datatype uppercase"
+                  >
                     Ir a la tienda →
                   </a>
                 </div>

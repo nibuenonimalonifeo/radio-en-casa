@@ -576,7 +576,7 @@ const clientLogos = [
   '/images/clientes/logo_17.png',
 ];
 
-// --- DATOS DE HISTORIA ACTUALIZADOS ---
+// --- DATOS DE HISTORIA ---
 const historyCardsData = [
   {
     id: '01',
@@ -2021,11 +2021,11 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 3. FILOSOFÍA */}
+        {/* 3. FILOSOFÍA (DISPOSICIÓN EN 2 COLUMNAS DE 50% CADA UNA) */}
         <section
           ref={filosofiaRef}
           id="filosofia"
-          className="w-full min-h-screen relative overflow-hidden bg-[#181818] pt-0 pb-20 sm:pb-24 flex flex-col justify-between items-center"
+          className="w-full min-h-screen relative overflow-hidden bg-[#181818] py-16 sm:py-24 px-4 sm:px-6 md:px-12 lg:px-16 flex flex-col justify-center items-center"
         >
           <div 
             className="absolute inset-0 w-full h-full z-0 pointer-events-none opacity-40"
@@ -2039,135 +2039,122 @@ export default function Page() {
             }}
           />
 
-          <div
-            className={`w-full max-w-full relative left-0 right-0 top-0 mx-auto h-[35vh] sm:h-[45vh] min-h-[260px] sm:min-h-[320px] mb-8 bg-black overflow-hidden transition-all duration-500 ease-out transform-gpu z-10 ${
-              isFilosofiaInView
-                ? 'opacity-100 translate-x-0 skew-x-0 filter hue-rotate-0 blur-0'
-                : 'opacity-0 -translate-x-12 skew-x-12 filter hue-rotate-90 blur-sm mix-blend-screen'
-            }`}
-          >
-            {philosophyImages.map((imgUrl, idx) => {
-              const isActive = philosophySlideIndex === idx;
-              return (
-                <div
-                  key={idx}
-                  className={`absolute inset-0 w-full h-full transition-all duration-1000 ease-in-out transform group ${
-                    isActive ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-105 z-0'
-                  }`}
-                >
-                  <img
-                    src={imgUrl}
-                    alt={`Galería Radio en Casa ${idx + 1}`}
-                    className="w-full h-full object-cover object-top transition-all duration-500 ease-out hover:contrast-200 hover:brightness-125 hover:grayscale hover:hue-rotate-180 hover:[image-rendering:pixelated]"
-                    onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).src = philosophyImages[0];
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-black/80 group-hover:bg-transparent transition-colors duration-300" />
-                </div>
-              );
-            })}
+          <div className="w-full max-w-[1200px] mx-auto relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center my-auto">
+            
+            {/* COLUMNA IZQUIERDA: SLIDER VERTICAL DE IMÁGENES (50% ANCHO) */}
+            <div
+              className={`w-full h-[70vh] min-h-[450px] bg-black overflow-hidden relative border border-white/10 shadow-2xl transition-all duration-500 ease-out transform-gpu ${
+                isFilosofiaInView
+                  ? 'opacity-100 translate-x-0 filter blur-0'
+                  : 'opacity-0 -translate-x-12 filter blur-sm'
+              }`}
+            >
+              {philosophyImages.map((imgUrl, idx) => {
+                const isActive = philosophySlideIndex === idx;
+                return (
+                  <div
+                    key={idx}
+                    className={`absolute inset-0 w-full h-full transition-all duration-1000 ease-in-out transform group ${
+                      isActive ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-105 z-0'
+                    }`}
+                  >
+                    <img
+                      src={imgUrl}
+                      alt={`Galería Radio en Casa ${idx + 1}`}
+                      className="w-full h-full object-cover object-center transition-all duration-500 ease-out hover:contrast-200 hover:brightness-125 hover:grayscale"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).src = philosophyImages[0];
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70 group-hover:bg-transparent transition-colors duration-300" />
+                  </div>
+                );
+              })}
 
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 z-30 overflow-x-auto max-w-[90vw] no-scrollbar px-4 py-1">
-              {philosophyImages.map((_, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setPhilosophySlideIndex(idx)}
-                  className={`h-2.5 rounded-full transition-all cursor-pointer flex-shrink-0 ${
-                    philosophySlideIndex === idx ? 'bg-[#f74a35] w-6' : 'bg-[#e3e3e3]/60 hover:bg-[#e3e3e3] w-2.5'
-                  }`}
-                  aria-label={`Ir a la imagen ${idx + 1}`}
-                />
-              ))}
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-30 overflow-x-auto max-w-[90%] no-scrollbar px-3 py-1 bg-black/60 backdrop-blur-sm rounded-full border border-white/10">
+                {philosophyImages.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setPhilosophySlideIndex(idx)}
+                    className={`h-2 rounded-full transition-all cursor-pointer flex-shrink-0 ${
+                      philosophySlideIndex === idx ? 'bg-[#f74a35] w-5' : 'bg-[#e3e3e3]/50 hover:bg-[#e3e3e3] w-2'
+                    }`}
+                    aria-label={`Ir a la imagen ${idx + 1}`}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
 
-          <div className="w-full px-4 sm:px-6 md:px-12 lg:px-16 relative z-10 flex-1 flex items-center">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start w-full max-w-[1200px] mx-auto relative">
-              <div className="self-start z-10">
-                <div 
-                  className="w-full transition-transform duration-100 ease-out"
-                  style={{
-                    transform: `translateY(${historiaParallaxOffset * -60}px)`,
-                  }}
-                >
-                  <TypewriterHeadingUnificado
-                    text="FILOSOFÍA"
-                    className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold text-[#e3e3e3] font-boldonse tracking-tight relative h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
-                  />
+            {/* COLUMNA DERECHA: TITULAR "FILOSOFÍA" Y TEXTOS (50% ANCHO) */}
+            <div className="space-y-6 text-sm sm:text-base md:text-lg font-normal leading-relaxed text-neutral-300 font-datatype flex flex-col justify-center">
+              
+              <TypewriterHeadingUnificado
+                text="FILOSOFÍA"
+                className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold text-[#e3e3e3] font-boldonse tracking-tight relative h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
+              />
+
+              <ScrollFadeText delay={100}>
+                <p className="text-[#e3e3e3] font-bold text-base sm:text-lg border-l-4 border-[#f74a35] pl-4 py-3 my-0 bg-[#121212]/95 backdrop-blur-md border border-[#5c5c5c]/40 rounded-none font-datatype shadow-2xl">
+                  ESTAMOS EN UN PH ANTIGUO RECICLADO EN PALERMO, BUENOS AIRES, ARGENTINA
+                </p>
+              </ScrollFadeText>
+
+              <ScrollFadeText delay={150}>
+                <p className="text-neutral-200">
+                  Un espacio con historia que transformamos para crear algo nuevo, y eso es parte de lo que nos define.
+                </p>
+              </ScrollFadeText>
+
+              <ScrollFadeText delay={200}>
+                <p>Construimos Radio en Casa a partir de una combinación que nos representa: la historia, el profesionalismo y la mística de la radio tradicional, junto con las nuevas herramientas y formatos que siguen transformando la comunicación.</p>
+              </ScrollFadeText>
+
+              <ScrollFadeText delay={300}>
+                <p>Algunos le dicen podcast. Otros prefieren hablar de streaming. Para los más nostálgicos, seguirá siendo radio.</p>
+              </ScrollFadeText>
+
+              <ScrollFadeText delay={400}>
+                <p className="text-sm sm:text-base md:text-lg font-bold text-[#e3e3e3] font-datatype">
+                  Para nosotros, son distintas formas de una misma necesidad: encontrarnos para contar algo.
+                </p>
+              </ScrollFadeText>
+
+              <ScrollFadeText delay={500}>
+                <p>Rompimos la cabina y abrimos el espacio porque creemos que las ideas necesitan lugar para crecer. Nos llenamos de micrófonos porque creemos en la diversidad de voces. Y sumamos cámaras porque entendemos que hoy las historias también se ven.</p>
+              </ScrollFadeText>
+
+              <ScrollFadeText delay={600}>
+                <p>Nos gusta estar a la vanguardia, pero no queremos ser una moda.</p>
+              </ScrollFadeText>
+
+              <ScrollFadeText delay={700}>
+                <p>Exploramos formatos nuevos, pero buscamos que tengan sentido, identidad y permanencia. No queremos llegar a cualquiera: queremos conectar con las personas adecuadas.</p>
+              </ScrollFadeText>
+
+              <ScrollFadeText delay={800}>
+                <p className="text-sm sm:text-base md:text-lg font-datatype text-[#f74a35] font-bold">
+                  Si sentís que tenés algo para contar,{' '}
+                  <button
+                    onClick={() => scrollToSection('contacto')}
+                    className="group inline-relative inline-flex flex-col cursor-pointer bg-transparent border-none p-0 m-0 text-left align-baseline"
+                  >
+                    <span className="text-[#e3e3e3] transition-colors duration-300 group-hover:text-[#f74a35] hover:underline">
+                      golpeanos la puerta.
+                    </span>
+                  </button>
+                </p>
+              </ScrollFadeText>
+
+              <ScrollFadeText delay={900}>
+                <div className="mt-4 bg-[#121212]/95 backdrop-blur-md border-2 border-[#f74a35] p-4 shadow-2xl rounded-none">
+                  <p className="text-base sm:text-lg md:text-xl font-bold uppercase tracking-wider text-[#e3e3e3] font-boldonse leading-snug">
+                    En Radio en Casa seguimos cambiando la forma de hacer radio.
+                  </p>
                 </div>
-              </div>
-
-              <div className="space-y-6 text-sm sm:text-base md:text-lg font-normal leading-relaxed text-neutral-300 font-datatype pt-2 sm:pt-4 md:pt-6">
-                <div 
-                  className="w-full space-y-6 transition-transform duration-100 ease-out"
-                  style={{
-                    transform: `translateY(${historiaParallaxOffset * 60}px)`,
-                  }}
-                >
-                  <ScrollFadeText delay={100}>
-                    <p className="text-[#e3e3e3] font-bold text-base sm:text-lg md:text-xl border-l-4 border-[#f74a35] pl-4 py-3 sm:py-4 my-0 bg-[#121212]/95 backdrop-blur-md border border-[#5c5c5c]/40 rounded-none font-datatype shadow-2xl">
-                      ESTAMOS EN UN PH ANTIGUO RECICLADO EN PALERMO, BUENOS AIRES, ARGENTINA
-                    </p>
-                  </ScrollFadeText>
-
-                  <ScrollFadeText delay={150}>
-                    <p className="text-neutral-200">
-                      Un espacio con historia que transformamos para crear algo nuevo, y eso es parte de lo que nos define.
-                    </p>
-                  </ScrollFadeText>
-
-                  <ScrollFadeText delay={200}>
-                    <p>Construimos Radio en Casa a partir de una combinación que nos representa: la historia, el profesionalismo y la mística de la radio tradicional, junto con las nuevas herramientas y formatos que siguen transformando la comunicación.</p>
-                  </ScrollFadeText>
-
-                  <ScrollFadeText delay={300}>
-                    <p>Algunos le dicen podcast. Otros prefieren hablar de streaming. Para los más nostálgicos, seguirá siendo radio.</p>
-                  </ScrollFadeText>
-
-                  <ScrollFadeText delay={400}>
-                    <p className="text-sm sm:text-base md:text-lg font-bold text-[#e3e3e3] font-datatype">
-                      Para nosotros, son distintas formas de una misma necesidad: encontrarnos para contar algo.
-                    </p>
-                  </ScrollFadeText>
-
-                  <ScrollFadeText delay={500}>
-                    <p>Rompimos la cabina y abrimos el espacio porque creemos que las ideas necesitan lugar para crecer. Nos llenamos de micrófonos porque creemos en la diversidad de voices. Y sumamos cámaras porque entendemos que hoy las historias también se ven.</p>
-                  </ScrollFadeText>
-
-                  <ScrollFadeText delay={600}>
-                    <p>Nos gusta estar a la vanguardia, pero no queremos ser una moda.</p>
-                  </ScrollFadeText>
-
-                  <ScrollFadeText delay={700}>
-                    <p>Exploramos formatos nuevos, pero buscamos que tengan sentido, identidad y permanencia. No queremos llegar a cualquiera: queremos conectar con las personas adecuadas.</p>
-                  </ScrollFadeText>
-
-                  <ScrollFadeText delay={800}>
-                    <p className="text-sm sm:text-base md:text-lg font-datatype text-[#f74a35] font-bold">
-                      Si sentís que tenés algo para contar,{' '}
-                      <button
-                        onClick={() => scrollToSection('contacto')}
-                        className="group inline-relative inline-flex flex-col cursor-pointer bg-transparent border-none p-0 m-0 text-left align-baseline"
-                      >
-                        <span className="text-[#e3e3e3] transition-colors duration-300 group-hover:text-[#f74a35] hover:underline">
-                          golpeanos la puerta.
-                        </span>
-                      </button>
-                    </p>
-                  </ScrollFadeText>
-
-                  <ScrollFadeText delay={900}>
-                    <div className="mt-6 bg-[#121212]/95 backdrop-blur-md border-2 border-[#f74a35] p-4 sm:p-5 shadow-2xl rounded-none">
-                      <p className="text-lg sm:text-xl md:text-2xl font-bold uppercase tracking-wider text-[#e3e3e3] font-boldonse leading-snug">
-                        En Radio en Casa seguimos cambiando la forma de hacer radio.
-                      </p>
-                    </div>
-                  </ScrollFadeText>
-                </div>
-              </div>
+              </ScrollFadeText>
 
             </div>
+
           </div>
         </section>
 
@@ -2592,7 +2579,7 @@ export default function Page() {
                     />
                   </div>
 
-                  {/* BLOQUE SALGO ARRIBA (SIN SLIDER DE IMÁGENES) */}
+                  {/* BLOQUE SALGO ARRIBA */}
                   <div className="space-y-4 pt-2">
                     <div className="h-14 sm:h-16 w-auto flex items-center justify-start">
                       <img src="/images/programas/Salgo_Arriba_Logo_Radio_en_Casa.png" alt="Salgo Arriba Logo" className="max-h-full w-auto object-contain filter brightness-0 invert opacity-100" />

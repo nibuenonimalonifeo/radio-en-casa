@@ -576,6 +576,7 @@ const clientLogos = [
   '/images/clientes/logo_17.png',
 ];
 
+// --- DATOS DE HISTORIA ACTUALIZADOS ---
 const historyCardsData = [
   {
     id: '01',
@@ -614,17 +615,24 @@ const historyCardsData = [
   },
   {
     id: '06',
-    year: '2021—2024',
+    year: '2021',
     title: 'Expansión',
     img: '/images/programas/Radio_en_Casa_historia_02_Concha_Podcast_Konex.jpg',
     desc: 'En el 2021 realizamos nuestra primera producción internacional al trabajar con Sonoro, la red de podcast en español número uno del mundo y realizamos nuestras primeras coberturas audiovisuales en exteriores al participar de los Shows de Concha Podcast en Ciudad Cultural Konex (2021) y en el Teatro Margarita Xirgu (2023).',
   },
   {
     id: '07',
-    year: '2025—',
+    year: '2025',
     title: 'Evolución',
     img: '/images/programas/Salgo_Arriba_Logo_Radio_en_Casa.png',
     desc: 'En el 2025 abrimos un segundo espacio llamado “Salgo Arriba” pensado para seguir construyendo comunidad con la realización de eventos en vivo, siempre con la idea de continuar innovando y brindando mayor cantidad de servicios a las personas que confían en nosotros para desarrollar sus producciones.',
+  },
+  {
+    id: '08',
+    year: '2026',
+    title: 'Redefinición',
+    img: '/images/home/Radio_en_Casa_Galeria_Home_03.jpg',
+    desc: 'En 2026, revitalizamos nuestro espacio y le dimos una nueva impronta, redefiniendo nuestra identidad visual.',
   },
 ];
 

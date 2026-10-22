@@ -2209,7 +2209,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 4. SERVICIOS (ACORDEÓN HORIZONTAL DESPLEGABLE CON RESUMEN Y TEXTO COMPLETO) */}
+        {/* 4. SERVICIOS (ACORDEÓN HORIZONTAL DESPLEGABLE) */}
         <section ref={serviciosRef} id="servicios" className="w-full min-h-screen relative flex flex-col justify-center items-center transform-gpu overflow-hidden p-0 m-0 bg-[#181818]">
           <div 
             className="absolute inset-0 w-full h-full z-0 pointer-events-none opacity-40"
@@ -2285,12 +2285,12 @@ export default function Page() {
                         </div>
                       </div>
 
-                      {/* INDICADOR INFERIOR */}
+                      {/* INDICADOR INFERIOR SOLO CON SIMBOLOS + Y - MÁS GRANDES */}
                       <div className="pt-4 flex items-center justify-end">
-                        <span className={`text-[10px] uppercase tracking-widest font-bold font-datatype transition-opacity duration-300 ${
-                          isActive ? 'text-[#f74a35] opacity-100' : 'text-neutral-500 opacity-60'
+                        <span className={`text-lg sm:text-xl font-black font-datatype leading-none transition-all duration-300 ${
+                          isActive ? 'text-[#f74a35] scale-110' : 'text-neutral-400 hover:text-white'
                         }`}>
-                          {isActive ? 'Cerrar [-]' : 'Saber más [+]'}
+                          {isActive ? '-' : '+'}
                         </span>
                       </div>
                     </div>

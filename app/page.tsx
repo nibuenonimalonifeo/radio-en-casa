@@ -5,6 +5,46 @@ import Script from 'next/script';
 import AnimatedLogo from '@/components/AnimatedLogo';
 import IframePlayer from '@/components/IframePlayer';
 
+// --- COMPONENTE AUXILIAR CON PLACEHOLDER REC EN CARGA DE IMÁGENES ---
+
+function ImageWithPlaceholder({
+  src,
+  alt,
+  className = '',
+  onError,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  onError?: (e: React.SyntheticEvent<HTMLImageElement, Event>) => void;
+}) {
+  const [loaded, setLoaded] = useState(false);
+
+  return (
+    <div className="relative w-full h-full overflow-hidden bg-[#121212]">
+      {!loaded && (
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#141414] border border-white/5 animate-pulse p-4">
+          <img
+            src="/images/servicios/Radio_en_Casa_logo_REC-04.svg"
+            alt="Cargando..."
+            className="w-12 h-12 opacity-30 object-contain animate-spin"
+            style={{ animationDuration: '3s' }}
+          />
+        </div>
+      )}
+      <img
+        src={src}
+        alt={alt}
+        onLoad={() => setLoaded(true)}
+        onError={onError}
+        className={`${className} transition-opacity duration-500 ${
+          loaded ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
+    </div>
+  );
+}
+
 // --- INTERFAZ COMPLETA PARA POSTS DE SUBSTACK ---
 
 interface SubstackPost {
@@ -71,7 +111,7 @@ function SubstackFanzineFeed() {
             >
               {post.cover_image ? (
                 <div className="w-full h-40 overflow-hidden bg-black/60 relative">
-                  <img
+                  <ImageWithPlaceholder
                     src={post.cover_image}
                     alt={post.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
@@ -79,7 +119,7 @@ function SubstackFanzineFeed() {
                       (e.currentTarget as HTMLImageElement).style.display = 'none';
                     }}
                   />
-                  <div className="absolute top-2 right-2 bg-black/80 text-[#f74a35] text-[9px] font-bold px-2 py-0.5 rounded-none uppercase border border-[#f74a35]/40 font-datatype">
+                  <div className="absolute top-2 right-2 bg-black/80 text-[#f74a35] text-[9px] font-bold px-2 py-0.5 rounded-none uppercase border border-[#f74a35]/40 font-datatype z-20">
                     {new Date(post.post_date).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' })}
                   </div>
                 </div>
@@ -383,7 +423,7 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
 
               {card.img && isCenter ? (
                 <div className="w-full h-36 sm:h-44 my-3 sm:my-4 overflow-hidden rounded-none bg-neutral-950/90 border border-black/30 flex-shrink-0 shadow-inner p-1">
-                  <img
+                  <ImageWithPlaceholder
                     src={card.img}
                     alt={`Hito ${card.year}`}
                     className="w-full h-full object-cover rounded-none"
@@ -996,6 +1036,8 @@ export default function Page() {
       const nextState = !prev;
       if (nextState) {
         setIsOpenPlayer(false);
+      } else {
+        setIsOpenChat(true);
       }
       return nextState;
     });
@@ -1238,11 +1280,20 @@ export default function Page() {
     };
   }, []);
 
+  // 5. NAVEGACIÓN A CONTACTO CON SCROLL COMPLETO HASTA EL FINAL DE LA PÁGINA
   const scrollToSection = (id: string) => {
     setHasScrolled(true);
     if (id === 'home') {
       setActiveSection('home');
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (id === 'contacto') {
+      setActiveSection('contacto');
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: 'smooth',
+      });
       return;
     }
     const section = document.getElementById(id);
@@ -1807,7 +1858,7 @@ export default function Page() {
                       isActive ? 'opacity-100 z-0' : 'opacity-0 pointer-events-none z-0'
                     }`}
                   >
-                    <img
+                    <ImageWithPlaceholder
                       src={imgUrl}
                       alt={`Radio en Casa Home ${idx + 1}`}
                       className={`w-full h-full object-cover filter brightness-50 contrast-110 object-center ${
@@ -1843,7 +1894,7 @@ export default function Page() {
                       isActive ? 'opacity-100 z-0' : 'opacity-0 pointer-events-none z-0'
                     }`}
                   >
-                    <img
+                    <ImageWithPlaceholder
                       src={imgUrl}
                       alt={`Radio en Casa Home ${idx + 1}`}
                       className={`w-full h-full object-cover filter brightness-75 contrast-110 object-center ${
@@ -2053,7 +2104,7 @@ export default function Page() {
                       isActive ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-105 z-0'
                     }`}
                   >
-                    <img
+                    <ImageWithPlaceholder
                       src={imgUrl}
                       alt={`Galería Radio en Casa ${idx + 1}`}
                       className="w-full h-full object-cover object-center transition-all duration-500 ease-out hover:contrast-200 hover:brightness-125 hover:grayscale"
@@ -2220,7 +2271,7 @@ export default function Page() {
 
                 <ScrollFadeText delay={200}>
                   <p>
-                    No alquilamos solamente un estudio. Abrimos una casa con más de diez años de experiencia creando contenidos, acompañando proyectos y formando parte de la evolución de la radio, el podcast y el streaming en Argentina. Ponemos a disposición un estudio profesional, cómodo y completamente equipado para realizar programas de radio, podcasts y streaming.
+                    No alquilamos solamente un estudio. Abrimos una casa con más de diez años de experiencia creando contenidos, acompañando proyectos y forming parte de la evolución de la radio, el podcast y el streaming en Argentina. Ponemos a disposición un estudio profesional, cómodo y completamente equipado para realizar programas de radio, podcasts y streaming.
                   </p>
                 </ScrollFadeText>
 
@@ -2241,7 +2292,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 5. ARCHIVO (REORDENADO + SIN LOGO_13 + DIVORCIADAS AGREGADO) */}
+        {/* 5. ARCHIVO */}
         <section ref={archivoRef} id="archivo" className="w-full min-h-screen relative p-0 m-0 bg-[#181818] text-[#e3e3e3] py-16 sm:py-24">
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
             <div 
@@ -2288,7 +2339,7 @@ export default function Page() {
                   <div className="animate-scroll-infinite flex items-center space-x-8 sm:space-x-12 md:space-x-16">
                     {[...clientLogos, ...clientLogos].map((src, idx) => (
                       <div key={idx} className="h-10 sm:h-12 md:h-14 w-28 sm:w-32 md:w-36 flex items-center justify-center flex-shrink-0">
-                        <img
+                        <ImageWithPlaceholder
                           src={src}
                           alt={`Cliente ${(idx % 16) + 1}`}
                           className="max-h-full max-w-full object-contain filter brightness-0 invert opacity-100"
@@ -2389,7 +2440,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 6. COMUNIDAD (TEXTO UNIFICADOR ALINEADO A LA IZQUIERDA) */}
+        {/* 6. COMUNIDAD (1. FONDO OSCURO EN CAJAS INDIVIDUALES COMO HOME) */}
         <section 
           id="comunidad" 
           className="w-full pt-8 sm:pt-12 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 relative bg-black text-[#e3e3e3] z-10 flex flex-col justify-start items-center transform-gpu min-h-screen overflow-hidden bg-cover bg-center bg-no-repeat"
@@ -2401,9 +2452,9 @@ export default function Page() {
 
           <div className="w-full max-w-[1100px] mx-auto space-y-6 sm:space-y-8 relative z-10 px-0 sm:px-4 md:px-0">
             <AnimateOnScroll duration={600} offset={25}>
-              <div className="bg-black/85 backdrop-blur-md p-5 sm:p-8 md:p-10 rounded-none border border-[#5c5c5c]/40 shadow-2xl space-y-4 font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed">
+              <div className="bg-[#181818]/90 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-none border border-[#5c5c5c]/60 shadow-2xl space-y-4 font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed">
                 
-                {/* TITULAR "COMUNIDAD" CON LOGO Y SIN LÍNEA DIVISORIA */}
+                {/* TITULAR "COMUNIDAD" CON LOGO */}
                 <div className="flex items-center justify-between gap-4 pb-2">
                   <TypewriterHeadingUnificado
                     text="COMUNIDAD"
@@ -2550,7 +2601,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 7. ALIANZAS (ANCHO TOTAL max-w-[1100px] SIN SLIDER DE IMÁGENES) */}
+        {/* 7. ALIANZAS */}
         <section id="alianzas" className="w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
@@ -2582,7 +2633,6 @@ export default function Page() {
               </div>
             </AnimateOnScroll>
 
-            {/* UNIFICADO A ANCHO COMPLETO max-w-[1100px] SIN SLIDER */}
             <div className="w-full font-datatype">
               <AnimateOnScroll delay={200} duration={700} offset={45}>
                 <div className="bg-[#1e1e1e]/90 backdrop-blur-md border border-[#5c5c5c]/60 p-5 sm:p-8 shadow-xl flex flex-col space-y-6 hover:border-[#f74a35] transition-colors duration-300 font-datatype rounded-none">
@@ -2601,7 +2651,7 @@ export default function Page() {
                   {/* BLOQUE SALGO ARRIBA */}
                   <div className="space-y-4 pt-2">
                     <div className="h-14 sm:h-16 w-auto flex items-center justify-start">
-                      <img src="/images/programas/Salgo_Arriba_Logo_Radio_en_Casa.png" alt="Salgo Arriba Logo" className="max-h-full w-auto object-contain filter brightness-0 invert opacity-100" />
+                      <ImageWithPlaceholder src="/images/programas/Salgo_Arriba_Logo_Radio_en_Casa.png" alt="Salgo Arriba Logo" className="max-h-full w-auto object-contain filter brightness-0 invert opacity-100" />
                     </div>
 
                     <h4 className="text-[#e3e3e3] tracking-tight font-extrabold font-boldonse text-lg sm:text-xl h4-custom">Salgo Arriba</h4>
@@ -2646,7 +2696,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 9. FANZINE */}
+        {/* 9. FANZINE (EN 2 COLUMNAS CON LOGO REC-05) */}
         <section id="fanzine" className="w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
@@ -2668,20 +2718,45 @@ export default function Page() {
 
           <div className="w-full max-w-[1100px] mx-auto px-0 sm:px-4 md:px-0 space-y-6 sm:space-y-8 relative z-10">
             <AnimateOnScroll duration={750} offset={35}>
-              <div className="w-full bg-[#1e1e1e]/90 backdrop-blur-md p-5 sm:p-8 border border-[#5c5c5c]/60 shadow-xl space-y-4 font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed rounded-none">
-                <TypewriterHeadingUnificado
-                  text="NO TODO LO QUE PASA EN RADIO EN CASA ENTRA EN UN PROGRAMA O UN PODCAST"
-                  className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] font-boldonse h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
-                />
+              <div className="w-full bg-[#1e1e1e]/90 backdrop-blur-md p-6 sm:p-8 md:p-10 border border-[#5c5c5c]/60 shadow-xl font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed rounded-none">
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-16 pt-2 font-datatype">
-                  <div className="space-y-3 font-datatype">
-                    <p className="text-neutral-300">Este es nuestro tablero de anuncios, diario de viaje y cartelera comunitaria. Un lugar donde compartimos novedades, recomendaciones, lanzamientos, convocatorias y todo aquello que creemos que vale la pena descubrir.</p>
+                {/* ESTRUCTURA EN 2 COLUMNAS */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
+                  
+                  {/* COLUMNA 1: LOGO REC-05 */}
+                  <div className="md:col-span-4 flex items-center justify-center p-2">
+                    <img
+                      src="/images/servicios/Radio_en_Casa_logo_REC-05.svg"
+                      alt="Logo REC Fanzine"
+                      className="w-full max-w-[180px] sm:max-w-[220px] h-auto object-contain filter brightness-0 invert"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
                   </div>
-                  <div className="space-y-3 font-datatype">
-                    <p className="text-[#f74a35] font-bold border-t border-[#5c5c5c]/60 pt-3 font-datatype">Porque una comunidad no se construye solamente grabando contenidos. También se construye compartiendo lo que nos entusiasma.</p>
+
+                  {/* COLUMNA 2: CONTENIDO FANZINE */}
+                  <div className="md:col-span-8 space-y-4 font-datatype">
+                    <TypewriterHeadingUnificado
+                      text="FANZINE"
+                      className="text-[1.5rem] sm:text-[2rem] md:text-[2.5rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] font-boldonse h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
+                    />
+                    
+                    <p className="text-[#e3e3e3] font-bold text-base sm:text-lg border-l-4 border-[#f74a35] pl-4 py-2 my-0 bg-[#121212]/80 font-datatype leading-snug shadow-xl">
+                      NO TODO LO QUE PASA EN RADIO EN CASA ENTRA EN UN PROGRAMA O UN PODCAST_
+                    </p>
+
+                    <p className="text-neutral-300 font-datatype">
+                      Este es nuestro tablero de anuncios, diario de viaje y cartelera comunitaria. Un lugar donde compartimos novedades, recomendaciones, lanzamientos, convocatorias y todo aquello que creemos que vale la pena descubrir.
+                    </p>
+
+                    <p className="text-[#f74a35] font-bold border-t border-[#5c5c5c]/60 pt-3 font-datatype">
+                      Porque una comunidad no se construye solamente grabando contenidos. También se construye compartiendo lo que nos entusiasma.
+                    </p>
                   </div>
+
                 </div>
+
               </div>
             </AnimateOnScroll>
 
@@ -2691,7 +2766,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 10. STORE (BOTÓN CON ESTILO VISUAL DE COMUNIDAD) */}
+        {/* 10. STORE (3. BOTÓN CON OUTLINE TRANSPARENTE Y RELLENO ROJO EN HOVER + 4. DESTACADO A LA DERECHA) */}
         <section
           ref={storeRef}
           id="store"
@@ -2703,7 +2778,7 @@ export default function Page() {
           <div className="w-full relative left-0 right-0 top-0 mb-0 overflow-hidden z-10 py-0">
             <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 md:px-12 lg:px-0">
               <div className="w-full h-[32vh] sm:h-[48vh] min-h-[220px] sm:min-h-[320px] overflow-hidden bg-transparent border border-white/10 shadow-lg rounded-none">
-                <img
+                <ImageWithPlaceholder
                   src="/images/tienda/Radio_en_Casa_Header.png"
                   alt="Radio en Casa Store Header"
                   className="w-full h-full object-cover object-center filter brightness-90 contrast-105"
@@ -2724,24 +2799,29 @@ export default function Page() {
                 />
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-16 pt-2 font-datatype">
+                  
+                  {/* COLUMNA IZQUIERDA */}
+                  <div className="space-y-3 font-datatype">
+                    <p className="text-neutral-800 font-datatype">En esta tienda vas a encontrar productos diseñados para quienes forman parte de nuestra comunidad: desde merchandising hasta ediciones especiales y objetos creados junto a artistas y proyectos amigos.</p>
+                  </div>
+
+                  {/* COLUMNA DERECHA CON EL DESTACADO "LA MEJOR MANERA DE LLEVARTE..." */}
                   <div className="space-y-3 font-datatype">
                     <p className="text-[#f74a35] font-bold text-base sm:text-lg border-l-4 border-[#f74a35] pl-3 py-1 font-datatype">
                       LA MEJOR MANERA DE LLEVARTE UN PEDACITO DE RADIO EN CASA
                     </p>
-                    <p className="text-neutral-800 font-datatype">En esta tienda vas a encontrar productos diseñados para quienes forman parte de nuestra comunidad: desde merchandising hasta ediciones especiales y objetos creados junto a artistas y proyectos amigos.</p>
-                  </div>
-                  <div className="space-y-3 font-datatype">
                     <p className="text-[#f74a35] font-semibold font-datatype">Porque algunas historias también se pueden llevar puestas.</p>
                   </div>
+
                 </div>
 
-                {/* BOTÓN CON ESTILO VISUAL DE LAS CARDS DE COMUNIDAD */}
+                {/* BOTÓN CON OUTLINE TRANSPARENTE Y RELLENO ROJO EN HOVER */}
                 <div className="pt-2 sm:pt-4 flex justify-start font-datatype">
                   <a 
                     href="https://radioencasa.mitiendanube.com/" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="block w-full sm:w-auto relative bg-[#181818] text-[#e6e1d5] font-mono border-2 border-[#181818] border-b-[8px] sm:border-b-[12px] px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-bold tracking-[0.2em] text-left hover:bg-[#e6e1d5] hover:text-neutral-900 transition-all duration-200 font-datatype uppercase"
+                    className="block w-full sm:w-auto relative bg-transparent text-[#181818] font-mono border-2 border-[#f74a35] border-b-[8px] sm:border-b-[12px] px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-bold tracking-[0.2em] text-left hover:bg-[#f74a35] hover:text-white transition-all duration-200 font-datatype uppercase shadow-md"
                   >
                     <span className="block uppercase">Ir a la tienda →</span>
                   </a>
@@ -2751,7 +2831,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 11. CONTACTO (TELÉFONO Y WHATSAPP ACTUALIZADOS) */}
+        {/* 11. CONTACTO */}
         <section id="contacto" className="w-full pt-0 pb-0 mb-0 bg-[#181818] text-[#ececec] relative flex flex-col justify-between overflow-hidden transform-gpu min-h-screen">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"

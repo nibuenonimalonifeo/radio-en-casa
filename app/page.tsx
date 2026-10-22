@@ -1222,7 +1222,7 @@ export default function Page() {
   const [cityName, setCityName] = useState<string>('CARGANDO...');
 
   // ESTADO PARA TOGGLES HORIZONTALES EN SERVICIOS
-  const [activeServiceId, setActiveServiceId] = useState<string | null>('radio');
+  const [activeServiceId, setActiveServiceId] = useState<string | null>(null);
 
   useEffect(() => {
     const homeInterval = setInterval(() => {

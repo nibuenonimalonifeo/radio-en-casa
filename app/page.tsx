@@ -23,15 +23,15 @@ function ImageWithPlaceholder({
   return (
     <div className="relative w-full h-full overflow-hidden bg-[#121212]">
       {!loaded && (
-  <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#141414] border border-white/5 animate-pulse p-4">
-    <img
-      src="/images/servicios/Radio_en_Casa_logo_REC-04.svg"
-      alt="Cargando..."
-      className="w-12 h-12 opacity-40 object-contain animate-spin filter invert brightness-[0.95]"
-      style={{ animationDuration: '3s' }}
-    />
-  </div>
-)}
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#141414] border border-white/5 animate-pulse p-4">
+          <img
+            src="/images/servicios/Radio_en_Casa_logo_REC-04.svg"
+            alt="Cargando..."
+            className="w-12 h-12 opacity-40 object-contain animate-spin filter invert brightness-[0.95]"
+            style={{ animationDuration: '3s' }}
+          />
+        </div>
+      )}
       <img
         src={src}
         alt={alt}
@@ -675,30 +675,35 @@ const historyCardsData = [
   },
 ];
 
+// --- DATOS DE SERVICIOS CON TEXTO RESUMIDO Y COMPLETO ---
 const servicesQuadrants = [
   {
     id: 'radio',
     label: 'RADIO',
     borderColor: '#f74a35',
-    fullText: 'Un formato para quienes, como nosotros, creen que la radio nunca va a morir. Fue la forma en la que empezamos en 2016 y sigue siendo parte de nuestra identidad. Por eso seguimos ofreciendo la posibilidad de crear programas de radio transmitidos en vivo a través de nuestra web, desde donde también difundimos artistas que forman parte de nuestra comunidad. A diferencia de los medios tradicionales, la transmisión online permite que tu contenido pueda escucharse desde cualquier lugar del mundo. Además, formamos parte de plataformas como TuneIn y RadioCut.',
+    shortText: 'Un formato para quienes, como nosotros, creen que la radio nunca va a morir...',
+    fullText: 'Fue la forma en la que empezamos en 2016 y sigue siendo parte de nuestra identidad. Por eso seguimos ofreciendo la posibilidad de crear programas de radio transmitidos en vivo a través de nuestra web, desde donde también difundimos artistas que forman parte de nuestra comunidad. A diferencia de los medios tradicionales, la transmisión online permite que tu contenido pueda escucharse desde cualquier lugar del mundo. Además, formamos parte de plataformas como TuneIn y RadioCut.',
   },
   {
     id: 'podcast',
     label: 'PODCAST',
     borderColor: '#ff7700',
-    fullText: 'El podcast es probablemente el formato donde más recorrido tenemos. Durante varios años fuimos el estudio elegido por Posta, participando del crecimiento de una industria que recién comenzaba a desarrollarse y grabando en 2019 los primeros contenidos originales de Spotify producidos en nuestro país. Acompañamos proyectos independientes como Concha Podcast y Quemar un Patrullero. Realizamos podcasts en formato audio y video, ofreciendo grabación, edición y diseño sonoro.',
+    shortText: 'El podcast es probablemente el formato donde más recorrido tenemos...',
+    fullText: 'Durante varios años fuimos el estudio elegido por Posta, participando del crecimiento de una industria que recién comenzaba a desarrollarse y grabando en 2019 los primeros contenidos originales de Spotify producidos en nuestro país. Acompañamos proyectos independientes como Concha Podcast y Quemar un Patrullero. Realizamos podcasts en formato audio y video, ofreciendo grabación, edición y diseño sonoro.',
   },
   {
     id: 'streaming',
     label: 'STREAMING',
     borderColor: '#ffcc00',
-    fullText: 'El streaming puede parecer un formato nuevo, pero para nosotros empezó antes. En 2018 realizamos nuestras primeras transmisiones audiovisuales en vivo, cuando este formato todavía no tenía la dimensión que alcanzaría años después. Producimos streamings para canales propios o plataformas como YouTube, Twitch, Facebook, X e Instagram. Trabajamos con un sistema multicámara Full HD 1920x1080, switcher profesional y cámaras inalámbricas.',
+    shortText: 'El streaming puede parecer un formato nuevo, pero para nosotros empezó antes...',
+    fullText: 'En 2018 realizamos nuestras primeras transmisiones audiovisuales en vivo, cuando este formato todavía no tenía la dimensión que alcanzaría años después. Producimos streamings para canales propios o plataformas como YouTube, Twitch, Facebook, X e Instagram. Trabajamos con un sistema multicámara Full HD 1920x1080, switcher profesional y cámaras inalámbricas.',
   },
   {
     id: 'outdoor',
     label: 'OUTDOOR',
     borderColor: '#215164',
-    fullText: 'Así llamamos a todo aquello que hacemos fuera del estudio. Llevamos nuestra experiencia, tecnología y manera de hacer contenidos a nuevos escenarios. Realizamos coberturas, transmisiones y registros audiovisuales en eventos, teatros, festivales y locaciones privadas. Ideal para entrevistas en exteriores o formatos presenciales. A lo largo de los años realizamos producciones en Ciudad Cultural Konex, Teatro Margarita Xirgu y nuestro espacio Salgo Arriba.',
+    shortText: 'Así llamamos a todo aquello que hacemos fuera del estudio...',
+    fullText: 'Llevamos nuestra experiencia, tecnología y manera de hacer contenidos a nuevos escenarios. Realizamos coberturas, transmisiones y registros audiovisuales en eventos, teatros, festivales y locaciones privadas. Ideal para entrevistas en exteriores o formatos presenciales. A lo largo de los años realizamos producciones en Ciudad Cultural Konex, Teatro Margarita Xirgu y nuestro espacio Salgo Arriba.',
   },
 ];
 
@@ -2204,7 +2209,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 4. SERVICIOS */}
+        {/* 4. SERVICIOS (ACORDEÓN HORIZONTAL DESPLEGABLE CON RESUMEN Y TEXTO COMPLETO) */}
         <section ref={serviciosRef} id="servicios" className="w-full min-h-screen relative flex flex-col justify-center items-center transform-gpu overflow-hidden p-0 m-0 bg-[#181818]">
           <div 
             className="absolute inset-0 w-full h-full z-0 pointer-events-none opacity-40"
@@ -2226,42 +2231,74 @@ export default function Page() {
                 className="text-[1.5rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold text-[#e3e3e3] font-boldonse tracking-tight relative h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
               />
 
-              {/* MÓDULO HORIZONTAL DE 4 UNIDADES DE SERVICIO */}
-              <div className="w-full grid grid-cols-1 md:grid-cols-4 gap-4 items-stretch font-datatype">
+              {/* MÓDULO HORIZONTAL DESPLEGABLE HACIA LOS LADOS */}
+              <div className="w-full flex flex-col md:flex-row gap-4 items-stretch font-datatype min-h-[320px] transition-all duration-500">
                 {servicesQuadrants.map((service) => {
                   const isActive = activeServiceId === service.id;
                   return (
                     <div
                       key={service.id}
                       onClick={() => setActiveServiceId(isActive ? null : service.id)}
-                      className={`cursor-pointer transition-all duration-500 ease-out bg-[#141414] p-5 border-2 shadow-2xl flex flex-col justify-between font-datatype relative overflow-hidden ${
-                        isActive ? 'scale-105 z-20 bg-[#1a1a1a]' : 'opacity-85 hover:opacity-100 hover:scale-[1.02]'
+                      className={`cursor-pointer transition-all duration-500 ease-in-out bg-[#141414] p-5 border-2 shadow-2xl flex flex-col justify-between font-datatype relative overflow-hidden rounded-none ${
+                        isActive
+                          ? 'md:flex-[3.5] bg-[#1a1a1a] z-20'
+                          : 'md:flex-1 opacity-85 hover:opacity-100 hover:bg-[#181818]'
                       }`}
                       style={{ borderColor: service.borderColor }}
                     >
-                      <div className="flex items-center justify-between border-b pb-3 mb-3 border-white/10">
-                        <h3 
-                          className="font-boldonse text-xl sm:text-2xl font-black uppercase tracking-wider"
-                          style={{ color: service.borderColor }}
-                        >
-                          {service.label}
-                        </h3>
-                        <span className="text-xs font-bold text-neutral-400">
-                          {isActive ? '◀' : '▶'}
-                        </span>
+                      <div>
+                        {/* CABECERA CON ÍCONO DE APERTURA */}
+                        <div className="flex items-center justify-between border-b pb-3 mb-3 border-white/10">
+                          <h3 
+                            className="font-boldonse text-xl sm:text-2xl font-black uppercase tracking-wider"
+                            style={{ color: service.borderColor }}
+                          >
+                            {service.label}
+                          </h3>
+                          <span 
+                            className={`text-xs font-bold text-neutral-400 transition-transform duration-300 ${
+                              isActive ? 'rotate-180 text-white' : 'rotate-0'
+                            }`}
+                          >
+                            ►
+                          </span>
+                        </div>
+
+                        {/* CONTENIDO DEL TOGGLE */}
+                        <div className="space-y-3 font-datatype">
+                          <p className={`text-xs sm:text-sm md:text-base font-bold transition-colors duration-300 ${
+                            isActive ? 'text-[#e3e3e3]' : 'text-neutral-400'
+                          }`}>
+                            {service.shortText}
+                          </p>
+
+                          {/* TEXTO COMPLETO QUE APARECE SOLO AL ABRIR */}
+                          <div className={`grid transition-all duration-500 ease-in-out ${
+                            isActive ? 'grid-rows-[1fr] opacity-100 pt-2' : 'grid-rows-[0fr] opacity-0 pointer-events-none'
+                          }`}>
+                            <div className="overflow-hidden">
+                              <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-datatype border-t border-white/10 pt-3">
+                                {service.fullText}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
                       </div>
 
-                      <div className={`transition-all duration-300 font-datatype ${isActive ? 'block' : 'hidden md:block'}`}>
-                        <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-datatype">
-                          {service.fullText}
-                        </p>
+                      {/* INDICADOR INFERIOR */}
+                      <div className="pt-4 flex items-center justify-end">
+                        <span className={`text-[10px] uppercase tracking-widest font-bold font-datatype transition-opacity duration-300 ${
+                          isActive ? 'text-[#f74a35] opacity-100' : 'text-neutral-500 opacity-60'
+                        }`}>
+                          {isActive ? 'Cerrar [-]' : 'Saber más [+]'}
+                        </span>
                       </div>
                     </div>
                   );
                 })}
               </div>
 
-              {/* BLOQUE DESCRIPTIVO MOVIDO ABAJO DE LOS TOGGLES */}
+              {/* BLOQUE DESCRIPTIVO INFERIOR */}
               <div className="w-full space-y-4 font-datatype text-xs sm:text-sm md:text-base leading-relaxed text-neutral-200 border-t border-white/10 pt-6">
                 <ScrollFadeText delay={100}>
                   <p>
@@ -2271,7 +2308,7 @@ export default function Page() {
 
                 <ScrollFadeText delay={200}>
                   <p>
-                    No alquilamos solamente un estudio. Abrimos una casa con más de diez años de experiencia creando contenidos, acompañando proyectos y forming parte de la evolución de la radio, el podcast y el streaming en Argentina. Ponemos a disposición un estudio profesional, cómodo y completamente equipado para realizar programas de radio, podcasts y streaming.
+                    No alquilamos solamente un estudio. Abrimos una casa con más de diez años de experiencia creando contenidos, acompañando proyectos y formando parte de la evolución de la radio, el podcast y el streaming en Argentina. Ponemos a disposición un estudio profesional, cómodo y completamente equipado para realizar programas de radio, podcasts y streaming.
                   </p>
                 </ScrollFadeText>
 
@@ -2440,7 +2477,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 6. COMUNIDAD (1. FONDO OSCURO EN CAJAS INDIVIDUALES COMO HOME) */}
+        {/* 6. COMUNIDAD */}
         <section 
           id="comunidad" 
           className="w-full pt-8 sm:pt-12 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 relative bg-black text-[#e3e3e3] z-10 flex flex-col justify-start items-center transform-gpu min-h-screen overflow-hidden bg-cover bg-center bg-no-repeat"
@@ -2724,13 +2761,13 @@ export default function Page() {
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
                   
                   {/* COLUMNA 1: LOGO REC-05 */}
-<div className="md:col-span-4 flex items-center justify-center p-2 min-h-[160px]">
-  <img
-    src="/images/servicios/Radio_en_Casa_logo_REC-05.svg"
-    alt="Logo REC Fanzine"
-    className="w-full max-w-[180px] sm:max-w-[220px] h-auto object-contain filter invert brightness-[0.95]"
-  />
-</div>
+                  <div className="md:col-span-4 flex items-center justify-center p-2 min-h-[160px]">
+                    <img
+                      src="/images/servicios/Radio_en_Casa_logo_REC-05.svg"
+                      alt="Logo REC Fanzine"
+                      className="w-full max-w-[180px] sm:max-w-[220px] h-auto object-contain filter invert brightness-[0.95]"
+                    />
+                  </div>
 
                   {/* COLUMNA 2: CONTENIDO FANZINE */}
                   <div className="md:col-span-8 space-y-4 font-datatype">
@@ -2763,7 +2800,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 10. STORE (3. BOTÓN CON OUTLINE TRANSPARENTE Y RELLENO ROJO EN HOVER + 4. DESTACADO A LA DERECHA) */}
+        {/* 10. STORE */}
         <section
           ref={storeRef}
           id="store"

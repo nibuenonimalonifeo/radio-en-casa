@@ -1583,8 +1583,8 @@ export default function Page() {
         crossOrigin="anonymous"
       />
 
-      {/* BARRA DE SCROLL ROJA */}
-      <div className="fixed top-0 right-0 lg:right-0 w-[20px] h-full z-[30] pointer-events-none overflow-hidden">
+      {/* BARRA DE SCROLL ROJA (ANCHO REDUCIDO A 10PX EN MOBILE Y 20PX EN DESKTOP) */}
+      <div className="fixed top-0 right-0 lg:right-0 w-[10px] sm:w-[20px] h-full z-[30] pointer-events-none overflow-hidden">
         <div
           className="w-full bg-[#f74a35] transition-all duration-150 ease-out shadow-sm"
           style={{ height: `${scrollProgress * 100}%` }}

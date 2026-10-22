@@ -617,7 +617,7 @@ const historyCardsData = [
     id: '06',
     year: '2021',
     title: 'Expansión',
-    img: '/images/programas/Radio_en_Casa_historia_02_Concha_Podcast_Konex.jpg',
+    img: '/images/historia/Sonoro_Logo.png',
     desc: 'En el 2021 realizamos nuestra primera producción internacional al trabajar con Sonoro, la red de podcast en español número uno del mundo y realizamos nuestras primeras coberturas audiovisuales en exteriores al participar de los Shows de Concha Podcast en Ciudad Cultural Konex (2021) y en el Teatro Margarita Xirgu (2023).',
   },
   {

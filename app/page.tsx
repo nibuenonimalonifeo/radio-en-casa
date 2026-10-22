@@ -631,7 +631,7 @@ const historyCardsData = [
     id: '08',
     year: '2026',
     title: 'Redefinición',
-    img: '/images/home/Radio_en_Casa_Galeria_Home_03.jpg',
+    img: '/images/tienda/Radio_en_Casa_Header_03.png',
     desc: 'En 2026, revitalizamos nuestro espacio y le dimos una nueva impronta, redefiniendo nuestra identidad visual.',
   },
 ];
@@ -1921,11 +1921,11 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 2. HISTORIA (TÍTULO: NACIMOS EN 2016) */}
+        {/* 2. HISTORIA (CENTRADA VERTICALMENTE EN PANTALLA) */}
         <section
           ref={historiaRef}
           id="historia"
-          className="w-full min-h-screen pt-28 sm:pt-36 md:pt-56 lg:pt-64 pb-20 sm:pb-28 px-4 sm:px-6 md:px-12 lg:px-0 relative text-[#e3e3e3] flex flex-col justify-center items-center transform-gpu overflow-hidden bg-cover bg-center bg-no-repeat scroll-mt-0"
+          className="w-full min-h-screen py-16 sm:py-24 px-4 sm:px-6 md:px-12 lg:px-0 relative text-[#e3e3e3] flex flex-col justify-center items-center transform-gpu overflow-hidden bg-cover bg-center bg-no-repeat scroll-mt-0"
           style={{
             backgroundImage: `url('/images/historia/Radio_en_Casa_Background_Historia_01.png')`,
           }}
@@ -2132,7 +2132,7 @@ export default function Page() {
                   </ScrollFadeText>
 
                   <ScrollFadeText delay={500}>
-                    <p>Rompimos la cabina y abrimos el espacio porque creemos que las ideas necesitan lugar para crecer. Nos llenamos de micrófonos porque creemos en la diversidad de voces. Y sumamos cámaras porque entendemos que hoy las historias también se ven.</p>
+                    <p>Rompimos la cabina y abrimos el espacio porque creemos que las ideas necesitan lugar para crecer. Nos llenamos de micrófonos porque creemos en la diversidad de voices. Y sumamos cámaras porque entendemos que hoy las historias también se ven.</p>
                   </ScrollFadeText>
 
                   <ScrollFadeText delay={600}>

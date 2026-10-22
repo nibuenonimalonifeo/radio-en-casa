@@ -75,7 +75,7 @@ function SubstackFanzineFeed() {
         }
       } catch (err) {
         console.warn('Error al cargar publicaciones de Substack:', err);
-      } font-datatype {
+      } finally {
         setLoading(false);
       }
     }
@@ -999,9 +999,9 @@ export default function Page() {
 
   const [activeMembership, setActiveMembership] = useState<string | null>(null);
 
-  // PLAYER ABIERTO POR DEFECTO Y CHAT CERRADO INICIALMENTE
+  // PLAYER Y CHAT ABIERTOS
   const [isOpenPlayer, setIsOpenPlayer] = useState<boolean>(true);
-  const [isOpenChat, setIsOpenChat] = useState<boolean>(false);
+  const [isOpenChat, setIsOpenChat] = useState<boolean>(true);
 
   const [nowPlayingText, setNowPlayingText] = useState<string>('Radio en Casa - En Vivo');
 
@@ -1026,30 +1026,12 @@ export default function Page() {
   }, []);
 
   const handleTogglePlayer = () => {
-    setIsOpenPlayer((prev) => {
-      const nextState = !prev;
-      if (nextState) {
-        setIsOpenChat(false);
-      } else {
-        setIsOpenChat(true);
-      }
-      return nextState;
-    });
+    setIsOpenPlayer((prev) => !prev);
   };
 
   const handleToggleChat = () => {
-    setIsOpenChat((prev) => {
-      const nextState = !prev;
-      if (nextState) {
-        setIsOpenPlayer(false);
-      } else {
-        setIsOpenChat(true);
-      }
-      return nextState;
-    });
+    setIsOpenChat((prev) => !prev);
   };
-
-  const isChatVisible = isOpenChat || !isOpenPlayer;
 
   const [isMiniPlaying, setIsMiniPlaying] = useState<boolean>(false);
   const [miniVolume, setMiniVolume] = useState<number>(80);
@@ -1711,7 +1693,7 @@ export default function Page() {
         </div>
       </nav>
 
-      {/* 2. SIDEBAR SECUNDARIA / DECK DE CONTENIDOS (EXCLUSIVA DE DESKTOP) */}
+      {/* 2. SIDEBAR SECUNDARIA / DECK DE CONTENIDOS (EXCLUSIVA DE DESKTOP) CON SCROLL INTERNO QUE MANTIENE EL CHAT SIEMPRE VISIBLE */}
       <aside 
         className={`fixed top-0 left-[88px] w-[332px] h-screen border-r border-[#333] shadow-2xl z-[60] flex flex-col font-datatype overflow-hidden bg-cover bg-center bg-no-repeat transition-all duration-300 hidden lg:flex ${
           isHeroIntroComplete 
@@ -1829,9 +1811,9 @@ export default function Page() {
             </div>
           </div>
 
-          {/* MÓDULO 3: CHAT EN VIVO ("CHAT — EN VIVO") */}
+          {/* MÓDULO 3: CHAT EN VIVO (PERMANECE VISIBLE) */}
           <div 
-            className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-2xl p-2.5 border border-white/10 shadow-2xl flex flex-col font-datatype flex-1 min-h-0 ${
+            className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-2xl p-2.5 border border-white/10 shadow-2xl flex flex-col font-datatype flex-shrink-0 min-h-[440px] ${
               isHeroIntroComplete ? 'animate-slide-bottom-ease' : 'opacity-0'
             }`}
             style={{ animationDelay: '1250ms' }}
@@ -1848,7 +1830,7 @@ export default function Page() {
               </div>
 
               <div className="absolute top-3.5 right-3.5 flex items-center justify-center flex-shrink-0 z-20 pointer-events-none">
-                <span className={`inline-block transition-transform duration-300 ${isChatVisible ? 'rotate-180' : 'rotate-0'}`}>
+                <span className={`inline-block transition-transform duration-300 ${isOpenChat ? 'rotate-180' : 'rotate-0'}`}>
                   <svg width="10" height="10" viewBox="0 0 10 10" className="fill-[#f74a35]" style={{ shapeRendering: 'crispEdges' }}>
                     <path d="M0 2H10V4H8V6H6V8H4V6H2V4H0V2Z" />
                   </svg>
@@ -1856,11 +1838,11 @@ export default function Page() {
               </div>
             </button>
 
-            <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden w-full origin-top ${
-              isChatVisible ? 'grid-rows-[1fr] opacity-100 pt-1 scale-y-100' : 'grid-rows-[0fr] opacity-0 pt-0 scale-y-0 -translate-y-2'
+            <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden w-full origin-top flex-1 ${
+              isOpenChat ? 'grid-rows-[1fr] opacity-100 pt-1 scale-y-100' : 'grid-rows-[0fr] opacity-0 pt-0 scale-y-0 -translate-y-2'
             }`}>
               <div className="overflow-hidden w-full h-full flex flex-col">
-                <div className="overflow-hidden flex flex-col h-full min-h-[440px] w-full bg-black rounded-xl border border-white/10 flex-1">
+                <div className="overflow-hidden flex flex-col h-full min-h-[380px] w-full bg-black rounded-xl border border-white/10 flex-1">
                   <TlkioChat />
                 </div>
               </div>

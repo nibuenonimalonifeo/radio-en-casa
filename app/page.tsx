@@ -75,7 +75,7 @@ function SubstackFanzineFeed() {
         }
       } catch (err) {
         console.warn('Error al cargar publicaciones de Substack:', err);
-      } finally {
+      } font-datatype {
         setLoading(false);
       }
     }
@@ -963,6 +963,7 @@ const socialMenuItems = [
 
 export default function Page() {
   const [activeSection, setActiveSection] = useState<string>('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
@@ -1608,21 +1609,69 @@ export default function Page() {
         />
       </div>
 
-      {/* 1. BARRA LATERAL (NAV DOCK DE ÍCONOS - ALIANZAS Y CONTACTO) */}
+      {/* 1. NAVEGACIÓN MÓVIL (LOGO FLOTANTE A LA IZQUIERDA + MENÚ HAMBURGUESA) Y DESKTOP DOCK */}
+      {/* BOTÓN FLOTANTE LOGO IZQUIERDA (SOLO MÓVIL) */}
+      <div 
+        onClick={() => scrollToSection('home')}
+        className="fixed top-3 left-3 z-[9999] lg:hidden w-11 h-11 bg-[#f74a35] rounded-full flex items-center justify-center animate-pulse shadow-[0_0_22px_rgba(247,74,53,0.95)] p-2 cursor-pointer transition-transform duration-200 active:scale-95"
+        title="Volver arriba"
+      >
+        <img src="/icon.svg" alt="Logo Radio en Casa" className="w-full h-full object-contain filter drop-shadow" />
+      </div>
+
+      {/* BOTÓN MÓVIL HAMBURGUESA (DERECHA) */}
+      <button
+        onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+        className="fixed top-3 right-3 z-[9999] lg:hidden w-11 h-11 bg-[#0e0e0e] border border-[#262626] rounded-full flex flex-col items-center justify-center gap-1.5 cursor-pointer shadow-2xl p-2.5"
+        aria-label="Abrir Menú"
+      >
+        <span className={`w-5 h-0.5 bg-[#e3e3e3] transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+        <span className={`w-5 h-0.5 bg-[#e3e3e3] transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`} />
+        <span className={`w-5 h-0.5 bg-[#e3e3e3] transition-transform duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+      </button>
+
+      {/* DESPLEGABLE DEL MENÚ HAMBURGUESA (SOLO MÓVIL) */}
+      <div 
+        className={`fixed inset-0 bg-[#0e0e0e]/98 backdrop-blur-xl z-[9990] lg:hidden flex flex-col items-center justify-center px-6 py-20 transition-all duration-500 ease-in-out font-datatype ${
+          isMobileMenuOpen ? 'opacity-100 pointer-events-auto translate-y-0' : 'opacity-0 pointer-events-none -translate-y-6'
+        }`}
+      >
+        <div className="w-full max-w-[320px] flex flex-col items-stretch gap-3 overflow-y-auto max-h-[75vh]">
+          {menuItems.map((item) => {
+            const isActive = activeSection === item.id;
+            return (
+              <button
+                key={item.id}
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  scrollToSection(item.id);
+                }}
+                className={`w-full flex items-center justify-between px-5 py-3.5 border transition-all duration-300 font-bold uppercase tracking-wider text-sm ${
+                  isActive
+                    ? 'bg-[#f74a35] text-white border-[#f74a35] shadow-[0_0_15px_rgba(247,74,53,0.6)]'
+                    : 'bg-[#141414] text-neutral-300 border-white/10 hover:border-[#f74a35] hover:text-white'
+                }`}
+              >
+                <span className="font-datatype">{item.label}</span>
+                <span className="text-[#f74a35]">→</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* NAV DOCK DE ÍCONOS (EXCLUSIVO DESKTOP) */}
       <nav
-        className={`fixed top-0 right-0 lg:right-auto lg:left-0 w-[70px] sm:w-[88px] h-screen bg-[#0e0e0e] border-l lg:border-l-0 lg:border-r border-[#262626] z-[9999] flex flex-col items-center justify-between py-4 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`fixed top-0 left-0 w-[88px] h-screen bg-[#0e0e0e] border-r border-[#262626] z-[9999] hidden lg:flex flex-col items-center justify-between py-4 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isHeroIntroComplete 
-            ? 'flex opacity-100 translate-x-0' 
-            : 'flex lg:opacity-0 lg:-translate-x-full opacity-100 translate-x-0'
+            ? 'opacity-100 translate-x-0' 
+            : 'opacity-0 -translate-x-full'
         }`}
       >
         <div className="w-full flex items-center justify-center border-b border-[#222222] pb-3">
           <div 
             onClick={() => scrollToSection('home')}
-            className={`w-10 h-10 sm:w-11 sm:h-11 aspect-square bg-[#f74a35] hover:bg-[#f74a35] rounded-full flex items-center justify-center animate-pulse shadow-[0_0_22px_rgba(247,74,53,0.95)] p-2 cursor-pointer transition-transform duration-200 hover:scale-110 active:scale-95 ${
-              isHeroIntroComplete ? 'animate-bounce-icon' : 'lg:opacity-0 opacity-100'
-            }`}
-            style={{ animationDelay: '100ms' }}
+            className="w-11 h-11 aspect-square bg-[#f74a35] hover:bg-[#f74a35] rounded-full flex items-center justify-center animate-pulse shadow-[0_0_22px_rgba(247,74,53,0.95)] p-2 cursor-pointer transition-transform duration-200 hover:scale-110 active:scale-95"
             title="Volver arriba"
           >
             <img src="/icon.svg" alt="Icono Radio en Casa - Volver arriba" className="w-full h-full object-contain filter drop-shadow" />
@@ -1635,14 +1684,12 @@ export default function Page() {
             return (
               <div 
                 key={item.id} 
-                className={`relative group flex items-center justify-center w-full overflow-visible ${
-                  isHeroIntroComplete ? 'animate-bounce-icon' : 'lg:opacity-0 opacity-100'
-                }`}
+                className="relative group flex items-center justify-center w-full overflow-visible animate-bounce-icon"
                 style={{ animationDelay: `${200 + idx * 70}ms` }}
               >
                 <button
                   onClick={() => scrollToSection(item.id)}
-                  className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
+                  className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 cursor-pointer ${
                     isActive
                       ? 'bg-[#f74a35] text-white shadow-[0_0_22px_rgba(247,74,53,0.95)] scale-105'
                       : 'bg-[#181818] text-neutral-400 hover:text-white hover:bg-[#252525]'
@@ -1652,7 +1699,7 @@ export default function Page() {
                   {item.icon}
                 </button>
 
-                <div className="absolute right-[78px] lg:right-auto lg:left-[78px] opacity-0 pointer-events-none translate-x-[6px] lg:translate-x-[-6px] group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-x-0 transition-all duration-200 ease-out z-[10000] pr-2 lg:pr-0 lg:pl-2">
+                <div className="absolute left-[78px] opacity-0 pointer-events-none -translate-x-[6px] group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-x-0 transition-all duration-200 ease-out z-[10000] pl-2">
                   <div className="bg-[#121212] text-white border border-[#f74a35] font-datatype font-bold text-[10px] tracking-wider uppercase px-3 py-1.5 rounded-full shadow-[0_10px_25px_rgba(0,0,0,0.8)] whitespace-nowrap flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#f74a35] animate-pulse" />
                     {item.label}
@@ -1841,7 +1888,7 @@ export default function Page() {
       </aside>
 
       {/* CONTENIDO PRINCIPAL SCROLLABLE */}
-      <div className={`flex flex-col transition-all duration-700 ease-out w-[calc(100%-70px)] sm:w-[calc(100%-88px)] lg:w-full ${
+      <div className={`flex flex-col transition-all duration-700 ease-out w-full ${
         isHeroIntroComplete ? 'lg:!w-[calc(100%-420px)] lg:!ml-[420px]' : 'lg:!w-full lg:!ml-0'
       }`}>
         

@@ -23,15 +23,15 @@ function ImageWithPlaceholder({
   return (
     <div className="relative w-full h-full overflow-hidden bg-[#121212]">
       {!loaded && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#141414] border border-white/5 animate-pulse p-4">
-          <img
-            src="/images/servicios/Radio_en_Casa_logo_REC-04.svg"
-            alt="Cargando..."
-            className="w-12 h-12 opacity-30 object-contain animate-spin"
-            style={{ animationDuration: '3s' }}
-          />
-        </div>
-      )}
+  <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#141414] border border-white/5 animate-pulse p-4">
+    <img
+      src="/images/servicios/Radio_en_Casa_logo_REC-04.svg"
+      alt="Cargando..."
+      className="w-12 h-12 opacity-40 object-contain animate-spin filter invert brightness-[0.95]"
+      style={{ animationDuration: '3s' }}
+    />
+  </div>
+)}
       <img
         src={src}
         alt={alt}
@@ -2728,7 +2728,7 @@ export default function Page() {
   <img
     src="/images/servicios/Radio_en_Casa_logo_REC-05.svg"
     alt="Logo REC Fanzine"
-    className="w-full max-w-[180px] sm:max-w-[220px] h-auto object-contain filter brightness-0 invert"
+    className="w-full max-w-[180px] sm:max-w-[220px] h-auto object-contain filter invert brightness-[0.95]"
   />
 </div>
 

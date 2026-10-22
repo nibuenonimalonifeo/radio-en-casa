@@ -707,13 +707,13 @@ const servicesQuadrants = [
   },
 ];
 
-// --- DATOS DE MEMBRESÍAS SIN LA PALABRA "REC" ---
+// --- DATOS DE MEMBRESÍAS CON DESCRIPCIÓN DE GROUPIE ACTUALIZADA ---
 const membershipsData = [
   {
     id: '01',
     titleLine1: 'GROUPIE',
     titleLine2: '',
-    desc: 'Creo en este proyecto y quiero ayudar a que siga creciendo.',
+    desc: 'Creo en este proyecto y quiero ayudar a que siga creciendo. Además accedo a preventas y descuentos a todas las actividades de Salgo Arriba. Descuentos en la Store. Acceso a eventos y más cosas que iremos sumando.',
     buttonText: 'Quiero ser Groupie →',
     link: 'https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=4e6a895dbbb144cb84c54e45b044abb7',
   },
@@ -2276,7 +2276,7 @@ export default function Page() {
                       style={{ borderColor: service.borderColor }}
                     >
                       <div>
-                        {/* CABECERA CON ÍCONO DE APERTURA */}
+                        {/* CABECERA SIN FLECHAS */}
                         <div className="flex items-center justify-between border-b pb-3 mb-3 border-white/10">
                           <h3 
                             className="font-boldonse text-xl sm:text-2xl font-black uppercase tracking-wider"
@@ -2284,13 +2284,6 @@ export default function Page() {
                           >
                             {service.label}
                           </h3>
-                          <span 
-                            className={`text-xs font-bold text-neutral-400 transition-transform duration-300 ${
-                              isActive ? 'rotate-180 text-white' : 'rotate-0'
-                            }`}
-                          >
-                            ►
-                          </span>
                         </div>
 
                         {/* CONTENIDO DEL TOGGLE */}
@@ -2314,7 +2307,7 @@ export default function Page() {
                         </div>
                       </div>
 
-                      {/* INDICADOR INFERIOR SOLO CON SIMBOLOS + Y - MÁS GRANDES */}
+                      {/* INDICADOR INFERIOR SOLO CON SÍMBOLOS + Y - */}
                       <div className="pt-4 flex items-center justify-end">
                         <span className={`text-lg sm:text-xl font-black font-datatype leading-none transition-all duration-300 ${
                           isActive ? 'text-[#f74a35] scale-110' : 'text-neutral-400 hover:text-white'
@@ -2558,7 +2551,7 @@ export default function Page() {
               </div>
             </AnimateOnScroll>
 
-            {/* GRUPO DE MEMBRESÍAS CON TEXTO UNIFICADOR ALINEADO A LA IZQUIERDA */}
+            {/* GRUPO DE MEMBRESÍAS CON TEXTO UNIFICADOR DIRECTO EN LA COLUMNA */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-8 sm:mt-10 md:mt-14 font-datatype items-stretch">
               
               {/* 1. IZQUIERDA: GROUPIE */}
@@ -2608,13 +2601,13 @@ export default function Page() {
                 );
               })()}
 
-              {/* 2. DERECHA: GRUPO DE 3 TARJETAS CON TEXTO UNIFICADOR ALINEADO A LA IZQUIERDA */}
+              {/* 2. DERECHA: GRUPO DE 3 TARJETAS CON TEXTO UNIFICADOR DIRECTO SIN RECUADRO INTERNO */}
               <div className="lg:col-span-9 bg-black/60 border-2 border-[#f74a35] p-3 sm:p-4 md:p-6 backdrop-blur-sm shadow-2xl relative flex flex-col justify-between space-y-4">
                 
-                {/* TEXTO UNIFICADOR SUPERIOR ALINEADO A LA IZQUIERDA */}
-                <div className="w-full bg-[#121212]/90 border border-[#f74a35]/40 p-3 text-xs sm:text-sm font-datatype text-neutral-200 font-bold uppercase tracking-wider text-left">
-                  Pensados para artistas que quieran sonar en la radio, tener nuestro apoyo y nuestra difusión
-                </div>
+                {/* TEXTO UNIFICADOR SUPERIOR ACTUALIZADO SIN RECUADRO INTERIOR */}
+                <p className="w-full text-xs sm:text-sm font-datatype text-[#e3e3e3] font-bold uppercase tracking-wider text-left pt-1 pb-1">
+                  PENSADO PARA ARTISTAS Y EMPRENDEDORES QUE QUIERAN TENER NUESTRO APOYO Y DIFUSIÓN
+                </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 font-datatype h-full">
                   {membershipsData.slice(1).map((item, idx) => {

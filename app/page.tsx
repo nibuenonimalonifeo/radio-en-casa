@@ -2733,7 +2733,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 9. FANZINE (REESTRUCTURADO EN 2 COLUMNAS) */}
+        {/* 9. FANZINE (2 COLUMNAS CON BOTÓN SUSCRIBIRSE AL NEWSLETTER) */}
         <section id="fanzine" className="w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
@@ -2769,8 +2769,8 @@ export default function Page() {
                     />
                   </div>
 
-                  {/* COLUMNA 2: CONTENIDO FANZINE */}
-                  <div className="md:col-span-8 space-y-4 font-datatype">
+                  {/* COLUMNA 2: CONTENIDO FANZINE + BOTÓN NEWSLETTER */}
+                  <div className="md:col-span-8 space-y-4 font-datatype flex flex-col justify-between items-start">
                     <TypewriterHeadingUnificado
                       text="FANZINE"
                       className="text-[1.5rem] sm:text-[2rem] md:text-[2.5rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] font-boldonse h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
@@ -2787,6 +2787,18 @@ export default function Page() {
                     <p className="text-[#f74a35] font-bold border-t border-[#5c5c5c]/60 pt-3 font-datatype">
                       Porque una comunidad no se construye solamente grabando contenidos. También se construye compartiendo lo que nos entusiasma.
                     </p>
+
+                    {/* BOTÓN SUSCRIBIRSE AL NEWSLETTER */}
+                    <div className="pt-3 w-full">
+                      <a 
+                        href="https://radioencasa.substack.com/subscribe?utm_source=menu&simple=true&next=https%3A%2F%2Fradioencasa.substack.com%2Fp%2Fultima-prueba-a-ver-que-onda" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="inline-block relative bg-[#181818] text-[#e6e1d5] font-mono border-2 border-[#e6e1d5] border-b-[8px] sm:border-b-[12px] px-5 sm:px-6 py-3 text-xs sm:text-sm font-bold tracking-[0.18em] text-left hover:bg-[#e6e1d5] hover:text-neutral-900 transition-all duration-200 font-datatype leading-snug uppercase shadow-xl"
+                      >
+                        <span className="block uppercase">Suscribirse al Newsletter →</span>
+                      </a>
+                    </div>
                   </div>
 
                 </div>

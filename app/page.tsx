@@ -5,7 +5,7 @@ import Script from 'next/script';
 import AnimatedLogo from '@/components/AnimatedLogo';
 import IframePlayer from '@/components/IframePlayer';
 
-// --- COMPONENTE AUXILIAR CON PLACEHOLDER REC EN CARGA DE IMÁGENES ---
+// --- COMPONENTE AUXILIAR CON PLACEHOLDER REC ESTÁTICO EN CARGA DE IMÁGENES ---
 
 function ImageWithPlaceholder({
   src,
@@ -27,8 +27,7 @@ function ImageWithPlaceholder({
           <img
             src="/images/servicios/Radio_en_Casa_logo_REC-04.svg"
             alt="Cargando..."
-            className="w-12 h-12 opacity-40 object-contain animate-spin filter invert brightness-[0.95]"
-            style={{ animationDuration: '3s' }}
+            className="w-12 h-12 opacity-40 object-contain filter invert brightness-[0.95]"
           />
         </div>
       )}
@@ -707,7 +706,7 @@ const servicesQuadrants = [
   },
 ];
 
-// --- DATOS DE MEMBRESÍAS CON DESCRIPCIÓN DE GROUPIE ACTUALIZADA ---
+// --- DATOS DE MEMBRESÍAS CON TEXTO DE GROUPIE ACTUALIZADO ---
 const membershipsData = [
   {
     id: '01',
@@ -1204,7 +1203,7 @@ export default function Page() {
   const [temperature, setTemperature] = useState<string | null>(null);
   const [cityName, setCityName] = useState<string>('CARGANDO...');
 
-  // ESTADO PARA TOGGLES HORIZONTALES EN SERVICIOS
+  // ESTADO PARA TOGGLES HORIZONTALES EN SERVICIOS (INICIAN CERRADOS)
   const [activeServiceId, setActiveServiceId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -2551,7 +2550,7 @@ export default function Page() {
               </div>
             </AnimateOnScroll>
 
-            {/* GRUPO DE MEMBRESÍAS CON TEXTO UNIFICADOR DIRECTO EN LA COLUMNA */}
+            {/* GRUPO DE MEMBRESÍAS CON TEXTOS UNIFICADORES ACTUALIZADOS */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-8 sm:mt-10 md:mt-14 font-datatype items-stretch">
               
               {/* 1. IZQUIERDA: GROUPIE */}
@@ -2601,13 +2600,18 @@ export default function Page() {
                 );
               })()}
 
-              {/* 2. DERECHA: GRUPO DE 3 TARJETAS CON TEXTO UNIFICADOR DIRECTO SIN RECUADRO INTERNO */}
+              {/* 2. DERECHA: GRUPO DE 3 TARJETAS CON TEXTO UNIFICADOR DIRECTO Y EN DOS PÁRRAFOS */}
               <div className="lg:col-span-9 bg-black/60 border-2 border-[#f74a35] p-3 sm:p-4 md:p-6 backdrop-blur-sm shadow-2xl relative flex flex-col justify-between space-y-4">
                 
-                {/* TEXTO UNIFICADOR SUPERIOR ACTUALIZADO SIN RECUADRO INTERIOR */}
-                <p className="w-full text-xs sm:text-sm font-datatype text-[#e3e3e3] font-bold uppercase tracking-wider text-left pt-1 pb-1">
-                  PENSADO PARA ARTISTAS Y EMPRENDEDORES QUE QUIERAN TENER NUESTRO APOYO Y DIFUSIÓN
-                </p>
+                {/* TEXTOS UNIFICADORES SUPERIORES */}
+                <div className="w-full space-y-1.5 pt-1 pb-1 text-left">
+                  <p className="text-xs sm:text-sm font-datatype text-[#e3e3e3] font-bold uppercase tracking-wider">
+                    PENSADO PARA ARTISTAS Y EMPRENDEDORES QUE QUIERAN TENER NUESTRO APOYO Y DIFUSIÓN.
+                  </p>
+                  <p className="text-xs sm:text-sm font-datatype text-neutral-300 font-medium">
+                    Beneficios GROUPIE + spots, canciones o entrevistas sonando en la radio, difusión de fechas en nuestro fanzine, presentaciones en Salgoarriba y más.
+                  </p>
+                </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 font-datatype h-full">
                   {membershipsData.slice(1).map((item, idx) => {

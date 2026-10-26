@@ -479,7 +479,7 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
                 </div>
               ) : null}
 
-              <p className="text-base sm:text-lg md:text-xl font-datatype leading-relaxed opacity-95 pt-2">
+              <p className="text-base sm:text-lg md:text-xl font-datatype leading-relaxed opacity-95 pt-2 whitespace-pre-line">
                 {card.desc}
               </p>
             </div>
@@ -589,7 +589,7 @@ const clientLogos = [
   '/images/clientes/logo_17.png',
 ];
 
-// --- DATOS DE HISTORIA ---
+// --- DATOS DE HISTORIA (ACTUALIZADOS CON LAS NUEVAS TARJETAS 2018, 2019, 2021 Y 2022) ---
 const historyCardsData = [
   {
     id: '01',
@@ -614,34 +614,62 @@ const historyCardsData = [
   },
   {
     id: '04',
-    year: '2019',
-    title: 'Consolidación',
-    img: '/images/programas/radio_en_casa_quemar_un_patrullero.jpeg',
-    desc: 'En el 2019 produjimos junto a Gustavo Olmedo el lanzamiento de “Quemar un Patrullero”, otro de los podcast independientes más relevantes de la escena local, que continuamos grabando y se sostiene gracias a su comunidad. Nos convertimos en el estudio con mayor cantidad de podcast del país, habiendo además grabado los primeros episodios originales de Spotify en Argentina.',
+    year: '2018',
+    title: 'Streaming y Video',
+    img: '/images/galeria/Radio_en_Casa_Galeria_08.jpg',
+    desc: 'En el 2018 además realizamos nuestro primer streaming al incorporar un sistema de cámaras.\nEsto nos permitió además la posibilidad de sumar el video en los podcasts haciendo cada vez más contenidos audiovisuales.',
   },
   {
     id: '05',
+    year: '2019',
+    title: 'Consolidación',
+    img: '/images/programas/radio_en_casa_quemar_un_patrullero.jpeg',
+    desc: 'En el 2019 produjimos junto a Gustavo Olmedo el lanzamiento de “Quemar un Patrullero”, otro de los podcast independientes más relevantes de la escena local, que continuamos grabando y se sostiene gracias a su comunidad. Nos convertimos en el estudio con mayor cantidad de podcast del país.',
+  },
+  {
+    id: '06',
+    year: '2019',
+    title: 'Originales Spotify',
+    img: '/images/clientes/logo_11.png',
+    desc: 'En el 2019 fuimos además el estudio en el que se grabaron los primeros podcasts originales de Spotify en Argentina.\nCon formatos como: Somos Novios, No me olvidé de vos y Misión Presidencial, cuando Spotify todavía no tenía oficinas en nuestro país.',
+  },
+  {
+    id: '07',
     year: '2020',
     title: 'Comunidad',
     img: '',
     desc: 'En el 2020 vino la pandemia donde todos hicieron uso de nuestro slogan de “quedarse en casa” y aprovechamos para seguir construyendo comunidad al funcionar como plataforma digital para la difusión de artistas independientes a través del formato “Radio en Casa va a tu casa”.',
   },
   {
-    id: '06',
+    id: '08',
     year: '2021',
-    title: 'Expansión',
-    img: '/images/historia/Sonoro_Logo.png',
-    desc: 'En el 2021 realizamos nuestra primera producción internacional al trabajar con Sonoro, la red de podcast en español número uno del mundo y realizamos nuestras primeras coberturas audiovisuales en exteriores al participar de los Shows de Concha Podcast en Ciudad Cultural Konex (2021) y en el Teatro Margarita Xirgu (2023).',
+    title: 'Coberturas Outdoor',
+    img: '/images/galeria/Radio_en_Casa_Galeria_02.jpg',
+    desc: 'En el 2021 realizamos nuestras primeras coberturas audiovisuales en exteriores al participar de los Shows de Concha Podcast en Ciudad Cultural Konex (2021) y en el Teatro Margarita Xirgu (2023).\nAdemás con formatos como Seremos Historia fuimos expandiendo cada vez más este servicio que con el tiempo llamamos Outdoor.',
   },
   {
-    id: '07',
+    id: '09',
+    year: '2021',
+    title: 'Producción Internacional',
+    img: '/images/historia/Sonoro_Logo.png',
+    desc: 'En el 2021 también realizamos nuestra primera producción internacional al trabajar con Sonoro, la red de podcasts en español número uno del mundo.\nGrabamos “Skyvan: Los vuelos de la muerte”, podcast que tras su publicación en 2025 obtendría varios reconocimientos.',
+  },
+  {
+    id: '10',
+    year: '2022',
+    title: 'Podcast Original',
+    img: '/images/galeria/Radio_en_Casa_Galeria_12.jpg',
+    desc: 'En el 2022 realizamos nuestro primer podcast original: “Un nuevo match”.\nUna serie de entrevistas en formato de cita para hablar sobre vínculos y sexualidad.',
+  },
+  {
+    id: '11',
     year: '2025',
     title: 'Evolución',
     img: '/images/programas/Salgo_Arriba_Logo_Radio_en_Casa.png',
     desc: 'En el 2025 abrimos un segundo espacio llamado “Salgo Arriba” pensado para seguir construyendo comunidad con la realización de eventos en vivo, siempre con la idea de continuar innovando y brindando mayor cantidad de servicios a las personas que confían en nosotros para desarrollar sus producciones.',
   },
   {
-    id: '08',
+    id: '12',
     year: '2026',
     title: 'Redefinición',
     img: '/images/tienda/Radio_en_Casa_Header_03.png',

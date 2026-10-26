@@ -169,16 +169,42 @@ function SubstackFanzineFeed() {
   );
 }
 
-// --- COMPONENTE CHAT EN VIVO DE TLK.IO (CON SOPORTE MULTI-INSTANCIA ROBUSTO) ---
+// --- COMPONENTE CHAT EN VIVO DE TLK.IO UNIFICADO Y OSCURO (DESKTOP Y MOBILE) ---
 
-function TlkioChat({ channel = 'radioencasa' }: { channel?: string }) {
+function TlkioChat({ idSuffix = 'desktop' }: { idSuffix?: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const scriptId = `tlkio-script-${idSuffix}`;
+    const existing = document.getElementById(scriptId);
+    if (existing) {
+      existing.remove();
+    }
+
+    const script = document.createElement('script');
+    script.id = scriptId;
+    script.src = 'https://tlk.io/embed.js';
+    script.type = 'text/javascript';
+    script.async = true;
+
+    if (containerRef.current) {
+      containerRef.current.appendChild(script);
+    }
+
+    return () => {
+      const s = document.getElementById(scriptId);
+      if (s) s.remove();
+    };
+  }, [idSuffix]);
+
   return (
-    <div className="w-full h-full min-h-[220px] bg-[#121212] overflow-hidden rounded-xl border border-white/10 relative">
-      <iframe
-        src={`https://tlk.io/${channel}?theme=theme--night`}
-        title="Chat Radio en Casa"
-        className="w-full h-full border-0 absolute inset-0"
-        allow="microphone; camera"
+    <div ref={containerRef} className="w-full h-full relative min-h-[220px] bg-[#121212] overflow-hidden rounded-xl border border-white/10">
+      <div
+        id="tlkio"
+        data-channel="radioencasa"
+        data-theme="theme--night"
+        className="w-full h-full min-h-[220px]"
+        style={{ width: '100%', height: '100%' }}
       />
     </div>
   );
@@ -1582,7 +1608,7 @@ export default function Page() {
         <span className={`w-6 h-0.5 bg-[#e3e3e3] transition-transform duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
       </button>
 
-      {/* OVERLAY Y DRAWER LATERAL DESDE LA DERECHA HASTA EL LOGO CIRCULAR */}
+      {/* OVERLAY SUTIL IZQUIERDO */}
       <div
         onClick={() => setIsMobileMenuOpen(false)}
         className={`fixed inset-0 bg-black/40 backdrop-blur-[2px] z-[9988] lg:hidden transition-opacity duration-500 ${
@@ -1590,13 +1616,14 @@ export default function Page() {
         }`}
       />
 
+      {/* DRAWER LATERAL DESDE LA DERECHA HASTA EL LOGO CIRCULAR */}
       <div 
-        className={`fixed top-0 right-0 h-full w-[calc(100%-68px)] max-w-[340px] bg-[#101010]/95 backdrop-blur-2xl border-l border-white/10 z-[9990] lg:hidden flex flex-col justify-between items-center px-6 pt-24 pb-10 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-[0_0_40px_rgba(0,0,0,0.85)] ${
+        className={`fixed top-0 right-0 h-full w-[calc(100%-68px)] max-w-[340px] bg-[#101010]/95 backdrop-blur-2xl border-l border-white/10 z-[9990] lg:hidden flex flex-col justify-between items-start px-6 pt-24 pb-10 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-[0_0_40px_rgba(0,0,0,0.85)] ${
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        {/* LISTADO DE SECCIONES CON TIPOGRAFÍA BOLDONSE FLOTANDO DIRECTAMENTE SOBRE EL FONDO */}
-        <div className="w-full flex-1 flex flex-col items-center justify-center gap-7 text-center">
+        {/* LISTADO DE SECCIONES ALINEADO A LA IZQUIERDA */}
+        <div className="w-full flex-1 flex flex-col items-start justify-center gap-7 text-left pl-2">
           {mobileMenuItems.map((item) => {
             const isActive = activeSection === item.id;
             return (
@@ -1606,8 +1633,8 @@ export default function Page() {
                   setIsMobileMenuOpen(false);
                   scrollToSection(item.id);
                 }}
-                className={`group flex items-center justify-center gap-2 cursor-pointer bg-transparent border-none p-0 transition-all duration-300 ${
-                  isActive ? 'text-[#f74a35] scale-105' : 'text-[#ececec] hover:text-[#f74a35]'
+                className={`group flex items-center justify-start gap-2 cursor-pointer bg-transparent border-none p-0 text-left transition-all duration-300 ${
+                  isActive ? 'text-[#f74a35] translate-x-1' : 'text-[#ececec] hover:text-[#f74a35]'
                 }`}
               >
                 <span className="font-boldonse text-2xl sm:text-3xl tracking-wider uppercase leading-none">
@@ -1624,7 +1651,7 @@ export default function Page() {
         </div>
 
         {/* 4 ÍCONOS DE REDES SOCIALES DEL ASIDE */}
-        <div className="w-full flex items-center justify-center gap-3.5 pt-6 border-t border-white/10">
+        <div className="w-full flex items-center justify-start gap-3.5 pt-6 border-t border-white/10 pl-2">
           {socialMenuItems.map((social, idx) => (
             <a
               key={idx}
@@ -1808,7 +1835,7 @@ export default function Page() {
             </div>
           </div>
 
-          {/* MÓDULO 3: CHAT EN VIVO */}
+          {/* MÓDULO 3: CHAT EN VIVO DESKTOP (OSCURO) */}
           <div 
             className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-2xl p-2 border border-white/10 shadow-2xl flex flex-col font-datatype flex-1 min-h-[220px] max-h-[35vh] overflow-hidden ${
               isHeroIntroComplete ? 'animate-slide-bottom-ease' : 'opacity-0'
@@ -1840,7 +1867,7 @@ export default function Page() {
             }`}>
               <div className="overflow-hidden w-full h-full flex flex-col">
                 <div className="overflow-hidden flex flex-col h-full w-full bg-black rounded-xl border border-white/10 flex-1 min-h-0">
-                  <TlkioChat />
+                  <TlkioChat idSuffix="desktop" />
                 </div>
               </div>
             </div>
@@ -1912,7 +1939,7 @@ export default function Page() {
                 <IframePlayer width={290} />
               </div>
 
-              {/* 2. CHAT MOBILE */}
+              {/* 2. CHAT MOBILE: MISMA FUENTE Y TEMA QUE DESKTOP */}
               <div className="w-full flex flex-col gap-2 pt-2 border-t border-white/10">
                 <div className="flex items-center gap-2 px-1">
                   <span className="w-2 h-2 rounded-full bg-[#f74a35] animate-pulse" />
@@ -1921,7 +1948,7 @@ export default function Page() {
                   </span>
                 </div>
                 <div className="w-full h-[320px] bg-black rounded-xl overflow-hidden border border-white/10">
-                  <TlkioChat channel="radioencasa" />
+                  <TlkioChat idSuffix="mobile" />
                 </div>
               </div>
             </div>

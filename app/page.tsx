@@ -1587,7 +1587,7 @@ export default function Page() {
         />
       </div>
 
-      {/* 1. NAVEGACIÓN MÓVIL (LOGO + HAMBURGUESA SIN ESPACIOS ENTRE BOTONES) */}
+      {/* BOTÓN FLOTANTE LOGO IZQUIERDA (MOBILE) */}
       <div 
         onClick={() => scrollToSection('home')}
         className="fixed top-3 left-3 z-[9999] lg:hidden w-11 h-11 bg-[#f74a35] rounded-full flex items-center justify-center animate-pulse shadow-[0_0_22px_rgba(247,74,53,0.95)] p-2 cursor-pointer transition-transform duration-200 active:scale-95"
@@ -1596,24 +1596,26 @@ export default function Page() {
         <img src="/icon.svg" alt="Logo Radio en Casa" className="w-full h-full object-contain filter drop-shadow" />
       </div>
 
+      {/* BOTÓN MÓVIL HAMBURGUESA (DERECHA) */}
       <button
         onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-        className="fixed top-3 right-3 z-[9999] lg:hidden w-11 h-11 bg-[#0e0e0e] border border-[#262626] rounded-full flex flex-col items-center justify-center gap-1.5 cursor-pointer shadow-2xl p-2.5"
+        className="fixed top-3 right-3 z-[9999] lg:hidden w-11 h-11 bg-transparent rounded-full flex flex-col items-center justify-center gap-1.5 cursor-pointer shadow-none p-2.5"
         aria-label="Abrir Menú"
       >
-        <span className={`w-5 h-0.5 bg-[#e3e3e3] transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-        <span className={`w-5 h-0.5 bg-[#e3e3e3] transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`} />
-        <span className={`w-5 h-0.5 bg-[#e3e3e3] transition-transform duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+        <span className={`w-6 h-0.5 bg-[#e3e3e3] transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+        <span className={`w-6 h-0.5 bg-[#e3e3e3] transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`} />
+        <span className={`w-6 h-0.5 bg-[#e3e3e3] transition-transform duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
       </button>
 
-      {/* DESPLEGABLE MÓVIL CONTINUO SIN ESPACIOS */}
+      {/* MENÚ MOBILE: SIN CONTENEDORES, DIRECTO SOBRE FONDO BLUREADO, TIPOGRAFÍA BOLDONSE + ÍCONOS DEL ASIDE */}
       <div 
-        className={`fixed inset-0 bg-[#0e0e0e]/98 backdrop-blur-xl z-[9990] lg:hidden flex flex-col items-center justify-center px-6 py-20 transition-all duration-500 ease-in-out font-datatype ${
+        className={`fixed inset-0 bg-black/90 backdrop-blur-2xl z-[9990] lg:hidden flex flex-col justify-between items-center px-6 pt-24 pb-12 transition-all duration-500 ease-in-out ${
           isMobileMenuOpen ? 'opacity-100 pointer-events-auto translate-y-0' : 'opacity-0 pointer-events-none -translate-y-6'
         }`}
       >
-        <div className="w-full max-w-[320px] flex flex-col items-stretch gap-0 overflow-hidden border border-white/20 shadow-2xl">
-          {mobileMenuItems.map((item, idx) => {
+        {/* LISTADO DE SECCIONES CON TIPOGRAFÍA BOLDONSE SIN BORDES NI FONDOS */}
+        <div className="w-full flex-1 flex flex-col items-center justify-center gap-6 text-center">
+          {mobileMenuItems.map((item) => {
             const isActive = activeSection === item.id;
             return (
               <button
@@ -1622,17 +1624,38 @@ export default function Page() {
                   setIsMobileMenuOpen(false);
                   scrollToSection(item.id);
                 }}
-                className={`w-full flex items-center justify-between px-5 py-4 transition-all duration-200 font-bold uppercase tracking-wider text-sm border-b last:border-b-0 ${
-                  isActive
-                    ? 'bg-[#f74a35] text-white border-white/20 shadow-inner'
-                    : 'bg-[#141414] text-neutral-300 border-white/10 hover:bg-[#1a1a1a] hover:text-white'
+                className={`group flex items-center justify-center gap-2 cursor-pointer bg-transparent border-none p-0 transition-all duration-300 ${
+                  isActive ? 'text-[#f74a35] scale-105' : 'text-[#ececec] hover:text-[#f74a35]'
                 }`}
               >
-                <span className="font-datatype">{item.label}</span>
-                <span className="text-[#f74a35]">→</span>
+                <span className="font-boldonse text-2xl sm:text-3xl tracking-wider uppercase leading-none">
+                  {item.label}
+                </span>
+                <span className={`font-boldonse text-[#f74a35] text-2xl transition-transform duration-300 ${
+                  isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100 translate-x-1'
+                }`}>
+                  _
+                </span>
               </button>
             );
           })}
+        </div>
+
+        {/* 4 ÍCONOS DE REDES SOCIALES DEL ASIDE */}
+        <div className="w-full flex items-center justify-center gap-4 pt-6 border-t border-white/10">
+          {socialMenuItems.map((social, idx) => (
+            <a
+              key={idx}
+              href={social.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={social.label}
+              title={social.label}
+              className={`w-11 h-11 rounded-full bg-[#161616] border border-white/10 flex items-center justify-center text-neutral-300 transition-all duration-300 shadow-md ${social.hoverClass}`}
+            >
+              {social.icon}
+            </a>
+          ))}
         </div>
       </div>
 
@@ -1834,7 +1857,7 @@ export default function Page() {
               isOpenChat ? 'grid-rows-[1fr] opacity-100 pt-1 scale-y-100' : 'grid-rows-[0fr] opacity-0 pt-0 scale-y-0 -translate-y-2'
             }`}>
               <div className="overflow-hidden w-full h-full flex flex-col">
-                <div className="overflow-hidden flex flex-col h-full w-full bg-black rounded-xl border border-white/10 flex-1 min-h-0">
+                <div className="overflow-hidden flex flex-col h-full w-bg-black rounded-xl border border-white/10 flex-1 min-h-0">
                   <TlkioChat />
                 </div>
               </div>

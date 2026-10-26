@@ -169,41 +169,16 @@ function SubstackFanzineFeed() {
   );
 }
 
-// --- COMPONENTE CHAT EN VIVO DE TLK.IO ---
+// --- COMPONENTE CHAT EN VIVO DE TLK.IO (CON SOPORTE MULTI-INSTANCIA ROBUSTO) ---
 
-function TlkioChat() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const existingScript = document.getElementById('tlkio-script');
-    if (existingScript) {
-      existingScript.remove();
-    }
-
-    const script = document.createElement('script');
-    script.id = 'tlkio-script';
-    script.src = 'https://tlk.io/embed.js';
-    script.type = 'text/javascript';
-    script.async = true;
-
-    if (containerRef.current) {
-      containerRef.current.appendChild(script);
-    }
-
-    return () => {
-      const s = document.getElementById('tlkio-script');
-      if (s) s.remove();
-    };
-  }, []);
-
+function TlkioChat({ channel = 'radioencasa' }: { channel?: string }) {
   return (
-    <div ref={containerRef} className="w-full h-full relative min-h-[200px] bg-[#121212] overflow-hidden rounded-xl border border-white/10">
-      <div
-        id="tlkio"
-        data-channel="radioencasa"
-        data-theme="theme--night"
-        className="w-full h-full min-h-[200px]"
-        style={{ width: '100%', height: '100%' }}
+    <div className="w-full h-full min-h-[220px] bg-[#121212] overflow-hidden rounded-xl border border-white/10 relative">
+      <iframe
+        src={`https://tlk.io/${channel}?theme=theme--night`}
+        title="Chat Radio en Casa"
+        className="w-full h-full border-0 absolute inset-0"
+        allow="microphone; camera"
       />
     </div>
   );
@@ -919,9 +894,9 @@ const menuItems = [
   },
 ];
 
-// MENÚ EXCLUSIVO MOBILE: REPRODUCTOR/CHAT (HOME), SERVICIOS, COMUNIDAD, CONTACTO
+// MENÚ EXCLUSIVO MOBILE: HOME, SERVICIOS, COMUNIDAD, CONTACTO
 const mobileMenuItems = [
-  { id: 'home', label: 'Reproductor / Chat' },
+  { id: 'home', label: 'HOME' },
   { id: 'servicios', label: 'Servicios' },
   { id: 'comunidad', label: 'Comunidad' },
   { id: 'contacto', label: 'Contacto' },
@@ -1607,14 +1582,21 @@ export default function Page() {
         <span className={`w-6 h-0.5 bg-[#e3e3e3] transition-transform duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
       </button>
 
-      {/* MENÚ MOBILE: SIN CONTENEDORES, DIRECTO SOBRE FONDO BLUREADO, TIPOGRAFÍA BOLDONSE + ÍCONOS DEL ASIDE */}
+      {/* OVERLAY Y DRAWER LATERAL DESDE LA DERECHA HASTA EL LOGO CIRCULAR */}
+      <div
+        onClick={() => setIsMobileMenuOpen(false)}
+        className={`fixed inset-0 bg-black/40 backdrop-blur-[2px] z-[9988] lg:hidden transition-opacity duration-500 ${
+          isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
+      />
+
       <div 
-        className={`fixed inset-0 bg-black/90 backdrop-blur-2xl z-[9990] lg:hidden flex flex-col justify-between items-center px-6 pt-24 pb-12 transition-all duration-500 ease-in-out ${
-          isMobileMenuOpen ? 'opacity-100 pointer-events-auto translate-y-0' : 'opacity-0 pointer-events-none -translate-y-6'
+        className={`fixed top-0 right-0 h-full w-[calc(100%-68px)] max-w-[340px] bg-[#101010]/95 backdrop-blur-2xl border-l border-white/10 z-[9990] lg:hidden flex flex-col justify-between items-center px-6 pt-24 pb-10 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-[0_0_40px_rgba(0,0,0,0.85)] ${
+          isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        {/* LISTADO DE SECCIONES CON TIPOGRAFÍA BOLDONSE SIN BORDES NI FONDOS */}
-        <div className="w-full flex-1 flex flex-col items-center justify-center gap-6 text-center">
+        {/* LISTADO DE SECCIONES CON TIPOGRAFÍA BOLDONSE FLOTANDO DIRECTAMENTE SOBRE EL FONDO */}
+        <div className="w-full flex-1 flex flex-col items-center justify-center gap-7 text-center">
           {mobileMenuItems.map((item) => {
             const isActive = activeSection === item.id;
             return (
@@ -1642,7 +1624,7 @@ export default function Page() {
         </div>
 
         {/* 4 ÍCONOS DE REDES SOCIALES DEL ASIDE */}
-        <div className="w-full flex items-center justify-center gap-4 pt-6 border-t border-white/10">
+        <div className="w-full flex items-center justify-center gap-3.5 pt-6 border-t border-white/10">
           {socialMenuItems.map((social, idx) => (
             <a
               key={idx}
@@ -1651,7 +1633,7 @@ export default function Page() {
               rel="noopener noreferrer"
               aria-label={social.label}
               title={social.label}
-              className={`w-11 h-11 rounded-full bg-[#161616] border border-white/10 flex items-center justify-center text-neutral-300 transition-all duration-300 shadow-md ${social.hoverClass}`}
+              className={`w-10 h-10 rounded-full bg-[#161616] border border-white/10 flex items-center justify-center text-neutral-300 transition-all duration-300 shadow-md ${social.hoverClass}`}
             >
               {social.icon}
             </a>
@@ -1857,7 +1839,7 @@ export default function Page() {
               isOpenChat ? 'grid-rows-[1fr] opacity-100 pt-1 scale-y-100' : 'grid-rows-[0fr] opacity-0 pt-0 scale-y-0 -translate-y-2'
             }`}>
               <div className="overflow-hidden w-full h-full flex flex-col">
-                <div className="overflow-hidden flex flex-col h-full w-bg-black rounded-xl border border-white/10 flex-1 min-h-0">
+                <div className="overflow-hidden flex flex-col h-full w-full bg-black rounded-xl border border-white/10 flex-1 min-h-0">
                   <TlkioChat />
                 </div>
               </div>
@@ -1889,13 +1871,13 @@ export default function Page() {
         isHeroIntroComplete ? 'lg:!w-[calc(100%-420px)] lg:!ml-[420px]' : 'lg:!w-full lg:!ml-0'
       }`}>
         
-        {/* 1. HOME: EN MOBILE INTEGRA LOGO + REPRODUCTOR + CHAT */}
+        {/* 1. HOME: LOGO + REPRODUCTOR + CHAT (MOBILE) */}
         <section
           ref={homeRef}
           id="home"
           className="w-full min-h-screen flex flex-col justify-start lg:justify-between items-center relative bg-black overflow-hidden transform-gpu"
         >
-          {/* VISTA MOBILE: REPRODUCTOR Y CHAT EN VIVO */}
+          {/* VISTA MOBILE */}
           <div className="flex lg:hidden w-full min-h-screen flex-col justify-start items-center relative p-4 sm:p-6 z-10 pt-16 pb-12 gap-5">
             <div className="absolute inset-0 h-full w-full pointer-events-none z-0 overflow-hidden">
               {homeHeroImages.map((imgUrl, idx) => {
@@ -1920,7 +1902,6 @@ export default function Page() {
               <div className="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-none" />
             </div>
 
-            {/* CONTENEDOR PRINCIPAL MOBILE */}
             <div className="relative z-10 w-full max-w-[340px] flex flex-col items-center gap-4 bg-[#121212]/95 border border-white/10 p-4 rounded-2xl shadow-2xl font-datatype">
               <div className="w-full max-w-[260px] h-auto flex items-center justify-center pt-1 pb-1">
                 <AnimatedLogo showBandText={false} />
@@ -1939,8 +1920,8 @@ export default function Page() {
                     Chat en vivo
                   </span>
                 </div>
-                <div className="w-full h-[280px] bg-black rounded-xl overflow-hidden border border-white/10">
-                  <TlkioChat />
+                <div className="w-full h-[320px] bg-black rounded-xl overflow-hidden border border-white/10">
+                  <TlkioChat channel="radioencasa" />
                 </div>
               </div>
             </div>
@@ -2268,7 +2249,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 3. SERVICIOS (VISIBLE EN MOBILE Y DESKTOP) */}
+        {/* 3. SERVICIOS */}
         <section ref={serviciosRef} id="servicios" className="w-full min-h-screen relative flex flex-col justify-center items-center transform-gpu overflow-hidden p-0 m-0 bg-[#181818]">
           <div 
             className="absolute inset-0 w-full h-full z-0 pointer-events-none opacity-40"
@@ -2520,7 +2501,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 4. COMUNIDAD (VISIBLE EN MOBILE Y DESKTOP) */}
+        {/* 4. COMUNIDAD */}
         <section 
           id="comunidad" 
           className="w-full pt-8 sm:pt-12 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 relative bg-black text-[#e3e3e3] z-10 flex flex-col justify-start items-center transform-gpu min-h-screen overflow-hidden bg-cover bg-center bg-no-repeat"
@@ -2909,7 +2890,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 5. CONTACTO (VISIBLE EN MOBILE Y DESKTOP) */}
+        {/* 5. CONTACTO */}
         <section id="contacto" className="w-full pt-0 pb-0 mb-0 bg-[#181818] text-[#ececec] relative flex flex-col justify-between overflow-hidden transform-gpu min-h-screen">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"

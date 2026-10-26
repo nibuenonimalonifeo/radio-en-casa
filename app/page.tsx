@@ -589,7 +589,7 @@ const clientLogos = [
   '/images/clientes/logo_17.png',
 ];
 
-// --- DATOS DE HISTORIA (ACTUALIZADOS CON LAS NUEVAS TARJETAS 2018, 2019, 2021 Y 2022) ---
+// --- DATOS DE HISTORIA (CON RUTAS EXACTAS DE IMÁGENES) ---
 const historyCardsData = [
   {
     id: '01',
@@ -630,7 +630,7 @@ const historyCardsData = [
     id: '06',
     year: '2019',
     title: 'Originales Spotify',
-    img: '/images/clientes/logo_11.png',
+    img: '/images/clientes/logo_12.png',
     desc: 'En el 2019 fuimos además el estudio en el que se grabaron los primeros podcasts originales de Spotify en Argentina.\nCon formatos como: Somos Novios, No me olvidé de vos y Misión Presidencial, cuando Spotify todavía no tenía oficinas en nuestro país.',
   },
   {
@@ -644,7 +644,7 @@ const historyCardsData = [
     id: '08',
     year: '2021',
     title: 'Coberturas Outdoor',
-    img: '/images/galeria/Radio_en_Casa_Galeria_02.jpg',
+    img: '/images/programas/Radio_en_Casa_historia_02_Concha_Podcast_Konex.jpg',
     desc: 'En el 2021 realizamos nuestras primeras coberturas audiovisuales en exteriores al participar de los Shows de Concha Podcast en Ciudad Cultural Konex (2021) y en el Teatro Margarita Xirgu (2023).\nAdemás con formatos como Seremos Historia fuimos expandiendo cada vez más este servicio que con el tiempo llamamos Outdoor.',
   },
   {
@@ -658,7 +658,7 @@ const historyCardsData = [
     id: '10',
     year: '2022',
     title: 'Podcast Original',
-    img: '/images/galeria/Radio_en_Casa_Galeria_12.jpg',
+    img: '/images/programas/Radio_en_Casa_Un_Nuevo_Match.jpg',
     desc: 'En el 2022 realizamos nuestro primer podcast original: “Un nuevo match”.\nUna serie de entrevistas en formato de cita para hablar sobre vínculos y sexualidad.',
   },
   {

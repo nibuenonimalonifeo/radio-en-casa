@@ -408,6 +408,51 @@ function TypewriterHeadingUnificado({
   );
 }
 
+// --- 4 BANDAS DE COLOR INTERACTIVAS EN HOME (CONVERSIÓN A BOTONES CON ANIMACIÓN) ---
+
+function HeroAnimatedColorBands({ onNavigate }: { onNavigate: (id: string) => void }) {
+  const bands = [
+    { id: 'historia', label: 'HISTORIA', color: '#f74a35', delay: 1400 },
+    { id: 'filosofia', label: 'FILOSOFÍA', color: '#ff7700', delay: 1550 },
+    { id: 'servicios', label: 'SERVICIOS', color: '#ffcc00', delay: 1700 },
+    { id: 'comunidad', label: 'COMUNIDAD', color: '#215164', delay: 1850 },
+  ];
+
+  return (
+    <div className="w-full max-w-[620px] flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3.5 pt-6 pb-2 z-30 font-datatype">
+      {bands.map((band) => (
+        <button
+          key={band.id}
+          onClick={() => onNavigate(band.id)}
+          className="group relative flex-1 w-full sm:w-auto h-11 sm:h-12 overflow-hidden border border-white/15 hover:border-white transition-all duration-300 ease-out flex items-center justify-center px-4 cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0 shadow-lg animate-slide-bottom-ease"
+          style={{
+            animationDelay: `${band.delay}ms`,
+            backgroundColor: `${band.color}1A`,
+          }}
+          title={`Ir a ${band.label}`}
+        >
+          {/* Fondo interactivo con color pleno en hover */}
+          <span
+            className="absolute inset-0 w-full h-full transition-transform duration-500 ease-out origin-left -translate-x-full group-hover:translate-x-0 opacity-90"
+            style={{ backgroundColor: band.color }}
+          />
+
+          {/* Línea superior indicadora animada */}
+          <span
+            className="absolute top-0 left-0 right-0 h-1 transition-all duration-300"
+            style={{ backgroundColor: band.color }}
+          />
+
+          {/* Etiqueta / Texto */}
+          <span className="relative z-10 text-xs sm:text-[13px] font-black uppercase tracking-widest text-[#ececec] group-hover:text-white font-datatype transition-colors duration-200">
+            {band.label}
+          </span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
 // --- COMPONENTE DE CARTAS EN RUEDA / PERSPECTIVA 3D ---
 
 function FanStackedCards({ items }: { items: typeof historyCardsData }) {
@@ -520,7 +565,7 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
   );
 }
 
-// --- RECONOCIMIENTOS: 3 COLUMNAS UNIFICADAS QUE FLUYEN CON EL SCROLL GENERAL ---
+// --- RECONOCIMIENTOS: 3 COLUMNAS UNIFICADAS ---
 
 function Recognitions3Columns({ items }: { items: typeof recognitionsData }) {
   return (
@@ -1828,7 +1873,7 @@ export default function Page() {
         isHeroIntroComplete ? 'lg:!w-[calc(100%-420px)] lg:!ml-[420px]' : 'lg:!w-full lg:!ml-0'
       }`}>
         
-        {/* 1. HOME */}
+        {/* 1. HOME CON 4 BANDAS DE COLOR ANIMADAS Y CONVERTIDAS EN BOTONES */}
         <section
           ref={homeRef}
           id="home"
@@ -1863,6 +1908,9 @@ export default function Page() {
               <div className="w-full max-w-[280px] sm:max-w-[300px] h-auto flex items-center justify-center pt-1 pb-1">
                 <AnimatedLogo showBandText={false} />
               </div>
+
+              {/* 4 BANDAS INTERACTIVAS MOBILE */}
+              <HeroAnimatedColorBands onNavigate={scrollToSection} />
 
               <IframePlayer width={300} />
             </div>
@@ -1927,7 +1975,7 @@ export default function Page() {
               <div 
                 ref={heroLogoRef} 
                 key={logoAnimKey}
-                className={`animated-logo-svg h-auto flex items-center justify-center pointer-events-auto text-[#e3e3e3] transition-all duration-1000 ease-out transform-gpu ${
+                className={`animated-logo-svg h-auto flex flex-col items-center justify-center pointer-events-auto text-[#e3e3e3] transition-all duration-1000 ease-out transform-gpu ${
                   isHeroIntroComplete && isHomeInView 
                     ? 'opacity-100 scale-100 filter blur-0' 
                     : 'opacity-0 scale-90 filter blur-lg pointer-events-none'
@@ -1937,7 +1985,13 @@ export default function Page() {
                   maxWidth: '1000px',
                 }}
               >
-                {isHeroIntroComplete && <AnimatedLogo />}
+                {isHeroIntroComplete && (
+                  <>
+                    <AnimatedLogo />
+                    {/* 4 BANDAS DE COLOR CONVERTIDAS EN BOTONES */}
+                    <HeroAnimatedColorBands onNavigate={scrollToSection} />
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -2602,7 +2656,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 7. ALIANZAS */}
+        {/* 7. ALIANZAS: VIDEO A SANGRE Y CONTENIDOS CON BACKGROUND NEGRO */}
         <section id="alianzas" className="w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
@@ -2636,7 +2690,7 @@ export default function Page() {
 
             <div className="w-full font-datatype">
               <AnimateOnScroll delay={200} duration={700} offset={45}>
-                <div className="border border-[#5c5c5c]/60 shadow-2xl flex flex-col hover:border-[#f74a35] transition-colors duration-300 font-datatype rounded-none overflow-hidden bg-transparent">
+                <div className="border border-[#5c5c5c]/60 shadow-2xl flex flex-col hover:border-[#f74a35] transition-colors duration-300 font-datatype rounded-none overflow-hidden bg-black">
                   
                   {/* VIDEO EMBEBIDO A SANGRE */}
                   <div className="w-full aspect-video overflow-hidden rounded-none bg-black shadow-inner p-0 m-0">
@@ -2649,8 +2703,8 @@ export default function Page() {
                     />
                   </div>
 
-                  {/* BLOQUE SALGO ARRIBA LIMPIO */}
-                  <div className="p-5 sm:p-8 space-y-4 bg-transparent">
+                  {/* BLOQUE SALGO ARRIBA CON BACKGROUND NEGRO */}
+                  <div className="p-5 sm:p-8 space-y-4 bg-black border-t border-white/10">
                     <div className="h-14 sm:h-16 w-auto flex items-center justify-start">
                       <ImageWithPlaceholder 
                         src="/images/programas/Salgo_Arriba_Logo_Radio_en_Casa.png" 
@@ -2776,7 +2830,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 10. STORE */}
+        {/* 10. STORE: CONTENIDOS CON BACKGROUND OSCURO */}
         <section
           ref={storeRef}
           id="store"
@@ -2785,6 +2839,7 @@ export default function Page() {
             backgroundImage: `url('/images/reconocimientos/Radio_en_Casa_Background_Reconocimientos.png')`,
           }}
         >
+          {/* HEADER STORE */}
           <div className="w-full relative left-0 right-0 top-0 mb-0 overflow-hidden z-10 py-0">
             <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 md:px-12 lg:px-0">
               <div className="w-full h-[32vh] sm:h-[48vh] min-h-[220px] sm:min-h-[320px] overflow-hidden bg-transparent border-0 shadow-none rounded-none">
@@ -2800,18 +2855,19 @@ export default function Page() {
             </div>
           </div>
 
+          {/* CONTENIDO STORE CON BACKGROUND OSCURO */}
           <div className="w-full max-w-[1100px] mx-auto space-y-6 sm:space-y-8 relative z-20 mt-4 sm:mt-6 px-4 sm:px-6 md:px-12 lg:px-0">
             <AnimateOnScroll delay={150} duration={600} offset={25}>
-              <div className="bg-transparent p-0 border-0 rounded-none shadow-none space-y-4 sm:space-y-6 font-datatype text-xs sm:text-sm md:text-base text-neutral-800 leading-relaxed">
+              <div className="bg-[#121212]/95 backdrop-blur-md p-6 sm:p-8 md:p-10 border border-[#5c5c5c]/60 rounded-none shadow-2xl space-y-4 sm:space-y-6 font-datatype text-xs sm:text-sm md:text-base text-neutral-200 leading-relaxed">
                 <TypewriterHeadingUnificado
                   text="STORE"
-                  className="text-[1.5rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#111111] font-boldonse h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
+                  className="text-[1.5rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] font-boldonse h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
                 />
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-16 pt-2 font-datatype">
                   
                   <div className="space-y-3 font-datatype">
-                    <p className="text-neutral-900 font-bold font-datatype leading-relaxed">
+                    <p className="text-neutral-300 font-medium font-datatype leading-relaxed">
                       En esta tienda vas a encontrar productos diseñados para quienes forman parte de nuestra comunidad: desde merchandising hasta ediciones especiales y objetos creados junto a artistas y proyectos amigos.
                     </p>
                   </div>
@@ -2830,7 +2886,7 @@ export default function Page() {
                     href="https://radioencasa.mitiendanube.com/" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="block w-full sm:w-auto relative bg-transparent text-[#181818] font-mono border-2 border-[#f74a35] border-b-[8px] sm:border-b-[12px] px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-bold tracking-[0.2em] text-left hover:bg-[#f74a35] hover:text-white transition-all duration-200 font-datatype uppercase shadow-md"
+                    className="block w-full sm:w-auto relative bg-[#181818] text-[#e6e1d5] font-mono border-2 border-[#f74a35] border-b-[8px] sm:border-b-[12px] px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-bold tracking-[0.2em] text-left hover:bg-[#f74a35] hover:text-white transition-all duration-200 font-datatype uppercase shadow-md"
                   >
                     <span className="block uppercase">Ir a la tienda →</span>
                   </a>

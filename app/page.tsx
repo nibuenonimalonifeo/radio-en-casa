@@ -589,7 +589,7 @@ const clientLogos = [
   '/images/clientes/logo_17.png',
 ];
 
-// --- DATOS DE HISTORIA (CON RUTAS EXACTAS DE IMÁGENES) ---
+// --- DATOS DE HISTORIA ---
 const historyCardsData = [
   {
     id: '01',
@@ -824,7 +824,7 @@ const rawArchiveTextHTML = `<strong class="font-extrabold text-[#f74a35]">70/30<
 
 const rawBrandsTextHTML = `Ad Hoc Comunicación · Apciba · Bercomat · BNP Paribas Cardif · Bunker · Centro Simon Wiesenthal · Comiqueando · Cryptomate · Dot Hotels · Ecomm Experts · Escuela Libre de Psicoanálisis · Fundación Andreani · Fundación Cippec · Fundación Konrad Adenauer · Gran Logia de la Argentina · La Cosa Cine · La licuadora deportiva · LetterMafia · Meretz Argentina · Meridiana Comics · Milbrands · Museo Judío · Naldo · Natura · Nerdearla · Noticias en red · Open Folk · Parque podcast · Podlab · Press Over · Rayo podcasts · Revista Txtura · Sys Army · TTD Trabajadores Tango Danza · UMAI · Unplastify · XFC`;
 
-// MENÚ LATERAL
+// MENÚ LATERAL (DESKTOP COMPLETO)
 const menuItems = [
   { 
     id: 'historia', 
@@ -917,6 +917,14 @@ const menuItems = [
       </svg>
     )
   },
+];
+
+// MENÚ EXCLUSIVO MOBILE: REPRODUCTOR/CHAT (HOME), SERVICIOS, COMUNIDAD, CONTACTO
+const mobileMenuItems = [
+  { id: 'home', label: 'Reproductor / Chat' },
+  { id: 'servicios', label: 'Servicios' },
+  { id: 'comunidad', label: 'Comunidad' },
+  { id: 'contacto', label: 'Contacto' },
 ];
 
 const socialMenuItems = [
@@ -1579,7 +1587,7 @@ export default function Page() {
         />
       </div>
 
-      {/* NAVEGACIÓN MÓVIL Y DOCK DESKTOP */}
+      {/* 1. NAVEGACIÓN MÓVIL (LOGO + HAMBURGUESA SIN ESPACIOS ENTRE BOTONES) */}
       <div 
         onClick={() => scrollToSection('home')}
         className="fixed top-3 left-3 z-[9999] lg:hidden w-11 h-11 bg-[#f74a35] rounded-full flex items-center justify-center animate-pulse shadow-[0_0_22px_rgba(247,74,53,0.95)] p-2 cursor-pointer transition-transform duration-200 active:scale-95"
@@ -1598,13 +1606,14 @@ export default function Page() {
         <span className={`w-5 h-0.5 bg-[#e3e3e3] transition-transform duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
       </button>
 
+      {/* DESPLEGABLE MÓVIL CONTINUO SIN ESPACIOS */}
       <div 
         className={`fixed inset-0 bg-[#0e0e0e]/98 backdrop-blur-xl z-[9990] lg:hidden flex flex-col items-center justify-center px-6 py-20 transition-all duration-500 ease-in-out font-datatype ${
           isMobileMenuOpen ? 'opacity-100 pointer-events-auto translate-y-0' : 'opacity-0 pointer-events-none -translate-y-6'
         }`}
       >
-        <div className="w-full max-w-[320px] flex flex-col items-stretch gap-3 overflow-y-auto max-h-[75vh]">
-          {menuItems.map((item) => {
+        <div className="w-full max-w-[320px] flex flex-col items-stretch gap-0 overflow-hidden border border-white/20 shadow-2xl">
+          {mobileMenuItems.map((item, idx) => {
             const isActive = activeSection === item.id;
             return (
               <button
@@ -1613,10 +1622,10 @@ export default function Page() {
                   setIsMobileMenuOpen(false);
                   scrollToSection(item.id);
                 }}
-                className={`w-full flex items-center justify-between px-5 py-3.5 border transition-all duration-300 font-bold uppercase tracking-wider text-sm ${
+                className={`w-full flex items-center justify-between px-5 py-4 transition-all duration-200 font-bold uppercase tracking-wider text-sm border-b last:border-b-0 ${
                   isActive
-                    ? 'bg-[#f74a35] text-white border-[#f74a35] shadow-[0_0_15px_rgba(247,74,53,0.6)]'
-                    : 'bg-[#141414] text-neutral-300 border-white/10 hover:border-[#f74a35] hover:text-white'
+                    ? 'bg-[#f74a35] text-white border-white/20 shadow-inner'
+                    : 'bg-[#141414] text-neutral-300 border-white/10 hover:bg-[#1a1a1a] hover:text-white'
                 }`}
               >
                 <span className="font-datatype">{item.label}</span>
@@ -1627,6 +1636,7 @@ export default function Page() {
         </div>
       </div>
 
+      {/* NAV DOCK DE ESCRITORIO */}
       <nav
         className={`fixed top-0 left-0 w-[88px] h-screen bg-[#0e0e0e] border-r border-[#262626] z-[9999] hidden lg:flex flex-col items-center justify-between py-4 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isHeroIntroComplete 
@@ -1677,7 +1687,7 @@ export default function Page() {
         </div>
       </nav>
 
-      {/* 2. ASIDE */}
+      {/* 2. ASIDE (SOLO ESCRITORIO) */}
       <aside 
         className={`fixed top-0 left-[88px] w-[332px] h-screen border-r border-[#333] shadow-2xl z-[60] flex flex-col font-datatype overflow-hidden bg-cover bg-center bg-no-repeat transition-all duration-300 hidden lg:flex ${
           isHeroIntroComplete 
@@ -1856,14 +1866,14 @@ export default function Page() {
         isHeroIntroComplete ? 'lg:!w-[calc(100%-420px)] lg:!ml-[420px]' : 'lg:!w-full lg:!ml-0'
       }`}>
         
-        {/* 1. HOME */}
+        {/* 1. HOME: EN MOBILE INTEGRA LOGO + REPRODUCTOR + CHAT */}
         <section
           ref={homeRef}
           id="home"
-          className="w-full h-screen min-h-screen flex flex-col justify-between items-center relative bg-black overflow-hidden transform-gpu"
+          className="w-full min-h-screen flex flex-col justify-start lg:justify-between items-center relative bg-black overflow-hidden transform-gpu"
         >
-          {/* VISTA MOBILE */}
-          <div className="flex lg:hidden w-full h-full min-h-screen flex-col justify-center items-center relative p-4 sm:p-6 z-10">
+          {/* VISTA MOBILE: REPRODUCTOR Y CHAT EN VIVO */}
+          <div className="flex lg:hidden w-full min-h-screen flex-col justify-start items-center relative p-4 sm:p-6 z-10 pt-16 pb-12 gap-5">
             <div className="absolute inset-0 h-full w-full pointer-events-none z-0 overflow-hidden">
               {homeHeroImages.map((imgUrl, idx) => {
                 const isActive = homeHeroIndex === idx;
@@ -1887,12 +1897,29 @@ export default function Page() {
               <div className="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-none" />
             </div>
 
-            <div className="relative z-10 w-full max-w-[320px] sm:max-w-[340px] flex flex-col items-center justify-center gap-4 bg-[#121212]/95 border border-white/10 p-4 sm:p-5 rounded-2xl shadow-2xl font-datatype max-h-[88vh] overflow-y-auto no-scrollbar">
-              <div className="w-full max-w-[280px] sm:max-w-[300px] h-auto flex items-center justify-center pt-1 pb-1">
+            {/* CONTENEDOR PRINCIPAL MOBILE */}
+            <div className="relative z-10 w-full max-w-[340px] flex flex-col items-center gap-4 bg-[#121212]/95 border border-white/10 p-4 rounded-2xl shadow-2xl font-datatype">
+              <div className="w-full max-w-[260px] h-auto flex items-center justify-center pt-1 pb-1">
                 <AnimatedLogo showBandText={false} />
               </div>
 
-              <IframePlayer width={300} />
+              {/* 1. REPRODUCTOR MOBILE */}
+              <div className="w-full flex justify-center">
+                <IframePlayer width={290} />
+              </div>
+
+              {/* 2. CHAT MOBILE */}
+              <div className="w-full flex flex-col gap-2 pt-2 border-t border-white/10">
+                <div className="flex items-center gap-2 px-1">
+                  <span className="w-2 h-2 rounded-full bg-[#f74a35] animate-pulse" />
+                  <span className="font-bold text-white text-xs uppercase tracking-widest font-datatype">
+                    Chat en vivo
+                  </span>
+                </div>
+                <div className="w-full h-[280px] bg-black rounded-xl overflow-hidden border border-white/10">
+                  <TlkioChat />
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1971,7 +1998,7 @@ export default function Page() {
           </div>
 
           <div 
-            onClick={() => scrollToSection('historia')}
+            onClick={() => scrollToSection('servicios')}
             className={`hidden lg:flex absolute bottom-8 right-2 sm:right-3 z-40 flex-col items-center gap-4 cursor-pointer font-datatype select-none transition-all duration-700 ease-out group p-2.5 ${
               isHeroIntroComplete 
                 ? 'opacity-100 translate-y-0 delay-[1600ms]' 
@@ -1989,11 +2016,11 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 2. HISTORIA */}
+        {/* 2. HISTORIA (SOLO DESKTOP) */}
         <section
           ref={historiaRef}
           id="historia"
-          className="w-full min-h-screen py-16 sm:py-24 px-4 sm:px-6 md:px-12 lg:px-0 relative text-[#e3e3e3] flex flex-col justify-center items-center transform-gpu overflow-hidden bg-cover bg-center bg-no-repeat scroll-mt-0"
+          className="hidden lg:flex w-full min-h-screen py-16 sm:py-24 px-4 sm:px-6 md:px-12 lg:px-0 relative text-[#e3e3e3] flex-col justify-center items-center transform-gpu overflow-hidden bg-cover bg-center bg-no-repeat scroll-mt-0"
           style={{
             backgroundImage: `url('/images/historia/Radio_en_Casa_Background_Historia_01.png')`,
           }}
@@ -2089,11 +2116,11 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 3. FILOSOFÍA */}
+        {/* 3. FILOSOFÍA (SOLO DESKTOP) */}
         <section
           ref={filosofiaRef}
           id="filosofia"
-          className="w-full min-h-screen relative bg-[#181818] p-0"
+          className="hidden lg:block w-full min-h-screen relative bg-[#181818] p-0"
         >
           <div 
             className="absolute inset-0 w-full h-full z-0 pointer-events-none opacity-40"
@@ -2218,7 +2245,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 4. SERVICIOS */}
+        {/* 3. SERVICIOS (VISIBLE EN MOBILE Y DESKTOP) */}
         <section ref={serviciosRef} id="servicios" className="w-full min-h-screen relative flex flex-col justify-center items-center transform-gpu overflow-hidden p-0 m-0 bg-[#181818]">
           <div 
             className="absolute inset-0 w-full h-full z-0 pointer-events-none opacity-40"
@@ -2325,8 +2352,8 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 5. ARCHIVO */}
-        <section ref={archivoRef} id="archivo" className="w-full min-h-screen relative p-0 m-0 bg-[#181818] text-[#e3e3e3] py-16 sm:py-24">
+        {/* 5. ARCHIVO (SOLO DESKTOP) */}
+        <section ref={archivoRef} id="archivo" className="hidden lg:block w-full min-h-screen relative p-0 m-0 bg-[#181818] text-[#e3e3e3] py-16 sm:py-24">
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
             <div 
               className="absolute inset-0 w-full h-[140%] z-0 opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
@@ -2470,7 +2497,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 6. COMUNIDAD */}
+        {/* 4. COMUNIDAD (VISIBLE EN MOBILE Y DESKTOP) */}
         <section 
           id="comunidad" 
           className="w-full pt-8 sm:pt-12 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 relative bg-black text-[#e3e3e3] z-10 flex flex-col justify-start items-center transform-gpu min-h-screen overflow-hidden bg-cover bg-center bg-no-repeat"
@@ -2630,8 +2657,8 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 7. ALIANZAS: VIDEO A SANGRE Y CONTENIDOS CON BACKGROUND NEGRO */}
-        <section id="alianzas" className="w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
+        {/* 7. ALIANZAS (SOLO DESKTOP) */}
+        <section id="alianzas" className="hidden lg:flex w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
             style={{
@@ -2665,8 +2692,6 @@ export default function Page() {
             <div className="w-full font-datatype">
               <AnimateOnScroll delay={200} duration={700} offset={45}>
                 <div className="border border-[#5c5c5c]/60 shadow-2xl flex flex-col hover:border-[#f74a35] transition-colors duration-300 font-datatype rounded-none overflow-hidden bg-black">
-                  
-                  {/* VIDEO EMBEBIDO A SANGRE */}
                   <div className="w-full aspect-video overflow-hidden rounded-none bg-black shadow-inner p-0 m-0">
                     <iframe
                       src="https://www.youtube.com/embed/LJbSpPJivuc"
@@ -2677,7 +2702,6 @@ export default function Page() {
                     />
                   </div>
 
-                  {/* BLOQUE SALGO ARRIBA CON BACKGROUND NEGRO */}
                   <div className="p-5 sm:p-8 space-y-4 bg-black border-t border-white/10">
                     <div className="h-14 sm:h-16 w-auto flex items-center justify-start">
                       <ImageWithPlaceholder 
@@ -2704,10 +2728,10 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 8. RECONOCIMIENTOS */}
+        {/* 8. RECONOCIMIENTOS (SOLO DESKTOP) */}
         <section 
           id="reconocimientos" 
-          className="w-full min-h-screen py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-white text-neutral-900 relative flex flex-col justify-center items-center transform-gpu bg-contain md:bg-cover bg-center bg-no-repeat"
+          className="hidden lg:flex w-full min-h-screen py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-white text-neutral-900 relative flex-col justify-center items-center transform-gpu bg-contain md:bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `url('/images/reconocimientos/Radio_en_Casa_Background_Reconocimientos.png')`,
           }}
@@ -2729,8 +2753,8 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 9. FANZINE */}
-        <section id="fanzine" className="w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
+        {/* 9. FANZINE (SOLO DESKTOP) */}
+        <section id="fanzine" className="hidden lg:flex w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
             style={{
@@ -2752,9 +2776,7 @@ export default function Page() {
           <div className="w-full max-w-[1100px] mx-auto px-0 sm:px-4 md:px-0 space-y-6 sm:space-y-8 relative z-10">
             <AnimateOnScroll duration={750} offset={35}>
               <div className="w-full bg-[#1e1e1e]/90 backdrop-blur-md p-6 sm:p-8 md:p-10 border border-[#5c5c5c]/60 shadow-xl font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed rounded-none">
-                
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
-                  
                   <div className="md:col-span-4 flex items-center justify-center p-2 min-h-[160px]">
                     <img
                       src="/images/servicios/Radio_en_Casa_logo_REC-05.svg"
@@ -2792,9 +2814,7 @@ export default function Page() {
                       </a>
                     </div>
                   </div>
-
                 </div>
-
               </div>
             </AnimateOnScroll>
 
@@ -2804,16 +2824,15 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 10. STORE: CONTENIDOS CON BACKGROUND OSCURO */}
+        {/* 10. STORE (SOLO DESKTOP) */}
         <section
           ref={storeRef}
           id="store"
-          className="w-full min-h-screen relative overflow-hidden text-[#ececec] pt-0 pb-24 sm:pb-32 flex flex-col justify-between items-center bg-cover bg-center bg-no-repeat"
+          className="hidden lg:flex w-full min-h-screen relative overflow-hidden text-[#ececec] pt-0 pb-24 sm:pb-32 flex-col justify-between items-center bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `url('/images/reconocimientos/Radio_en_Casa_Background_Reconocimientos.png')`,
           }}
         >
-          {/* HEADER STORE */}
           <div className="w-full relative left-0 right-0 top-0 mb-0 overflow-hidden z-10 py-0">
             <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 md:px-12 lg:px-0">
               <div className="w-full h-[32vh] sm:h-[48vh] min-h-[220px] sm:min-h-[320px] overflow-hidden bg-transparent border-0 shadow-none rounded-none">
@@ -2829,7 +2848,6 @@ export default function Page() {
             </div>
           </div>
 
-          {/* CONTENIDO STORE CON BACKGROUND OSCURO */}
           <div className="w-full max-w-[1100px] mx-auto space-y-6 sm:space-y-8 relative z-20 mt-4 sm:mt-6 px-4 sm:px-6 md:px-12 lg:px-0">
             <AnimateOnScroll delay={150} duration={600} offset={25}>
               <div className="bg-[#121212]/95 backdrop-blur-md p-6 sm:p-8 md:p-10 border border-[#5c5c5c]/60 rounded-none shadow-2xl space-y-4 sm:space-y-6 font-datatype text-xs sm:text-sm md:text-base text-neutral-200 leading-relaxed">
@@ -2839,7 +2857,6 @@ export default function Page() {
                 />
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-16 pt-2 font-datatype">
-                  
                   <div className="space-y-3 font-datatype">
                     <p className="text-neutral-300 font-medium font-datatype leading-relaxed">
                       En esta tienda vas a encontrar productos diseñados para quienes forman parte de nuestra comunidad: desde merchandising hasta ediciones especiales y objetos creados junto a artistas y proyectos amigos.
@@ -2852,7 +2869,6 @@ export default function Page() {
                     </p>
                     <p className="text-[#f74a35] font-bold font-datatype">Porque algunas historias también se pueden llevar puestas.</p>
                   </div>
-
                 </div>
 
                 <div className="pt-2 sm:pt-4 flex justify-start font-datatype">
@@ -2870,7 +2886,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 11. CONTACTO */}
+        {/* 5. CONTACTO (VISIBLE EN MOBILE Y DESKTOP) */}
         <section id="contacto" className="w-full pt-0 pb-0 mb-0 bg-[#181818] text-[#ececec] relative flex flex-col justify-between overflow-hidden transform-gpu min-h-screen">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"

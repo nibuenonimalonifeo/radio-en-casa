@@ -408,7 +408,7 @@ function TypewriterHeadingUnificado({
   );
 }
 
-// --- 4 BANDAS DE COLOR INTERACTIVAS EN HOME (CONVERSIÓN A BOTONES CON ANIMACIÓN) ---
+// --- 4 BANDAS DE COLOR INTERACTIVAS EN HOME ---
 
 function HeroAnimatedColorBands({ onNavigate }: { onNavigate: (id: string) => void }) {
   const bands = [
@@ -431,19 +431,16 @@ function HeroAnimatedColorBands({ onNavigate }: { onNavigate: (id: string) => vo
           }}
           title={`Ir a ${band.label}`}
         >
-          {/* Fondo interactivo con color pleno en hover */}
           <span
             className="absolute inset-0 w-full h-full transition-transform duration-500 ease-out origin-left -translate-x-full group-hover:translate-x-0 opacity-90"
             style={{ backgroundColor: band.color }}
           />
 
-          {/* Línea superior indicadora animada */}
           <span
             className="absolute top-0 left-0 right-0 h-1 transition-all duration-300"
             style={{ backgroundColor: band.color }}
           />
 
-          {/* Etiqueta / Texto */}
           <span className="relative z-10 text-xs sm:text-[13px] font-black uppercase tracking-widest text-[#ececec] group-hover:text-white font-datatype transition-colors duration-200">
             {band.label}
           </span>
@@ -641,7 +638,7 @@ const historyCardsData = [
     year: '2016',
     title: 'Lanzamiento',
     img: '/images/historia/Radio_en_Casa_historia_01.jpg',
-    desc: 'Radio en Casa nace en Noviembre de 2016 con un concepto crítico hacia lo que eran las primeras radios por internet. En aquél momento creíamos que el nacimiento de las redes sociales y el hecho de transmitir vía web nos obligaba a replantearnos el formato de las radios tradicionales.',
+    desc: 'En el 2016 abrimos nuestras puertas con un concepto crítico hacia lo que eran las primeras radios por internet. En aquél momento creíamos que el nacimiento de las redes sociales y el hecho de transmitir vía web nos obligaba a replantearnos el formato de las radios tradicionales.',
   },
   {
     id: '02',
@@ -2917,7 +2914,7 @@ export default function Page() {
           </div>
 
           <div className="w-full h-[320px] sm:h-[480px] bg-[#111111] border-b border-[#5c5c5c]/60 relative overflow-hidden group shadow-xl z-10">
-            <iframe title="Mapa" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.5826978182937!2d-58.4238515!3d-34.5893083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb58097b6294b%3A0x6b453a2ef5638c4b!2sMalabia%202134%2C%20C1425EZD%20CABA%2C%20Argentina!5e0!3m2!1ses!2sar!4v1700000000000!5m2!1ses!2sar" className="w-full h-full border-0 filter grayscale invert contrast-125 opacity-80 group-hover:grayscale-0 group-hover:invert-0 group-hover:opacity-100 transition-all duration-700 ease-out" loading="lazy" allowFullScreen />
+            <iframe title="Mapa" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.5826978182937!2d-58.4238515!3d-34.5893083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb58097b6294b%3A0x6b453a2ef5638c4b!2sMalabia%202134%2C%20C1425EZD%20CABA%2C%20Argentina!5e0!3m2!1ses!2sar!4v1700000000000!5m2!1ses!2sar!4v1700000000000" className="w-full h-full border-0 filter grayscale invert contrast-125 opacity-80 group-hover:grayscale-0 group-hover:invert-0 group-hover:opacity-100 transition-all duration-700 ease-out" loading="lazy" allowFullScreen />
           </div>
 
           <div className="w-full max-w-[1100px] mx-auto space-y-6 mt-6 px-4 md:px-0 mb-0 pb-0 relative z-10">

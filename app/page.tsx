@@ -169,42 +169,16 @@ function SubstackFanzineFeed() {
   );
 }
 
-// --- COMPONENTE CHAT EN VIVO DE TLK.IO UNIFICADO Y OSCURO (DESKTOP Y MOBILE) ---
+// --- COMPONENTE CHAT EN VIVO DE TLK.IO (OSCURO Y RESPONSIVE) ---
 
-function TlkioChat({ idSuffix = 'desktop' }: { idSuffix?: string }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const scriptId = `tlkio-script-${idSuffix}`;
-    const existing = document.getElementById(scriptId);
-    if (existing) {
-      existing.remove();
-    }
-
-    const script = document.createElement('script');
-    script.id = scriptId;
-    script.src = 'https://tlk.io/embed.js';
-    script.type = 'text/javascript';
-    script.async = true;
-
-    if (containerRef.current) {
-      containerRef.current.appendChild(script);
-    }
-
-    return () => {
-      const s = document.getElementById(scriptId);
-      if (s) s.remove();
-    };
-  }, [idSuffix]);
-
+function TlkioChat({ heightClass = 'h-full min-h-[220px]' }: { heightClass?: string }) {
   return (
-    <div ref={containerRef} className="w-full h-full relative min-h-[220px] bg-[#121212] overflow-hidden rounded-xl border border-white/10">
-      <div
-        id="tlkio"
-        data-channel="radioencasa"
-        data-theme="theme--night"
-        className="w-full h-full min-h-[220px]"
-        style={{ width: '100%', height: '100%' }}
+    <div className={`w-full ${heightClass} bg-[#121212] overflow-hidden rounded-xl border border-white/10 relative`}>
+      <iframe
+        src="https://tlk.io/radioencasa?theme=theme--night"
+        title="Chat Radio en Casa"
+        className="w-full h-full border-0 absolute inset-0 bg-[#121212]"
+        allow="microphone; camera"
       />
     </div>
   );
@@ -1835,7 +1809,7 @@ export default function Page() {
             </div>
           </div>
 
-          {/* MÓDULO 3: CHAT EN VIVO DESKTOP (OSCURO) */}
+          {/* MÓDULO 3: CHAT EN VIVO DESKTOP */}
           <div 
             className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-2xl p-2 border border-white/10 shadow-2xl flex flex-col font-datatype flex-1 min-h-[220px] max-h-[35vh] overflow-hidden ${
               isHeroIntroComplete ? 'animate-slide-bottom-ease' : 'opacity-0'
@@ -1867,7 +1841,7 @@ export default function Page() {
             }`}>
               <div className="overflow-hidden w-full h-full flex flex-col">
                 <div className="overflow-hidden flex flex-col h-full w-full bg-black rounded-xl border border-white/10 flex-1 min-h-0">
-                  <TlkioChat idSuffix="desktop" />
+                  <TlkioChat />
                 </div>
               </div>
             </div>
@@ -1898,14 +1872,14 @@ export default function Page() {
         isHeroIntroComplete ? 'lg:!w-[calc(100%-420px)] lg:!ml-[420px]' : 'lg:!w-full lg:!ml-0'
       }`}>
         
-        {/* 1. HOME: LOGO + REPRODUCTOR + CHAT (MOBILE) */}
+        {/* 1. HOME: EN MOBILE SE PERMITE EL SCROLL NATURAL PARA VER REPRODUCTOR Y CHAT */}
         <section
           ref={homeRef}
           id="home"
-          className="w-full min-h-screen flex flex-col justify-start lg:justify-between items-center relative bg-black overflow-hidden transform-gpu"
+          className="w-full min-h-screen flex flex-col justify-start lg:justify-between items-center relative bg-black overflow-visible lg:overflow-hidden transform-gpu"
         >
-          {/* VISTA MOBILE */}
-          <div className="flex lg:hidden w-full min-h-screen flex-col justify-start items-center relative p-4 sm:p-6 z-10 pt-16 pb-12 gap-5">
+          {/* VISTA MOBILE: REPRODUCTOR Y CHAT EN VIVO ACCESIBLES SIN CORTE */}
+          <div className="flex lg:hidden w-full min-h-screen flex-col justify-start items-center relative p-4 sm:p-6 z-10 pt-16 pb-20 gap-5">
             <div className="absolute inset-0 h-full w-full pointer-events-none z-0 overflow-hidden">
               {homeHeroImages.map((imgUrl, idx) => {
                 const isActive = homeHeroIndex === idx;
@@ -1939,7 +1913,7 @@ export default function Page() {
                 <IframePlayer width={290} />
               </div>
 
-              {/* 2. CHAT MOBILE: MISMA FUENTE Y TEMA QUE DESKTOP */}
+              {/* 2. CHAT MOBILE CON ALTURA VISIBLE FORZADA */}
               <div className="w-full flex flex-col gap-2 pt-2 border-t border-white/10">
                 <div className="flex items-center gap-2 px-1">
                   <span className="w-2 h-2 rounded-full bg-[#f74a35] animate-pulse" />
@@ -1947,8 +1921,8 @@ export default function Page() {
                     Chat en vivo
                   </span>
                 </div>
-                <div className="w-full h-[320px] bg-black rounded-xl overflow-hidden border border-white/10">
-                  <TlkioChat idSuffix="mobile" />
+                <div className="w-full h-[380px] min-h-[380px] bg-[#121212] rounded-xl overflow-hidden border border-white/10">
+                  <TlkioChat heightClass="h-[380px] min-h-[380px]" />
                 </div>
               </div>
             </div>

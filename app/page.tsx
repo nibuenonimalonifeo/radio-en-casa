@@ -408,48 +408,6 @@ function TypewriterHeadingUnificado({
   );
 }
 
-// --- 4 BANDAS DE COLOR INTERACTIVAS EN HOME ---
-
-function HeroAnimatedColorBands({ onNavigate }: { onNavigate: (id: string) => void }) {
-  const bands = [
-    { id: 'historia', label: 'HISTORIA', color: '#f74a35', delay: 1400 },
-    { id: 'filosofia', label: 'FILOSOFÍA', color: '#ff7700', delay: 1550 },
-    { id: 'servicios', label: 'SERVICIOS', color: '#ffcc00', delay: 1700 },
-    { id: 'comunidad', label: 'COMUNIDAD', color: '#215164', delay: 1850 },
-  ];
-
-  return (
-    <div className="w-full max-w-[620px] flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-3.5 pt-6 pb-2 z-30 font-datatype">
-      {bands.map((band) => (
-        <button
-          key={band.id}
-          onClick={() => onNavigate(band.id)}
-          className="group relative flex-1 w-full sm:w-auto h-11 sm:h-12 overflow-hidden border border-white/15 hover:border-white transition-all duration-300 ease-out flex items-center justify-center px-4 cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0 shadow-lg animate-slide-bottom-ease"
-          style={{
-            animationDelay: `${band.delay}ms`,
-            backgroundColor: `${band.color}1A`,
-          }}
-          title={`Ir a ${band.label}`}
-        >
-          <span
-            className="absolute inset-0 w-full h-full transition-transform duration-500 ease-out origin-left -translate-x-full group-hover:translate-x-0 opacity-90"
-            style={{ backgroundColor: band.color }}
-          />
-
-          <span
-            className="absolute top-0 left-0 right-0 h-1 transition-all duration-300"
-            style={{ backgroundColor: band.color }}
-          />
-
-          <span className="relative z-10 text-xs sm:text-[13px] font-black uppercase tracking-widest text-[#ececec] group-hover:text-white font-datatype transition-colors duration-200">
-            {band.label}
-          </span>
-        </button>
-      ))}
-    </div>
-  );
-}
-
 // --- COMPONENTE DE CARTAS EN RUEDA / PERSPECTIVA 3D ---
 
 function FanStackedCards({ items }: { items: typeof historyCardsData }) {
@@ -1870,7 +1828,7 @@ export default function Page() {
         isHeroIntroComplete ? 'lg:!w-[calc(100%-420px)] lg:!ml-[420px]' : 'lg:!w-full lg:!ml-0'
       }`}>
         
-        {/* 1. HOME CON 4 BANDAS DE COLOR ANIMADAS Y CONVERTIDAS EN BOTONES */}
+        {/* 1. HOME */}
         <section
           ref={homeRef}
           id="home"
@@ -1905,9 +1863,6 @@ export default function Page() {
               <div className="w-full max-w-[280px] sm:max-w-[300px] h-auto flex items-center justify-center pt-1 pb-1">
                 <AnimatedLogo showBandText={false} />
               </div>
-
-              {/* 4 BANDAS INTERACTIVAS MOBILE */}
-              <HeroAnimatedColorBands onNavigate={scrollToSection} />
 
               <IframePlayer width={300} />
             </div>
@@ -1972,7 +1927,7 @@ export default function Page() {
               <div 
                 ref={heroLogoRef} 
                 key={logoAnimKey}
-                className={`animated-logo-svg h-auto flex flex-col items-center justify-center pointer-events-auto text-[#e3e3e3] transition-all duration-1000 ease-out transform-gpu ${
+                className={`animated-logo-svg h-auto flex items-center justify-center pointer-events-auto text-[#e3e3e3] transition-all duration-1000 ease-out transform-gpu ${
                   isHeroIntroComplete && isHomeInView 
                     ? 'opacity-100 scale-100 filter blur-0' 
                     : 'opacity-0 scale-90 filter blur-lg pointer-events-none'
@@ -1982,13 +1937,7 @@ export default function Page() {
                   maxWidth: '1000px',
                 }}
               >
-                {isHeroIntroComplete && (
-                  <>
-                    <AnimatedLogo />
-                    {/* 4 BANDAS DE COLOR CONVERTIDAS EN BOTONES */}
-                    <HeroAnimatedColorBands onNavigate={scrollToSection} />
-                  </>
-                )}
+                {isHeroIntroComplete && <AnimatedLogo />}
               </div>
             </div>
           </div>
@@ -2914,7 +2863,7 @@ export default function Page() {
           </div>
 
           <div className="w-full h-[320px] sm:h-[480px] bg-[#111111] border-b border-[#5c5c5c]/60 relative overflow-hidden group shadow-xl z-10">
-            <iframe title="Mapa" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.5826978182937!2d-58.4238515!3d-34.5893083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb58097b6294b%3A0x6b453a2ef5638c4b!2sMalabia%202134%2C%20C1425EZD%20CABA%2C%20Argentina!5e0!3m2!1ses!2sar!4v1700000000000!5m2!1ses!2sar!4v1700000000000" className="w-full h-full border-0 filter grayscale invert contrast-125 opacity-80 group-hover:grayscale-0 group-hover:invert-0 group-hover:opacity-100 transition-all duration-700 ease-out" loading="lazy" allowFullScreen />
+            <iframe title="Mapa" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.5826978182937!2d-58.4238515!3d-34.5893083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb58097b6294b%3A0x6b453a2ef5638c4b!2sMalabia%202134%2C%20C1425EZD%20CABA%2C%20Argentina!5e0!3m2!1ses!2sar!4v1700000000000!5m2!1ses!2sar" className="w-full h-full border-0 filter grayscale invert contrast-125 opacity-80 group-hover:grayscale-0 group-hover:invert-0 group-hover:opacity-100 transition-all duration-700 ease-out" loading="lazy" allowFullScreen />
           </div>
 
           <div className="w-full max-w-[1100px] mx-auto space-y-6 mt-6 px-4 md:px-0 mb-0 pb-0 relative z-10">

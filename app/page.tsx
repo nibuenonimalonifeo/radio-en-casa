@@ -5,7 +5,7 @@ import Script from 'next/script';
 import AnimatedLogo from '@/components/AnimatedLogo';
 import IframePlayer from '@/components/IframePlayer';
 
-// --- COMPONENTE AUXILIAR CON PLACEHOLDER REC ESTÁTICO EN CARGA DE IMÁGENES ---
+// --- COMPONENTE AUXILIAR CON PLACEHOLDER REC ESTÁTICO ---
 
 function ImageWithPlaceholder({
   src,
@@ -258,6 +258,55 @@ function ScrollFadeText({
         transitionDelay: `${delay}ms`,
         opacity: isVisible ? 1 : 0,
         transform: isVisible ? 'translateY(0px)' : 'translateY(25px)',
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+// --- COMPONENTE AUXILIAR ANIMATEONSCROLL ---
+
+function AnimateOnScroll({
+  children,
+  className = '',
+  delay = 0,
+  duration = 700,
+  offset = 40,
+}: {
+  children: ReactNode;
+  className?: string;
+  delay?: number;
+  duration?: number;
+  offset?: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`transition-all ease-out transform-gpu ${className}`}
+      style={{
+        transitionDuration: `${duration}ms`,
+        transitionDelay: `${delay}ms`,
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? 'translateY(0px)' : `translateY(${offset}px)`,
       }}
     >
       {children}
@@ -923,7 +972,6 @@ export default function Page() {
 
   const [activeMembership, setActiveMembership] = useState<string | null>(null);
 
-  // PLAYER Y CHAT
   const [isOpenPlayer, setIsOpenPlayer] = useState<boolean>(true);
   const [isOpenChat, setIsOpenChat] = useState<boolean>(true);
 
@@ -1601,7 +1649,7 @@ export default function Page() {
         </div>
       </nav>
 
-      {/* 2. ASIDE (SIDEBAR SECUNDARIA DE ESCRITORIO): SE AJUSTA LA ALTURA PARA MANTENER LAS REDES VISIBLES */}
+      {/* 2. ASIDE */}
       <aside 
         className={`fixed top-0 left-[88px] w-[332px] h-screen border-r border-[#333] shadow-2xl z-[60] flex flex-col font-datatype overflow-hidden bg-cover bg-center bg-no-repeat transition-all duration-300 hidden lg:flex ${
           isHeroIntroComplete 
@@ -1717,7 +1765,7 @@ export default function Page() {
             </div>
           </div>
 
-          {/* MÓDULO 3: CHAT EN VIVO (ALTURA ADAPTABLE MENOR PARA EVITAR OVERFLOW) */}
+          {/* MÓDULO 3: CHAT EN VIVO */}
           <div 
             className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-2xl p-2 border border-white/10 shadow-2xl flex flex-col font-datatype flex-1 min-h-[220px] max-h-[35vh] overflow-hidden ${
               isHeroIntroComplete ? 'animate-slide-bottom-ease' : 'opacity-0'
@@ -1755,7 +1803,7 @@ export default function Page() {
             </div>
           </div>
 
-          {/* REDES SOCIALES HORIZONTALES (SIEMPRE VISIBLES EN PANTALLA) */}
+          {/* REDES SOCIALES */}
           <div className="w-full pt-2 pb-1 border-t border-white/10 flex items-center justify-around gap-2 flex-shrink-0 mt-auto">
             {socialMenuItems.map((social, idx) => (
               <a
@@ -1775,7 +1823,7 @@ export default function Page() {
         </div>
       </aside>
 
-      {/* CONTENIDO PRINCIPAL SCROLLABLE */}
+      {/* CONTENIDO PRINCIPAL */}
       <div className={`flex flex-col transition-all duration-700 ease-out w-full ${
         isHeroIntroComplete ? 'lg:!w-[calc(100%-420px)] lg:!ml-[420px]' : 'lg:!w-full lg:!ml-0'
       }`}>
@@ -2179,7 +2227,6 @@ export default function Page() {
                       style={{ borderColor: service.borderColor }}
                     >
                       <div>
-                        {/* CABECERA SIN FLECHAS */}
                         <div className="flex items-center justify-between border-b pb-3 mb-3 border-white/10">
                           <h3 
                             className="font-boldonse text-xl sm:text-2xl font-black uppercase tracking-wider"
@@ -2442,7 +2489,7 @@ export default function Page() {
               </div>
             </AnimateOnScroll>
 
-            {/* GRUPO DE MEMBRESÍAS CON TEXTOS UNIFICADORES ACTUALIZADOS */}
+            {/* GRUPO DE MEMBRESÍAS CON TEXTOS UNIFICADORES */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-8 sm:mt-10 md:mt-14 font-datatype items-stretch">
               
               {/* GROUPIE */}
@@ -2492,7 +2539,7 @@ export default function Page() {
                 );
               })()}
 
-              {/* GRUPO DE 3 TARJETAS CON TEXTO UNIFICADOR */}
+              {/* GRUPO DE 3 TARJETAS */}
               <div className="lg:col-span-9 bg-black/60 border-2 border-[#f74a35] p-3 sm:p-4 md:p-6 backdrop-blur-sm shadow-2xl relative flex flex-col justify-between space-y-4">
                 
                 <div className="w-full space-y-1.5 pt-1 pb-1 text-left">
@@ -2555,7 +2602,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 7. ALIANZAS: VIDEO SIN MÁRGENES Y LOGO SALGO ARRIBA LIMPIO SIN FONDO OSCURO */}
+        {/* 7. ALIANZAS */}
         <section id="alianzas" className="w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
@@ -2591,7 +2638,7 @@ export default function Page() {
               <AnimateOnScroll delay={200} duration={700} offset={45}>
                 <div className="border border-[#5c5c5c]/60 shadow-2xl flex flex-col hover:border-[#f74a35] transition-colors duration-300 font-datatype rounded-none overflow-hidden bg-transparent">
                   
-                  {/* VIDEO EMBEBIDO A SANGRE (SIN MÁRGENES) */}
+                  {/* VIDEO EMBEBIDO A SANGRE */}
                   <div className="w-full aspect-video overflow-hidden rounded-none bg-black shadow-inner p-0 m-0">
                     <iframe
                       src="https://www.youtube.com/embed/LJbSpPJivuc"
@@ -2602,7 +2649,7 @@ export default function Page() {
                     />
                   </div>
 
-                  {/* BLOQUE SALGO ARRIBA LIMPIO (SIN FONDO OSCURO ADICIONAL) */}
+                  {/* BLOQUE SALGO ARRIBA LIMPIO */}
                   <div className="p-5 sm:p-8 space-y-4 bg-transparent">
                     <div className="h-14 sm:h-16 w-auto flex items-center justify-start">
                       <ImageWithPlaceholder 
@@ -2629,7 +2676,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 8. RECONOCIMIENTOS: 3 COLUMNAS UNIFICADAS QUE FLUYEN CON EL SCROLL GENERAL */}
+        {/* 8. RECONOCIMIENTOS */}
         <section 
           id="reconocimientos" 
           className="w-full min-h-screen py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-white text-neutral-900 relative flex flex-col justify-center items-center transform-gpu bg-contain md:bg-cover bg-center bg-no-repeat"
@@ -2729,7 +2776,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 10. STORE: SIN FONDO GRIS, DIRECTAMENTE SOBRE EL BACKGROUND GENERAL */}
+        {/* 10. STORE */}
         <section
           ref={storeRef}
           id="store"
@@ -2738,7 +2785,6 @@ export default function Page() {
             backgroundImage: `url('/images/reconocimientos/Radio_en_Casa_Background_Reconocimientos.png')`,
           }}
         >
-          {/* HEADER STORE LIMPIO */}
           <div className="w-full relative left-0 right-0 top-0 mb-0 overflow-hidden z-10 py-0">
             <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 md:px-12 lg:px-0">
               <div className="w-full h-[32vh] sm:h-[48vh] min-h-[220px] sm:min-h-[320px] overflow-hidden bg-transparent border-0 shadow-none rounded-none">
@@ -2754,7 +2800,6 @@ export default function Page() {
             </div>
           </div>
 
-          {/* CONTENIDO STORE SIN PLACA GRIS (INTEGRADO AL FONDO) */}
           <div className="w-full max-w-[1100px] mx-auto space-y-6 sm:space-y-8 relative z-20 mt-4 sm:mt-6 px-4 sm:px-6 md:px-12 lg:px-0">
             <AnimateOnScroll delay={150} duration={600} offset={25}>
               <div className="bg-transparent p-0 border-0 rounded-none shadow-none space-y-4 sm:space-y-6 font-datatype text-xs sm:text-sm md:text-base text-neutral-800 leading-relaxed">

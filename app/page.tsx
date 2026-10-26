@@ -21,9 +21,9 @@ function ImageWithPlaceholder({
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <div className="relative w-full h-full overflow-hidden bg-[#121212]">
+    <div className="relative w-full h-full overflow-hidden bg-transparent">
       {!loaded && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-[#141414] border border-white/5 animate-pulse p-4">
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-transparent border border-white/5 animate-pulse p-4">
           <img
             src="/images/servicios/Radio_en_Casa_logo_REC-04.svg"
             alt="Cargando..."
@@ -197,12 +197,12 @@ function TlkioChat() {
   }, []);
 
   return (
-    <div ref={containerRef} className="w-full h-full relative min-h-[380px] bg-[#121212] overflow-hidden rounded-xl border border-white/10">
+    <div ref={containerRef} className="w-full h-full relative min-h-[200px] bg-[#121212] overflow-hidden rounded-xl border border-white/10">
       <div
         id="tlkio"
         data-channel="radioencasa"
         data-theme="theme--night"
-        className="w-full h-full min-h-[380px]"
+        className="w-full h-full min-h-[200px]"
         style={{ width: '100%', height: '100%' }}
       />
     </div>
@@ -471,61 +471,34 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
   );
 }
 
-// --- RECONOCIMIENTOS EN 1 COLUMNA PARA MOBILE Y 3 COLUMNAS PARA DESKTOP ---
+// --- RECONOCIMIENTOS: 3 COLUMNAS UNIFICADAS QUE FLUYEN CON EL SCROLL GENERAL ---
 
-function Recognitions3Columns({ items }: { items: typeof recognitionsData; scrollProgress?: number }) {
+function Recognitions3Columns({ items }: { items: typeof recognitionsData }) {
   return (
-    <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 font-datatype">
-      {/* VISTA MÓVIL */}
-      <div className="flex md:hidden flex-col gap-4 w-full">
-        {items.map((rec) => (
-          <div
-            key={rec.id}
-            className="bg-white/95 backdrop-blur-sm border border-neutral-300 p-5 rounded-none shadow-md hover:border-[#f74a35] transition-colors text-left"
-          >
-            <span className="text-xl font-black text-[#f74a35] font-boldonse">{rec.year}</span>
-            <p className="text-xs text-neutral-500 font-bold uppercase tracking-wider my-1">{rec.media}</p>
-            <h4 className="font-extrabold text-neutral-900 text-base font-boldonse">{rec.title}</h4>
-            <p className="text-sm text-neutral-700 mt-2 font-datatype">{rec.desc}</p>
-            {rec.link && (
-              <a
-                href={rec.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block text-xs font-bold text-[#f74a35] mt-3 hover:underline"
-              >
-                Nota completa →
-              </a>
-            )}
-          </div>
-        ))}
-      </div>
-
-      {/* VISTA DESKTOP */}
+    <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 font-datatype items-start">
       {[
         items.filter((_, i) => i % 3 === 0),
         items.filter((_, i) => i % 3 === 1),
         items.filter((_, i) => i % 3 === 2),
       ].map((colItems, colIndex) => (
-        <div
-          key={colIndex}
-          className="hidden md:block max-h-[60vh] overflow-y-auto space-y-4 pr-1.5 custom-scrollbar overscroll-contain"
-        >
+        <div key={colIndex} className="flex flex-col gap-5 w-full">
           {colItems.map((rec) => (
             <div
               key={rec.id}
-              className="bg-white/95 backdrop-blur-sm border border-neutral-300 p-5 rounded-none shadow-md hover:border-[#f74a35] transition-colors text-left"
+              className="bg-white/95 backdrop-blur-sm border border-neutral-300 p-5 rounded-none shadow-md hover:border-[#f74a35] transition-colors text-left flex flex-col justify-between"
             >
-              <span className="text-xl font-black text-[#f74a35] font-boldonse">{rec.year}</span>
-              <p className="text-xs text-neutral-500 font-bold uppercase tracking-wider my-1">{rec.media}</p>
-              <h4 className="font-extrabold text-neutral-900 text-base font-boldonse">{rec.title}</h4>
-              <p className="text-sm text-neutral-700 mt-2 font-datatype">{rec.desc}</p>
+              <div>
+                <span className="text-xl font-black text-[#f74a35] font-boldonse">{rec.year}</span>
+                <p className="text-xs text-neutral-500 font-bold uppercase tracking-wider my-1">{rec.media}</p>
+                <h4 className="font-extrabold text-neutral-900 text-base font-boldonse">{rec.title}</h4>
+                <p className="text-sm text-neutral-700 mt-2 font-datatype leading-relaxed">{rec.desc}</p>
+              </div>
               {rec.link && (
                 <a
                   href={rec.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block text-xs font-bold text-[#f74a35] mt-3 hover:underline"
+                  className="inline-block text-xs font-bold text-[#f74a35] mt-4 hover:underline"
                 >
                   Nota completa →
                 </a>
@@ -534,53 +507,6 @@ function Recognitions3Columns({ items }: { items: typeof recognitionsData; scrol
           ))}
         </div>
       ))}
-    </div>
-  );
-}
-
-function AnimateOnScroll({
-  children,
-  className = '',
-  delay = 0,
-  duration = 700,
-  offset = 40,
-}: {
-  children: ReactNode;
-  className?: string;
-  delay?: number;
-  duration?: number;
-  offset?: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { threshold: 0.15 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return (
-    <div
-      ref={ref}
-      className={`transition-all ease-out transform-gpu ${className}`}
-      style={{
-        transitionDuration: `${duration}ms`,
-        transitionDelay: `${delay}ms`,
-        opacity: isVisible ? 1 : 0,
-        transform: isVisible ? 'translateY(0px)' : `translateY(${offset}px)`,
-      }}
-    >
-      {children}
     </div>
   );
 }
@@ -674,7 +600,7 @@ const historyCardsData = [
   },
 ];
 
-// --- DATOS DE SERVICIOS CON TEXTO RESUMIDO Y COMPLETO ---
+// --- DATOS DE SERVICIOS ---
 const servicesQuadrants = [
   {
     id: 'radio',
@@ -706,7 +632,7 @@ const servicesQuadrants = [
   },
 ];
 
-// --- DATOS DE MEMBRESÍAS CON TEXTO DE GROUPIE ACTUALIZADO ---
+// --- DATOS DE MEMBRESÍAS ---
 const membershipsData = [
   {
     id: '01',
@@ -916,7 +842,6 @@ const menuItems = [
   },
 ];
 
-// --- NÚMERO DE WHATSAPP ACTUALIZADO A +54 9 11 2899-9200 ---
 const socialMenuItems = [
   {
     label: 'Instagram',
@@ -998,7 +923,7 @@ export default function Page() {
 
   const [activeMembership, setActiveMembership] = useState<string | null>(null);
 
-  // PLAYER Y CHAT ABIERTOS
+  // PLAYER Y CHAT
   const [isOpenPlayer, setIsOpenPlayer] = useState<boolean>(true);
   const [isOpenChat, setIsOpenChat] = useState<boolean>(true);
 
@@ -1191,7 +1116,6 @@ export default function Page() {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [hasScrolled, setHasScrolled] = useState<boolean>(false);
 
-  // SELECCIÓN ALEATORIA DE LA IMAGEN INICIAL DEL HERO EN HOME
   const [homeHeroIndex, setHomeHeroIndex] = useState<number>(0);
 
   useEffect(() => {
@@ -1203,7 +1127,6 @@ export default function Page() {
   const [temperature, setTemperature] = useState<string | null>(null);
   const [cityName, setCityName] = useState<string>('CARGANDO...');
 
-  // ESTADO PARA TOGGLES HORIZONTALES EN SERVICIOS (INICIAN CERRADOS)
   const [activeServiceId, setActiveServiceId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -1238,7 +1161,6 @@ export default function Page() {
     return () => clearInterval(timer);
   }, []);
 
-  // AUTOPLAY AUTOMÁTICO AL CARGAR LA PÁGINA
   useEffect(() => {
     const audioElement = document.getElementById('radio-audio-element') as HTMLAudioElement;
     if (audioElement) {
@@ -1267,7 +1189,6 @@ export default function Page() {
     };
   }, []);
 
-  // 5. NAVEGACIÓN A CONTACTO CON SCROLL COMPLETO HASTA EL FINAL DE LA PÁGINA
   const scrollToSection = (id: string) => {
     setHasScrolled(true);
     if (id === 'home') {
@@ -1417,12 +1338,8 @@ export default function Page() {
         }
 
         @keyframes scroll-left {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
         }
         .animate-scroll-infinite {
           display: flex;
@@ -1478,12 +1395,8 @@ export default function Page() {
         }
 
         @keyframes continuousZoom {
-          0% {
-            transform: scale(1);
-          }
-          100% {
-            transform: scale(1.08);
-          }
+          0% { transform: scale(1); }
+          100% { transform: scale(1.08); }
         }
 
         .animate-continuous-zoom {
@@ -1572,7 +1485,7 @@ export default function Page() {
         }
       `}</style>
 
-      {/* ELEMENTO DE AUDIO GLOBAL PARA PÁGINA / SIDEBAR */}
+      {/* AUDIO ELEMENT */}
       <audio
         id="radio-audio-element"
         src="/api/stream/audio"
@@ -1582,7 +1495,7 @@ export default function Page() {
         crossOrigin="anonymous"
       />
 
-      {/* BARRA DE SCROLL ROJA (ANCHO REDUCIDO A 10PX EN MOBILE Y 20PX EN DESKTOP) */}
+      {/* BARRA DE SCROLL ROJA */}
       <div className="fixed top-0 right-0 lg:right-0 w-[10px] sm:w-[20px] h-full z-[30] pointer-events-none overflow-hidden">
         <div
           className="w-full bg-[#f74a35] transition-all duration-150 ease-out shadow-sm"
@@ -1590,8 +1503,7 @@ export default function Page() {
         />
       </div>
 
-      {/* 1. NAVEGACIÓN MÓVIL (LOGO FLOTANTE A LA IZQUIERDA + MENÚ HAMBURGUESA) Y DESKTOP DOCK */}
-      {/* BOTÓN FLOTANTE LOGO IZQUIERDA (SOLO MÓVIL) */}
+      {/* NAVEGACIÓN MÓVIL Y DOCK DESKTOP */}
       <div 
         onClick={() => scrollToSection('home')}
         className="fixed top-3 left-3 z-[9999] lg:hidden w-11 h-11 bg-[#f74a35] rounded-full flex items-center justify-center animate-pulse shadow-[0_0_22px_rgba(247,74,53,0.95)] p-2 cursor-pointer transition-transform duration-200 active:scale-95"
@@ -1600,7 +1512,6 @@ export default function Page() {
         <img src="/icon.svg" alt="Logo Radio en Casa" className="w-full h-full object-contain filter drop-shadow" />
       </div>
 
-      {/* BOTÓN MÓVIL HAMBURGUESA (DERECHA) */}
       <button
         onClick={() => setIsMobileMenuOpen((prev) => !prev)}
         className="fixed top-3 right-3 z-[9999] lg:hidden w-11 h-11 bg-[#0e0e0e] border border-[#262626] rounded-full flex flex-col items-center justify-center gap-1.5 cursor-pointer shadow-2xl p-2.5"
@@ -1611,7 +1522,6 @@ export default function Page() {
         <span className={`w-5 h-0.5 bg-[#e3e3e3] transition-transform duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
       </button>
 
-      {/* DESPLEGABLE DEL MENÚ HAMBURGUESA (SOLO MÓVIL) */}
       <div 
         className={`fixed inset-0 bg-[#0e0e0e]/98 backdrop-blur-xl z-[9990] lg:hidden flex flex-col items-center justify-center px-6 py-20 transition-all duration-500 ease-in-out font-datatype ${
           isMobileMenuOpen ? 'opacity-100 pointer-events-auto translate-y-0' : 'opacity-0 pointer-events-none -translate-y-6'
@@ -1641,7 +1551,6 @@ export default function Page() {
         </div>
       </div>
 
-      {/* NAV DOCK DE ÍCONOS (EXCLUSIVO DESKTOP) */}
       <nav
         className={`fixed top-0 left-0 w-[88px] h-screen bg-[#0e0e0e] border-r border-[#262626] z-[9999] hidden lg:flex flex-col items-center justify-between py-4 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isHeroIntroComplete 
@@ -1692,7 +1601,7 @@ export default function Page() {
         </div>
       </nav>
 
-      {/* 2. SIDEBAR SECUNDARIA / DECK DE CONTENIDOS (EXCLUSIVA DE DESKTOP) CON SCROLL INTERNO QUE MANTIENE EL CHAT SIEMPRE VISIBLE */}
+      {/* 2. ASIDE (SIDEBAR SECUNDARIA DE ESCRITORIO): SE AJUSTA LA ALTURA PARA MANTENER LAS REDES VISIBLES */}
       <aside 
         className={`fixed top-0 left-[88px] w-[332px] h-screen border-r border-[#333] shadow-2xl z-[60] flex flex-col font-datatype overflow-hidden bg-cover bg-center bg-no-repeat transition-all duration-300 hidden lg:flex ${
           isHeroIntroComplete 
@@ -1703,153 +1612,151 @@ export default function Page() {
           backgroundImage: `url('/images/historia/Radio_en_Casa_Background_Historia_01.png')`,
         }}
       >
-        <div className="flex-1 w-full overflow-y-auto no-scrollbar flex flex-col justify-start p-3 pt-3 gap-2.5 font-datatype text-[9px]">
+        <div className="flex-1 w-full overflow-y-auto no-scrollbar flex flex-col justify-between p-3 gap-2 font-datatype text-[9px]">
           
-          {/* MÓDULO 1: CLIMA, FECHA Y HORA */}
-          <div 
-            className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-xl p-3 border border-white/10 flex flex-col justify-center items-start text-left font-datatype leading-[1.2] space-y-1.5 flex-shrink-0 ${
-              isHeroIntroComplete ? 'animate-slide-top-ease' : 'opacity-0'
-            }`}
-            style={{ animationDelay: '950ms' }}
-          >
-            <div className="flex items-center gap-1.5 w-full justify-between">
-              <span className="text-white font-black uppercase font-datatype !text-[15px] sm:!text-[16px] tracking-tight truncate max-w-[180px]">
-                {isHeroIntroComplete ? <TypewriterText text={cityName} speed={40} /> : ''}
-              </span>
-              <span className="text-[#f74a35] font-black font-datatype !text-[16px] sm:!text-[17px] tracking-tight">
-                {isHeroIntroComplete ? <TypewriterText text={temperature || '--°C'} speed={50} /> : ''}
-              </span>
+          <div className="w-full flex flex-col gap-2 flex-shrink-0">
+            {/* MÓDULO 1: CLIMA, FECHA Y HORA */}
+            <div 
+              className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-xl p-2.5 border border-white/10 flex flex-col justify-center items-start text-left font-datatype leading-[1.2] space-y-1 ${
+                isHeroIntroComplete ? 'animate-slide-top-ease' : 'opacity-0'
+              }`}
+              style={{ animationDelay: '950ms' }}
+            >
+              <div className="flex items-center gap-1.5 w-full justify-between">
+                <span className="text-white font-black uppercase font-datatype !text-[14px] tracking-tight truncate max-w-[180px]">
+                  {isHeroIntroComplete ? <TypewriterText text={cityName} speed={40} /> : ''}
+                </span>
+                <span className="text-[#f74a35] font-black font-datatype !text-[15px] tracking-tight">
+                  {isHeroIntroComplete ? <TypewriterText text={temperature || '--°C'} speed={50} /> : ''}
+                </span>
+              </div>
+              <div className="flex items-center gap-2 w-full justify-between pt-1 border-t border-white/10">
+                <span className="font-datatype font-extrabold text-neutral-300 !text-[12px] uppercase tracking-tight">
+                  {isHeroIntroComplete && timeString ? <TypewriterText text={timeString.split(' — ')[0]} speed={35} /> : ''}
+                </span>
+                <span className="font-datatype font-extrabold text-neutral-400 !text-[12px] uppercase tracking-tighter">
+                  {isHeroIntroComplete && timeString ? <TypewriterText text={timeString.split(' — ')[1]} speed={35} /> : ''}
+                </span>
+              </div>
             </div>
-            <div className="flex items-center gap-2 w-full justify-between pt-1 border-t border-white/10">
-              <span className="font-datatype font-extrabold text-neutral-300 !text-[13px] uppercase tracking-tight">
-                {isHeroIntroComplete && timeString ? <TypewriterText text={timeString.split(' — ')[0]} speed={35} /> : ''}
-              </span>
-              <span className="font-datatype font-extrabold text-neutral-400 !text-[13px] uppercase tracking-tighter">
-                {isHeroIntroComplete && timeString ? <TypewriterText text={timeString.split(' — ')[1]} speed={35} /> : ''}
-              </span>
-            </div>
-          </div>
 
-          {/* MÓDULO 2: REPRODUCTOR DE AUDIO */}
-          <div 
-            className={`w-full transition-all duration-300 relative overflow-hidden shadow-2xl flex flex-col font-datatype flex-shrink-0 ${
-              isOpenPlayer ? 'bg-[#f74a35] p-3 rounded-2xl border-0 shadow-2xl' : 'bg-[#121212]/90 backdrop-blur-md p-2.5 border border-white/10 rounded-2xl shadow-xl'
-            } ${
-              isHeroIntroComplete ? 'animate-slide-bottom-ease' : 'opacity-0'
-            }`}
-            style={{ animationDelay: '1100ms' }}
-          >
-            <div className={`w-full transition-all duration-300 relative flex flex-col items-center justify-center font-datatype ${
-              isOpenPlayer ? 'bg-[#f74a35] p-0' : 'bg-transparent p-0'
-            }`}>
-              
-              <div 
-                onClick={handleTogglePlayer}
-                className="w-full flex items-center justify-between cursor-pointer select-none font-datatype p-3 pr-10 pt-3 gap-2 relative min-h-[44px]"
-              >
-                {!isOpenPlayer && (
-                  <div className="flex flex-col gap-3 w-full min-w-0 pr-2" onClick={(e) => e.stopPropagation()}>
-                    <div className="flex items-center gap-2.5 bg-[#1a1a1a] px-3 py-2 rounded-full border border-white/10 w-full flex-shrink-0">
-                      <button
-                        onClick={toggleMiniAudio}
-                        className="w-8 h-8 bg-[#f74a35] hover:bg-[#d93a26] text-white rounded-full flex items-center justify-center hover:scale-105 transition-transform flex-shrink-0 cursor-pointer shadow-md p-0"
-                        title={isMiniPlaying ? 'Pausar' : 'Reproducir'}
-                      >
-                        <span className="leading-none flex items-center justify-center text-center font-extrabold text-xs select-none">
-                          {isMiniPlaying ? '❚❚' : '▶'}
-                        </span>
-                      </button>
+            {/* MÓDULO 2: REPRODUCTOR DE AUDIO */}
+            <div 
+              className={`w-full transition-all duration-300 relative overflow-hidden shadow-2xl flex flex-col font-datatype ${
+                isOpenPlayer ? 'bg-[#f74a35] p-2.5 rounded-2xl border-0 shadow-2xl' : 'bg-[#121212]/90 backdrop-blur-md p-2 border border-white/10 rounded-2xl shadow-xl'
+              } ${
+                isHeroIntroComplete ? 'animate-slide-bottom-ease' : 'opacity-0'
+              }`}
+              style={{ animationDelay: '1100ms' }}
+            >
+              <div className="w-full relative flex flex-col items-center justify-center font-datatype">
+                <div 
+                  onClick={handleTogglePlayer}
+                  className="w-full flex items-center justify-between cursor-pointer select-none font-datatype p-2 pr-8 gap-2 relative min-h-[38px]"
+                >
+                  {!isOpenPlayer && (
+                    <div className="flex flex-col gap-2 w-full min-w-0 pr-1" onClick={(e) => e.stopPropagation()}>
+                      <div className="flex items-center gap-2 bg-[#1a1a1a] px-2.5 py-1.5 rounded-full border border-white/10 w-full flex-shrink-0">
+                        <button
+                          onClick={toggleMiniAudio}
+                          className="w-7 h-7 bg-[#f74a35] hover:bg-[#d93a26] text-white rounded-full flex items-center justify-center hover:scale-105 transition-transform flex-shrink-0 cursor-pointer shadow-md p-0"
+                          title={isMiniPlaying ? 'Pausar' : 'Reproducir'}
+                        >
+                          <span className="leading-none flex items-center justify-center text-center font-extrabold text-[11px] select-none">
+                            {isMiniPlaying ? '❚❚' : '▶'}
+                          </span>
+                        </button>
 
-                      <div className="flex items-center gap-2 w-full min-w-0">
-                        <svg className="w-3.5 h-3.5 fill-current text-neutral-400 flex-shrink-0" viewBox="0 0 24 24">
-                          <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
-                        </svg>
-                        <input
-                          type="range"
-                          min="0"
-                          max="100"
-                          value={miniVolume}
-                          onChange={handleMiniVolumeChange}
-                          className="w-full h-1 accent-[#f74a35] cursor-pointer min-w-0"
-                        />
+                        <div className="flex items-center gap-2 w-full min-w-0">
+                          <svg className="w-3.5 h-3.5 fill-current text-neutral-400 flex-shrink-0" viewBox="0 0 24 24">
+                            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                          </svg>
+                          <input
+                            type="range"
+                            min="0"
+                            max="100"
+                            value={miniVolume}
+                            onChange={handleMiniVolumeChange}
+                            className="w-full h-1 accent-[#f74a35] cursor-pointer min-w-0"
+                          />
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="w-full min-w-0 flex flex-col items-start text-left px-0.5 font-datatype pt-1 overflow-hidden">
-                      <div className="relative w-full overflow-hidden whitespace-nowrap">
-                        <div className="inline-block animate-marquee">
-                          <span className="text-base sm:text-lg font-black text-neutral-100 font-datatype pr-12 uppercase">
-                            {nowPlayingText}
-                          </span>
-                          <span className="text-base sm:text-lg font-black text-neutral-100 font-datatype pr-12 uppercase">
-                            {nowPlayingText}
-                          </span>
+                      <div className="w-full min-w-0 flex flex-col items-start text-left px-0.5 font-datatype overflow-hidden">
+                        <div className="relative w-full overflow-hidden whitespace-nowrap">
+                          <div className="inline-block animate-marquee">
+                            <span className="text-sm font-black text-neutral-100 font-datatype pr-10 uppercase">
+                              {nowPlayingText}
+                            </span>
+                            <span className="text-sm font-black text-neutral-100 font-datatype pr-10 uppercase">
+                              {nowPlayingText}
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
+                  )}
+
+                  <div className="absolute top-2.5 right-2.5 flex items-center justify-center flex-shrink-0 z-20 pointer-events-none">
+                    <span className={`inline-block transition-transform duration-300 ${isOpenPlayer ? 'rotate-180' : 'rotate-0'}`}>
+                      <svg width="9" height="9" viewBox="0 0 10 10" className={isOpenPlayer ? 'fill-white' : 'fill-[#f74a35]'} style={{ shapeRendering: 'crispEdges' }}>
+                        <path d="M0 2H10V4H8V6H6V8H4V6H2V4H0V2Z" />
+                      </svg>
+                    </span>
                   </div>
-                )}
+                </div>
 
-                <div className="absolute top-3.5 right-3.5 flex items-center justify-center flex-shrink-0 z-20 pointer-events-none">
-                  <span className={`inline-block transition-transform duration-300 ${isOpenPlayer ? 'rotate-180' : 'rotate-0'}`}>
-                    <svg width="10" height="10" viewBox="0 0 10 10" className={isOpenPlayer ? 'fill-white' : 'fill-[#f74a35]'} style={{ shapeRendering: 'crispEdges' }}>
-                      <path d="M0 2H10V4H8V6H6V8H4V6H2V4H0V2Z" />
-                    </svg>
-                  </span>
+                <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden w-full ${
+                  isOpenPlayer ? 'grid-rows-[1fr] opacity-100 pt-1 pb-1 bg-transparent' : 'grid-rows-[0fr] opacity-0 pt-0 pb-0'
+                }`}>
+                  <div className="overflow-hidden w-full flex flex-col justify-center items-center gap-2 bg-transparent">
+                    <IframePlayer width={280} />
+                  </div>
                 </div>
               </div>
-
-              <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden w-full ${
-                isOpenPlayer ? 'grid-rows-[1fr] opacity-100 pt-2 pb-1 bg-transparent' : 'grid-rows-[0fr] opacity-0 pt-0 pb-0'
-              }`}>
-                <div className="overflow-hidden w-full flex flex-col justify-center items-center gap-3 bg-transparent">
-                  <IframePlayer width={280} />
-                </div>
-              </div>
-
             </div>
           </div>
 
-          {/* MÓDULO 3: CHAT EN VIVO (PERMANECE VISIBLE) */}
+          {/* MÓDULO 3: CHAT EN VIVO (ALTURA ADAPTABLE MENOR PARA EVITAR OVERFLOW) */}
           <div 
-            className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-2xl p-2.5 border border-white/10 shadow-2xl flex flex-col font-datatype flex-shrink-0 min-h-[440px] ${
+            className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-2xl p-2 border border-white/10 shadow-2xl flex flex-col font-datatype flex-1 min-h-[220px] max-h-[35vh] overflow-hidden ${
               isHeroIntroComplete ? 'animate-slide-bottom-ease' : 'opacity-0'
             }`}
             style={{ animationDelay: '1250ms' }}
           >
             <button
               onClick={handleToggleChat}
-              className="w-full flex items-center justify-between text-left select-none cursor-pointer font-datatype pb-1 flex-shrink-0 gap-2 p-3 pr-10 pt-3 relative min-h-[44px]"
+              className="w-full flex items-center justify-between text-left select-none cursor-pointer font-datatype pb-1 flex-shrink-0 gap-2 p-2 pr-8 relative min-h-[36px]"
             >
               <div className="flex items-center gap-1.5 font-datatype flex-1 min-w-0 pr-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#f74a35] animate-pulse flex-shrink-0" />
-                <span className="font-bold text-white text-[8.5px] uppercase tracking-widest font-datatype truncate">
+                <span className="font-bold text-white text-[8px] uppercase tracking-widest font-datatype truncate">
                   CHAT — EN VIVO
                 </span>
               </div>
 
-              <div className="absolute top-3.5 right-3.5 flex items-center justify-center flex-shrink-0 z-20 pointer-events-none">
+              <div className="absolute top-2.5 right-2.5 flex items-center justify-center flex-shrink-0 z-20 pointer-events-none">
                 <span className={`inline-block transition-transform duration-300 ${isOpenChat ? 'rotate-180' : 'rotate-0'}`}>
-                  <svg width="10" height="10" viewBox="0 0 10 10" className="fill-[#f74a35]" style={{ shapeRendering: 'crispEdges' }}>
+                  <svg width="9" height="9" viewBox="0 0 10 10" className="fill-[#f74a35]" style={{ shapeRendering: 'crispEdges' }}>
                     <path d="M0 2H10V4H8V6H6V8H4V6H2V4H0V2Z" />
                   </svg>
                 </span>
               </div>
             </button>
 
-            <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden w-full origin-top flex-1 ${
+            <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden w-full origin-top flex-1 min-h-0 ${
               isOpenChat ? 'grid-rows-[1fr] opacity-100 pt-1 scale-y-100' : 'grid-rows-[0fr] opacity-0 pt-0 scale-y-0 -translate-y-2'
             }`}>
               <div className="overflow-hidden w-full h-full flex flex-col">
-                <div className="overflow-hidden flex flex-col h-full min-h-[380px] w-full bg-black rounded-xl border border-white/10 flex-1">
+                <div className="overflow-hidden flex flex-col h-full w-full bg-black rounded-xl border border-white/10 flex-1 min-h-0">
                   <TlkioChat />
                 </div>
               </div>
             </div>
           </div>
 
-          {/* REDES SOCIALES HORIZONTALES */}
-          <div className="w-full pt-3 pb-1 border-t border-white/10 flex items-center justify-around gap-2 flex-shrink-0">
+          {/* REDES SOCIALES HORIZONTALES (SIEMPRE VISIBLES EN PANTALLA) */}
+          <div className="w-full pt-2 pb-1 border-t border-white/10 flex items-center justify-around gap-2 flex-shrink-0 mt-auto">
             {socialMenuItems.map((social, idx) => (
               <a
                 key={idx}
@@ -1858,7 +1765,7 @@ export default function Page() {
                 rel="noopener noreferrer"
                 aria-label={social.label}
                 title={social.label}
-                className={`w-9 h-9 rounded-full bg-[#161616] border border-white/10 flex items-center justify-center text-neutral-300 transition-all duration-300 font-datatype shadow-md ${social.hoverClass}`}
+                className={`w-8 h-8 rounded-full bg-[#161616] border border-white/10 flex items-center justify-center text-neutral-300 transition-all duration-300 font-datatype shadow-md ${social.hoverClass}`}
               >
                 {social.icon}
               </a>
@@ -2006,7 +1913,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 2. HISTORIA (CENTRADA VERTICALMENTE EN PANTALLA) */}
+        {/* 2. HISTORIA */}
         <section
           ref={historiaRef}
           id="historia"
@@ -2106,7 +2013,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 3. FILOSOFÍA (SLIDER STICKY 100% ALTO A LA IZQUIERDA Y SCROLL DE TEXTO A LA DERECHA) */}
+        {/* 3. FILOSOFÍA */}
         <section
           ref={filosofiaRef}
           id="filosofia"
@@ -2126,7 +2033,6 @@ export default function Page() {
 
           <div className="w-full min-h-screen relative z-10 grid grid-cols-1 md:grid-cols-2 gap-0 items-start">
             
-            {/* COLUMNA IZQUIERDA: SLIDER STICKY 100% ALTO */}
             <div className="w-full h-screen sticky top-0 bg-black overflow-hidden border-r border-white/10 shadow-2xl z-20">
               {philosophyImages.map((imgUrl, idx) => {
                 const isActive = philosophySlideIndex === idx;
@@ -2164,7 +2070,6 @@ export default function Page() {
               </div>
             </div>
 
-            {/* COLUMNA DERECHA: TEXTO SCROLLABLE HASTA COMPLETARSE */}
             <div className="p-6 sm:p-10 md:p-12 lg:p-16 space-y-6 text-sm sm:text-base md:text-lg font-normal leading-relaxed text-neutral-300 font-datatype flex flex-col justify-center py-16 sm:py-24 min-h-screen">
               
               <TypewriterHeadingUnificado
@@ -2237,7 +2142,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 4. SERVICIOS (ACORDEÓN HORIZONTAL DESPLEGABLE) */}
+        {/* 4. SERVICIOS */}
         <section ref={serviciosRef} id="servicios" className="w-full min-h-screen relative flex flex-col justify-center items-center transform-gpu overflow-hidden p-0 m-0 bg-[#181818]">
           <div 
             className="absolute inset-0 w-full h-full z-0 pointer-events-none opacity-40"
@@ -2259,7 +2164,6 @@ export default function Page() {
                 className="text-[1.5rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold text-[#e3e3e3] font-boldonse tracking-tight relative h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
               />
 
-              {/* MÓDULO HORIZONTAL DESPLEGABLE HACIA LOS LADOS */}
               <div className="w-full flex flex-col md:flex-row gap-4 items-stretch font-datatype min-h-[320px] transition-all duration-500">
                 {servicesQuadrants.map((service) => {
                   const isActive = activeServiceId === service.id;
@@ -2285,7 +2189,6 @@ export default function Page() {
                           </h3>
                         </div>
 
-                        {/* CONTENIDO DEL TOGGLE */}
                         <div className="space-y-3 font-datatype">
                           <p className={`text-xs sm:text-sm md:text-base font-bold transition-colors duration-300 ${
                             isActive ? 'text-[#e3e3e3]' : 'text-neutral-400'
@@ -2293,7 +2196,6 @@ export default function Page() {
                             {service.shortText}
                           </p>
 
-                          {/* TEXTO COMPLETO QUE APARECE SOLO AL ABRIR */}
                           <div className={`grid transition-all duration-500 ease-in-out ${
                             isActive ? 'grid-rows-[1fr] opacity-100 pt-2' : 'grid-rows-[0fr] opacity-0 pointer-events-none'
                           }`}>
@@ -2306,7 +2208,6 @@ export default function Page() {
                         </div>
                       </div>
 
-                      {/* INDICADOR INFERIOR SOLO CON SÍMBOLOS + Y - */}
                       <div className="pt-4 flex items-center justify-end">
                         <span className={`text-lg sm:text-xl font-black font-datatype leading-none transition-all duration-300 ${
                           isActive ? 'text-[#f74a35] scale-110' : 'text-neutral-400 hover:text-white'
@@ -2319,7 +2220,6 @@ export default function Page() {
                 })}
               </div>
 
-              {/* BLOQUE DESCRIPTIVO INFERIOR */}
               <div className="w-full space-y-4 font-datatype text-xs sm:text-sm md:text-base leading-relaxed text-neutral-200 border-t border-white/10 pt-6">
                 <ScrollFadeText delay={100}>
                   <p>
@@ -2373,7 +2273,6 @@ export default function Page() {
 
           <div className="relative z-10 w-full max-w-[1100px] mx-auto px-4 md:px-0 space-y-8 sm:space-y-12">
             
-            {/* 1. TITULAR Y 2. TEXTO */}
             <div className="space-y-3 sm:space-y-4 w-full font-datatype">
               <ScrollFadeText delay={100}>
                 <TypewriterHeadingUnificado
@@ -2390,7 +2289,6 @@ export default function Page() {
               </ScrollFadeText>
             </div>
 
-            {/* 3. MÓDULO DE CARRUSEL DE LOGOS */}
             <div className="w-full font-datatype">
               <div className="relative bg-[#1e1e1e]/95 p-3 sm:p-4 md:p-5 rounded-none border border-[#5c5c5c]/60 shadow-2xl w-full font-datatype">
                 <div className="bg-[#141414] border border-neutral-800 rounded-none p-4 sm:p-5 md:p-6 overflow-hidden relative shadow-inner w-full">
@@ -2421,7 +2319,6 @@ export default function Page() {
               </div>
             </div>
 
-            {/* 4. RESTO DEL CONTENIDO */}
             <div className="w-full relative z-10">
               <ScrollFadeText delay={220}>
                 <div className="bg-black/85 backdrop-blur-md border border-[#5c5c5c]/40 p-5 sm:p-8 md:p-10 shadow-2xl rounded-none space-y-4 font-datatype w-full text-neutral-200">
@@ -2512,7 +2409,6 @@ export default function Page() {
             <AnimateOnScroll duration={600} offset={25}>
               <div className="bg-[#181818]/90 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-none border border-[#5c5c5c]/60 shadow-2xl space-y-4 font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed">
                 
-                {/* TITULAR "COMUNIDAD" CON LOGO */}
                 <div className="flex items-center justify-between gap-4 pb-2">
                   <TypewriterHeadingUnificado
                     text="COMUNIDAD"
@@ -2529,14 +2425,11 @@ export default function Page() {
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-16 pt-2 sm:pt-4">
-                  
-                  {/* COLUMNA IZQUIERDA */}
                   <div className="space-y-3 font-datatype">
                     <p>En 2016 empezamos haciendo radio desde una casa. Hoy seguimos creyendo en la misma idea: crear un espacio libre para la música, las historias y las personas que tienen algo para decir.</p>
                     <p>Si alguna vez una canción, un programa, una charla o una historia nacida en Radio en Casa formó parte de tu vida, hoy podés ayudarnos a que este proyecto siga creciendo y llegue cada vez más lejos.</p>
                   </div>
 
-                  {/* COLUMNA DERECHA CON DESTACADO ESTILO CONTACTO */}
                   <div className="space-y-4 font-datatype">
                     <p className="text-[#e3e3e3] font-bold text-base sm:text-lg border-l-4 border-[#f74a35] pl-4 py-3 bg-[#121212]/80 font-datatype leading-snug shadow-xl">
                       FORMÁ PARTE DE RADIO EN CASA
@@ -2545,7 +2438,6 @@ export default function Page() {
                       Con una pequeña contribución mensual nos ayudás a seguir construyendo Radio en Casa y elegís cómo querés formar parte de esta historia.
                     </p>
                   </div>
-
                 </div>
               </div>
             </AnimateOnScroll>
@@ -2553,7 +2445,7 @@ export default function Page() {
             {/* GRUPO DE MEMBRESÍAS CON TEXTOS UNIFICADORES ACTUALIZADOS */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-8 sm:mt-10 md:mt-14 font-datatype items-stretch">
               
-              {/* 1. IZQUIERDA: GROUPIE */}
+              {/* GROUPIE */}
               {(() => {
                 const item = membershipsData[0];
                 const isHovered = activeMembership === item.id;
@@ -2600,10 +2492,9 @@ export default function Page() {
                 );
               })()}
 
-              {/* 2. DERECHA: GRUPO DE 3 TARJETAS CON TEXTO UNIFICADOR DIRECTO Y EN DOS PÁRRAFOS */}
+              {/* GRUPO DE 3 TARJETAS CON TEXTO UNIFICADOR */}
               <div className="lg:col-span-9 bg-black/60 border-2 border-[#f74a35] p-3 sm:p-4 md:p-6 backdrop-blur-sm shadow-2xl relative flex flex-col justify-between space-y-4">
                 
-                {/* TEXTOS UNIFICADORES SUPERIORES */}
                 <div className="w-full space-y-1.5 pt-1 pb-1 text-left">
                   <p className="text-xs sm:text-sm font-datatype text-[#e3e3e3] font-bold uppercase tracking-wider">
                     PENSADO PARA ARTISTAS Y EMPRENDEDORES QUE QUIERAN TENER NUESTRO APOYO Y DIFUSIÓN.
@@ -2664,7 +2555,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 7. ALIANZAS */}
+        {/* 7. ALIANZAS: VIDEO SIN MÁRGENES Y LOGO SALGO ARRIBA LIMPIO SIN FONDO OSCURO */}
         <section id="alianzas" className="w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
@@ -2698,34 +2589,38 @@ export default function Page() {
 
             <div className="w-full font-datatype">
               <AnimateOnScroll delay={200} duration={700} offset={45}>
-                <div className="bg-[#1e1e1e]/90 backdrop-blur-md border border-[#5c5c5c]/60 p-5 sm:p-8 shadow-xl flex flex-col space-y-6 hover:border-[#f74a35] transition-colors duration-300 font-datatype rounded-none">
+                <div className="border border-[#5c5c5c]/60 shadow-2xl flex flex-col hover:border-[#f74a35] transition-colors duration-300 font-datatype rounded-none overflow-hidden bg-transparent">
                   
-                  {/* VIDEO EMBEBIDO AL PRINCIPIO */}
-                  <div className="w-full aspect-video overflow-hidden rounded-none border border-white/10 bg-black shadow-2xl">
+                  {/* VIDEO EMBEBIDO A SANGRE (SIN MÁRGENES) */}
+                  <div className="w-full aspect-video overflow-hidden rounded-none bg-black shadow-inner p-0 m-0">
                     <iframe
                       src="https://www.youtube.com/embed/LJbSpPJivuc"
                       title="Alianzas Radio en Casa"
-                      className="w-full h-full border-0"
+                      className="w-full h-full border-0 block"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                     />
                   </div>
 
-                  {/* BLOQUE SALGO ARRIBA */}
-                  <div className="space-y-4 pt-2">
+                  {/* BLOQUE SALGO ARRIBA LIMPIO (SIN FONDO OSCURO ADICIONAL) */}
+                  <div className="p-5 sm:p-8 space-y-4 bg-transparent">
                     <div className="h-14 sm:h-16 w-auto flex items-center justify-start">
-                      <ImageWithPlaceholder src="/images/programas/Salgo_Arriba_Logo_Radio_en_Casa.png" alt="Salgo Arriba Logo" className="max-h-full w-auto object-contain filter brightness-0 invert opacity-100" />
+                      <ImageWithPlaceholder 
+                        src="/images/programas/Salgo_Arriba_Logo_Radio_en_Casa.png" 
+                        alt="Salgo Arriba Logo" 
+                        className="max-h-full w-auto object-contain filter brightness-0 invert opacity-100" 
+                      />
                     </div>
 
                     <h4 className="text-[#e3e3e3] tracking-tight font-extrabold font-boldonse text-lg sm:text-xl h4-custom">Salgo Arriba</h4>
                     <p className="text-xs sm:text-sm md:text-base text-neutral-300 leading-relaxed font-datatype">Espacio para eventos, experiencias y producciones audiovisuales situado en Recoleta.</p>
-                  </div>
 
-                  <div className="pt-4 border-t border-[#5c5c5c]/40 flex flex-wrap items-center justify-between gap-2 font-mono text-xs sm:text-sm font-datatype">
-                    <span className="text-[#f74a35] font-bold">@salgoarriba</span>
-                    <a href="https://www.salgoarriba.com" target="_blank" rel="noopener noreferrer" className="inline-block relative bg-[#181818] text-[#e6e1d5] font-mono border-2 border-[#e6e1d5] border-b-[8px] px-4 py-2 text-xs font-bold tracking-[0.15em] text-left hover:bg-[#e6e1d5] hover:text-neutral-900 transition-all duration-200">
-                      www.salgoarriba.com →
-                    </a>
+                    <div className="pt-4 border-t border-[#5c5c5c]/40 flex flex-wrap items-center justify-between gap-2 font-mono text-xs sm:text-sm font-datatype">
+                      <span className="text-[#f74a35] font-bold">@salgoarriba</span>
+                      <a href="https://www.salgoarriba.com" target="_blank" rel="noopener noreferrer" className="inline-block relative bg-[#181818] text-[#e6e1d5] font-mono border-2 border-[#e6e1d5] border-b-[8px] px-4 py-2 text-xs font-bold tracking-[0.15em] text-left hover:bg-[#e6e1d5] hover:text-neutral-900 transition-all duration-200">
+                        www.salgoarriba.com →
+                      </a>
+                    </div>
                   </div>
 
                 </div>
@@ -2734,15 +2629,15 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 8. RECONOCIMIENTOS */}
+        {/* 8. RECONOCIMIENTOS: 3 COLUMNAS UNIFICADAS QUE FLUYEN CON EL SCROLL GENERAL */}
         <section 
           id="reconocimientos" 
-          className="w-full h-auto py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-white text-neutral-900 relative flex flex-col justify-center items-center transform-gpu bg-contain md:bg-cover bg-center bg-no-repeat"
+          className="w-full min-h-screen py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-white text-neutral-900 relative flex flex-col justify-center items-center transform-gpu bg-contain md:bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `url('/images/reconocimientos/Radio_en_Casa_Background_Reconocimientos.png')`,
           }}
         >
-          <div className="w-full max-w-[1100px] mx-auto space-y-6 px-0 sm:px-4 md:px-0 relative z-10 my-auto">
+          <div className="w-full max-w-[1100px] mx-auto space-y-8 px-0 sm:px-4 md:px-0 relative z-10 my-auto">
             <AnimateOnScroll duration={600} offset={25}>
               <div className="space-y-3 font-datatype text-left bg-white/90 backdrop-blur-md p-4 sm:p-5 rounded-none border border-neutral-300/80 shadow-sm">
                 <TypewriterHeadingUnificado
@@ -2755,11 +2650,11 @@ export default function Page() {
               </div>
             </AnimateOnScroll>
 
-            <Recognitions3Columns items={recognitionsData} scrollProgress={scrollProgress} />
+            <Recognitions3Columns items={recognitionsData} />
           </div>
         </section>
 
-        {/* 9. FANZINE (2 COLUMNAS CON BOTÓN SUSCRIBIRSE AL NEWSLETTER) */}
+        {/* 9. FANZINE */}
         <section id="fanzine" className="w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
@@ -2783,10 +2678,8 @@ export default function Page() {
             <AnimateOnScroll duration={750} offset={35}>
               <div className="w-full bg-[#1e1e1e]/90 backdrop-blur-md p-6 sm:p-8 md:p-10 border border-[#5c5c5c]/60 shadow-xl font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed rounded-none">
                 
-                {/* ESTRUCTURA EN 2 COLUMNAS */}
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
                   
-                  {/* COLUMNA 1: LOGO REC-05 */}
                   <div className="md:col-span-4 flex items-center justify-center p-2 min-h-[160px]">
                     <img
                       src="/images/servicios/Radio_en_Casa_logo_REC-05.svg"
@@ -2795,7 +2688,6 @@ export default function Page() {
                     />
                   </div>
 
-                  {/* COLUMNA 2: CONTENIDO FANZINE + BOTÓN NEWSLETTER */}
                   <div className="md:col-span-8 space-y-4 font-datatype flex flex-col justify-between items-start">
                     <TypewriterHeadingUnificado
                       text="FANZINE"
@@ -2814,7 +2706,6 @@ export default function Page() {
                       Porque una comunidad no se construye solamente grabando contenidos. También se construye compartiendo lo que nos entusiasma.
                     </p>
 
-                    {/* BOTÓN SUSCRIBIRSE AL NEWSLETTER */}
                     <div className="pt-3 w-full">
                       <a 
                         href="https://radioencasa.substack.com/subscribe?utm_source=menu&simple=true&next=https%3A%2F%2Fradioencasa.substack.com%2Fp%2Fultima-prueba-a-ver-que-onda" 
@@ -2838,7 +2729,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 10. STORE */}
+        {/* 10. STORE: SIN FONDO GRIS, DIRECTAMENTE SOBRE EL BACKGROUND GENERAL */}
         <section
           ref={storeRef}
           id="store"
@@ -2847,13 +2738,14 @@ export default function Page() {
             backgroundImage: `url('/images/reconocimientos/Radio_en_Casa_Background_Reconocimientos.png')`,
           }}
         >
+          {/* HEADER STORE LIMPIO */}
           <div className="w-full relative left-0 right-0 top-0 mb-0 overflow-hidden z-10 py-0">
             <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 md:px-12 lg:px-0">
-              <div className="w-full h-[32vh] sm:h-[48vh] min-h-[220px] sm:min-h-[320px] overflow-hidden bg-transparent border border-white/10 shadow-lg rounded-none">
+              <div className="w-full h-[32vh] sm:h-[48vh] min-h-[220px] sm:min-h-[320px] overflow-hidden bg-transparent border-0 shadow-none rounded-none">
                 <ImageWithPlaceholder
                   src="/images/tienda/Radio_en_Casa_Header.png"
                   alt="Radio en Casa Store Header"
-                  className="w-full h-full object-cover object-center filter brightness-90 contrast-105"
+                  className="w-full h-full object-cover object-center filter brightness-95"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).src = '/images/tienda/Radio_en_Casa_Header_01.png';
                   }}
@@ -2862,9 +2754,10 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="w-full max-w-[1100px] mx-auto space-y-6 sm:space-y-8 relative z-20 -mt-10 sm:-mt-20 px-4 sm:px-6 md:px-12 lg:px-0">
+          {/* CONTENIDO STORE SIN PLACA GRIS (INTEGRADO AL FONDO) */}
+          <div className="w-full max-w-[1100px] mx-auto space-y-6 sm:space-y-8 relative z-20 mt-4 sm:mt-6 px-4 sm:px-6 md:px-12 lg:px-0">
             <AnimateOnScroll delay={150} duration={600} offset={25}>
-              <div className="bg-white p-5 sm:p-8 md:p-10 border border-[#111111]/20 rounded-none shadow-2xl space-y-4 sm:space-y-6 font-datatype text-xs sm:text-sm md:text-base text-neutral-800 leading-relaxed">
+              <div className="bg-transparent p-0 border-0 rounded-none shadow-none space-y-4 sm:space-y-6 font-datatype text-xs sm:text-sm md:text-base text-neutral-800 leading-relaxed">
                 <TypewriterHeadingUnificado
                   text="STORE"
                   className="text-[1.5rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#111111] font-boldonse h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
@@ -2872,22 +2765,21 @@ export default function Page() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-16 pt-2 font-datatype">
                   
-                  {/* COLUMNA IZQUIERDA */}
                   <div className="space-y-3 font-datatype">
-                    <p className="text-neutral-800 font-datatype">En esta tienda vas a encontrar productos diseñados para quienes forman parte de nuestra comunidad: desde merchandising hasta ediciones especiales y objetos creados junto a artistas y proyectos amigos.</p>
+                    <p className="text-neutral-900 font-bold font-datatype leading-relaxed">
+                      En esta tienda vas a encontrar productos diseñados para quienes forman parte de nuestra comunidad: desde merchandising hasta ediciones especiales y objetos creados junto a artistas y proyectos amigos.
+                    </p>
                   </div>
 
-                  {/* COLUMNA DERECHA CON EL DESTACADO "LA MEJOR MANERA DE LLEVARTE..." */}
                   <div className="space-y-3 font-datatype">
-                    <p className="text-[#f74a35] font-bold text-base sm:text-lg border-l-4 border-[#f74a35] pl-3 py-1 font-datatype">
+                    <p className="text-[#f74a35] font-black text-base sm:text-lg border-l-4 border-[#f74a35] pl-3 py-1 font-datatype">
                       LA MEJOR MANERA DE LLEVARTE UN PEDACITO DE RADIO EN CASA
                     </p>
-                    <p className="text-[#f74a35] font-semibold font-datatype">Porque algunas historias también se pueden llevar puestas.</p>
+                    <p className="text-[#f74a35] font-bold font-datatype">Porque algunas historias también se pueden llevar puestas.</p>
                   </div>
 
                 </div>
 
-                {/* BOTÓN CON OUTLINE TRANSPARENTE Y RELLENO ROJO EN HOVER */}
                 <div className="pt-2 sm:pt-4 flex justify-start font-datatype">
                   <a 
                     href="https://radioencasa.mitiendanube.com/" 

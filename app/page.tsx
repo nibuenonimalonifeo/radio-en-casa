@@ -605,7 +605,7 @@ const historyCardsData = [
     id: '06',
     year: '2019',
     title: 'Originales Spotify',
-    img: '/images/clientes/logo_12.png',
+    img: '/images/programas/Radio_en_Casa_Un_Nuevo_Match.jpg',
     desc: 'En el 2019 fuimos además el estudio en el que se grabaron los primeros podcasts originales de Spotify en Argentina.\nCon formatos como: Somos Novios, No me olvidé de vos y Misión Presidencial, cuando Spotify todavía no tenía oficinas en nuestro país.',
   },
   {
@@ -1872,13 +1872,13 @@ export default function Page() {
         isHeroIntroComplete ? 'lg:!w-[calc(100%-420px)] lg:!ml-[420px]' : 'lg:!w-full lg:!ml-0'
       }`}>
         
-        {/* 1. HOME: EN MOBILE SE PERMITE EL SCROLL NATURAL PARA VER REPRODUCTOR Y CHAT */}
+        {/* 1. HOME: LOGO + REPRODUCTOR + CHAT (MOBILE) */}
         <section
           ref={homeRef}
           id="home"
           className="w-full min-h-screen flex flex-col justify-start lg:justify-between items-center relative bg-black overflow-visible lg:overflow-hidden transform-gpu"
         >
-          {/* VISTA MOBILE: REPRODUCTOR Y CHAT EN VIVO ACCESIBLES SIN CORTE */}
+          {/* VISTA MOBILE */}
           <div className="flex lg:hidden w-full min-h-screen flex-col justify-start items-center relative p-4 sm:p-6 z-10 pt-16 pb-20 gap-5">
             <div className="absolute inset-0 h-full w-full pointer-events-none z-0 overflow-hidden">
               {homeHeroImages.map((imgUrl, idx) => {

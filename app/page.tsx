@@ -685,7 +685,7 @@ const historyCardsData = [
     id: '12',
     year: '2026',
     title: 'Redefinición',
-    img: '/images/tienda/Radio_en_Casa_Header_03.png',
+    img: '/images/historia/Radio_en_Casa_Rebranding.png',
     desc: 'En el 2026 cumplimos 10 años y aprovechamos para revitalizar nuestra imagen. Generamos un rebranding y redefinimos nuestra identidad visual para reflejar mejor el crecimiento de nuestro espacio.',
   },
 ];

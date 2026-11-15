@@ -3070,14 +3070,18 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
 
           <div className="w-full max-w-[1100px] mx-auto space-y-6 mt-6 px-4 md:px-0 mb-0 pb-0 relative z-10">
             <div className="w-full font-datatype text-left pb-4 border-b border-[#5c5c5c]/40 font-boldonse space-y-2 sm:space-y-3">
+              <p className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#f74a35] font-boldonse h1-custom leading-[1.8rem] sm:leading-[4.5rem]">
+                PALERMO SOHO
+              </p>
+
               <a
-                href="https://maps.google.com/?q=Malabia+2134+Buenos+Aires"
+                href="https://maps.google.com/?q=Malabia+2134,+CABA,+Argentina"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block group"
               >
                 <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom leading-[1.8rem] sm:leading-[4.5rem]">
-                  MALABIA 2134
+                  MALABIA 2134, CABA, ARGENTINA (C1425EZD)
                 </h1>
               </a>
 
@@ -3102,37 +3106,25 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
               </a>
 
               <a
+                href="tel:+541148317132"
+                className="block group"
+              >
+                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom leading-[1.8rem] sm:leading-[4.5rem]">
+                  TEL: (+5411) 4831 7132
+                </h1>
+              </a>
+
+              <a
                 href="https://wa.me/5491128999200"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block group"
               >
                 <TypewriterHeadingUnificado
-                  text="(+54 9 11) 2899-9200"
+                  text="WSP: (+54911) 2899 9200"
                   className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom cursor-pointer leading-[1.8rem] sm:leading-[4.5rem]"
                 />
               </a>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-datatype text-xs sm:text-sm md:text-base text-neutral-200 items-start">
-              <AnimateOnScroll delay={100} duration={600} offset={30}>
-                <div className="bg-[#1e1e1e]/90 backdrop-blur-md p-5 sm:p-6 border border-[#5c5c5c]/60 shadow-xl space-y-3 leading-relaxed flex flex-col justify-between h-full font-datatype rounded-none">
-                  <div className="space-y-3">
-                    <h4 className="tracking-widest text-[#f74a35] font-extrabold border-b border-[#5c5c5c]/40 pb-2 font-boldonse text-sm sm:text-lg h4-custom">El espacio</h4>
-                    <p className="text-xs sm:text-sm md:text-base font-datatype leading-relaxed text-neutral-300">
-                      Estamos en un PH reciclado de Palermo Soho, Buenos Aires. A una cuadra de Av. Scalabrini Ortiz y tres de Av. Santa Fe, en uno de los polos culturales más activos de la ciudad. Un espacio que combina la historia y la calidez de una casa con la infraestructura de un estudio profesional.
-                    </p>
-                  </div>
-                </div>
-              </AnimateOnScroll>
-
-              <AnimateOnScroll delay={220} duration={700} offset={40}>
-                <div className="bg-[#1e1e1e]/90 backdrop-blur-md p-5 sm:p-6 border border-[#5c5c5c]/60 shadow-xl flex flex-col justify-start h-full font-datatype rounded-none">
-                  <p className="text-[#e3e3e3] font-bold border-l-4 border-[#f74a35] pl-4 py-3 bg-[#121212]/80 text-sm sm:text-lg md:text-xl font-datatype leading-snug">
-                    Pensado para crear, grabar y compartir historias.
-                  </p>
-                </div>
-              </AnimateOnScroll>
             </div>
 
             <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-5 pt-4 pb-4 relative z-10">

@@ -2602,8 +2602,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-16 pt-2 sm:pt-4">
                   <div className="space-y-3 font-datatype">
-                    <p>En 2016 empezamos haciendo radio desde una casa. Hoy seguimos creyendo en la misma idea: crear un espacio libre para la música, las historias y las personas que tienen algo para decir.</p>
-                    <p>Si alguna vez una canción, un programa, una charla o una historia nacida en Radio en Casa formó parte de tu vida, hoy podés ayudarnos a que este proyecto siga creciendo y llegue cada vez más lejos.</p>
+                    <p>Si alguna vez una canción, un programa, una charla o un evento nacido en Radio en Casa formó parte de tu vida, hoy podes ayudarnos a que este proyecto siga creciendo y llegue cada vez más lejos.</p>
                   </div>
 
                   <div className="space-y-4 font-datatype">

@@ -534,37 +534,54 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
 
 function Recognitions3Columns({ items }: { items: typeof recognitionsData }) {
   return (
-    <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 font-datatype items-start">
-      {[
-        items.filter((_, i) => i % 3 === 0),
-        items.filter((_, i) => i % 3 === 1),
-        items.filter((_, i) => i % 3 === 2),
-      ].map((colItems, colIndex) => (
-        <div key={colIndex} className="flex flex-col gap-5 w-full">
-          {colItems.map((rec) => (
-            <div
-              key={rec.id}
-              className="bg-white/95 backdrop-blur-sm border border-neutral-300 p-5 rounded-none shadow-md hover:border-[#f74a35] transition-colors text-left flex flex-col justify-between"
-            >
-              <div>
-                <span className="text-xl font-black text-[#f74a35] font-boldonse">{rec.year}</span>
-                <p className="text-xs text-neutral-500 font-bold uppercase tracking-wider my-1">{rec.media}</p>
-                <h4 className="font-extrabold text-neutral-900 text-base font-boldonse">{rec.title}</h4>
-                <p className="text-sm text-neutral-700 mt-2 font-datatype leading-relaxed">{rec.desc}</p>
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-datatype">
+      {items.map((item, idx) => (
+        <AnimateOnScroll key={idx} delay={idx * 100} duration={650} offset={35} className="h-full">
+          <div className="bg-white/95 backdrop-blur-md border border-neutral-300/90 hover:border-[#f74a35] p-6 shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-full rounded-none space-y-4">
+            <div className="space-y-3">
+              <div className="flex items-center justify-between gap-2 border-b border-neutral-200 pb-2">
+                <span className="text-xs font-bold uppercase tracking-widest text-[#f74a35]">
+                  {item.source}
+                </span>
+                {item.year && (
+                  <span className="text-xs font-bold text-neutral-500">
+                    {item.year}
+                  </span>
+                )}
               </div>
-              {rec.link && (
-                <a
-                  href={rec.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-block text-xs font-bold text-[#f74a35] mt-4 hover:underline"
-                >
-                  Nota completa →
-                </a>
+
+              <h3 className="text-lg sm:text-xl font-extrabold text-neutral-900 font-boldonse leading-snug">
+                {item.title}
+              </h3>
+
+              {item.desc && (
+                <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed font-datatype">
+                  {item.desc}
+                </p>
               )}
             </div>
-          ))}
-        </div>
+
+            {item.link && (
+              <div className="pt-3 border-t border-neutral-200/80">
+                <a
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 font-datatype text-xs sm:text-sm font-bold uppercase tracking-wider text-[#f74a35] hover:text-neutral-900 transition-colors duration-300 group"
+                >
+                  <span>Ampliar</span>
+                  <svg
+                    className="w-4 h-4 fill-current transform transition-transform duration-300 group-hover:translate-x-1"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path d="M13 6.75L19.75 12L13 17.25V6.75ZM4.25 6.75L11 12L4.25 17.25V6.75Z" />
+                  </svg>
+                </a>
+              </div>
+            )}
+          </div>
+        </AnimateOnScroll>
       ))}
     </div>
   );

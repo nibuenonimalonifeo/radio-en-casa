@@ -434,8 +434,8 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
   ];
 
   return (
-    <div className="relative w-full flex flex-col items-center md:items-end justify-center py-6 overflow-visible min-h-[550px] md:min-h-[620px] font-datatype">
-      <div className="relative w-full max-w-[320px] sm:max-w-[460px] min-h-[480px] sm:min-h-[500px] flex items-center justify-center [perspective:1200px]">
+    <div className="relative w-full flex flex-col items-center md:items-end justify-start pt-0 pb-6 overflow-visible min-h-[550px] md:min-h-[620px] font-datatype">
+      <div className="relative w-full max-w-[320px] sm:max-w-[460px] min-h-[480px] sm:min-h-[500px] flex items-start justify-center [perspective:1200px]">
         {items.map((card, idx) => {
           const total = items.length;
           let offset = idx - currentIndex;
@@ -456,7 +456,7 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
             <div
               key={card.id}
               onClick={() => setCurrentIndex(idx)}
-              className={`absolute w-full h-auto ${theme.bg} ${theme.text} border-2 border-[rgb(23_23_23_/_0)] p-5 sm:p-6 pb-7 sm:pb-8 shadow-2xl transition-all duration-700 ease-out cursor-pointer select-none rounded-none flex flex-col justify-between font-datatype overflow-visible`}
+              className={`absolute top-0 w-full h-auto ${theme.bg} ${theme.text} border-2 border-[rgb(23_23_23_/_0)] p-5 sm:p-6 pb-7 sm:pb-8 shadow-2xl transition-all duration-700 ease-out cursor-pointer select-none rounded-none flex flex-col justify-between font-datatype overflow-visible`}
               style={{
                 transform: `translateX(${translateX}px) translateY(${translateY}px) translateZ(${translateZ}px) rotateZ(${rotateZ}deg) scale(${scale})`,
                 opacity,
@@ -480,6 +480,14 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
                     src={card.img}
                     alt={`Hito ${card.year}`}
                     className="w-full h-full object-cover rounded-none"
+                    onError={(e) => {
+                      const imgEl = e.currentTarget as HTMLImageElement;
+                      if (imgEl.src.includes('/images/historia/')) {
+                        imgEl.src = card.img.replace('/images/historia/', '/images/programas/');
+                      } else if (imgEl.src.includes('/images/programas/')) {
+                        imgEl.src = card.img.replace('/images/programas/', '/images/historia/');
+                      }
+                    }}
                   />
                 </div>
               ) : null}
@@ -595,6 +603,7 @@ const clientLogos = [
 ];
 
 // --- DATOS DE HISTORIA ---
+// --- DATOS DE HISTORIA ---
 const historyCardsData = [
   {
     id: '01',
@@ -608,28 +617,28 @@ const historyCardsData = [
     year: '2017',
     title: 'Crecimiento',
     img: '/images/programas/Radio_en_Casa_historia_01_Posta_Logo.png',
-    desc: 'En el 2017, además de transmitir contenidos sonoros por nuestra web nos convertimos en la casa de Posta, la productora pionera de podcast en Argentina co-fundada por Luciano Banchero. Eso nos llevó a ser el estudio con mayor cantidad de podcast del país.',
+    desc: 'En el 2017, además de transmitir contenidos sonoros por nuestra web nos convertimos en la casa de Posta, la productora pionera de podcast en Argentina co-fundada por Luciano Banchero. Eso nos llevó a ser uno de los estudios con mayor cantidad de podcasts del país.',
   },
   {
     id: '03',
     year: '2018',
     title: 'Evolución',
     img: '/images/programas/Radio_en_Casa_historia_02_Concha_Podcast.jpg',
-    desc: 'Desde el 2018 fuimos también la casa de Concha Podcast, el podcast independiente más exitoso de Argentina, hasta que hizo su gira de despedida en el 2025. Ese mismo año, realizamos nuestro primer streaming al incorporar un sistema de cámaras.',
+    desc: 'Desde el 2018 fuimos también la casa de Concha Podcast, uno de los podcasts independientes más exitosos de Argentina, hasta que hizo su gira de despedida en el 2025.',
   },
   {
     id: '04',
     year: '2018',
     title: 'Streaming y Video',
     img: '/images/galeria/Radio_en_Casa_Galeria_08.jpg',
-    desc: 'En el 2018 además realizamos nuestro primer streaming al incorporar un sistema de cámaras.\nEsto nos permitió además la posibilidad de sumar el video en los podcasts haciendo cada vez más contenidos audiovisuales.',
+    desc: 'En el 2018 además realizamos nuestro primer streaming al incorporar un sistema de cámaras.\nEsto nos permitió además la posibilidad de sumarle video a los podcasts haciendo cada vez más contenidos audiovisuales.',
   },
   {
     id: '05',
     year: '2019',
     title: 'Consolidación',
     img: '/images/programas/radio_en_casa_quemar_un_patrullero.jpeg',
-    desc: 'En el 2019 produjimos junto a Gustavo Olmedo el lanzamiento de “Quemar un Patrullero”, otro de los podcast independientes más relevantes de la escena local, que continuamos grabando y se sostiene gracias a su comunidad. Nos convertimos en el estudio con mayor cantidad de podcast del país.',
+    desc: 'En el 2019 produjimos junto a Gustavo Olmedo el lanzamiento de “Quemar un Patrullero”, otro de los podcast independientes más relevantes de la escena local, que continuamos grabando y se sostiene gracias a su comunidad.',
   },
   {
     id: '06',
@@ -648,22 +657,22 @@ const historyCardsData = [
   {
     id: '08',
     year: '2021',
-    title: 'Coberturas Outdoor',
-    img: '/images/programas/Radio_en_Casa_historia_02_Concha_Podcast_Konex.jpg',
-    desc: 'En el 2021 realizamos nuestras primeras coberturas audiovisuales en exteriores al participar de los Shows de Concha Podcast en Ciudad Cultural Konex (2021) y en el Teatro Margarita Xirgu (2023).\nAdemás con formatos como Seremos Historia fuimos expandiendo cada vez más este servicio que con el tiempo llamamos Outdoor.',
+    title: 'Producción Internacional',
+    img: '/images/historia/Sonoro_Logo.png',
+    desc: 'En el 2021 realizamos nuestra primera producción internacional al trabajar con Sonoro, la red de podcasts en español número uno del mundo.\nGrabamos “Skyvan: Los vuelos de la muerte”, podcast que tras su publicación en 2025 obtendría varios reconocimientos.',
   },
   {
     id: '09',
     year: '2021',
-    title: 'Producción Internacional',
-    img: '/images/historia/Sonoro_Logo.png',
-    desc: 'En el 2021 también realizamos nuestra primera producción internacional al trabajar con Sonoro, la red de podcasts en español número uno del mundo.\nGrabamos “Skyvan: Los vuelos de la muerte”, podcast que tras su publicación en 2025 obtendría varios reconocimientos.',
+    title: 'Coberturas Outdoor',
+    img: '/images/programas/Radio_en_Casa_historia_02_Concha_Podcast_Konex.jpg',
+    desc: 'En el 2021 también comenzamos con nuestras primeras coberturas audiovisuales en exteriores al participar de los Shows de Concha Podcast en Ciudad Cultural Konex (2021) y en el Teatro Margarita Xirgu (2023).\nAdemás con formatos como Seremos Historia fuimos expandiendo cada vez más este servicio que con el tiempo llamamos Outdoor.',
   },
   {
     id: '10',
     year: '2022',
     title: 'Podcast Original',
-    img: '/images/programas/Radio_en_Casa_Un_Nuevo_Match.jpg',
+    img: '/images/historia/Radio_en_Casa_Un_Nuevo_Match.jpg',
     desc: 'En el 2022 realizamos nuestro primer podcast original: “Un nuevo match”.\nUna serie de entrevistas en formato de cita para hablar sobre vínculos y sexualidad.',
   },
   {
@@ -671,14 +680,14 @@ const historyCardsData = [
     year: '2025',
     title: 'Evolución',
     img: '/images/programas/Salgo_Arriba_Logo_Radio_en_Casa.png',
-    desc: 'En el 2025 abrimos un segundo espacio llamado “Salgo Arriba” pensado para seguir construyendo comunidad con la realización de eventos en vivo, siempre con la idea de continuar innovando y brindando mayor cantidad de servicios a las personas que confían en nosotros para desarrollar sus producciones.',
+    desc: 'En el 2025 abrimos un segundo espacio llamado “Salgo Arriba”, donde también grabamos, pero pensado además para construir comunidad mediante la realización de eventos con público. Siempre con la idea de continuar innovando y brindando mayor cantidad de servicios a las personas que confían en nosotros para desarrollar sus producciones.',
   },
   {
     id: '12',
     year: '2026',
     title: 'Redefinición',
     img: '/images/tienda/Radio_en_Casa_Header_03.png',
-    desc: 'En 2026, revitalizamos nuestro espacio y le dimos una nueva impronta, redefiniendo nuestra identidad visual.',
+    desc: 'En el 2026 cumplimos 10 años y aprovechamos para revitalizar nuestra imagen. Generamos un rebranding y redefinimos nuestra identidad visual para reflejar mejor el crecimiento de nuestro espacio.',
   },
 ];
 
@@ -2118,7 +2127,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
         >
           <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none z-0" />
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center justify-between w-full max-w-[1100px] mx-auto relative z-10 my-auto">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start justify-between w-full max-w-[1100px] mx-auto relative z-10 my-auto">
             <div className="md:col-span-7 space-y-6 flex flex-col justify-center items-start pl-0 md:pl-0 pr-0 md:pr-4">
               <div 
                 className="w-full space-y-6 transition-transform duration-100 ease-out"
@@ -2188,7 +2197,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
             </div>
 
             <div
-              className={`md:col-span-5 w-full flex justify-center md:justify-end items-center pr-0 transition-all duration-1000 ease-out transform-gpu ${
+              className={`md:col-span-5 w-full flex justify-center md:justify-end items-start pr-0 transition-all duration-1000 ease-out transform-gpu ${
                 isHistoriaInView
                   ? 'opacity-100 translate-x-0'
                   : 'opacity-0 translate-x-24 pointer-events-none'

@@ -169,18 +169,48 @@ function SubstackFanzineFeed() {
   );
 }
 
-// --- COMPONENTE CHAT EN VIVO DE TLK.IO (OSCURO Y RESPONSIVE) ---
+// --- COMPONENTE CHAT EN VIVO OFICIAL DE TLK.IO ---
 
 function TlkioChat({ heightClass = 'h-full min-h-[220px]' }: { heightClass?: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    // Limpia cualquier instancia previa del script o contenido
+    container.innerHTML = '';
+    const oldScript = document.getElementById('tlkio-embed-script');
+    if (oldScript) oldScript.remove();
+
+    // Crea el div oficial exacto que espera embed.js
+    const tlkDiv = document.createElement('div');
+    tlkDiv.id = 'tlkio';
+    tlkDiv.setAttribute('data-channel', 'radioencasa');
+    tlkDiv.setAttribute('data-theme', 'theme--night');
+    tlkDiv.style.width = '100%';
+    tlkDiv.style.height = '100%';
+    container.appendChild(tlkDiv);
+
+    // Inyecta el script oficial por HTTPS para evitar bloqueo de Mixed Content en Render
+    const script = document.createElement('script');
+    script.id = 'tlkio-embed-script';
+    script.src = 'https://tlk.io/embed.js';
+    script.type = 'text/javascript';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      const s = document.getElementById('tlkio-embed-script');
+      if (s) s.remove();
+    };
+  }, []);
+
   return (
-    <div className={`w-full ${heightClass} bg-[#121212] overflow-hidden rounded-xl border border-white/10 relative`}>
-      <iframe
-        src="https://tlk.io/radioencasa?theme=theme--night"
-        title="Chat Radio en Casa"
-        className="w-full h-full border-0 absolute inset-0 bg-[#121212]"
-        allow="microphone; camera"
-      />
-    </div>
+    <div
+      ref={containerRef}
+      className={`w-full ${heightClass} bg-[#121212] overflow-hidden rounded-xl border border-white/10 relative`}
+    />
   );
 }
 
@@ -954,6 +984,17 @@ export default function Page() {
       window.history.scrollRestoration = 'manual';
     }
     window.scrollTo(0, 0);
+  }, []);
+
+const [isMobileView, setIsMobileView] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkViewport = () => {
+      setIsMobileView(window.innerWidth < 1024);
+    };
+    checkViewport();
+    window.addEventListener('resize', checkViewport);
+    return () => window.removeEventListener('resize', checkViewport);
   }, []);
 
   const heroLogoRef = useRef<HTMLDivElement>(null);
@@ -1850,7 +1891,7 @@ export default function Page() {
             }`}>
               <div className="overflow-hidden w-full h-full flex flex-col">
                 <div className="overflow-hidden flex flex-col h-full w-full bg-black rounded-xl border border-white/10 flex-1 min-h-0">
-                  <TlkioChat />
+                  {!isMobileView && <TlkioChat />}
                 </div>
               </div>
             </div>
@@ -1931,7 +1972,7 @@ export default function Page() {
                   </span>
                 </div>
                 <div className="w-full h-[380px] min-h-[380px] bg-[#121212] rounded-xl overflow-hidden border border-white/10">
-                  <TlkioChat heightClass="h-[380px] min-h-[380px]" />
+                  {isMobileView && <TlkioChat heightClass="h-[380px] min-h-[380px]" />}
                 </div>
               </div>
             </div>

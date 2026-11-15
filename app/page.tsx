@@ -1472,10 +1472,6 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
         isBgGlitching ? 'animate-bg-glitch' : ''
       }`}
     >
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=DM+Sans:wght@400;500;700&family=Datatype:wght@400..900&family=Boldonse&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet" />
-
       <style jsx global>{`
         html {
           font-size: 100% !important;
@@ -2046,7 +2042,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
             </div>
 
             {showTuningNotice && (
-              <div className="absolute inset-0 flex items-center justify-center z-50 pointer-events-auto font-datatype">
+              <div className="absolute inset-0 flex items-center justify-center z-50 pointer-events-auto font-mono font-datatype">
                 <button
                   onClick={() => {
                     const audioElement = document.getElementById('radio-audio-element') as HTMLAudioElement;
@@ -2063,12 +2059,12 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                     setIsHeroIntroComplete(true);
                     setIsBgGlitching(false);
                   }}
-                  className={`bg-[#202020] text-[#e3e3e3] px-7 py-3.5 font-datatype text-xs sm:text-sm font-bold uppercase tracking-widest shadow-2xl flex items-center gap-3 transition-all duration-700 ease-in-out cursor-pointer hover:bg-[#f74a35] hover:text-white ${
+                  className={`bg-[#202020] text-[#e3e3e3] px-7 py-3.5 font-mono font-datatype text-xs sm:text-sm font-bold uppercase tracking-widest shadow-2xl flex items-center gap-3 transition-all duration-700 ease-in-out cursor-pointer hover:bg-[#f74a35] hover:text-white ${
                     isTuningFadingUp ? '-translate-y-24 opacity-0 filter blur-sm' : 'translate-y-0 opacity-100 animate-bounce'
                   }`}
                 >
                   <span className="w-2.5 h-2.5 rounded-full bg-[#f74a35] animate-ping" />
-                  <span className="text-[#ececec] font-datatype">Sintonizando...</span>
+                  <span className="text-[#ececec] font-mono font-datatype">Sintonizando...</span>
                 </button>
               </div>
             )}

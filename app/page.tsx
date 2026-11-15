@@ -2743,7 +2743,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
               backgroundRepeat: 'repeat-y',
               backgroundPosition: 'center top',
               backgroundSize: '100% auto',
-              transform: `translateY(${(scrollProgress - 0.6) * -120}px)`,
+              transform: `translateY(${(scrollProgress * 0.6) * -120}px)`,
             }}
           >
             <div 
@@ -2758,11 +2758,20 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
             <AnimateOnScroll duration={600} offset={25}>
               <div className="w-full bg-[#1e1e1e]/90 backdrop-blur-md p-5 sm:p-6 border border-[#5c5c5c]/60 shadow-xl space-y-3 font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed rounded-none">
                 <TypewriterHeadingUnificado
-                  text="LAS MEJORES CASAS NUNCA ESTÁN SOLAS"
+                  text="ALIANZAS"
                   className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] font-boldonse h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
                 />
-                <p>Con el tiempo fuimos encontrando otros espacios, proyectos y personas con quienes compartimos una misma manera de entender la cultura, la comunicación y la creación de comunidad. No vivimos bajo el mismo techo, pero sí en el mismo barrio.</p>
-                <p className="text-[#f74a35] font-semibold font-datatype">Generamos alianzas estratégicas con algunos espacios amigos.</p>
+                <p>Con el tiempo fuimos encontrando otros espacios, proyectos y personas con quienes compartimos una misma forma de entender la cultura, la comunicación y la sinergia colectiva.</p>
+                <p className="text-[#f74a35] font-semibold font-datatype">
+                  Con ellos tenemos distintos acuerdos para darle más y mejores beneficios a nuestra comunidad. Si tenés algún espacio y queres formar parte de este circuito{' '}
+                  <button
+                    onClick={() => scrollToSection('contacto')}
+                    className="text-[#e3e3e3] underline hover:text-[#f74a35] transition-colors cursor-pointer bg-transparent border-none p-0 m-0 inline font-bold"
+                  >
+                    escribinos
+                  </button>{' '}
+                  y hablemos.
+                </p>
               </div>
             </AnimateOnScroll>
 
@@ -2771,7 +2780,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                 <div className="border border-[#5c5c5c]/60 shadow-2xl flex flex-col hover:border-[#f74a35] transition-colors duration-300 font-datatype rounded-none overflow-hidden bg-black">
                   <div className="w-full aspect-video overflow-hidden rounded-none bg-black shadow-inner p-0 m-0">
                     <iframe
-                      src="https://www.youtube.com/embed/LJbSpPJivuc"
+                      src="https://www.youtube.com/embed/LJbSpPJivuc?autoplay=1&mute=1&loop=1&playlist=LJbSpPJivuc"
                       title="Alianzas Radio en Casa"
                       className="w-full h-full border-0 block"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -2789,7 +2798,17 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                     </div>
 
                     <h4 className="text-[#e3e3e3] tracking-tight font-extrabold font-boldonse text-lg sm:text-xl h4-custom">Salgo Arriba</h4>
-                    <p className="text-xs sm:text-sm md:text-base text-neutral-300 leading-relaxed font-datatype">Espacio para eventos, experiencias y producciones audiovisuales situado en Recoleta.</p>
+                    <p className="text-xs sm:text-sm md:text-base text-neutral-300 leading-relaxed font-datatype">
+                      Espacio situado en Recoleta donde se desarrollan charlas, eventos y producciones audiovisuales.
+                    </p>
+                    <div>
+                      <button
+                        onClick={() => scrollToSection('comunidad')}
+                        className="text-xs sm:text-sm md:text-base font-bold font-datatype text-[#f74a35] hover:text-[#e3e3e3] transition-colors duration-300 underline cursor-pointer bg-transparent border-none p-0 text-left"
+                      >
+                        Nuestra comunidad accede a preventas y descuentos en todas las entradas.
+                      </button>
+                    </div>
 
                     <div className="pt-4 border-t border-[#5c5c5c]/40 flex flex-wrap items-center justify-between gap-2 font-mono text-xs sm:text-sm font-datatype">
                       <span className="text-[#f74a35] font-bold">@salgoarriba</span>

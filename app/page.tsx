@@ -536,12 +536,12 @@ function Recognitions3Columns({ items }: { items: typeof recognitionsData }) {
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-datatype">
       {items.map((item, idx) => (
-        <AnimateOnScroll key={idx} delay={idx * 100} duration={650} offset={35} className="h-full">
+        <AnimateOnScroll key={item.id || idx} delay={idx * 100} duration={650} offset={35} className="h-full">
           <div className="bg-white/95 backdrop-blur-md border border-neutral-300/90 hover:border-[#f74a35] p-6 shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-full rounded-none space-y-4">
             <div className="space-y-3">
               <div className="flex items-center justify-between gap-2 border-b border-neutral-200 pb-2">
                 <span className="text-xs font-bold uppercase tracking-widest text-[#f74a35]">
-                  {item.source}
+                  {item.media}
                 </span>
                 {item.year && (
                   <span className="text-xs font-bold text-neutral-500">
@@ -1803,8 +1803,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
 
       {/* 2. ASIDE (SOLO ESCRITORIO) */}
       <aside 
-        className={`fixed top-0 left-[88px] w-[332px] h-screen border-r border-[#333] shadow-2xl z-[60] flex flex-col font-datatype overflow-hidden bg-cover bg-center bg-no-repeat transition-all duration-300 hidden lg:flex ${
-          isHeroIntroComplete 
+      className={`fixed top-0 left-[88px] w-[332px] h-screen border-r border-[#333] shadow-2xl z-[60] flex-col font-datatype overflow-hidden bg-cover bg-center bg-no-repeat transition-all duration-300 hidden lg:flex ${          isHeroIntroComplete 
             ? 'opacity-100 pointer-events-auto delay-[950ms]' 
             : 'opacity-0 pointer-events-none'
         }`}

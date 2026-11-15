@@ -1178,7 +1178,16 @@ export default function Page() {
   const [homeHeroIndex, setHomeHeroIndex] = useState<number>(0);
 
   useEffect(() => {
-    setHomeHeroIndex(Math.floor(Math.random() * homeHeroImages.length));
+    homeHeroImages.forEach((src) => {
+      const preloadImg = new window.Image();
+      preloadImg.src = src;
+    });
+
+    const homeInterval = setInterval(() => {
+      setHomeHeroIndex((prev) => (prev + 1) % homeHeroImages.length);
+    }, 4500);
+
+    return () => clearInterval(homeInterval);
   }, []);
 
   const [philosophySlideIndex, setPhilosophySlideIndex] = useState<number>(0);

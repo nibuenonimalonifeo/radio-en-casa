@@ -1750,6 +1750,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
             ))}
           </div>
         </div>
+      </div>
 
       {/* NAV DOCK DE ESCRITORIO */}
       <nav
@@ -3024,7 +3025,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
               backgroundRepeat: 'repeat-y',
               backgroundPosition: 'center top',
               backgroundSize: '100% auto',
-              transform: `translateY(${(scrollProgress - 0.8) * -120}px)`,
+              transform: `translateY(${(scrollProgress * 0.8) * -120}px)`,
             }}
           >
             <div 

@@ -3028,6 +3028,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
         </section>
 
         {/* 5. CONTACTO */}
+        {/* 5. CONTACTO */}
         <section id="contacto" className="w-full pt-0 pb-0 mb-0 bg-[#181818] text-[#ececec] relative flex flex-col justify-between overflow-hidden transform-gpu min-h-screen">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
@@ -3052,18 +3053,18 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
           </div>
 
           <div className="w-full max-w-[1100px] mx-auto space-y-6 mt-6 px-4 md:px-0 mb-0 pb-0 relative z-10">
-            <div className="w-full font-datatype text-left pb-6 border-b border-[#5c5c5c]/40 font-boldonse space-y-4 sm:space-y-5">
+            <div className="w-full font-datatype text-left pb-6 border-b border-[#5c5c5c]/40 font-boldonse space-y-5 sm:space-y-6">
               <a
                 href="https://maps.google.com/?q=Malabia+2134,+CABA,+Argentina"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block group"
               >
-                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom leading-[1.2] sm:leading-[1.15]">
-                  <span className="block font-boldonse text-[#f74a35] group-hover:text-[#e3e3e3] transition-colors">
+                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom !leading-[1.35] sm:!leading-[1.3]">
+                  <span className="block font-boldonse text-[#f74a35] group-hover:text-[#e3e3e3] transition-colors mb-1.5 sm:mb-2.5 !leading-[1.35] sm:!leading-[1.3]">
                     PALERMO SOHO
                   </span>
-                  <span className="block font-boldonse">
+                  <span className="block font-boldonse !leading-[1.35] sm:!leading-[1.3]">
                     MALABIA 2134, CABA, ARGENTINA (C1425EZD)
                   </span>
                 </h1>
@@ -3073,7 +3074,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                 href="mailto:info@radioencasa.com"
                 className="block group"
               >
-                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#f74a35] group-hover:text-white transition-colors font-boldonse h1-custom leading-[1.2] sm:leading-[1.15] break-all sm:break-normal">
+                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#f74a35] group-hover:text-white transition-colors font-boldonse h1-custom !leading-[1.35] sm:!leading-[1.3] break-all sm:break-normal">
                   INFO@RADIOENCASA.COM
                 </h1>
               </a>
@@ -3084,7 +3085,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                 rel="noopener noreferrer"
                 className="block group"
               >
-                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom leading-[1.2] sm:leading-[1.15]">
+                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom !leading-[1.35] sm:!leading-[1.3]">
                   @RADIOENCASA
                 </h1>
               </a>
@@ -3093,7 +3094,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                 href="tel:+541148317132"
                 className="block group"
               >
-                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom leading-[1.2] sm:leading-[1.15]">
+                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom !leading-[1.35] sm:!leading-[1.3]">
                   TEL: (+5411) 4831 7132
                 </h1>
               </a>
@@ -3106,7 +3107,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
               >
                 <TypewriterHeadingUnificado
                   text="WSP: (+54911) 2899 9200"
-                  className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom cursor-pointer leading-[1.2] sm:leading-[1.15]"
+                  className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom cursor-pointer !leading-[1.35] sm:!leading-[1.3]"
                 />
               </a>
             </div>

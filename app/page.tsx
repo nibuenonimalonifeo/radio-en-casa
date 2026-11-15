@@ -2926,6 +2926,14 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                       className="text-[1.5rem] sm:text-[2rem] md:text-[2.5rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] font-boldonse h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
                     />
 
+                    <p className="text-neutral-300 font-datatype">
+                      Este es nuestro tablero de anuncios, diario de viaje y cartelera comunitaria. Un lugar donde compartimos novedades, recomendaciones, lanzamientos, convocatorias y todo aquello que creemos que vale la pena descubrir.
+                    </p>
+
+                    <p className="text-[#f74a35] font-bold border-t border-[#5c5c5c]/60 pt-3 font-datatype">
+                      Porque una comunidad no se construye solamente grabando contenidos. También se construye compartiendo lo que nos entusiasma.
+                    </p>
+
                     <div className="pt-1 w-full">
                       <button
                         onClick={() => scrollToSection('comunidad')}

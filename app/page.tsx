@@ -3004,7 +3004,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                   className="text-[1.5rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] font-boldonse h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
                 />
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-16 pt-2 font-datatype">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-16 pt-2 font-datatype items-start">
                   <div className="space-y-3 font-datatype">
                     <p className="text-neutral-300 font-medium font-datatype leading-relaxed">
                       En esta tienda vas a encontrar productos diseñados para quienes forman parte de nuestra comunidad: desde merchandising hasta ediciones especiales y objetos creados junto a artistas y proyectos amigos.
@@ -3012,10 +3012,20 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                   </div>
 
                   <div className="space-y-3 font-datatype">
-                    <p className="text-[#f74a35] font-black text-base sm:text-lg border-l-4 border-[#f74a35] pl-3 py-1 font-datatype">
-                      LA MEJOR MANERA DE LLEVARTE UN PEDACITO DE RADIO EN CASA
-                    </p>
-                    <p className="text-[#f74a35] font-bold font-datatype">Porque algunas historias también se pueden llevar puestas.</p>
+                    <button
+                      onClick={() => scrollToSection('comunidad')}
+                      className="w-full inline-flex items-center gap-3.5 text-[#e3e3e3] hover:text-[#f74a35] font-bold text-sm sm:text-base border-l-4 border-[#f74a35] pl-4 pr-5 py-3 bg-[#181818]/90 hover:bg-[#1e1e1e] font-datatype leading-snug shadow-xl transition-all duration-300 cursor-pointer text-left no-underline"
+                    >
+                      <img
+                        src="/images/Radio_en_Casa_logo_REC.svg"
+                        alt="Ícono Comunidad"
+                        className="h-6 sm:h-7 w-auto object-contain filter brightness-0 invert flex-shrink-0"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).style.display = 'none';
+                        }}
+                      />
+                      <span>Formando parte de nuestra comunidad accedes a descuentos en todos los artículos.</span>
+                    </button>
                   </div>
                 </div>
 

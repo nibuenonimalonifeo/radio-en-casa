@@ -2801,12 +2801,21 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                     <p className="text-xs sm:text-sm md:text-base text-neutral-300 leading-relaxed font-datatype">
                       Espacio situado en Recoleta donde se desarrollan charlas, eventos y producciones audiovisuales.
                     </p>
-                    <div>
+
+                    <div className="pt-1">
                       <button
                         onClick={() => scrollToSection('comunidad')}
-                        className="text-xs sm:text-sm md:text-base font-bold font-datatype text-[#f74a35] hover:text-[#e3e3e3] transition-colors duration-300 underline cursor-pointer bg-transparent border-none p-0 text-left"
+                        className="w-full sm:w-auto inline-flex items-center gap-3.5 text-[#e3e3e3] hover:text-[#f74a35] font-bold text-sm sm:text-base border-l-4 border-[#f74a35] pl-4 pr-5 py-3 bg-[#121212]/90 hover:bg-[#1a1a1a] font-datatype leading-snug shadow-xl transition-all duration-300 cursor-pointer text-left no-underline"
                       >
-                        Nuestra comunidad accede a preventas y descuentos en todas las entradas.
+                        <img
+                          src="/images/Radio_en_Casa_logo_REC.svg"
+                          alt="Ícono Comunidad"
+                          className="h-6 sm:h-7 w-auto object-contain filter brightness-0 invert flex-shrink-0"
+                          onError={(e) => {
+                            (e.currentTarget as HTMLImageElement).style.display = 'none';
+                          }}
+                        />
+                        <span>Nuestra comunidad accede a preventas y descuentos en todas las entradas.</span>
                       </button>
                     </div>
 

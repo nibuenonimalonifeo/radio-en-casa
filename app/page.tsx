@@ -479,12 +479,12 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
               </div>
 
               {card.img && isCenter ? (
-                <div className="w-full h-36 sm:h-44 my-3 sm:my-4 overflow-hidden rounded-none bg-neutral-950/90 border border-black/30 flex-shrink-0 shadow-inner p-1 flex items-center justify-center">
+                <div className="w-full h-36 sm:h-44 my-3 sm:my-4 overflow-hidden rounded-none bg-neutral-950/90 border border-black/30 flex-shrink-0 shadow-inner p-2 flex items-center justify-center">
                   <img
                     src={card.img}
                     alt={`Hito ${card.year}`}
                     className={`w-full h-full rounded-none ${
-                      isLogoPng ? 'object-contain p-3 filter brightness-0 invert' : 'object-cover'
+                      card.img.endsWith('.png') ? 'object-contain p-2' : 'object-cover'
                     }`}
                   />
                 </div>

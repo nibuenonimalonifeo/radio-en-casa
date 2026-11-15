@@ -3060,10 +3060,10 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                 className="block group"
               >
                 <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom leading-[1.2] sm:leading-[1.15]">
-                  <span className="block text-[#f74a35] group-hover:text-[#e3e3e3] transition-colors">
+                  <span className="block font-boldonse text-[#f74a35] group-hover:text-[#e3e3e3] transition-colors">
                     PALERMO SOHO
                   </span>
-                  <span className="block">
+                  <span className="block font-boldonse">
                     MALABIA 2134, CABA, ARGENTINA (C1425EZD)
                   </span>
                 </h1>

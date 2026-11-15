@@ -2414,23 +2414,11 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
               <div className="w-full space-y-4 font-datatype text-xs sm:text-sm md:text-base leading-relaxed text-neutral-200 border-t border-white/10 pt-6">
                 <ScrollFadeText delay={100}>
                   <p>
-                    Si tenés una idea, un proyecto o una comunidad que querés hacer crecer, en Radio en Casa encontrás el espacio y la infraestructura necesaria para desarrollarla.
-                  </p>
-                </ScrollFadeText>
-
-                <ScrollFadeText delay={200}>
-                  <p>
                     No alquilamos solamente un estudio. Abrimos una casa con más de diez años de experiencia creando contenidos, acompañando proyectos y formando parte de la evolución de la radio, el podcast y el streaming en Argentina. Ponemos a disposición un estudio profesional, cómodo y completamente equipado para realizar programas de radio, podcasts y streaming.
                   </p>
                 </ScrollFadeText>
 
-                <ScrollFadeText delay={300}>
-                  <p className="font-bold text-[#e3e3e3] bg-[#222222] border-l-4 border-[#f74a35] p-4 sm:pt-5 sm:pb-5 sm:pl-6 sm:pr-6 shadow-xl my-3 font-datatype">
-                    Porque para nosotros un buen contenido necesita dos cosas: una infraestructura profesional y un espacio donde las ideas puedan sentirse cómodas.
-                  </p>
-                </ScrollFadeText>
-
-                <ScrollFadeText delay={400}>
+                <ScrollFadeText delay={200}>
                   <p>
                     Contamos con una mesa para 6 personas con micrófonos profesionales, efectos de voz y luces, croma para entornos virtuales, living, barra, monitor, teléfono fijo, WhatsApp, instrumentos y todos los recursos necesarios para que cada producción encuentre su mejor versión.
                   </p>

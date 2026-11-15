@@ -1732,23 +1732,24 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
           })}
         </div>
 
-        {/* 4 ÍCONOS DE REDES SOCIALES DEL ASIDE */}
-        <div className="w-full flex items-center justify-start gap-3.5 pt-6 border-t border-white/10 pl-2">
-          {socialMenuItems.map((social, idx) => (
-            <a
-              key={idx}
-              href={social.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={social.label}
-              title={social.label}
-              className={`w-10 h-10 rounded-full bg-[#161616] border border-white/10 flex items-center justify-center text-neutral-300 transition-all duration-300 shadow-md ${social.hoverClass}`}
-            >
-              {social.icon}
-            </a>
-          ))}
+        {/* ÍCONOS DE REDES SOCIALES EN 2 LÍNEAS DE 4 */}
+        <div className="w-full pt-6 border-t border-white/10 pl-2">
+          <div className="grid grid-cols-4 gap-3.5 w-fit justify-items-start">
+            {socialMenuItems.map((social, idx) => (
+              <a
+                key={idx}
+                href={social.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.label}
+                title={social.label}
+                className={`w-10 h-10 rounded-full bg-[#161616] border border-white/10 flex items-center justify-center text-neutral-300 transition-all duration-300 shadow-md ${social.hoverClass}`}
+              >
+                {social.icon}
+              </a>
+            ))}
+          </div>
         </div>
-      </div>
 
       {/* NAV DOCK DE ESCRITORIO */}
       <nav
@@ -1993,15 +1994,15 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                 return (
                   <div
                     key={idx}
-                    className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
+                    className={`absolute inset-0 w-full h-full overflow-hidden transition-opacity duration-1000 ease-in-out ${
                       isActive ? 'opacity-100 z-0' : 'opacity-0 pointer-events-none z-0'
                     }`}
                   >
-                    <ImageWithPlaceholder
+                    <img
                       src={imgUrl}
                       alt={`Radio en Casa Home ${idx + 1}`}
-                      className={`w-full h-full object-cover filter brightness-50 contrast-110 object-center ${
-                        isActive ? 'animate-continuous-zoom' : 'scale-100'
+                      className={`w-full h-full object-cover object-center filter brightness-50 contrast-110 ${
+                        isActive ? 'lg:animate-continuous-zoom scale-100' : 'scale-100'
                       }`}
                     />
                   </div>

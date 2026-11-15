@@ -2903,10 +2903,20 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
               <div className="w-full bg-[#1e1e1e]/90 backdrop-blur-md p-6 sm:p-8 md:p-10 border border-[#5c5c5c]/60 shadow-xl font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed rounded-none">
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
                   <div className="md:col-span-4 flex items-center justify-center p-2 min-h-[160px]">
-                    <img
-                      src="/images/servicios/Radio_en_Casa_logo_REC-05.svg"
-                      alt="Logo REC Fanzine"
-                      className="w-full max-w-[180px] sm:max-w-[220px] h-auto object-contain filter brightness-0 invert opacity-100 drop-shadow-[0_0_12px_rgba(255,255,255,0.2)]"
+                    <div
+                      role="img"
+                      aria-label="Logo REC Fanzine"
+                      className="w-full max-w-[180px] sm:max-w-[220px] h-[220px] sm:h-[260px] bg-[#484848]"
+                      style={{
+                        WebkitMaskImage: `url('/images/servicios/Radio_en_Casa_logo_REC-05.svg')`,
+                        maskImage: `url('/images/servicios/Radio_en_Casa_logo_REC-05.svg')`,
+                        WebkitMaskRepeat: 'no-repeat',
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskPosition: 'center',
+                        maskPosition: 'center',
+                        WebkitMaskSize: 'contain',
+                        maskSize: 'contain',
+                      }}
                     />
                   </div>
 

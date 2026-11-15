@@ -434,8 +434,8 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
   ];
 
   return (
-    <div className="relative w-full flex flex-col items-center md:items-end justify-start pt-0 pb-6 overflow-visible min-h-[550px] md:min-h-[620px] font-datatype">
-      <div className="relative w-full max-w-[320px] sm:max-w-[460px] min-h-[480px] sm:min-h-[500px] flex items-start justify-center [perspective:1200px]">
+    <div className="relative w-full flex flex-col items-center md:items-end justify-start pt-0 pb-8 overflow-visible min-h-[680px] font-datatype">
+      <div className="relative w-full max-w-[320px] sm:max-w-[460px] min-h-[560px] sm:min-h-[580px] flex items-start justify-center [perspective:1200px]">
         {items.map((card, idx) => {
           const total = items.length;
           let offset = idx - currentIndex;
@@ -445,12 +445,14 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
           const isCenter = offset === 0;
           const theme = cardThemes[idx % cardThemes.length];
 
-          const rotateZ = offset * -7; 
-          const translateY = offset * 40; 
+          const rotateZ = offset * -7;
+          const translateY = offset * 40;
           const translateX = offset * 12;
           const translateZ = -Math.abs(offset) * 80;
           const scale = isCenter ? 1 : 0.92 - Math.abs(offset) * 0.05;
           const opacity = Math.abs(offset) > 3 ? 0 : 1 - Math.abs(offset) * 0.2;
+
+          const isLogoPng = card.img.endsWith('.png');
 
           return (
             <div
@@ -475,17 +477,24 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
               </div>
 
               {card.img && isCenter ? (
-                <div className="w-full h-36 sm:h-44 my-3 sm:my-4 overflow-hidden rounded-none bg-neutral-950/90 border border-black/30 flex-shrink-0 shadow-inner p-1">
-                  <ImageWithPlaceholder
+                <div className="w-full h-36 sm:h-44 my-3 sm:my-4 overflow-hidden rounded-none bg-neutral-950/90 border border-black/30 flex-shrink-0 shadow-inner p-1 flex items-center justify-center">
+                  <img
                     src={card.img}
                     alt={`Hito ${card.year}`}
-                    className="w-full h-full object-cover rounded-none"
+                    className={`w-full h-full rounded-none ${
+                      isLogoPng ? 'object-contain p-3 filter brightness-0 invert' : 'object-cover'
+                    }`}
                     onError={(e) => {
                       const imgEl = e.currentTarget as HTMLImageElement;
-                      if (imgEl.src.includes('/images/historia/')) {
-                        imgEl.src = card.img.replace('/images/historia/', '/images/programas/');
-                      } else if (imgEl.src.includes('/images/programas/')) {
-                        imgEl.src = card.img.replace('/images/programas/', '/images/historia/');
+                      if (!imgEl.dataset.retried) {
+                        imgEl.dataset.retried = 'true';
+                        if (card.img.includes('/images/programas/')) {
+                          imgEl.src = card.img.replace('/images/programas/', '/images/historia/');
+                        } else if (card.img.includes('/images/historia/')) {
+                          imgEl.src = card.img.replace('/images/historia/', '/images/programas/');
+                        } else if (card.img.includes('logo_11.png')) {
+                          imgEl.src = '/images/clientes/logo_12.png';
+                        }
                       }
                     }}
                   />
@@ -500,15 +509,16 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
         })}
       </div>
 
-      <div className="flex items-center gap-6 mt-12 sm:mt-20 z-40 justify-center md:justify-start w-full max-w-[460px]">
+      {/* BOTONES DE NAVEGACIÓN CON MAYOR SEPARACIÓN INFERIOR PARA QUE NO LOS PISE LA CARD 09 */}
+      <div className="flex items-center gap-6 mt-36 sm:mt-44 z-40 justify-center md:justify-start w-full max-w-[460px]">
         <button
           onClick={handlePrev}
           className="bg-[#ffcc00] text-[#121212] hover:bg-[#e6b800] flex items-center justify-center transition-all duration-300 shadow-xl border border-transparent cursor-pointer rounded-none font-datatype p-3.5 sm:p-4 group"
           aria-label="Anterior"
           title="Hito anterior"
         >
-          <svg 
-            className="w-7 h-7 sm:w-8 sm:h-8 fill-current transform transition-transform duration-300 group-hover:-translate-x-1" 
+          <svg
+            className="w-7 h-7 sm:w-8 sm:h-8 fill-current transform transition-transform duration-300 group-hover:-translate-x-1"
             viewBox="0 0 24 24"
           >
             <path d="M11 17.25L4.25 12L11 6.75V17.25ZM19.75 17.25L13 12L19.75 6.75V17.25Z" />
@@ -521,8 +531,8 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
           aria-label="Siguiente"
           title="Siguiente hito"
         >
-          <svg 
-            className="w-7 h-7 sm:w-8 sm:h-8 fill-current transform transition-transform duration-300 group-hover:translate-x-1" 
+          <svg
+            className="w-7 h-7 sm:w-8 sm:h-8 fill-current transform transition-transform duration-300 group-hover:translate-x-1"
             viewBox="0 0 24 24"
           >
             <path d="M13 6.75L19.75 12L13 17.25V6.75ZM4.25 6.75L11 12L4.25 17.25V6.75Z" />
@@ -640,11 +650,11 @@ const historyCardsData = [
     img: '/images/programas/radio_en_casa_quemar_un_patrullero.jpeg',
     desc: 'En el 2019 produjimos junto a Gustavo Olmedo el lanzamiento de “Quemar un Patrullero”, otro de los podcast independientes más relevantes de la escena local, que continuamos grabando y se sostiene gracias a su comunidad.',
   },
-  {
+ {
     id: '06',
     year: '2019',
     title: 'Originales Spotify',
-    img: '/images/programas/Radio_en_Casa_Un_Nuevo_Match.jpg',
+    img: '/images/clientes/logo_11.png',
     desc: 'En el 2019 fuimos además el estudio en el que se grabaron los primeros podcasts originales de Spotify en Argentina.\nCon formatos como: Somos Novios, No me olvidé de vos y Misión Presidencial, cuando Spotify todavía no tenía oficinas en nuestro país.',
   },
   {
@@ -672,7 +682,7 @@ const historyCardsData = [
     id: '10',
     year: '2022',
     title: 'Podcast Original',
-    img: '/images/historia/Radio_en_Casa_Un_Nuevo_Match.jpg',
+    img: '/images/programas/Radio_en_Casa_Un_Nuevo_Match.jpg',
     desc: 'En el 2022 realizamos nuestro primer podcast original: “Un nuevo match”.\nUna serie de entrevistas en formato de cita para hablar sobre vínculos y sexualidad.',
   },
   {

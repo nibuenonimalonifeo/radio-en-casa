@@ -2280,14 +2280,8 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
               />
 
               <ScrollFadeText delay={100}>
-                <p className="text-[#e3e3e3] font-bold text-base sm:text-lg border-l-4 border-[#f74a35] pl-4 py-3 my-0 bg-[#121212]/95 backdrop-blur-md border border-[#5c5c5c]/40 rounded-none font-datatype shadow-2xl">
-                  ESTAMOS EN UN PH ANTIGUO RECICLADO EN PALERMO, BUENOS AIRES, ARGENTINA
-                </p>
-              </ScrollFadeText>
-
-              <ScrollFadeText delay={150}>
                 <p className="text-neutral-200">
-                  Un espacio con historia que transformamos para crear algo nuevo, y eso es parte de lo que nos define.
+                  Estamos en un PH antiguo reciclado en Palermo, Buenos Aires, Argentina. Un espacio con historia que transformamos para crear algo nuevo, y eso es parte de lo que nos define.
                 </p>
               </ScrollFadeText>
 
@@ -2306,18 +2300,14 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
               </ScrollFadeText>
 
               <ScrollFadeText delay={500}>
-                <p>Rompimos la cabina y abrimos el espacio porque creemos que las ideas necesitan lugar para crecer. Nos llenamos de micrófonos porque creemos en la diversidad de voces. Y sumamos cámaras porque entendemos que hoy las historias también se ven.</p>
-              </ScrollFadeText>
-
-              <ScrollFadeText delay={600}>
                 <p>Nos gusta estar a la vanguardia, pero no queremos ser una moda.</p>
               </ScrollFadeText>
 
-              <ScrollFadeText delay={700}>
+              <ScrollFadeText delay={600}>
                 <p>Exploramos formatos nuevos, pero buscamos que tengan sentido, identidad y permanencia. No queremos llegar a cualquiera: queremos conectar con las personas adecuadas.</p>
               </ScrollFadeText>
 
-              <ScrollFadeText delay={800}>
+              <ScrollFadeText delay={700}>
                 <p className="text-sm sm:text-base md:text-lg font-datatype text-[#f74a35] font-bold">
                   Si sentís que tenés algo para contar,{' '}
                   <button
@@ -2331,10 +2321,10 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                 </p>
               </ScrollFadeText>
 
-              <ScrollFadeText delay={900}>
+              <ScrollFadeText delay={800}>
                 <div className="mt-4 bg-[#121212]/95 backdrop-blur-md border-2 border-[#f74a35] p-4 shadow-2xl rounded-none">
                   <p className="text-base sm:text-lg md:text-xl font-bold uppercase tracking-wider text-[#e3e3e3] font-boldonse leading-snug">
-                    En Radio en Casa seguimos cambiando la forma de hacer radio.
+                    En Radio en Casa seguimos mudando la forma de hacer radio.
                   </p>
                 </div>
               </ScrollFadeText>

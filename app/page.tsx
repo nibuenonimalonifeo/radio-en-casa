@@ -434,8 +434,8 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
   ];
 
   return (
-    <div className="relative w-full flex flex-col items-center md:items-end justify-start pt-0 pb-8 overflow-visible min-h-[680px] font-datatype">
-      <div className="relative w-full max-w-[320px] sm:max-w-[460px] min-h-[560px] sm:min-h-[580px] flex items-start justify-center [perspective:1200px]">
+    <div className="relative w-full flex flex-col items-center md:items-end justify-start pt-0 pb-6 overflow-visible font-datatype">
+      <div className="relative w-full max-w-[320px] sm:max-w-[460px] flex items-start justify-center [perspective:1200px]">
         {items.map((card, idx) => {
           const total = items.length;
           let offset = idx - currentIndex;
@@ -458,7 +458,9 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
             <div
               key={card.id}
               onClick={() => setCurrentIndex(idx)}
-              className={`absolute top-0 w-full h-auto ${theme.bg} ${theme.text} border-2 border-[rgb(23_23_23_/_0)] p-5 sm:p-6 pb-7 sm:pb-8 shadow-2xl transition-all duration-700 ease-out cursor-pointer select-none rounded-none flex flex-col justify-between font-datatype overflow-visible`}
+              className={`${
+                isCenter ? 'relative' : 'absolute top-0 left-0'
+              } w-full h-auto ${theme.bg} ${theme.text} border-2 border-[rgb(23_23_23_/_0)] p-5 sm:p-6 pb-7 sm:pb-8 shadow-2xl transition-all duration-700 ease-out cursor-pointer select-none rounded-none flex flex-col justify-between font-datatype overflow-visible`}
               style={{
                 transform: `translateX(${translateX}px) translateY(${translateY}px) translateZ(${translateZ}px) rotateZ(${rotateZ}deg) scale(${scale})`,
                 opacity,
@@ -484,19 +486,6 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
                     className={`w-full h-full rounded-none ${
                       isLogoPng ? 'object-contain p-3 filter brightness-0 invert' : 'object-cover'
                     }`}
-                    onError={(e) => {
-                      const imgEl = e.currentTarget as HTMLImageElement;
-                      if (!imgEl.dataset.retried) {
-                        imgEl.dataset.retried = 'true';
-                        if (card.img.includes('/images/programas/')) {
-                          imgEl.src = card.img.replace('/images/programas/', '/images/historia/');
-                        } else if (card.img.includes('/images/historia/')) {
-                          imgEl.src = card.img.replace('/images/historia/', '/images/programas/');
-                        } else if (card.img.includes('logo_11.png')) {
-                          imgEl.src = '/images/clientes/logo_12.png';
-                        }
-                      }
-                    }}
                   />
                 </div>
               ) : null}
@@ -509,8 +498,8 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
         })}
       </div>
 
-      {/* BOTONES DE NAVEGACIÓN CON MAYOR SEPARACIÓN INFERIOR PARA QUE NO LOS PISE LA CARD 09 */}
-      <div className="flex items-center gap-6 mt-36 sm:mt-44 z-40 justify-center md:justify-start w-full max-w-[460px]">
+      {/* BOTONES SIEMPRE JUSTO DEBAJO DE LA TARJETA ACTIVA */}
+      <div className="flex items-center gap-6 mt-8 z-40 justify-center md:justify-start w-full max-w-[460px]">
         <button
           onClick={handlePrev}
           className="bg-[#ffcc00] text-[#121212] hover:bg-[#e6b800] flex items-center justify-center transition-all duration-300 shadow-xl border border-transparent cursor-pointer rounded-none font-datatype p-3.5 sm:p-4 group"
@@ -654,7 +643,7 @@ const historyCardsData = [
     id: '06',
     year: '2019',
     title: 'Originales Spotify',
-    img: '/images/clientes/logo_11.png',
+    img: '/images/clientes/logo_12.png',
     desc: 'En el 2019 fuimos además el estudio en el que se grabaron los primeros podcasts originales de Spotify en Argentina.\nCon formatos como: Somos Novios, No me olvidé de vos y Misión Presidencial, cuando Spotify todavía no tenía oficinas en nuestro país.',
   },
   {

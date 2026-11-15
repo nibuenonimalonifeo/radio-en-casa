@@ -2934,23 +2934,6 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                       Porque una comunidad no se construye solamente grabando contenidos. También se construye compartiendo lo que nos entusiasma.
                     </p>
 
-                    <div className="pt-1 w-full">
-                      <button
-                        onClick={() => scrollToSection('comunidad')}
-                        className="w-full sm:w-auto inline-flex items-center gap-3.5 text-[#e3e3e3] hover:text-[#f74a35] font-bold text-sm sm:text-base border-l-4 border-[#f74a35] pl-4 pr-5 py-3 bg-[#121212]/90 hover:bg-[#1a1a1a] font-datatype leading-snug shadow-xl transition-all duration-300 cursor-pointer text-left no-underline"
-                      >
-                        <img
-                          src="/images/Radio_en_Casa_logo_REC.svg"
-                          alt="Ícono Comunidad"
-                          className="h-6 sm:h-7 w-auto object-contain filter brightness-0 invert flex-shrink-0"
-                          onError={(e) => {
-                            (e.currentTarget as HTMLImageElement).style.display = 'none';
-                          }}
-                        />
-                        <span>Formando parte de nuestra comunidad accedes a descuentos en todos los artículos.</span>
-                      </button>
-                    </div>
-
                     <div className="pt-3 w-full">
                       <a 
                         href="https://radioencasa.substack.com/subscribe?utm_source=menu&simple=true&next=https%3A%2F%2Fradioencasa.substack.com%2Fp%2Fultima-prueba-a-ver-que-onda" 
@@ -3069,19 +3052,20 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
           </div>
 
           <div className="w-full max-w-[1100px] mx-auto space-y-6 mt-6 px-4 md:px-0 mb-0 pb-0 relative z-10">
-            <div className="w-full font-datatype text-left pb-4 border-b border-[#5c5c5c]/40 font-boldonse space-y-2 sm:space-y-3">
-              <p className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#f74a35] font-boldonse h1-custom leading-[1.8rem] sm:leading-[4.5rem]">
-                PALERMO SOHO
-              </p>
-
+            <div className="w-full font-datatype text-left pb-6 border-b border-[#5c5c5c]/40 font-boldonse space-y-4 sm:space-y-5">
               <a
                 href="https://maps.google.com/?q=Malabia+2134,+CABA,+Argentina"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block group"
               >
-                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom leading-[1.8rem] sm:leading-[4.5rem]">
-                  MALABIA 2134, CABA, ARGENTINA (C1425EZD)
+                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom leading-[1.2] sm:leading-[1.15]">
+                  <span className="block text-[#f74a35] group-hover:text-[#e3e3e3] transition-colors">
+                    PALERMO SOHO
+                  </span>
+                  <span className="block">
+                    MALABIA 2134, CABA, ARGENTINA (C1425EZD)
+                  </span>
                 </h1>
               </a>
 
@@ -3089,7 +3073,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                 href="mailto:info@radioencasa.com"
                 className="block group"
               >
-                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#f74a35] group-hover:text-white transition-colors font-boldonse h1-custom leading-[1.8rem] sm:leading-[4.5rem]">
+                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#f74a35] group-hover:text-white transition-colors font-boldonse h1-custom leading-[1.2] sm:leading-[1.15] break-all sm:break-normal">
                   INFO@RADIOENCASA.COM
                 </h1>
               </a>
@@ -3100,7 +3084,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                 rel="noopener noreferrer"
                 className="block group"
               >
-                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom leading-[1.8rem] sm:leading-[4.5rem]">
+                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom leading-[1.2] sm:leading-[1.15]">
                   @RADIOENCASA
                 </h1>
               </a>
@@ -3109,7 +3093,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                 href="tel:+541148317132"
                 className="block group"
               >
-                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom leading-[1.8rem] sm:leading-[4.5rem]">
+                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom leading-[1.2] sm:leading-[1.15]">
                   TEL: (+5411) 4831 7132
                 </h1>
               </a>
@@ -3122,7 +3106,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
               >
                 <TypewriterHeadingUnificado
                   text="WSP: (+54911) 2899 9200"
-                  className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom cursor-pointer leading-[1.8rem] sm:leading-[4.5rem]"
+                  className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom cursor-pointer leading-[1.2] sm:leading-[1.15]"
                 />
               </a>
             </div>

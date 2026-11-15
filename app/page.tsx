@@ -1919,7 +1919,9 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
 
           {/* MÓDULO 3: CHAT EN VIVO DESKTOP */}
           <div 
-            className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-2xl p-2 border border-white/10 shadow-2xl flex flex-col font-datatype flex-1 min-h-[220px] max-h-[35vh] overflow-hidden ${
+            className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-2xl p-2 border border-white/10 shadow-2xl flex flex-col font-datatype transition-all duration-300 overflow-hidden ${
+              isOpenChat ? 'flex-1 min-h-[180px]' : 'flex-shrink-0'
+            } ${
               isHeroIntroComplete ? 'animate-slide-bottom-ease' : 'opacity-0'
             }`}
             style={{ animationDelay: '1250ms' }}
@@ -1944,10 +1946,10 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
               </div>
             </button>
 
-            <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden w-full origin-top flex-1 min-h-0 ${
-              isOpenChat ? 'grid-rows-[1fr] opacity-100 pt-1 scale-y-100' : 'grid-rows-[0fr] opacity-0 pt-0 scale-y-0 -translate-y-2'
+            <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden w-full origin-top ${
+              isOpenChat ? 'flex-1 min-h-0 grid-rows-[1fr] opacity-100 pt-1 scale-y-100' : 'grid-rows-[0fr] opacity-0 pt-0 scale-y-0 -translate-y-2'
             }`}>
-              <div className="overflow-hidden w-full h-full flex flex-col">
+              <div className="overflow-hidden w-full h-full flex flex-col min-h-0">
                 <div className="overflow-hidden flex flex-col h-full w-full bg-black rounded-xl border border-white/10 flex-1 min-h-0">
                   {!isMobileView && <TlkioChat />}
                 </div>

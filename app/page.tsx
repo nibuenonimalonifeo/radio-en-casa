@@ -2886,7 +2886,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
               backgroundRepeat: 'repeat-y',
               backgroundPosition: 'center top',
               backgroundSize: '100% auto',
-              transform: `translateY(${(scrollProgress - 0.7) * -120}px)`,
+              transform: `translateY(${(scrollProgress * 0.7) * -120}px)`,
             }}
           >
             <div 
@@ -2905,7 +2905,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                     <img
                       src="/images/servicios/Radio_en_Casa_logo_REC-05.svg"
                       alt="Logo REC Fanzine"
-                      className="w-full max-w-[180px] sm:max-w-[220px] h-auto object-contain filter invert brightness-[0.95]"
+                      className="w-full max-w-[180px] sm:max-w-[220px] h-auto object-contain filter brightness-0 invert opacity-100 drop-shadow-[0_0_12px_rgba(255,255,255,0.2)]"
                     />
                   </div>
 
@@ -2914,18 +2914,23 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                       text="FANZINE"
                       className="text-[1.5rem] sm:text-[2rem] md:text-[2.5rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] font-boldonse h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
                     />
-                    
-                    <p className="text-[#e3e3e3] font-bold text-base sm:text-lg border-l-4 border-[#f74a35] pl-4 py-2 my-0 bg-[#121212]/80 font-datatype leading-snug shadow-xl">
-                      NO TODO LO QUE PASA EN RADIO EN CASA ENTRA EN UN PROGRAMA O UN PODCAST_
-                    </p>
 
-                    <p className="text-neutral-300 font-datatype">
-                      Este es nuestro tablero de anuncios, diario de viaje y cartelera comunitaria. Un lugar donde compartimos novedades, recomendaciones, lanzamientos, convocatorias y todo aquello que creemos que vale la pena descubrir.
-                    </p>
-
-                    <p className="text-[#f74a35] font-bold border-t border-[#5c5c5c]/60 pt-3 font-datatype">
-                      Porque una comunidad no se construye solamente grabando contenidos. También se construye compartiendo lo que nos entusiasma.
-                    </p>
+                    <div className="pt-1 w-full">
+                      <button
+                        onClick={() => scrollToSection('comunidad')}
+                        className="w-full sm:w-auto inline-flex items-center gap-3.5 text-[#e3e3e3] hover:text-[#f74a35] font-bold text-sm sm:text-base border-l-4 border-[#f74a35] pl-4 pr-5 py-3 bg-[#121212]/90 hover:bg-[#1a1a1a] font-datatype leading-snug shadow-xl transition-all duration-300 cursor-pointer text-left no-underline"
+                      >
+                        <img
+                          src="/images/Radio_en_Casa_logo_REC.svg"
+                          alt="Ícono Comunidad"
+                          className="h-6 sm:h-7 w-auto object-contain filter brightness-0 invert flex-shrink-0"
+                          onError={(e) => {
+                            (e.currentTarget as HTMLImageElement).style.display = 'none';
+                          }}
+                        />
+                        <span>Formando parte de nuestra comunidad accedes a descuentos en todos los artículos.</span>
+                      </button>
+                    </div>
 
                     <div className="pt-3 w-full">
                       <a 

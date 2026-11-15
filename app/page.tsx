@@ -2436,7 +2436,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                 backgroundRepeat: 'repeat-y',
                 backgroundPosition: 'center top',
                 backgroundSize: '100% auto',
-                transform: `translateY(${(scrollProgress - 0.4) * -120}px)`,
+                transform: `translateY(${(scrollProgress * 0.4) * -120}px)`,
               }}
             />
             <div 
@@ -2470,13 +2470,17 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                 <div className="bg-[#141414] border border-neutral-800 rounded-none p-4 sm:p-5 md:p-6 overflow-hidden relative shadow-inner w-full">
                   <div className="animate-scroll-infinite flex items-center space-x-8 sm:space-x-12 md:space-x-16">
                     {[...clientLogos, ...clientLogos].map((src, idx) => (
-                      <div key={idx} className="h-10 sm:h-12 md:h-14 w-28 sm:w-32 md:w-36 flex items-center justify-center flex-shrink-0">
-                        <ImageWithPlaceholder
+                      <div
+                        key={idx}
+                        className="h-12 sm:h-14 md:h-16 w-28 sm:w-32 md:w-36 flex items-center justify-center flex-shrink-0 border-0 bg-transparent"
+                      >
+                        <img
                           src={src}
-                          alt={`Cliente ${(idx % 16) + 1}`}
-                          className="max-h-full max-w-full object-contain filter brightness-0 invert opacity-100"
+                          alt={`Cliente ${(idx % clientLogos.length) + 1}`}
+                          className="max-h-full max-w-full w-auto h-auto object-contain m-auto border-0 outline-none filter brightness-0 invert opacity-100"
                           onError={(e) => {
-                            (e.currentTarget as HTMLImageElement).style.display = 'none';
+                            const parent = (e.currentTarget as HTMLImageElement).parentElement;
+                            if (parent) parent.style.display = 'none';
                           }}
                         />
                       </div>

@@ -1681,12 +1681,12 @@ export default function Page() {
       {/* BOTÓN MÓVIL HAMBURGUESA (DERECHA) */}
       <button
         onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-        className="fixed top-3 right-3 z-[9999] lg:hidden w-11 h-11 bg-transparent rounded-full flex flex-col items-center justify-center gap-1.5 cursor-pointer shadow-none p-2.5"
+        className="fixed top-3 right-3 z-[9999] lg:hidden w-11 h-11 bg-[#121212]/95 hover:bg-[#1c1c1c] border border-white/15 rounded-full flex flex-col items-center justify-center gap-[5px] cursor-pointer shadow-[0_0_20px_rgba(0,0,0,0.85)] p-2.5 transition-all duration-200 active:scale-95"
         aria-label="Abrir Menú"
       >
-        <span className={`w-6 h-0.5 bg-[#e3e3e3] transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-        <span className={`w-6 h-0.5 bg-[#e3e3e3] transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`} />
-        <span className={`w-6 h-0.5 bg-[#e3e3e3] transition-transform duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+        <span className={`w-5 h-[3.5px] bg-[#e3e3e3] rounded-full transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-[8.5px]' : ''}`} />
+        <span className={`w-5 h-[3.5px] bg-[#e3e3e3] rounded-full transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`} />
+        <span className={`w-5 h-[3.5px] bg-[#e3e3e3] rounded-full transition-transform duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-[8.5px]' : ''}`} />
       </button>
 
       {/* OVERLAY SUTIL IZQUIERDO */}
@@ -1699,12 +1699,12 @@ export default function Page() {
 
       {/* DRAWER LATERAL DESDE LA DERECHA HASTA EL LOGO CIRCULAR */}
       <div 
-        className={`fixed top-0 right-0 h-full w-[calc(100%-68px)] max-w-[340px] bg-[#101010]/95 backdrop-blur-2xl border-l border-white/10 z-[9990] lg:hidden flex flex-col justify-between items-start px-6 pt-20 pb-8 overflow-y-auto no-scrollbar transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-[0_0_40px_rgba(0,0,0,0.85)] ${
+        className={`fixed top-0 right-0 h-[100dvh] w-[calc(100%-68px)] max-w-[340px] bg-[#101010]/95 backdrop-blur-2xl border-l border-white/10 z-[9990] lg:hidden flex flex-col justify-between items-start px-6 pt-16 pb-6 overflow-y-auto no-scrollbar transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-[0_0_40px_rgba(0,0,0,0.85)] ${
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         {/* LISTADO DE SECCIONES ALINEADO A LA IZQUIERDA */}
-        <div className="w-full flex-1 flex flex-col items-start justify-center gap-4 sm:gap-5 text-left pl-2 py-4">
+        <div className="w-full flex-1 flex flex-col items-start justify-center gap-2.5 sm:gap-3 text-left pl-2 py-2">
           {mobileMenuItems.map((item) => {
             const isActive = activeSection === item.id;
             return (
@@ -1714,14 +1714,14 @@ export default function Page() {
                   setIsMobileMenuOpen(false);
                   scrollToSection(item.id);
                 }}
-                className={`group flex items-center justify-start gap-2 cursor-pointer bg-transparent border-none p-0 text-left transition-all duration-300 ${
+                className={`group flex items-center justify-start gap-1.5 cursor-pointer bg-transparent border-none p-0 text-left transition-all duration-300 ${
                   isActive ? 'text-[#f74a35] translate-x-1' : 'text-[#ececec] hover:text-[#f74a35]'
                 }`}
               >
-                <span className="font-boldonse text-xl sm:text-2xl tracking-wider uppercase leading-none">
+                <span className="font-boldonse text-base sm:text-lg tracking-wider uppercase leading-tight">
                   {item.label}
                 </span>
-                <span className={`font-boldonse text-[#f74a35] text-xl transition-transform duration-300 ${
+                <span className={`font-boldonse text-[#f74a35] text-base sm:text-lg transition-transform duration-300 ${
                   isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100 translate-x-1'
                 }`}>
                   _
@@ -1732,8 +1732,8 @@ export default function Page() {
         </div>
 
         {/* ÍCONOS DE REDES SOCIALES EN 2 LÍNEAS DE 4 */}
-        <div className="w-full pt-5 border-t border-white/10 pl-2 flex-shrink-0">
-          <div className="grid grid-cols-4 gap-3.5 w-fit justify-items-start">
+        <div className="w-full pt-4 border-t border-white/10 pl-2 flex-shrink-0">
+          <div className="grid grid-cols-4 gap-3 w-fit justify-items-start">
             {socialMenuItems.map((social, idx) => (
               <a
                 key={idx}
@@ -1742,7 +1742,7 @@ export default function Page() {
                 rel="noopener noreferrer"
                 aria-label={social.label}
                 title={social.label}
-                className={`w-10 h-10 rounded-full bg-[#161616] border border-white/10 flex items-center justify-center text-neutral-300 transition-all duration-300 shadow-md ${social.hoverClass}`}
+                className={`w-9 h-9 rounded-full bg-[#161616] border border-white/10 flex items-center justify-center text-neutral-300 transition-all duration-300 shadow-md ${social.hoverClass}`}
               >
                 {social.icon}
               </a>

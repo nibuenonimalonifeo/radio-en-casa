@@ -1681,12 +1681,12 @@ export default function Page() {
       {/* BOTÓN MÓVIL HAMBURGUESA (DERECHA) */}
       <button
         onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-        className="fixed top-3 right-3 z-[9999] lg:hidden w-11 h-11 bg-[#121212]/95 hover:bg-[#1c1c1c] border border-white/15 rounded-full flex flex-col items-center justify-center gap-[5px] cursor-pointer shadow-[0_0_20px_rgba(0,0,0,0.85)] p-2.5 transition-all duration-200 active:scale-95"
+        className="fixed top-3 right-3 z-[9999] lg:hidden w-11 h-11 bg-[#121212]/95 hover:bg-[#1c1c1c] border-0 rounded-full flex flex-col items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_20px_rgba(0,0,0,0.85)] p-2.5 transition-all duration-200 active:scale-95"
         aria-label="Abrir Menú"
       >
-        <span className={`w-5 h-[3.5px] bg-[#e3e3e3] rounded-full transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-[8.5px]' : ''}`} />
-        <span className={`w-5 h-[3.5px] bg-[#e3e3e3] rounded-full transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`} />
-        <span className={`w-5 h-[3.5px] bg-[#e3e3e3] rounded-full transition-transform duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-[8.5px]' : ''}`} />
+        <span className={`w-6 h-0.5 bg-[#e3e3e3] rounded-none transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+        <span className={`w-6 h-0.5 bg-[#e3e3e3] rounded-none transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`} />
+        <span className={`w-6 h-0.5 bg-[#e3e3e3] rounded-none transition-transform duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
       </button>
 
       {/* OVERLAY SUTIL IZQUIERDO */}

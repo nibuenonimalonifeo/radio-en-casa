@@ -2619,19 +2619,10 @@ export default function Page() {
                   />
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-16 pt-2 sm:pt-4">
-                  <div className="space-y-3 font-datatype">
-                    <p>Este es nuestro espacio para que, si todavía no lo hiciste, te sumes a nuestro ecosistema de más de 10 años de historia. Lo podés hacer como Groupie, apoyándonos, o mediante un intercambio más activo que nos potencie.</p>
-                  </div>
-
-                  <div className="space-y-4 font-datatype">
-                    <p className="text-[#e3e3e3] font-bold text-base sm:text-lg border-l-4 border-[#f74a35] pl-4 py-3 bg-[#121212]/80 font-datatype leading-snug shadow-xl">
-                      FORMÁ PARTE DE RADIO EN CASA
-                    </p>
-                    <p className="text-[#f74a35] font-bold border-t border-[#5c5c5c]/40 pt-2 font-datatype">
-                      Con una pequeña contribución mensual nos ayudás a seguir construyendo Radio en Casa y elegís cómo querés formar parte de esta historia.
-                    </p>
-                  </div>
+                <div className="pt-2 sm:pt-4 font-datatype">
+                  <p>
+                    Este es nuestro espacio para que, si todavía no lo hiciste, te sumes a nuestro ecosistema de más de 10 años de historia. Lo podés hacer como Groupie, apoyándonos, o mediante un intercambio más activo que nos potencie.
+                  </p>
                 </div>
               </div>
             </AnimateOnScroll>
@@ -2689,14 +2680,14 @@ export default function Page() {
               {/* GRUPO DE 3 TARJETAS */}
               <div className="lg:col-span-9 bg-black/60 border-2 border-[#f74a35] p-3 sm:p-4 md:p-6 backdrop-blur-sm shadow-2xl relative flex flex-col justify-between space-y-4">
                 
-                <div className="w-full space-y-2 pt-1 pb-1 text-left">
-                  <p className="text-xs sm:text-sm font-datatype text-[#e3e3e3] font-bold uppercase tracking-wider">
+                <div className="w-full space-y-3 pt-1 pb-1 text-left">
+                  <p className="text-xs sm:text-sm md:text-base text-neutral-300 font-datatype leading-relaxed">
                     Membresías de intercambio. Pensadas para artistas y emprendedores que quieran tener nuestro apoyo y difusión.
                   </p>
-                  <p className="text-xs sm:text-sm font-datatype text-neutral-300 font-medium leading-relaxed">
+                  <p className="text-xs sm:text-sm md:text-base text-neutral-300 font-datatype leading-relaxed">
                     Incluye beneficios GROUPIE y suma la oportunidad de spots, canciones o entrevistas sonando en la radio, difusión de fechas o lanzamientos en nuestro Fanzine, presentaciones en Salgo Arriba y más.
                   </p>
-                  <p className="text-xs sm:text-sm font-datatype text-[#f74a35] font-bold uppercase tracking-wider pt-0.5">
+                  <p className="text-xs sm:text-sm md:text-base text-[#f74a35] font-bold font-datatype leading-relaxed">
                     Mismos beneficios. Distintos niveles de aporte.
                   </p>
                 </div>

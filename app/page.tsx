@@ -941,11 +941,18 @@ const menuItems = [
   },
 ];
 
-// MENÚ EXCLUSIVO MOBILE: HOME, SERVICIOS, COMUNIDAD, CONTACTO
+// MENÚ MOBILE COMPLETO (TODAS LAS SECCIONES)
 const mobileMenuItems = [
   { id: 'home', label: 'HOME' },
+  { id: 'historia', label: 'Historia' },
+  { id: 'filosofia', label: 'Filosofía' },
   { id: 'servicios', label: 'Servicios' },
+  { id: 'archivo', label: 'Archivo' },
   { id: 'comunidad', label: 'Comunidad' },
+  { id: 'alianzas', label: 'Alianzas' },
+  { id: 'reconocimientos', label: 'Reconocimientos' },
+  { id: 'fanzine', label: 'Fanzine' },
+  { id: 'store', label: 'Store' },
   { id: 'contacto', label: 'Contacto' },
 ];
 
@@ -1687,12 +1694,12 @@ export default function Page() {
 
       {/* DRAWER LATERAL DESDE LA DERECHA HASTA EL LOGO CIRCULAR */}
       <div 
-        className={`fixed top-0 right-0 h-full w-[calc(100%-68px)] max-w-[340px] bg-[#101010]/95 backdrop-blur-2xl border-l border-white/10 z-[9990] lg:hidden flex flex-col justify-between items-start px-6 pt-24 pb-10 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-[0_0_40px_rgba(0,0,0,0.85)] ${
+        className={`fixed top-0 right-0 h-full w-[calc(100%-68px)] max-w-[340px] bg-[#101010]/95 backdrop-blur-2xl border-l border-white/10 z-[9990] lg:hidden flex flex-col justify-between items-start px-6 pt-20 pb-8 overflow-y-auto no-scrollbar transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-[0_0_40px_rgba(0,0,0,0.85)] ${
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         {/* LISTADO DE SECCIONES ALINEADO A LA IZQUIERDA */}
-        <div className="w-full flex-1 flex flex-col items-start justify-center gap-7 text-left pl-2">
+        <div className="w-full flex-1 flex flex-col items-start justify-center gap-4 sm:gap-5 text-left pl-2 py-4">
           {mobileMenuItems.map((item) => {
             const isActive = activeSection === item.id;
             return (
@@ -1706,10 +1713,10 @@ export default function Page() {
                   isActive ? 'text-[#f74a35] translate-x-1' : 'text-[#ececec] hover:text-[#f74a35]'
                 }`}
               >
-                <span className="font-boldonse text-2xl sm:text-3xl tracking-wider uppercase leading-none">
+                <span className="font-boldonse text-xl sm:text-2xl tracking-wider uppercase leading-none">
                   {item.label}
                 </span>
-                <span className={`font-boldonse text-[#f74a35] text-2xl transition-transform duration-300 ${
+                <span className={`font-boldonse text-[#f74a35] text-xl transition-transform duration-300 ${
                   isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100 translate-x-1'
                 }`}>
                   _
@@ -1720,7 +1727,7 @@ export default function Page() {
         </div>
 
         {/* ÍCONOS DE REDES SOCIALES EN 2 LÍNEAS DE 4 */}
-        <div className="w-full pt-6 border-t border-white/10 pl-2">
+        <div className="w-full pt-5 border-t border-white/10 pl-2 flex-shrink-0">
           <div className="grid grid-cols-4 gap-3.5 w-fit justify-items-start">
             {socialMenuItems.map((social, idx) => (
               <a
@@ -2128,11 +2135,11 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 2. HISTORIA (SOLO DESKTOP) */}
+        {/* 2. HISTORIA */}
         <section
           ref={historiaRef}
           id="historia"
-          className="hidden lg:flex w-full min-h-screen py-16 sm:py-24 px-4 sm:px-6 md:px-12 lg:px-0 relative text-[#e3e3e3] flex-col justify-center items-center transform-gpu overflow-hidden bg-cover bg-center bg-no-repeat scroll-mt-0"
+          className="flex w-full min-h-screen py-16 sm:py-24 px-4 sm:px-6 md:px-12 lg:px-0 relative text-[#e3e3e3] flex-col justify-center items-center transform-gpu overflow-hidden bg-cover bg-center bg-no-repeat scroll-mt-0"
           style={{
             backgroundImage: `url('/images/historia/Radio_en_Casa_Background_Historia_01.png')`,
           }}
@@ -2144,7 +2151,7 @@ export default function Page() {
               <div 
                 className="w-full space-y-6 transition-transform duration-100 ease-out"
                 style={{
-                  transform: `translateY(${historiaParallaxOffset * -70}px)`,
+                  transform: isMobileView ? 'none' : `translateY(${historiaParallaxOffset * -70}px)`,
                 }}
               >
                 <div className="mb-4 sm:mb-6 md:mb-10 w-full">
@@ -2218,7 +2225,7 @@ export default function Page() {
               <div 
                 className="w-full transition-transform duration-100 ease-out"
                 style={{
-                  transform: `translateY(${historiaParallaxOffset * 70}px)`,
+                  transform: isMobileView ? 'none' : `translateY(${historiaParallaxOffset * 70}px)`,
                 }}
               >
                 <FanStackedCards items={historyCardsData} />
@@ -2228,11 +2235,11 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 3. FILOSOFÍA (SOLO DESKTOP) */}
+        {/* 3. FILOSOFÍA */}
         <section
           ref={filosofiaRef}
           id="filosofia"
-          className="hidden lg:block w-full min-h-screen relative bg-[#181818] p-0"
+          className="block w-full min-h-screen relative bg-[#181818] p-0"
         >
           <div 
             className="absolute inset-0 w-full h-full z-0 pointer-events-none opacity-40"
@@ -2248,7 +2255,7 @@ export default function Page() {
 
           <div className="w-full min-h-screen relative z-10 grid grid-cols-1 md:grid-cols-2 gap-0 items-start">
             
-            <div className="w-full h-screen sticky top-0 bg-black overflow-hidden border-r border-white/10 shadow-2xl z-20">
+            <div className="w-full h-[52vh] min-h-[340px] lg:h-screen relative lg:sticky lg:top-0 bg-black overflow-hidden border-b lg:border-b-0 lg:border-r border-white/10 shadow-2xl z-20">
               {philosophyImages.map((imgUrl, idx) => {
                 const isActive = philosophySlideIndex === idx;
                 return (
@@ -2347,7 +2354,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 3. SERVICIOS */}
+        {/* 4. SERVICIOS */}
         <section ref={serviciosRef} id="servicios" className="w-full min-h-screen relative flex flex-col justify-center items-center transform-gpu overflow-hidden p-0 m-0 bg-[#181818]">
           <div 
             className="absolute inset-0 w-full h-full z-0 pointer-events-none opacity-40"
@@ -2442,8 +2449,8 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 5. ARCHIVO (SOLO DESKTOP) */}
-        <section ref={archivoRef} id="archivo" className="hidden lg:block w-full min-h-screen relative p-0 m-0 bg-[#181818] text-[#e3e3e3] py-16 sm:py-24">
+        {/* 5. ARCHIVO */}
+        <section ref={archivoRef} id="archivo" className="block w-full min-h-screen relative p-0 m-0 bg-[#181818] text-[#e3e3e3] py-16 sm:py-24">
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
             <div 
               className="absolute inset-0 w-full h-[140%] z-0 opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
@@ -2463,7 +2470,7 @@ export default function Page() {
             />
           </div>
 
-          <div className="relative z-10 w-full max-w-[1100px] mx-auto px-4 md:px-0 space-y-8 sm:space-y-12">
+          <div className="relative z-10 w-full max-w-[1100px] mx-auto px-4 sm:px-6 md:px-12 lg:px-0 space-y-8 sm:space-y-12">
             
             <div className="space-y-3 sm:space-y-4 w-full font-datatype">
               <ScrollFadeText delay={100}>
@@ -2591,7 +2598,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 4. COMUNIDAD */}
+        {/* 6. COMUNIDAD */}
         <section 
           id="comunidad" 
           className="w-full pt-8 sm:pt-12 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 relative bg-black text-[#e3e3e3] z-10 flex flex-col justify-start items-center transform-gpu min-h-screen overflow-hidden bg-cover bg-center bg-no-repeat"
@@ -2756,8 +2763,8 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 7. ALIANZAS (SOLO DESKTOP) */}
-        <section id="alianzas" className="hidden lg:flex w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
+        {/* 7. ALIANZAS */}
+        <section id="alianzas" className="flex w-full pt-24 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
             style={{
@@ -2855,10 +2862,10 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 8. RECONOCIMIENTOS (SOLO DESKTOP) */}
+        {/* 8. RECONOCIMIENTOS */}
         <section 
           id="reconocimientos" 
-          className="hidden lg:flex w-full min-h-screen py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-white text-neutral-900 relative flex-col justify-center items-center transform-gpu bg-contain md:bg-cover bg-center bg-no-repeat"
+          className="flex w-full min-h-screen py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-white text-neutral-900 relative flex-col justify-center items-center transform-gpu bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `url('/images/reconocimientos/Radio_en_Casa_Background_Reconocimientos.png')`,
           }}
@@ -2880,8 +2887,8 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 9. FANZINE (SOLO DESKTOP) */}
-        <section id="fanzine" className="hidden lg:flex w-full pt-28 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
+        {/* 9. FANZINE */}
+        <section id="fanzine" className="flex w-full pt-24 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
             style={{
@@ -2957,11 +2964,11 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 10. STORE (SOLO DESKTOP) */}
+        {/* 10. STORE */}
         <section
           ref={storeRef}
           id="store"
-          className="hidden lg:flex w-full min-h-screen relative overflow-hidden text-[#ececec] pt-0 pb-24 sm:pb-32 flex-col justify-between items-center bg-cover bg-center bg-no-repeat"
+          className="flex w-full min-h-screen relative overflow-hidden text-[#ececec] pt-0 pb-24 sm:pb-32 flex-col justify-between items-center bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `url('/images/reconocimientos/Radio_en_Casa_Background_Reconocimientos.png')`,
           }}
@@ -3029,7 +3036,7 @@ export default function Page() {
           </div>
         </section>
 
-        {/* 5. CONTACTO */}
+        {/* 11. CONTACTO */}
         <section id="contacto" className="w-full pt-0 pb-0 mb-0 bg-[#181818] text-[#ececec] relative flex flex-col justify-between overflow-hidden transform-gpu min-h-screen">
           <div 
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"

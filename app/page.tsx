@@ -136,7 +136,7 @@ function SubstackFanzineFeed() {
                     {post.title}
                   </h4>
                   {post.subtitle && (
-                    <p className="text-neutral-400 text-xs line-clamp-2 leading-relaxed font-datatype">
+                    <p className="text-neutral-300 !text-[0.98rem] sm:!text-[0.875rem] line-clamp-3 leading-relaxed font-datatype">
                       {post.subtitle}
                     </p>
                   )}
@@ -550,7 +550,7 @@ function Recognitions3Columns({ items }: { items: typeof recognitionsData }) {
               </h3>
 
               {item.desc && (
-                <p className="text-xs sm:text-sm text-neutral-700 leading-relaxed font-datatype">
+                <p className="!text-[1rem] sm:!text-[0.95rem] text-neutral-700 leading-relaxed font-datatype">
                   {item.desc}
                 </p>
               )}
@@ -746,7 +746,7 @@ const membershipsData = [
     id: '02',
     titleLine1: 'CREW',
     titleLine2: '',
-    desc: 'Quiero sentirme parte del equipo y vivir Radio en Casa desde adentro.',
+    desc: '',
     buttonText: 'Quiero ser Crew →',
     link: 'https://mpago.la/1AX6RC9',
   },
@@ -754,7 +754,7 @@ const membershipsData = [
     id: '03',
     titleLine1: 'ROCKSTAR',
     titleLine2: '',
-    desc: 'Quiero participar activamente y ayudar a hacer crecer Radio en Casa.',
+    desc: '',
     buttonText: 'Quiero ser Rockstar →',
     link: 'https://mpago.la/1szJ29C',
   },
@@ -762,7 +762,7 @@ const membershipsData = [
     id: '04',
     titleLine1: 'LEYENDA',
     titleLine2: '',
-    desc: 'Quiero dejar una huella en la historia de Radio en Casa.',
+    desc: '',
     buttonText: 'Quiero ser Leyenda →',
     link: 'https://mpago.la/1H92pSX',
   },
@@ -2573,22 +2573,22 @@ export default function Page() {
                   <div className="pt-2 font-datatype">
                     <div className="w-full bg-[#1e1e1e] border border-[#5c5c5c]/60 p-4 sm:p-5 md:p-6 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 select-none text-neutral-200 rounded-none">
                       <div className="flex items-start sm:items-center gap-3.5">
-                        <span className="w-3.5 h-3.5 bg-[#f74a35] border border-black/50 flex-shrink-0 animate-pulse rounded-full mt-1.5 sm:mt-0" />
-                        <div className="space-y-1.5 font-datatype">
-                          <p className="text-[#e3e3e3] font-black font-boldonse !text-[0.95rem] sm:!text-[1.1rem] md:!text-[1.2rem] uppercase tracking-wider leading-snug">
+                        <span className="w-3.5 h-3.5 bg-[#f74a35] border border-black/50 flex-shrink-0 animate-pulse rounded-full mt-2 sm:mt-0" />
+                        <div className="space-y-2.5 font-datatype">
+                          <p className="text-[#e3e3e3] font-black font-boldonse !text-[1.125rem] sm:!text-[1.2rem] md:!text-[1.3rem] uppercase tracking-wider !leading-[1.45]">
                             ¿Tu proyecto pasó por Radio en Casa y no aparece en este archivo?
                           </p>
-                          <p className="text-neutral-300 font-datatype !text-[0.9rem] sm:!text-[1rem] md:!text-[1.05rem] font-medium flex flex-wrap items-baseline gap-1.5">
+                          <p className="text-neutral-300 font-datatype !text-[1.05rem] sm:!text-[1.1rem] md:!text-[1.15rem] font-medium flex flex-wrap items-baseline gap-1.5 !leading-[1.5]">
                             <button
                               onClick={() => scrollToSection('contacto')}
                               className="group inline-relative inline-flex flex-col cursor-pointer bg-transparent border-none p-0 m-0 text-left align-baseline font-datatype"
                             >
-                              <span className="text-[#f74a35] font-bold !text-[0.9rem] sm:!text-[1rem] md:!text-[1.05rem] transition-colors duration-300 group-hover:text-white font-datatype">
+                              <span className="text-[#f74a35] font-bold !text-[1.05rem] sm:!text-[1.1rem] md:!text-[1.15rem] transition-colors duration-300 group-hover:text-white font-datatype">
                                 Escribinos.
                               </span>
                               <span className="h-[2px] w-full bg-[#f74a35] transition-colors duration-300 group-hover:bg-white" />
                             </button>
-                            <span className="font-bold !text-[0.9rem] sm:!text-[1rem] md:!text-[1.05rem] text-neutral-300 font-datatype">
+                            <span className="font-bold !text-[1.05rem] sm:!text-[1.1rem] md:!text-[1.15rem] text-neutral-300 font-datatype">
                               Nos encantaría sumar ese recuerdo.
                             </span>
                           </p>
@@ -2673,13 +2673,15 @@ export default function Page() {
                           </h3>
                           <div className="space-y-3">
                             {item.subtitle && (
-                              <div className="w-full text-[#e3e3e3] font-bold text-xs sm:text-sm uppercase border-l-4 border-[#f74a35] pl-3.5 pr-4 py-2.5 bg-[#121212]/90 font-datatype leading-snug shadow-xl">
+                              <div className="w-full text-[#e3e3e3] font-bold !text-[0.95rem] sm:!text-[0.95rem] md:!text-[1rem] uppercase border-l-4 border-[#f74a35] pl-3.5 pr-4 py-2.5 bg-[#121212]/90 font-datatype leading-snug shadow-xl">
                                 {item.subtitle}
                               </div>
                             )}
-                            <p className="text-xs sm:text-sm md:text-base text-neutral-300 font-datatype leading-relaxed">
-                              {item.desc}
-                            </p>
+                            {item.desc && (
+                              <p className="!text-[1rem] sm:!text-[0.95rem] md:!text-[1rem] text-neutral-300 font-datatype leading-relaxed">
+                                {item.desc}
+                              </p>
+                            )}
                           </div>
                         </div>
 
@@ -2704,16 +2706,16 @@ export default function Page() {
               <div className="lg:col-span-9 bg-black/60 border-2 border-[#f74a35] p-3 sm:p-4 md:p-6 backdrop-blur-sm shadow-2xl relative flex flex-col justify-between space-y-4">
                 
                 <div className="w-full space-y-3 pt-1 pb-1 text-left">
-                  <div className="w-full sm:w-fit text-[#e3e3e3] font-bold text-xs sm:text-sm uppercase border-l-4 border-[#f74a35] pl-3.5 pr-5 py-2.5 bg-[#181818]/90 font-datatype leading-snug shadow-xl">
+                  <div className="w-full sm:w-fit text-[#e3e3e3] font-bold !text-[0.95rem] sm:!text-[0.95rem] md:!text-[1rem] uppercase border-l-4 border-[#f74a35] pl-3.5 pr-5 py-2.5 bg-[#181818]/90 font-datatype leading-snug shadow-xl">
                     MEMBRESÍAS DE INTERCAMBIO
                   </div>
-                  <p className="text-xs sm:text-sm md:text-base text-neutral-300 font-datatype leading-relaxed">
+                  <p className="!text-[1rem] sm:!text-[0.95rem] md:!text-[1rem] text-neutral-300 font-datatype leading-relaxed">
                     Pensadas para artistas y emprendedores que quieran tener nuestro apoyo y difusión.
                   </p>
-                  <p className="text-xs sm:text-sm md:text-base text-neutral-300 font-datatype leading-relaxed">
+                  <p className="!text-[1rem] sm:!text-[0.95rem] md:!text-[1rem] text-neutral-300 font-datatype leading-relaxed">
                     Incluye beneficios GROUPIE y suma la oportunidad de spots, canciones o entrevistas sonando en la radio, difusión de fechas o lanzamientos en nuestro Fanzine, presentaciones en Salgo Arriba y más.
                   </p>
-                  <p className="text-xs sm:text-sm md:text-base text-[#f74a35] font-bold font-datatype leading-relaxed">
+                  <p className="!text-[1rem] sm:!text-[0.95rem] md:!text-[1rem] text-[#f74a35] font-bold font-datatype leading-relaxed">
                     Mismos beneficios. Distintos niveles de aporte.
                   </p>
                 </div>
@@ -2744,7 +2746,11 @@ export default function Page() {
                             <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#e3e3e3] uppercase border-b border-[#5c5c5c]/40 pb-3 font-boldonse leading-[2.2rem] sm:leading-[2.5rem] md:leading-[2.75rem]">
                               {item.titleLine1}
                             </h3>
-                            <p className="text-xs sm:text-sm md:text-base text-neutral-300 font-datatype leading-relaxed">{item.desc}</p>
+                            {item.desc && (
+                              <p className="!text-[1rem] sm:!text-[0.95rem] md:!text-[1rem] text-neutral-300 font-datatype leading-relaxed">
+                                {item.desc}
+                              </p>
+                            )}
                           </div>
 
                           <div className="pt-4 sm:pt-6">
@@ -2833,7 +2839,7 @@ export default function Page() {
                     </div>
 
                     <h4 className="text-[#e3e3e3] tracking-tight font-extrabold font-boldonse text-lg sm:text-xl h4-custom">Salgo Arriba</h4>
-                    <p className="text-xs sm:text-sm md:text-base text-neutral-300 leading-relaxed font-datatype">
+                    <p className="!text-[1.05rem] sm:!text-[1rem] md:!text-[1.125rem] text-neutral-200 leading-relaxed font-datatype">
                       Espacio situado en Recoleta donde se desarrollan charlas, eventos y producciones audiovisuales.
                     </p>
 

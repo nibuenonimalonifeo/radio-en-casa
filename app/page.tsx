@@ -2665,11 +2665,11 @@ export default function Page() {
                           <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#e3e3e3] uppercase border-b border-[#5c5c5c]/40 pb-3 font-boldonse leading-[2.2rem] sm:leading-[2.5rem] md:leading-[2.75rem]">
                             {item.titleLine1}
                           </h3>
-                          <div className="space-y-2">
+                          <div className="space-y-3">
                             {item.subtitle && (
-                              <p className="text-xs sm:text-sm md:text-base text-[#e3e3e3] font-bold uppercase underline underline-offset-4 decoration-[#f74a35] font-datatype leading-relaxed">
+                              <div className="w-full text-[#e3e3e3] font-bold text-xs sm:text-sm uppercase border-l-4 border-[#f74a35] pl-3.5 pr-4 py-2.5 bg-[#121212]/90 font-datatype leading-snug shadow-xl">
                                 {item.subtitle}
-                              </p>
+                              </div>
                             )}
                             <p className="text-xs sm:text-sm md:text-base text-neutral-300 font-datatype leading-relaxed">
                               {item.desc}
@@ -2697,10 +2697,10 @@ export default function Page() {
               {/* GRUPO DE 3 TARJETAS */}
               <div className="lg:col-span-9 bg-black/60 border-2 border-[#f74a35] p-3 sm:p-4 md:p-6 backdrop-blur-sm shadow-2xl relative flex flex-col justify-between space-y-4">
                 
-                <div className="w-full space-y-2.5 pt-1 pb-1 text-left">
-                  <p className="text-xs sm:text-sm md:text-base text-[#e3e3e3] font-bold uppercase underline underline-offset-4 decoration-[#f74a35] font-datatype leading-relaxed">
+                <div className="w-full space-y-3 pt-1 pb-1 text-left">
+                  <div className="w-full sm:w-fit text-[#e3e3e3] font-bold text-xs sm:text-sm uppercase border-l-4 border-[#f74a35] pl-3.5 pr-5 py-2.5 bg-[#181818]/90 font-datatype leading-snug shadow-xl">
                     MEMBRESÍAS DE INTERCAMBIO
-                  </p>
+                  </div>
                   <p className="text-xs sm:text-sm md:text-base text-neutral-300 font-datatype leading-relaxed">
                     Pensadas para artistas y emprendedores que quieran tener nuestro apoyo y difusión.
                   </p>

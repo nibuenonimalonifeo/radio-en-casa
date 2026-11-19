@@ -1303,6 +1303,11 @@ export default function Page() {
   const [activeServiceId, setActiveServiceId] = useState<string | null>(null);
 
   useEffect(() => {
+    philosophyImages.forEach((src) => {
+      const preloadImg = new window.Image();
+      preloadImg.src = src;
+    });
+
     const interval = setInterval(() => {
       setPhilosophySlideIndex((prev) => (prev + 1) % philosophyImages.length);
     }, 4000);
@@ -2262,18 +2267,19 @@ export default function Page() {
                   <div
                     key={idx}
                     className={`absolute inset-0 w-full h-full transition-all duration-1000 ease-in-out transform group ${
-                      isActive ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-105 z-0'
+                      isActive ? 'opacity-100 scale-100 z-10' : 'opacity-0 scale-105 pointer-events-none z-0'
                     }`}
                   >
-                    <ImageWithPlaceholder
+                    <img
                       src={imgUrl}
                       alt={`Galería Radio en Casa ${idx + 1}`}
+                      loading={idx <= 1 ? 'eager' : 'lazy'}
                       className="w-full h-full object-cover object-center transition-all duration-500 ease-out hover:contrast-200 hover:brightness-125 hover:grayscale"
                       onError={(e) => {
                         (e.currentTarget as HTMLImageElement).src = philosophyImages[0];
                       }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70 group-hover:bg-transparent transition-colors duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70 group-hover:bg-transparent transition-colors duration-300 pointer-events-none" />
                   </div>
                 );
               })}
@@ -2401,7 +2407,7 @@ export default function Page() {
                         </div>
 
                         <div className="space-y-3 font-datatype">
-                          <p className={`text-xs sm:text-sm md:text-base font-bold transition-colors duration-300 ${
+                          <p className={`!text-[1rem] sm:!text-[1.06rem] md:!text-[1.125rem] font-bold leading-relaxed transition-colors duration-300 ${
                             isActive ? 'text-[#e3e3e3]' : 'text-neutral-400'
                           }`}>
                             {service.shortText}
@@ -2411,7 +2417,7 @@ export default function Page() {
                             isActive ? 'grid-rows-[1fr] opacity-100 pt-2' : 'grid-rows-[0fr] opacity-0 pointer-events-none'
                           }`}>
                             <div className="overflow-hidden">
-                              <p className="text-xs sm:text-sm text-neutral-300 leading-relaxed font-datatype border-t border-white/10 pt-3">
+                              <p className="!text-[0.95rem] sm:!text-[1.05rem] text-neutral-200 leading-relaxed font-datatype border-t border-white/10 pt-3">
                                 {service.fullText}
                               </p>
                             </div>
@@ -2566,23 +2572,23 @@ export default function Page() {
                 <ScrollFadeText delay={400}>
                   <div className="pt-2 font-datatype">
                     <div className="w-full bg-[#1e1e1e] border border-[#5c5c5c]/60 p-4 sm:p-5 md:p-6 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 select-none text-neutral-200 rounded-none">
-                      <div className="flex items-center gap-3.5">
-                        <span className="w-3.5 h-3.5 bg-[#f74a35] border border-black/50 flex-shrink-0 animate-pulse rounded-full" />
-                        <div className="space-y-1 font-datatype">
-                          <p className="text-[#f74a35] font-black font-boldonse text-xs sm:text-sm md:text-base uppercase tracking-wider">
+                      <div className="flex items-start sm:items-center gap-3.5">
+                        <span className="w-3.5 h-3.5 bg-[#f74a35] border border-black/50 flex-shrink-0 animate-pulse rounded-full mt-1.5 sm:mt-0" />
+                        <div className="space-y-1.5 font-datatype">
+                          <p className="text-[#e3e3e3] font-black font-boldonse !text-[0.95rem] sm:!text-[1.1rem] md:!text-[1.2rem] uppercase tracking-wider leading-snug">
                             ¿Tu proyecto pasó por Radio en Casa y no aparece en este archivo?
                           </p>
-                          <p className="text-neutral-300 font-datatype text-xs sm:text-sm md:text-base font-medium flex flex-wrap items-baseline gap-1">
+                          <p className="text-neutral-300 font-datatype !text-[0.9rem] sm:!text-[1rem] md:!text-[1.05rem] font-medium flex flex-wrap items-baseline gap-1.5">
                             <button
                               onClick={() => scrollToSection('contacto')}
                               className="group inline-relative inline-flex flex-col cursor-pointer bg-transparent border-none p-0 m-0 text-left align-baseline font-datatype"
                             >
-                              <span className="text-[#e3e3e3] font-bold text-xs sm:text-sm md:text-base transition-colors duration-300 group-hover:text-[#f74a35] font-datatype">
+                              <span className="text-[#f74a35] font-bold !text-[0.9rem] sm:!text-[1rem] md:!text-[1.05rem] transition-colors duration-300 group-hover:text-white font-datatype">
                                 Escribinos.
                               </span>
-                              <span className="h-[2px] w-full bg-[#e3e3e3] transition-colors duration-300 group-hover:bg-[#f74a35]" />
+                              <span className="h-[2px] w-full bg-[#f74a35] transition-colors duration-300 group-hover:bg-white" />
                             </button>
-                            <span className="font-bold text-xs sm:text-sm md:text-base text-neutral-300 font-datatype">
+                            <span className="font-bold !text-[0.9rem] sm:!text-[1rem] md:!text-[1.05rem] text-neutral-300 font-datatype">
                               Nos encantaría sumar ese recuerdo.
                             </span>
                           </p>
@@ -2612,15 +2618,15 @@ export default function Page() {
             <AnimateOnScroll duration={600} offset={25}>
               <div className="bg-[#181818]/90 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-none border border-[#5c5c5c]/60 shadow-2xl space-y-4 font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed">
                 
-                <div className="flex items-center justify-between gap-4 pb-2">
+                <div className="flex items-center justify-between gap-3 pb-2">
                   <TypewriterHeadingUnificado
                     text="COMUNIDAD"
-                    className="text-[1.5rem] sm:text-[2rem] md:text-[2.5rem] lg:text-[3.25rem] font-extrabold text-[#e3e3e3] font-boldonse tracking-tight relative h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
+                    className="text-[1.45rem] sm:text-[2rem] md:text-[2.5rem] lg:text-[3.25rem] font-extrabold text-[#e3e3e3] font-boldonse tracking-tight relative h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
                   />
                   <img
                     src="/images/Radio_en_Casa_logo_REC.svg"
                     alt="Logo Radio en Casa REC"
-                    className="h-10 sm:h-12 md:h-16 w-auto object-contain filter brightness-0 invert flex-shrink-0"
+                    className="h-7 sm:h-11 md:h-16 w-auto object-contain filter brightness-0 invert flex-shrink-0 mr-1 sm:mr-0"
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).style.display = 'none';
                     }}
@@ -2865,9 +2871,10 @@ export default function Page() {
         {/* 8. RECONOCIMIENTOS */}
         <section 
           id="reconocimientos" 
-          className="flex w-full min-h-screen py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-white text-neutral-900 relative flex-col justify-center items-center transform-gpu bg-cover bg-center bg-no-repeat"
+          className="flex w-full min-h-screen py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-white text-neutral-900 relative flex-col justify-center items-center transform-gpu bg-repeat-y bg-top lg:bg-cover lg:bg-center"
           style={{
             backgroundImage: `url('/images/reconocimientos/Radio_en_Casa_Background_Reconocimientos.png')`,
+            backgroundSize: isMobileView ? '100% auto' : 'cover',
           }}
         >
           <div className="w-full max-w-[1100px] mx-auto space-y-8 px-0 sm:px-4 md:px-0 relative z-10 my-auto">
@@ -2968,20 +2975,25 @@ export default function Page() {
         <section
           ref={storeRef}
           id="store"
-          className="flex w-full min-h-screen relative overflow-hidden text-[#ececec] pt-0 pb-24 sm:pb-32 flex-col justify-between items-center bg-cover bg-center bg-no-repeat"
+          className="flex w-full min-h-screen relative overflow-hidden text-[#ececec] pt-0 pb-24 sm:pb-32 flex-col justify-between items-center bg-repeat-y bg-top lg:bg-cover lg:bg-center"
           style={{
             backgroundImage: `url('/images/reconocimientos/Radio_en_Casa_Background_Reconocimientos.png')`,
+            backgroundSize: isMobileView ? '100% auto' : 'cover',
           }}
         >
           <div className="w-full relative left-0 right-0 top-0 mb-0 overflow-hidden z-10 py-0">
             <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 md:px-12 lg:px-0">
-              <div className="w-full h-[32vh] sm:h-[48vh] min-h-[220px] sm:min-h-[320px] overflow-hidden bg-transparent border-0 shadow-none rounded-none">
-                <ImageWithPlaceholder
+              <div className="w-full h-auto sm:h-[48vh] sm:min-h-[320px] overflow-hidden bg-transparent border-0 shadow-none rounded-none">
+                <img
                   src="/images/tienda/Radio_en_Casa_Header.png"
                   alt="Radio en Casa Store Header"
-                  className="w-full h-full object-cover object-center filter brightness-95"
+                  loading="eager"
+                  className="w-full h-auto sm:h-full object-contain sm:object-cover object-center filter brightness-95 block"
                   onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).src = '/images/tienda/Radio_en_Casa_Header_01.png';
+                    const img = e.currentTarget as HTMLImageElement;
+                    if (!img.src.includes('Radio_en_Casa_Header_01.png')) {
+                      img.src = '/images/tienda/Radio_en_Casa_Header_01.png';
+                    }
                   }}
                 />
               </div>

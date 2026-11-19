@@ -737,7 +737,7 @@ const membershipsData = [
     id: '01',
     titleLine1: 'GROUPIE',
     titleLine2: '',
-    desc: 'Creo en este proyecto y quiero ayudar a que siga creciendo. Además accedo a preventas y descuentos a todas las actividades de Salgo Arriba. Descuentos en la Store. Acceso a eventos y más cosas que iremos sumando.',
+    desc: 'Membresía de apoyo. Ayuda a sostener nuestro ecosistema, pero también te brinda distintos tipos de beneficios como pre-ventas y descuentos en nuestra Store, en Salgo Arriba y en las alianzas que vayamos sumando.',
     buttonText: 'Quiero ser Groupie →',
     link: 'https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=4e6a895dbbb144cb84c54e45b044abb7',
   },
@@ -2621,7 +2621,7 @@ export default function Page() {
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-16 pt-2 sm:pt-4">
                   <div className="space-y-3 font-datatype">
-                    <p>Si alguna vez una canción, un programa, una charla o un evento nacido en Radio en Casa formó parte de tu vida, hoy podes ayudarnos a que este proyecto siga creciendo y llegue cada vez más lejos.</p>
+                    <p>Este es nuestro espacio para que, si todavía no lo hiciste, te sumes a nuestro ecosistema de más de 10 años de historia. Lo podés hacer como Groupie, apoyándonos, o mediante un intercambio más activo que nos potencie.</p>
                   </div>
 
                   <div className="space-y-4 font-datatype">
@@ -2689,12 +2689,15 @@ export default function Page() {
               {/* GRUPO DE 3 TARJETAS */}
               <div className="lg:col-span-9 bg-black/60 border-2 border-[#f74a35] p-3 sm:p-4 md:p-6 backdrop-blur-sm shadow-2xl relative flex flex-col justify-between space-y-4">
                 
-                <div className="w-full space-y-1.5 pt-1 pb-1 text-left">
+                <div className="w-full space-y-2 pt-1 pb-1 text-left">
                   <p className="text-xs sm:text-sm font-datatype text-[#e3e3e3] font-bold uppercase tracking-wider">
-                    PENSADO PARA ARTISTAS Y EMPRENDEDORES QUE QUIERAN TENER NUESTRO APOYO Y DIFUSIÓN.
+                    Membresías de intercambio. Pensadas para artistas y emprendedores que quieran tener nuestro apoyo y difusión.
                   </p>
-                  <p className="text-xs sm:text-sm font-datatype text-neutral-300 font-medium">
-                    Beneficios GROUPIE + spots, canciones o entrevistas sonando en la radio, difusión de fechas en nuestro fanzine, presentaciones en Salgoarriba y más.
+                  <p className="text-xs sm:text-sm font-datatype text-neutral-300 font-medium leading-relaxed">
+                    Incluye beneficios GROUPIE y suma la oportunidad de spots, canciones o entrevistas sonando en la radio, difusión de fechas o lanzamientos en nuestro Fanzine, presentaciones en Salgo Arriba y más.
+                  </p>
+                  <p className="text-xs sm:text-sm font-datatype text-[#f74a35] font-bold uppercase tracking-wider pt-0.5">
+                    Mismos beneficios. Distintos niveles de aporte.
                   </p>
                 </div>
 

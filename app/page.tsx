@@ -178,12 +178,10 @@ function TlkioChat({ heightClass = 'h-full min-h-[220px]' }: { heightClass?: str
     const container = containerRef.current;
     if (!container) return;
 
-    // Limpia cualquier instancia previa del script o contenido
     container.innerHTML = '';
     const oldScript = document.getElementById('tlkio-embed-script');
     if (oldScript) oldScript.remove();
 
-    // Crea el div oficial exacto que espera embed.js
     const tlkDiv = document.createElement('div');
     tlkDiv.id = 'tlkio';
     tlkDiv.setAttribute('data-channel', 'radioencasa');
@@ -192,7 +190,6 @@ function TlkioChat({ heightClass = 'h-full min-h-[220px]' }: { heightClass?: str
     tlkDiv.style.height = '100%';
     container.appendChild(tlkDiv);
 
-    // Inyecta el script oficial por HTTPS para evitar bloqueo de Mixed Content en Render
     const script = document.createElement('script');
     script.id = 'tlkio-embed-script';
     script.src = 'https://tlk.io/embed.js';
@@ -452,8 +449,6 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
           const scale = isCenter ? 1 : 0.92 - Math.abs(offset) * 0.05;
           const opacity = Math.abs(offset) > 3 ? 0 : 1 - Math.abs(offset) * 0.2;
 
-          const isLogoPng = card.img.endsWith('.png');
-
           return (
             <div
               key={card.id}
@@ -617,7 +612,6 @@ const clientLogos = [
 ];
 
 // --- DATOS DE HISTORIA ---
-// --- DATOS DE HISTORIA ---
 const historyCardsData = [
   {
     id: '01',
@@ -654,7 +648,7 @@ const historyCardsData = [
     img: '/images/programas/radio_en_casa_quemar_un_patrullero.jpeg',
     desc: 'En el 2019 produjimos junto a Gustavo Olmedo el lanzamiento de “Quemar un Patrullero”, otro de los podcast independientes más relevantes de la escena local, que continuamos grabando y se sostiene gracias a su comunidad.',
   },
- {
+  {
     id: '06',
     year: '2019',
     title: 'Originales Spotify',
@@ -922,7 +916,7 @@ const menuItems = [
     label: 'Fanzine',
     icon: (
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c-1.1-.9-2-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
       </svg>
     )
   },
@@ -1048,7 +1042,7 @@ export default function Page() {
     window.scrollTo(0, 0);
   }, []);
 
-const [isMobileView, setIsMobileView] = useState<boolean>(false);
+  const [isMobileView, setIsMobileView] = useState<boolean>(false);
 
   useEffect(() => {
     const checkViewport = () => {
@@ -1299,14 +1293,6 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
   const [cityName, setCityName] = useState<string>('CARGANDO...');
 
   const [activeServiceId, setActiveServiceId] = useState<string | null>(null);
-
-  useEffect(() => {
-    const homeInterval = setInterval(() => {
-      setHomeHeroIndex((prev) => (prev + 1) % homeHeroImages.length);
-    }, 4000);
-
-    return () => clearInterval(homeInterval);
-  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -1567,7 +1553,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
         }
 
         .animate-continuous-zoom {
-          animation: continuousZoom 4s linear forwards;
+          animation: continuousZoom 4.5s linear forwards;
         }
 
         .animated-logo-svg svg path[stroke],
@@ -1657,7 +1643,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
         id="radio-audio-element"
         src="/api/stream/audio"
         autoPlay
-        preload="auto"
+        preload="none"
         playsInline
         crossOrigin="anonymous"
       />
@@ -1805,7 +1791,8 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
 
       {/* 2. ASIDE (SOLO ESCRITORIO) */}
       <aside 
-      className={`fixed top-0 left-[88px] w-[332px] h-screen border-r border-[#333] shadow-2xl z-[60] flex-col font-datatype overflow-hidden bg-cover bg-center bg-no-repeat transition-all duration-300 hidden lg:flex ${          isHeroIntroComplete 
+        className={`fixed top-0 left-[88px] w-[332px] h-screen border-r border-[#333] shadow-2xl z-[60] flex-col font-datatype overflow-hidden bg-cover bg-center bg-no-repeat transition-all duration-300 hidden lg:flex ${
+          isHeroIntroComplete 
             ? 'opacity-100 pointer-events-auto delay-[950ms]' 
             : 'opacity-0 pointer-events-none'
         }`}
@@ -1815,10 +1802,12 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
       >
         <div className="flex-1 w-full overflow-y-auto no-scrollbar flex flex-col justify-between p-3 gap-2 font-datatype text-[9px]">
           
-          <div className="w-full flex flex-col gap-2 flex-shrink-0">
+          <div className={`w-full flex flex-col gap-2 ${
+            !isOpenChat && isOpenPlayer ? 'flex-1 min-h-0' : 'flex-shrink-0'
+          }`}>
             {/* MÓDULO 1: CLIMA, FECHA Y HORA */}
             <div 
-              className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-xl p-2.5 border border-white/10 flex flex-col justify-center items-start text-left font-datatype leading-[1.2] space-y-1 ${
+              className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-xl p-2.5 border border-white/10 flex flex-col justify-center items-start text-left font-datatype leading-[1.2] space-y-1 flex-shrink-0 ${
                 isHeroIntroComplete ? 'animate-slide-top-ease' : 'opacity-0'
               }`}
               style={{ animationDelay: '950ms' }}
@@ -1846,14 +1835,16 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
               className={`w-full transition-all duration-300 relative overflow-hidden shadow-2xl flex flex-col font-datatype ${
                 isOpenPlayer ? 'bg-[#f74a35] p-2.5 rounded-2xl border-0 shadow-2xl' : 'bg-[#121212]/90 backdrop-blur-md p-2 border border-white/10 rounded-2xl shadow-xl'
               } ${
+                !isOpenChat && isOpenPlayer ? 'flex-1 min-h-0' : 'flex-shrink-0'
+              } ${
                 isHeroIntroComplete ? 'animate-slide-bottom-ease' : 'opacity-0'
               }`}
               style={{ animationDelay: '1100ms' }}
             >
-              <div className="w-full relative flex flex-col items-center justify-center font-datatype">
+              <div className="w-full h-full flex-1 relative flex flex-col items-center justify-between font-datatype">
                 <div 
                   onClick={handleTogglePlayer}
-                  className="w-full flex items-center justify-between cursor-pointer select-none font-datatype p-2 pr-8 gap-2 relative min-h-[38px]"
+                  className="w-full flex items-center justify-between cursor-pointer select-none font-datatype p-2 pr-8 gap-2 relative min-h-[38px] flex-shrink-0"
                 >
                   {!isOpenPlayer && (
                     <div className="flex flex-col gap-2 w-full min-w-0 pr-1" onClick={(e) => e.stopPropagation()}>
@@ -1908,9 +1899,9 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                 </div>
 
                 <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden w-full ${
-                  isOpenPlayer ? 'grid-rows-[1fr] opacity-100 pt-1 pb-1 bg-transparent' : 'grid-rows-[0fr] opacity-0 pt-0 pb-0'
+                  isOpenPlayer ? 'flex-1 grid-rows-[1fr] opacity-100 pt-1 pb-1 bg-transparent' : 'grid-rows-[0fr] opacity-0 pt-0 pb-0'
                 }`}>
-                  <div className="overflow-hidden w-full flex flex-col justify-center items-center gap-2 bg-transparent">
+                  <div className="overflow-hidden w-full h-full flex flex-col justify-center items-center gap-2 bg-transparent">
                     <IframePlayer width={280} />
                   </div>
                 </div>
@@ -1987,31 +1978,32 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
         <section
           ref={homeRef}
           id="home"
-          className="w-full min-h-screen flex flex-col justify-start lg:justify-between items-center relative bg-black overflow-visible lg:overflow-hidden transform-gpu"
+          className="w-full min-h-screen flex flex-col justify-start lg:justify-between items-center relative bg-[#181818] overflow-visible lg:overflow-hidden transform-gpu"
         >
           {/* VISTA MOBILE */}
           <div className="flex lg:hidden w-full min-h-screen flex-col justify-start items-center relative p-4 sm:p-6 z-10 pt-16 pb-20 gap-5">
-            <div className="absolute inset-0 h-full w-full pointer-events-none z-0 overflow-hidden">
+            <div className="absolute inset-0 h-full w-full pointer-events-none z-0 overflow-hidden bg-[#181818]">
               {homeHeroImages.map((imgUrl, idx) => {
                 const isActive = homeHeroIndex === idx;
                 return (
                   <div
                     key={idx}
                     className={`absolute inset-0 w-full h-full overflow-hidden transition-opacity duration-1000 ease-in-out ${
-                      isActive ? 'opacity-100 z-0' : 'opacity-0 pointer-events-none z-0'
+                      isActive ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-0'
                     }`}
                   >
                     <img
                       src={imgUrl}
                       alt={`Radio en Casa Home ${idx + 1}`}
-                      className={`w-full h-full object-cover object-center filter brightness-50 contrast-110 ${
-                        isActive ? 'lg:animate-continuous-zoom scale-100' : 'scale-100'
-                      }`}
+                      loading={idx === 0 ? 'eager' : 'lazy'}
+                      fetchPriority={idx === 0 ? 'high' : 'low'}
+                      decoding={idx === 0 ? 'sync' : 'async'}
+                      className="w-full h-full object-cover object-center filter brightness-50 contrast-110 scale-100"
                     />
                   </div>
                 );
               })}
-              <div className="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-none" />
+              <div className="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-none z-20" />
             </div>
 
             <div className="relative z-10 w-full max-w-[340px] flex flex-col items-center gap-4 bg-[#121212]/95 border border-white/10 p-4 rounded-2xl shadow-2xl font-datatype">
@@ -2041,7 +2033,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
 
           {/* VISTA DESKTOP */}
           <div className="hidden lg:flex flex-col justify-center items-center w-full h-full min-h-screen relative">
-            <div className={`absolute inset-0 h-full pointer-events-none z-0 overflow-hidden transition-all duration-700 ease-out ${
+            <div className={`absolute inset-0 h-full pointer-events-none z-0 overflow-hidden bg-[#181818] transition-all duration-700 ease-out ${
               isHeroIntroComplete ? 'w-full ml-0' : 'w-screen ml-0'
             }`}>
               {homeHeroImages.map((imgUrl, idx) => {
@@ -2050,12 +2042,15 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                   <div
                     key={idx}
                     className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
-                      isActive ? 'opacity-100 z-0' : 'opacity-0 pointer-events-none z-0'
+                      isActive ? 'opacity-100 z-10' : 'opacity-0 pointer-events-none z-0'
                     }`}
                   >
-                    <ImageWithPlaceholder
+                    <img
                       src={imgUrl}
                       alt={`Radio en Casa Home ${idx + 1}`}
+                      loading={idx <= 1 ? 'eager' : 'lazy'}
+                      fetchPriority={idx === 0 ? 'high' : 'auto'}
+                      decoding={idx === 0 ? 'sync' : 'async'}
                       className={`w-full h-full object-cover filter brightness-75 contrast-110 object-center ${
                         isActive ? 'animate-continuous-zoom' : 'scale-100'
                       }`}
@@ -2063,7 +2058,7 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
                   </div>
                 );
               })}
-              <div className="absolute inset-0 bg-black/30 pointer-events-none" />
+              <div className="absolute inset-0 bg-black/30 pointer-events-none z-20" />
             </div>
 
             {showTuningNotice && (
@@ -3027,7 +3022,6 @@ const [isMobileView, setIsMobileView] = useState<boolean>(false);
           </div>
         </section>
 
-        {/* 5. CONTACTO */}
         {/* 5. CONTACTO */}
         <section id="contacto" className="w-full pt-0 pb-0 mb-0 bg-[#181818] text-[#ececec] relative flex flex-col justify-between overflow-hidden transform-gpu min-h-screen">
           <div 

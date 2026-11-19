@@ -737,7 +737,8 @@ const membershipsData = [
     id: '01',
     titleLine1: 'GROUPIE',
     titleLine2: '',
-    desc: 'Membresía de apoyo. Ayuda a sostener nuestro ecosistema, pero también te brinda distintos tipos de beneficios como pre-ventas y descuentos en nuestra Store, en Salgo Arriba y en las alianzas que vayamos sumando.',
+    subtitle: 'Membresía de apoyo.',
+    desc: 'Ayuda a sostener nuestro ecosistema, pero también te brinda distintos tipos de beneficios como pre-ventas y descuentos en nuestra Store, en Salgo Arriba y en las alianzas que vayamos sumando.',
     buttonText: 'Quiero ser Groupie →',
     link: 'https://www.mercadopago.com.ar/subscriptions/checkout?preapproval_plan_id=4e6a895dbbb144cb84c54e45b044abb7',
   },
@@ -2657,7 +2658,16 @@ export default function Page() {
                           <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#e3e3e3] uppercase border-b border-[#5c5c5c]/40 pb-3 font-boldonse leading-[2.2rem] sm:leading-[2.5rem] md:leading-[2.75rem]">
                             {item.titleLine1}
                           </h3>
-                          <p className="text-xs sm:text-sm md:text-base text-neutral-300 font-datatype leading-relaxed">{item.desc}</p>
+                          <div className="space-y-2">
+                            {item.subtitle && (
+                              <p className="text-xs sm:text-sm md:text-base text-[#e3e3e3] font-bold font-datatype leading-relaxed">
+                                {item.subtitle}
+                              </p>
+                            )}
+                            <p className="text-xs sm:text-sm md:text-base text-neutral-300 font-datatype leading-relaxed">
+                              {item.desc}
+                            </p>
+                          </div>
                         </div>
 
                         <div className="pt-4 sm:pt-6">
@@ -2680,9 +2690,12 @@ export default function Page() {
               {/* GRUPO DE 3 TARJETAS */}
               <div className="lg:col-span-9 bg-black/60 border-2 border-[#f74a35] p-3 sm:p-4 md:p-6 backdrop-blur-sm shadow-2xl relative flex flex-col justify-between space-y-4">
                 
-                <div className="w-full space-y-3 pt-1 pb-1 text-left">
+                <div className="w-full space-y-2.5 pt-1 pb-1 text-left">
+                  <p className="text-xs sm:text-sm md:text-base text-[#e3e3e3] font-bold font-datatype leading-relaxed">
+                    Membresías de intercambio.
+                  </p>
                   <p className="text-xs sm:text-sm md:text-base text-neutral-300 font-datatype leading-relaxed">
-                    Membresías de intercambio. Pensadas para artistas y emprendedores que quieran tener nuestro apoyo y difusión.
+                    Pensadas para artistas y emprendedores que quieran tener nuestro apoyo y difusión.
                   </p>
                   <p className="text-xs sm:text-sm md:text-base text-neutral-300 font-datatype leading-relaxed">
                     Incluye beneficios GROUPIE y suma la oportunidad de spots, canciones o entrevistas sonando en la radio, difusión de fechas o lanzamientos en nuestro Fanzine, presentaciones en Salgo Arriba y más.

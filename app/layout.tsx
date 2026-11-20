@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import './globals.css';
 
-const GA_MEASUREMENT_ID = 'G-JGMF9SXT6D'; // <-- Reemplazá por tu ID real (ej: G-XXXXXXXXXX)
+const GA_MEASUREMENT_ID = 'G-JGMF9SXT6D';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://radioencasa.com'),
@@ -43,6 +43,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Boldonse&family=DM+Sans:ital,opsz,wght@0,9..40,400..800;1,9..40,400..800&family=Datatype:wght@400..900&family=Rethink+Sans:ital,wght@0,400..800;1,400..800&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body>
         {children}
 

@@ -169,45 +169,22 @@ function SubstackFanzineFeed() {
   );
 }
 
-// --- COMPONENTE CHAT EN VIVO OFICIAL DE TLK.IO ---
+// --- COMPONENTE CHAT EN VIVO OFICIAL DE TLK.IO (IFRAME DIRECTO) ---
 
 function TlkioChat({ heightClass = 'h-full min-h-[220px]' }: { heightClass?: string }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    container.innerHTML = '';
-    const oldScript = document.getElementById('tlkio-embed-script');
-    if (oldScript) oldScript.remove();
-
-    const tlkDiv = document.createElement('div');
-    tlkDiv.id = 'tlkio';
-    tlkDiv.setAttribute('data-channel', 'radioencasa');
-    tlkDiv.setAttribute('data-theme', 'theme--night');
-    tlkDiv.style.width = '100%';
-    tlkDiv.style.height = '100%';
-    container.appendChild(tlkDiv);
-
-    const script = document.createElement('script');
-    script.id = 'tlkio-embed-script';
-    script.src = 'https://tlk.io/embed.js';
-    script.type = 'text/javascript';
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      const s = document.getElementById('tlkio-embed-script');
-      if (s) s.remove();
-    };
-  }, []);
-
   return (
     <div
-      ref={containerRef}
       className={`w-full ${heightClass} bg-[#121212] overflow-hidden rounded-xl border border-white/10 relative`}
-    />
+      style={{ minHeight: '360px' }}
+    >
+      <iframe
+        src="https://tlk.io/radioencasa?theme=theme--night"
+        title="Chat en vivo Radio en Casa"
+        className="w-full h-full border-0 block"
+        style={{ width: '100%', height: '100%', minHeight: '360px' }}
+        loading="lazy"
+      />
+    </div>
   );
 }
 
@@ -1127,7 +1104,7 @@ export default function Page() {
 
   const toggleMiniAudio = (e: React.MouseEvent) => {
     e.stopPropagation();
-    const audioElement = document.getElementById('radio-audio-element') as HTMLAudioElement;
+    const audioElement = document.getElementById('radio-audio-element') as HTMLAudioElement | null;
 
     if (isMiniPlaying) {
       if (audioElement) {
@@ -1147,7 +1124,7 @@ export default function Page() {
   const handleMiniVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = Number(e.target.value);
     setMiniVolume(val);
-    const audioElement = document.getElementById('radio-audio-element') as HTMLAudioElement;
+    const audioElement = document.getElementById('radio-audio-element') as HTMLAudioElement | null;
     if (audioElement) {
       audioElement.volume = val / 100;
     }
@@ -1332,17 +1309,6 @@ export default function Page() {
   }, []);
 
   useEffect(() => {
-    const audioElement = document.getElementById('radio-audio-element') as HTMLAudioElement;
-    if (audioElement) {
-      audioElement.src = `/api/stream/audio?t=${Date.now()}`;
-      audioElement.volume = miniVolume / 100;
-      audioElement.play().then(() => {
-        setIsMiniPlaying(true);
-      }).catch(() => {
-        setIsMiniPlaying(false);
-      });
-    }
-
     const fadeTimer = setTimeout(() => {
       setIsTuningFadingUp(true);
     }, 1800);
@@ -1655,7 +1621,6 @@ export default function Page() {
       <audio
         id="radio-audio-element"
         src="/api/stream/audio"
-        autoPlay
         preload="none"
         playsInline
         crossOrigin="anonymous"
@@ -2038,7 +2003,7 @@ export default function Page() {
                   </span>
                 </div>
                 <div className="w-full h-[380px] min-h-[380px] bg-[#121212] rounded-xl overflow-hidden border border-white/10">
-                  {isMobileView && <TlkioChat heightClass="h-[380px] min-h-[380px]" />}
+                  <TlkioChat heightClass="h-[380px] min-h-[380px]" />
                 </div>
               </div>
             </div>
@@ -2078,7 +2043,7 @@ export default function Page() {
               <div className="absolute inset-0 flex items-center justify-center z-50 pointer-events-auto font-mono font-datatype">
                 <button
                   onClick={() => {
-                    const audioElement = document.getElementById('radio-audio-element') as HTMLAudioElement;
+                    const audioElement = document.getElementById('radio-audio-element') as HTMLAudioElement | null;
                     if (audioElement) {
                       if (!audioElement.src || audioElement.src === '') {
                         audioElement.src = `/api/stream/audio?nocache=${Date.now()}`;

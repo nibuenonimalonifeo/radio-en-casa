@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState, ReactNode } from 'react';
-import Script from 'next/script';
 import AnimatedLogo from '@/components/AnimatedLogo';
 import IframePlayer from '@/components/IframePlayer';
 
@@ -26,7 +25,8 @@ function ImageWithPlaceholder({
         <div className="absolute inset-0 z-10 flex items-center justify-center bg-transparent border border-white/5 animate-pulse p-4">
           <img
             src="/images/servicios/Radio_en_Casa_logo_REC-04.svg"
-            alt="Cargando..."
+            alt=""
+            aria-hidden="true"
             className="w-12 h-12 opacity-40 object-contain filter invert brightness-[0.95]"
           />
         </div>
@@ -112,7 +112,7 @@ function SubstackFanzineFeed() {
                 <div className="w-full h-40 overflow-hidden bg-black/60 relative">
                   <ImageWithPlaceholder
                     src={post.cover_image}
-                    alt={post.title}
+                    alt={`${post.title} — Fanzine Radio en Casa`}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).style.display = 'none';
@@ -132,9 +132,9 @@ function SubstackFanzineFeed() {
 
               <div className="p-5 flex-1 flex flex-col justify-between space-y-3 font-datatype">
                 <div className="space-y-1.5">
-                  <h4 className="font-extrabold text-[#e3e3e3] text-base group-hover:text-[#f74a35] transition-colors leading-snug font-boldonse">
+                  <h3 className="font-extrabold text-[#e3e3e3] text-base group-hover:text-[#f74a35] transition-colors leading-snug font-boldonse">
                     {post.title}
-                  </h4>
+                  </h3>
                   {post.subtitle && (
                     <p className="text-neutral-300 !text-[0.98rem] sm:!text-[0.875rem] line-clamp-3 leading-relaxed font-datatype">
                       {post.subtitle}
@@ -214,7 +214,7 @@ function TlkioChat({ heightClass = 'h-full min-h-[220px]' }: { heightClass?: str
 
 // --- COMPONENTE TIPO MÁQUINA DE ESCRIBIR PARA DATOS DINÁMICOS ---
 
-function TypewriterText({ text, speed = 30 }: { text: string; speed?: number }) {
+function TypewriterText({ text }: { text: string; speed?: number }) {
   const [displayed, setDisplayed] = useState(text);
 
   useEffect(() => {
@@ -317,15 +317,17 @@ function AnimateOnScroll({
   );
 }
 
-// --- TITULAR MÁQUINA DE ESCRIBIR UNIFICADO ---
+// --- TITULAR MÁQUINA DE ESCRIBIR UNIFICADO (SEO-SAFE H2) ---
 
 function TypewriterHeadingUnificado({
   text,
+  seoLabel,
   className = '',
   onComplete,
   threshold = 0.25,
 }: {
   text: string;
+  seoLabel?: string;
   className?: string;
   onComplete?: () => void;
   threshold?: number;
@@ -385,17 +387,19 @@ function TypewriterHeadingUnificado({
   const lastChar = displayText.length > 0 ? displayText.slice(-1) : '';
   const isFinished = displayText.length === sanitizedText.length && displayText.length > 0;
 
-  const defaultH1Classes =
+  const defaultHeadingClasses =
     'text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold text-[#e3e3e3] font-boldonse tracking-tight relative h1-custom leading-[1.8rem] sm:leading-[3.82rem]';
 
   return (
-    <h1
+    <h2
       ref={ref}
-      className={className || defaultH1Classes}
+      className={className || defaultHeadingClasses}
     >
-      <span style={{ fontSize: 'inherit' }}>{baseText}</span>
+      <span className="sr-only">{seoLabel || sanitizedText}</span>
+      <span aria-hidden="true" style={{ fontSize: 'inherit' }}>{baseText}</span>
       {lastChar && (
         <span
+          aria-hidden="true"
           style={{ fontSize: 'inherit' }}
           className={`inline-block transition-all duration-100 ${
             !isFinished ? 'text-[#f74a35] scale-105 filter drop-shadow-[0_0_8px_rgba(247,74,53,0.8)]' : ''
@@ -404,10 +408,14 @@ function TypewriterHeadingUnificado({
           {lastChar}
         </span>
       )}
-      <span style={{ fontSize: 'inherit' }} className="animate-pulse text-[#f74a35] font-boldonse inline-block ml-1.5">
+      <span
+        aria-hidden="true"
+        style={{ fontSize: 'inherit' }}
+        className="animate-pulse text-[#f74a35] font-boldonse inline-block ml-1.5"
+      >
         _
       </span>
-    </h1>
+    </h2>
   );
 }
 
@@ -478,7 +486,7 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
                 <div className="w-full h-36 sm:h-44 my-3 sm:my-4 overflow-hidden rounded-none bg-neutral-950/90 border border-black/30 flex-shrink-0 shadow-inner p-0">
                   <img
                     src={card.img}
-                    alt={`Hito ${card.year}`}
+                    alt={`Hito ${card.year} — ${card.title} en Radio en Casa`}
                     className="w-full h-full object-cover object-center rounded-none"
                   />
                 </div>
@@ -497,7 +505,7 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
         <button
           onClick={handlePrev}
           className="bg-[#ffcc00] text-[#121212] hover:bg-[#e6b800] flex items-center justify-center transition-all duration-300 shadow-xl border border-transparent cursor-pointer rounded-none font-datatype p-3.5 sm:p-4 group"
-          aria-label="Anterior"
+          aria-label="Hito anterior"
           title="Hito anterior"
         >
           <svg
@@ -511,7 +519,7 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
         <button
           onClick={handleNext}
           className="bg-[#f74a35] text-white hover:bg-[#d93a26] flex items-center justify-center transition-all duration-300 shadow-xl border border-transparent cursor-pointer rounded-none font-datatype p-3.5 sm:p-4 group"
-          aria-label="Siguiente"
+          aria-label="Siguiente hito"
           title="Siguiente hito"
         >
           <svg
@@ -583,33 +591,72 @@ function Recognitions3Columns({ items }: { items: typeof recognitionsData }) {
   );
 }
 
-const homeHeroImages = Array.from({ length: 5 }, (_, i) => {
-  const num = String(i + 1).padStart(2, '0');
-  return `/images/home/Radio_en_Casa_Galeria_Home_${num}.jpg`;
-});
+const homeHeroImages = [
+  {
+    src: '/images/home/Radio_en_Casa_Galeria_Home_01.jpg',
+    alt: 'Estudio principal de podcast, streaming y radio online Radio en Casa en Palermo Soho, Buenos Aires',
+  },
+  {
+    src: '/images/home/Radio_en_Casa_Galeria_Home_02.jpg',
+    alt: 'Mesa profesional para 6 personas con micrófonos condensadores en Radio en Casa',
+  },
+  {
+    src: '/images/home/Radio_en_Casa_Galeria_Home_03.jpg',
+    alt: 'Producción audiovisual multicámara y transmisión en vivo en estudio de Palermo',
+  },
+  {
+    src: '/images/home/Radio_en_Casa_Galeria_Home_04.jpg',
+    alt: 'Grabación de podcast en video Full HD en Radio en Casa Buenos Aires',
+  },
+  {
+    src: '/images/home/Radio_en_Casa_Galeria_Home_05.jpg',
+    alt: 'Interior del PH reciclado de Radio en Casa en Malabia 2134, Palermo Soho',
+  },
+];
+
+const philosophyGalleryAlts = [
+  'Estudio de grabación de podcast y radio online Radio en Casa en Palermo Soho',
+  'Consola de sonido y equipamiento técnico para streaming en Buenos Aires',
+  'Set de cámaras Full HD para producciones audiovisuales en Radio en Casa',
+  'Mesa de conducción radial y podcasting equipada en Palermo',
+  'Espacio creativo en PH reciclado de Radio en Casa Buenos Aires',
+  'Grabación de contenidos sonoros y audiovisuales en vivo',
+  'Control técnico y operación de streaming multicámara',
+  'Primera transmisión audiovisual en vivo en Radio en Casa',
+  'Ambientación e iluminación profesional para programas de streaming',
+  'Sala de grabación acústica en Malabia 2134, Palermo Soho',
+  'Producción de podcasts originales en Buenos Aires',
+  'Equipamiento de micrófonos y monitoreo profesional en estudio',
+  'Comunidad de creadores y conductores en Radio en Casa',
+  'Espacio de encuentro y producción cultural en Palermo',
+  'Vista general del estudio Radio en Casa tras 10 años de historia',
+];
 
 const philosophyImages = Array.from({ length: 15 }, (_, i) => {
   const num = String(i + 1).padStart(2, '0');
-  return `/images/galeria/Radio_en_Casa_Galeria_${num}.jpg`;
+  return {
+    src: `/images/galeria/Radio_en_Casa_Galeria_${num}.jpg`,
+    alt: philosophyGalleryAlts[i] || `Estudio de podcast y streaming Radio en Casa ${i + 1}`,
+  };
 });
 
 const clientLogos = [
-  '/images/clientes/logo_1.png',
-  '/images/clientes/logo_2.png',
-  '/images/clientes/logo_3.png',
-  '/images/clientes/logo_4.png',
-  '/images/clientes/logo_5.png',
-  '/images/clientes/logo_6.png',
-  '/images/clientes/logo_7.png',
-  '/images/clientes/logo_8.png',
-  '/images/clientes/logo_9.png',
-  '/images/clientes/logo_10.png',
-  '/images/clientes/logo_11.png',
-  '/images/clientes/logo_12.png',
-  '/images/clientes/logo_14.png',
-  '/images/clientes/logo_15.png',
-  '/images/clientes/logo_16.png',
-  '/images/clientes/logo_17.png',
+  { src: '/images/clientes/logo_1.png', name: 'Cliente y productora aliada 1 de Radio en Casa' },
+  { src: '/images/clientes/logo_2.png', name: 'Cliente y productora aliada 2 de Radio en Casa' },
+  { src: '/images/clientes/logo_3.png', name: 'Cliente y productora aliada 3 de Radio en Casa' },
+  { src: '/images/clientes/logo_4.png', name: 'Cliente y productora aliada 4 de Radio en Casa' },
+  { src: '/images/clientes/logo_5.png', name: 'Cliente y productora aliada 5 de Radio en Casa' },
+  { src: '/images/clientes/logo_6.png', name: 'Cliente y productora aliada 6 de Radio en Casa' },
+  { src: '/images/clientes/logo_7.png', name: 'Cliente y productora aliada 7 de Radio en Casa' },
+  { src: '/images/clientes/logo_8.png', name: 'Cliente y productora aliada 8 de Radio en Casa' },
+  { src: '/images/clientes/logo_9.png', name: 'Cliente y productora aliada 9 de Radio en Casa' },
+  { src: '/images/clientes/logo_10.png', name: 'Cliente y productora aliada 10 de Radio en Casa' },
+  { src: '/images/clientes/logo_11.png', name: 'Cliente y productora aliada 11 de Radio en Casa' },
+  { src: '/images/clientes/logo_12.png', name: 'Spotify Originals grabados en Radio en Casa' },
+  { src: '/images/clientes/logo_14.png', name: 'Cliente y productora aliada 14 de Radio en Casa' },
+  { src: '/images/clientes/logo_15.png', name: 'Cliente y productora aliada 15 de Radio en Casa' },
+  { src: '/images/clientes/logo_16.png', name: 'Cliente y productora aliada 16 de Radio en Casa' },
+  { src: '/images/clientes/logo_17.png', name: 'Cliente y productora aliada 17 de Radio en Casa' },
 ];
 
 // --- DATOS DE HISTORIA ---
@@ -1057,7 +1104,7 @@ export default function Page() {
 
   const heroLogoRef = useRef<HTMLDivElement>(null);
   const heroLogoRefEnd = useRef<HTMLDivElement>(null);
-  const [heroLogoWidth, setHeroLogoWidth] = useState<number>(1300);
+  const [, setHeroLogoWidth] = useState<number>(1300);
 
   const homeRef = useRef<HTMLDivElement>(null);
   const homeEndRef = useRef<HTMLDivElement>(null);
@@ -1066,9 +1113,9 @@ export default function Page() {
   const storeRef = useRef<HTMLDivElement>(null);
 
   const [isHomeInView, setIsHomeInView] = useState<boolean>(true);
-  const [isHomeEndInView, setIsHomeEndInView] = useState<boolean>(false);
-  const [isArchiveInView, setIsArchiveInView] = useState<boolean>(false);
-  const [isStoreInView, setIsStoreInView] = useState<boolean>(false);
+  const [, setIsHomeEndInView] = useState<boolean>(false);
+  const [, setIsArchiveInView] = useState<boolean>(false);
+  const [, setIsStoreInView] = useState<boolean>(false);
 
   const [logoAnimKey, setLogoAnimKey] = useState<number>(0);
   const [logoEndAnimKey, setLogoEndAnimKey] = useState<number>(100);
@@ -1078,7 +1125,7 @@ export default function Page() {
   const [isHistoriaInView, setIsHistoriaInView] = useState<boolean>(false);
 
   const filosofiaRef = useRef<HTMLDivElement>(null);
-  const [isFilosofiaInView, setIsFilosofiaInView] = useState<boolean>(false);
+  const [, setIsFilosofiaInView] = useState<boolean>(false);
 
   const [activeMembership, setActiveMembership] = useState<string | null>(null);
 
@@ -1271,15 +1318,15 @@ export default function Page() {
   const [isHeroIntroComplete, setIsHeroIntroComplete] = useState<boolean>(false);
 
   const [scrollProgress, setScrollProgress] = useState<number>(0);
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [, setIsScrolled] = useState<boolean>(false);
   const [hasScrolled, setHasScrolled] = useState<boolean>(false);
 
   const [homeHeroIndex, setHomeHeroIndex] = useState<number>(0);
 
   useEffect(() => {
-    homeHeroImages.forEach((src) => {
+    homeHeroImages.forEach((item) => {
       const preloadImg = new window.Image();
-      preloadImg.src = src;
+      preloadImg.src = item.src;
     });
 
     const homeInterval = setInterval(() => {
@@ -1297,9 +1344,9 @@ export default function Page() {
   const [activeServiceId, setActiveServiceId] = useState<string | null>(null);
 
   useEffect(() => {
-    philosophyImages.forEach((src) => {
+    philosophyImages.forEach((item) => {
       const preloadImg = new window.Image();
-      preloadImg.src = src;
+      preloadImg.src = item.src;
     });
 
     const interval = setInterval(() => {
@@ -1363,7 +1410,6 @@ export default function Page() {
     }
   };
 
-  // RESTAURACIÓN INICIAL: respeta el #hash si existe, y solo lleva a (0, 0) si no hay hash
   useEffect(() => {
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
@@ -1431,7 +1477,7 @@ export default function Page() {
               'UBICACIÓN';
 
             setCityName(city.toUpperCase());
-          } catch (error) {
+          } catch {
             setCityName('CLIMA');
             setTemperature('N/A');
           }
@@ -1779,6 +1825,7 @@ export default function Page() {
 
       {/* NAV DOCK DE ESCRITORIO */}
       <nav
+        aria-label="Navegación principal"
         className={`fixed top-0 left-0 w-[88px] h-screen bg-[#0e0e0e] border-r border-[#262626] z-[9999] hidden lg:flex flex-col items-center justify-between py-4 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isHeroIntroComplete
             ? 'opacity-100 translate-x-0'
@@ -1830,6 +1877,7 @@ export default function Page() {
 
       {/* 2. ASIDE (SOLO ESCRITORIO) */}
       <aside
+        aria-label="Radio en vivo y chat"
         className={`fixed top-0 left-[88px] w-[332px] h-screen border-r border-[#333] shadow-2xl z-[60] flex-col font-datatype overflow-hidden bg-cover bg-center bg-no-repeat transition-all duration-300 hidden lg:flex ${
           isHeroIntroComplete
             ? 'opacity-100 pointer-events-auto delay-[950ms]'
@@ -1908,6 +1956,7 @@ export default function Page() {
                             max="100"
                             value={miniVolume}
                             onChange={handleMiniVolumeChange}
+                            aria-label="Volumen"
                             className="w-full h-1 accent-[#f74a35] cursor-pointer min-w-0"
                           />
                         </div>
@@ -2009,7 +2058,7 @@ export default function Page() {
       </aside>
 
       {/* CONTENIDO PRINCIPAL */}
-      <div className={`flex flex-col transition-all duration-700 ease-out w-full ${
+      <main className={`flex flex-col transition-all duration-700 ease-out w-full ${
         isHeroIntroComplete ? 'lg:!w-[calc(100%-420px)] lg:!ml-[420px]' : 'lg:!w-full lg:!ml-0'
       }`}>
 
@@ -2019,10 +2068,15 @@ export default function Page() {
           id="home"
           className="w-full min-h-screen flex flex-col justify-start lg:justify-between items-center relative bg-[#181818] overflow-visible lg:overflow-hidden transform-gpu"
         >
+          {/* ÚNICO H1 SEMÁNTICO DE LA PORTADA PARA SEO */}
+          <h1 className="sr-only">
+            Radio en Casa — Estudio de Podcast, Streaming y Radio Online en Palermo Soho, Buenos Aires
+          </h1>
+
           {/* VISTA MOBILE */}
           <div className="flex lg:hidden w-full min-h-screen flex-col justify-start items-center relative p-4 sm:p-6 z-10 pt-16 pb-20 gap-5">
             <div className="absolute inset-0 h-full w-full pointer-events-none z-0 overflow-hidden bg-[#181818]">
-              {homeHeroImages.map((imgUrl, idx) => {
+              {homeHeroImages.map((imgItem, idx) => {
                 const isActive = homeHeroIndex === idx;
                 return (
                   <div
@@ -2032,8 +2086,8 @@ export default function Page() {
                     }`}
                   >
                     <img
-                      src={imgUrl}
-                      alt={`Radio en Casa Home ${idx + 1}`}
+                      src={imgItem.src}
+                      alt={imgItem.alt}
                       loading={idx === 0 ? 'eager' : 'lazy'}
                       fetchPriority={idx === 0 ? 'high' : 'low'}
                       decoding={idx === 0 ? 'sync' : 'async'}
@@ -2075,7 +2129,7 @@ export default function Page() {
             <div className={`absolute inset-0 h-full pointer-events-none z-0 overflow-hidden bg-[#181818] transition-all duration-700 ease-out ${
               isHeroIntroComplete ? 'w-full ml-0' : 'w-screen ml-0'
             }`}>
-              {homeHeroImages.map((imgUrl, idx) => {
+              {homeHeroImages.map((imgItem, idx) => {
                 const isActive = homeHeroIndex === idx;
                 return (
                   <div
@@ -2085,8 +2139,8 @@ export default function Page() {
                     }`}
                   >
                     <img
-                      src={imgUrl}
-                      alt={`Radio en Casa Home ${idx + 1}`}
+                      src={imgItem.src}
+                      alt={imgItem.alt}
                       loading={idx <= 1 ? 'eager' : 'lazy'}
                       fetchPriority={idx === 0 ? 'high' : 'auto'}
                       decoding={idx === 0 ? 'sync' : 'async'}
@@ -2189,11 +2243,14 @@ export default function Page() {
                   {isHistoriaInView ? (
                     <TypewriterHeadingUnificado
                       text="NACIMOS EN 2016"
+                      seoLabel="Historia de Radio en Casa — Nacimos en 2016"
                       className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold text-[#e3e3e3] font-boldonse tracking-tight relative h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
                       onComplete={() => setIsHistoriaTitleDone(true)}
                     />
                   ) : (
-                    <div className="h-16" />
+                    <div className="h-16">
+                      <h2 className="sr-only">Historia de Radio en Casa — Nacimos en 2016</h2>
+                    </div>
                   )}
                 </div>
 
@@ -2287,7 +2344,7 @@ export default function Page() {
           <div className="w-full min-h-screen relative z-10 grid grid-cols-1 md:grid-cols-2 gap-0 items-start">
 
             <div className="w-full h-[52vh] min-h-[340px] lg:h-screen relative lg:sticky lg:top-0 bg-black overflow-hidden border-b lg:border-b-0 lg:border-r border-white/10 shadow-2xl z-20">
-              {philosophyImages.map((imgUrl, idx) => {
+              {philosophyImages.map((imgItem, idx) => {
                 const isActive = philosophySlideIndex === idx;
                 return (
                   <div
@@ -2297,12 +2354,12 @@ export default function Page() {
                     }`}
                   >
                     <img
-                      src={imgUrl}
-                      alt={`Galería Radio en Casa ${idx + 1}`}
+                      src={imgItem.src}
+                      alt={imgItem.alt}
                       loading={idx <= 1 ? 'eager' : 'lazy'}
                       className="w-full h-full object-cover object-center transition-all duration-500 ease-out hover:contrast-200 hover:brightness-125 hover:grayscale"
                       onError={(e) => {
-                        (e.currentTarget as HTMLImageElement).src = philosophyImages[0];
+                        (e.currentTarget as HTMLImageElement).src = philosophyImages[0].src;
                       }}
                     />
                     <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70 group-hover:bg-transparent transition-colors duration-300 pointer-events-none" />
@@ -2328,6 +2385,7 @@ export default function Page() {
 
               <TypewriterHeadingUnificado
                 text="FILOSOFÍA"
+                seoLabel="Filosofía de Radio en Casa — Estudio en Palermo, Buenos Aires"
                 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold text-[#e3e3e3] font-boldonse tracking-tight relative h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
               />
 
@@ -2405,6 +2463,7 @@ export default function Page() {
 
               <TypewriterHeadingUnificado
                 text="SERVICIOS"
+                seoLabel="Servicios de Radio Online, Podcast, Streaming y Outdoor en Palermo"
                 className="text-[1.5rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold text-[#e3e3e3] font-boldonse tracking-tight relative h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
               />
 
@@ -2508,6 +2567,7 @@ export default function Page() {
               <ScrollFadeText delay={100}>
                 <TypewriterHeadingUnificado
                   text="ARCHIVO"
+                  seoLabel="Archivo de Podcasts, Programas y Clientes de Radio en Casa"
                   className="text-[1.5rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider font-boldonse text-[#e3e3e3] h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
                 />
               </ScrollFadeText>
@@ -2524,14 +2584,14 @@ export default function Page() {
               <div className="relative bg-[#1e1e1e]/95 p-3 sm:p-4 md:p-5 rounded-none border border-[#5c5c5c]/60 shadow-2xl w-full font-datatype">
                 <div className="bg-[#141414] border border-neutral-800 rounded-none p-4 sm:p-5 md:p-6 overflow-hidden relative shadow-inner w-full">
                   <div className="animate-scroll-infinite flex items-center space-x-8 sm:space-x-12 md:space-x-16">
-                    {[...clientLogos, ...clientLogos].map((src, idx) => (
+                    {[...clientLogos, ...clientLogos].map((client, idx) => (
                       <div
                         key={idx}
                         className="h-12 sm:h-14 md:h-16 w-28 sm:w-32 md:w-36 flex items-center justify-center flex-shrink-0 border-0 bg-transparent"
                       >
                         <img
-                          src={src}
-                          alt={`Cliente ${(idx % clientLogos.length) + 1}`}
+                          src={client.src}
+                          alt={client.name}
                           className="max-h-full max-w-full w-auto h-auto object-contain m-auto border-0 outline-none filter brightness-0 invert opacity-100"
                           onError={(e) => {
                             const parent = (e.currentTarget as HTMLImageElement).parentElement;
@@ -2647,6 +2707,7 @@ export default function Page() {
                 <div className="flex items-center justify-between gap-3 pb-2">
                   <TypewriterHeadingUnificado
                     text="COMUNIDAD"
+                    seoLabel="Comunidad y Membresías de Radio en Casa"
                     className="text-[1.45rem] sm:text-[2rem] md:text-[2.5rem] lg:text-[3.25rem] font-extrabold text-[#e3e3e3] font-boldonse tracking-tight relative h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
                   />
                   <img
@@ -2826,6 +2887,7 @@ export default function Page() {
               <div className="w-full bg-[#1e1e1e]/90 backdrop-blur-md p-5 sm:p-6 border border-[#5c5c5c]/60 shadow-xl space-y-3 font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed rounded-none">
                 <TypewriterHeadingUnificado
                   text="ALIANZAS"
+                  seoLabel="Alianzas Culturales y Espacios Asociados a Radio en Casa"
                   className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] font-boldonse h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
                 />
                 <p>Con el tiempo fuimos encontrando otros espacios, proyectos y personas con quienes compartimos una misma forma de entender la cultura, la comunicación y la sinergia colectiva.</p>
@@ -2848,7 +2910,7 @@ export default function Page() {
                   <div className="w-full aspect-video overflow-hidden rounded-none bg-black shadow-inner p-0 m-0">
                     <iframe
                       src="https://www.youtube.com/embed/LJbSpPJivuc?autoplay=1&mute=1&loop=1&playlist=LJbSpPJivuc"
-                      title="Alianzas Radio en Casa"
+                      title="Salgo Arriba — Alianza cultural con Radio en Casa"
                       className="w-full h-full border-0 block"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
@@ -2859,12 +2921,12 @@ export default function Page() {
                     <div className="h-14 sm:h-16 w-auto flex items-center justify-start">
                       <ImageWithPlaceholder
                         src="/images/programas/Salgo_Arriba_Logo_Radio_en_Casa.png"
-                        alt="Salgo Arriba Logo"
+                        alt="Logo Salgo Arriba — Espacio cultural y eventos en Recoleta"
                         className="max-h-full w-auto object-contain filter brightness-0 invert opacity-100"
                       />
                     </div>
 
-                    <h4 className="text-[#e3e3e3] tracking-tight font-extrabold font-boldonse text-lg sm:text-xl h4-custom">Salgo Arriba</h4>
+                    <h3 className="text-[#e3e3e3] tracking-tight font-extrabold font-boldonse text-lg sm:text-xl h4-custom">Salgo Arriba</h3>
                     <p className="!text-[1.05rem] sm:!text-[1rem] md:!text-[1.125rem] text-neutral-200 leading-relaxed font-datatype">
                       Espacio situado en Recoleta donde se desarrollan charlas, eventos y producciones audiovisuales.
                     </p>
@@ -2876,7 +2938,7 @@ export default function Page() {
                       >
                         <img
                           src="/images/Radio_en_Casa_logo_REC.svg"
-                          alt="Ícono Comunidad"
+                          alt="Ícono Comunidad Radio en Casa"
                           className="h-6 sm:h-7 w-auto object-contain filter brightness-0 invert flex-shrink-0"
                           onError={(e) => {
                             (e.currentTarget as HTMLImageElement).style.display = 'none';
@@ -2914,6 +2976,7 @@ export default function Page() {
               <div className="space-y-3 font-datatype text-left bg-white/90 backdrop-blur-md p-4 sm:p-5 rounded-none border border-neutral-300/80 shadow-sm">
                 <TypewriterHeadingUnificado
                   text="RECONOCIMIENTOS"
+                  seoLabel="Reconocimientos, Prensa y Trayectoria de Radio en Casa"
                   className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-neutral-900 font-boldonse h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
                 />
                 <p className="text-xs sm:text-sm md:text-base text-neutral-800 max-w-3xl leading-relaxed font-datatype">
@@ -2953,7 +3016,7 @@ export default function Page() {
                   <div className="md:col-span-4 flex items-center justify-center p-2 min-h-[160px]">
                     <div
                       role="img"
-                      aria-label="Logo REC Fanzine"
+                      aria-label="Logo REC Fanzine Radio en Casa"
                       className="w-full max-w-[180px] sm:max-w-[220px] h-[220px] sm:h-[260px] bg-[#484848]"
                       style={{
                         WebkitMaskImage: `url('/images/servicios/Radio_en_Casa_logo_REC-05.svg')`,
@@ -2971,6 +3034,7 @@ export default function Page() {
                   <div className="md:col-span-8 space-y-4 font-datatype flex flex-col justify-between items-start">
                     <TypewriterHeadingUnificado
                       text="FANZINE"
+                      seoLabel="Fanzine y Newsletter Cultural de Radio en Casa"
                       className="text-[1.5rem] sm:text-[2rem] md:text-[2.5rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] font-boldonse h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
                     />
 
@@ -3018,7 +3082,7 @@ export default function Page() {
               <div className="w-full h-auto sm:h-[48vh] sm:min-h-[320px] overflow-hidden bg-transparent border-0 shadow-none rounded-none">
                 <img
                   src="/images/tienda/Radio_en_Casa_Header.png"
-                  alt="Radio en Casa Store Header"
+                  alt="Tienda oficial y merchandising de Radio en Casa"
                   loading="eager"
                   className="w-full h-auto sm:h-full object-contain sm:object-cover object-center filter brightness-95 block"
                   onError={(e) => {
@@ -3037,6 +3101,7 @@ export default function Page() {
               <div className="bg-[#121212]/95 backdrop-blur-md p-6 sm:p-8 md:p-10 border border-[#5c5c5c]/60 rounded-none shadow-2xl space-y-4 sm:space-y-6 font-datatype text-xs sm:text-sm md:text-base text-neutral-200 leading-relaxed">
                 <TypewriterHeadingUnificado
                   text="STORE"
+                  seoLabel="Store Oficial y Merchandising de Radio en Casa"
                   className="text-[1.5rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] font-boldonse h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
                 />
 
@@ -3054,7 +3119,7 @@ export default function Page() {
                     >
                       <img
                         src="/images/Radio_en_Casa_logo_REC.svg"
-                        alt="Ícono Comunidad"
+                        alt="Ícono Comunidad Radio en Casa"
                         className="h-6 sm:h-7 w-auto object-contain filter brightness-0 invert flex-shrink-0"
                         onError={(e) => {
                           (e.currentTarget as HTMLImageElement).style.display = 'none';
@@ -3101,7 +3166,13 @@ export default function Page() {
           </div>
 
           <div className="w-full h-[320px] sm:h-[480px] bg-[#111111] border-b border-[#5c5c5c]/60 relative overflow-hidden group shadow-xl z-10">
-            <iframe title="Mapa" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.5826978182937!2d-58.4238515!3d-34.5893083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb58097b6294b%3A0x6b453a2ef5638c4b!2sMalabia%202134%2C%20C1425EZD%20CABA%2C%20Argentina!5e0!3m2!1ses!2sar!4v1700000000000!5m2!1ses!2sar" className="w-full h-full border-0 filter grayscale invert contrast-125 opacity-80 group-hover:grayscale-0 group-hover:invert-0 group-hover:opacity-100 transition-all duration-700 ease-out" loading="lazy" allowFullScreen />
+            <iframe
+              title="Ubicación de Radio en Casa en Malabia 2134, Palermo Soho, Buenos Aires"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.5826978182937!2d-58.4238515!3d-34.5893083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb58097b6294b%3A0x6b453a2ef5638c4b!2sMalabia%202134%2C%20C1425EZD%20CABA%2C%20Argentina!5e0!3m2!1ses!2sar!4v1700000000000!5m2!1ses!2sar"
+              className="w-full h-full border-0 filter grayscale invert contrast-125 opacity-80 group-hover:grayscale-0 group-hover:invert-0 group-hover:opacity-100 transition-all duration-700 ease-out"
+              loading="lazy"
+              allowFullScreen
+            />
           </div>
 
           <div className="w-full max-w-[1100px] mx-auto space-y-6 mt-6 px-4 md:px-0 mb-0 pb-0 relative z-10">
@@ -3112,23 +3183,23 @@ export default function Page() {
                 rel="noopener noreferrer"
                 className="block group"
               >
-                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom !leading-[1.35] sm:!leading-[1.3]">
+                <h2 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom !leading-[1.35] sm:!leading-[1.3]">
                   <span className="block font-boldonse text-[#f74a35] group-hover:text-[#e3e3e3] transition-colors mb-1.5 sm:mb-2.5 !leading-[1.35] sm:!leading-[1.3]">
                     PALERMO SOHO
                   </span>
                   <span className="block font-boldonse !leading-[1.35] sm:!leading-[1.3]">
                     MALABIA 2134, CABA, ARGENTINA (C1425EZD)
                   </span>
-                </h1>
+                </h2>
               </a>
 
               <a
                 href="mailto:info@radioencasa.com"
                 className="block group"
               >
-                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#f74a35] group-hover:text-white transition-colors font-boldonse h1-custom !leading-[1.35] sm:!leading-[1.3] break-all sm:break-normal">
+                <p className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#f74a35] group-hover:text-white transition-colors font-boldonse h1-custom !leading-[1.35] sm:!leading-[1.3] break-all sm:break-normal">
                   INFO@RADIOENCASA.COM
-                </h1>
+                </p>
               </a>
 
               <a
@@ -3137,18 +3208,18 @@ export default function Page() {
                 rel="noopener noreferrer"
                 className="block group"
               >
-                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom !leading-[1.35] sm:!leading-[1.3]">
+                <p className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom !leading-[1.35] sm:!leading-[1.3]">
                   @RADIOENCASA
-                </h1>
+                </p>
               </a>
 
               <a
                 href="tel:+541148317132"
                 className="block group"
               >
-                <h1 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom !leading-[1.35] sm:!leading-[1.3]">
+                <p className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom !leading-[1.35] sm:!leading-[1.3]">
                   TEL: (+5411) 4831 7132
-                </h1>
+                </p>
               </a>
 
               <a
@@ -3159,6 +3230,7 @@ export default function Page() {
               >
                 <TypewriterHeadingUnificado
                   text="WSP: (+54911) 2899 9200"
+                  seoLabel="WhatsApp de contacto Radio en Casa (+54911) 2899 9200"
                   className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] group-hover:text-[#f74a35] transition-colors font-boldonse h1-custom cursor-pointer !leading-[1.35] sm:!leading-[1.3]"
                 />
               </a>
@@ -3177,7 +3249,7 @@ export default function Page() {
             </div>
           </div>
 
-          <div className="w-full bg-[#111111] mt-auto py-3.5 sm:py-2.5 px-4 sm:px-6 md:px-12 relative z-20 mb-0">
+          <footer className="w-full bg-[#111111] mt-auto py-3.5 sm:py-2.5 px-4 sm:px-6 md:px-12 relative z-20 mb-0">
             <div className="max-w-[1100px] mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 font-mono text-[9.35px] text-neutral-400 font-datatype text-left">
               <div className="flex flex-wrap items-center gap-2 font-bold tracking-tight font-datatype text-[9.35px] text-left">
                 <span>© {currentYear} RADIO EN CASA</span>
@@ -3196,11 +3268,11 @@ export default function Page() {
                 </a>
               </p>
             </div>
-          </div>
+          </footer>
 
         </section>
 
-      </div>
+      </main>
     </div>
   );
 }

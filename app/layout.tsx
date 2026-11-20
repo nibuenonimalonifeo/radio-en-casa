@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -11,6 +12,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID || 'G-JGMF9SXT6D';
+
   return (
     <html lang="es" className="scroll-smooth">
       <head>
@@ -23,6 +26,7 @@ export default function RootLayout({
       </head>
       <body className="bg-[#0f0f0f] text-[#ececec] antialiased selection:bg-[#f74a35] selection:text-white">
         {children}
+        <GoogleAnalytics gaId={gaId} />
       </body>
     </html>
   );

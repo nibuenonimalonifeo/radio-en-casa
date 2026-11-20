@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/third-parties": "^16.4.6",
     "@studio-freight/lenis": "^1.0.42",
     "clsx": "^2.1.0",
     "gsap": "^3.12.5",

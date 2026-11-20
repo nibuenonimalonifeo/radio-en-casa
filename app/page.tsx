@@ -68,7 +68,7 @@ function SubstackFanzineFeed() {
         const res = await fetch('/api/substack');
         if (!res.ok) throw new Error('Error al conectar con el RSS');
         const data = await res.json();
-        
+
         if (Array.isArray(data) && data.length > 0) {
           setPosts(data);
         }
@@ -849,8 +849,8 @@ const rawBrandsTextHTML = `Ad Hoc Comunicación · Apciba · Bercomat · BNP Par
 
 // MENÚ LATERAL (DESKTOP COMPLETO)
 const menuItems = [
-  { 
-    id: 'historia', 
+  {
+    id: 'historia',
     label: 'Historia',
     icon: (
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -858,8 +858,8 @@ const menuItems = [
       </svg>
     )
   },
-  { 
-    id: 'filosofia', 
+  {
+    id: 'filosofia',
     label: 'Filosofía',
     icon: (
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -867,8 +867,8 @@ const menuItems = [
       </svg>
     )
   },
-  { 
-    id: 'servicios', 
+  {
+    id: 'servicios',
     label: 'Servicios',
     icon: (
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -876,8 +876,8 @@ const menuItems = [
       </svg>
     )
   },
-  { 
-    id: 'archivo', 
+  {
+    id: 'archivo',
     label: 'Archivo',
     icon: (
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -885,8 +885,8 @@ const menuItems = [
       </svg>
     )
   },
-  { 
-    id: 'comunidad', 
+  {
+    id: 'comunidad',
     label: 'Comunidad',
     icon: (
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -894,8 +894,8 @@ const menuItems = [
       </svg>
     )
   },
-  { 
-    id: 'alianzas', 
+  {
+    id: 'alianzas',
     label: 'Alianzas',
     icon: (
       <svg className="w-5 h-5 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
@@ -904,8 +904,8 @@ const menuItems = [
       </svg>
     )
   },
-  { 
-    id: 'reconocimientos', 
+  {
+    id: 'reconocimientos',
     label: 'Reconocimientos',
     icon: (
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -913,8 +913,8 @@ const menuItems = [
       </svg>
     )
   },
-  { 
-    id: 'fanzine', 
+  {
+    id: 'fanzine',
     label: 'Fanzine',
     icon: (
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -922,8 +922,8 @@ const menuItems = [
       </svg>
     )
   },
-  { 
-    id: 'store', 
+  {
+    id: 'store',
     label: 'Store',
     icon: (
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -931,8 +931,8 @@ const menuItems = [
       </svg>
     )
   },
-  { 
-    id: 'contacto', 
+  {
+    id: 'contacto',
     label: 'Contacto',
     icon: (
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
@@ -1044,13 +1044,6 @@ export default function Page() {
   const [activeSection, setActiveSection] = useState<string>('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    if ('scrollRestoration' in window.history) {
-      window.history.scrollRestoration = 'manual';
-    }
-    window.scrollTo(0, 0);
-  }, []);
-
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
 
   useEffect(() => {
@@ -1071,12 +1064,12 @@ export default function Page() {
   const archivoRef = useRef<HTMLDivElement>(null);
   const serviciosRef = useRef<HTMLElement>(null);
   const storeRef = useRef<HTMLDivElement>(null);
-  
+
   const [isHomeInView, setIsHomeInView] = useState<boolean>(true);
   const [isHomeEndInView, setIsHomeEndInView] = useState<boolean>(false);
   const [isArchiveInView, setIsArchiveInView] = useState<boolean>(false);
   const [isStoreInView, setIsStoreInView] = useState<boolean>(false);
-  
+
   const [logoAnimKey, setLogoAnimKey] = useState<number>(0);
   const [logoEndAnimKey, setLogoEndAnimKey] = useState<number>(100);
 
@@ -1370,6 +1363,50 @@ export default function Page() {
     }
   };
 
+  // RESTAURACIÓN INICIAL: respeta el #hash si existe, y solo lleva a (0, 0) si no hay hash
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    const hash = window.location.hash.replace('#', '');
+
+    if (!hash) {
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    setHasScrolled(true);
+    setActiveSection(hash);
+
+    const scrollToHashTarget = () => {
+      if (hash === 'home') {
+        window.scrollTo({ top: 0, behavior: 'auto' });
+        return;
+      }
+      if (hash === 'contacto') {
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: 'auto',
+        });
+        return;
+      }
+      const el = document.getElementById(hash);
+      if (el) {
+        el.scrollIntoView({ behavior: 'auto' });
+      }
+    };
+
+    scrollToHashTarget();
+    const t1 = setTimeout(scrollToHashTarget, 150);
+    const t2 = setTimeout(scrollToHashTarget, 600);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, []);
+
   useEffect(() => {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition(
@@ -1416,7 +1453,7 @@ export default function Page() {
       if (currentScrollY > 20) {
         setHasScrolled(true);
       }
-      
+
       if (currentScrollY < window.innerHeight * 0.5) {
         setActiveSection('home');
       }
@@ -1659,7 +1696,7 @@ export default function Page() {
       </div>
 
       {/* BOTÓN FLOTANTE LOGO IZQUIERDA (MOBILE) */}
-      <div 
+      <div
         onClick={() => scrollToSection('home')}
         className="fixed top-3 left-3 z-[9999] lg:hidden w-11 h-11 bg-[#f74a35] rounded-full flex items-center justify-center animate-pulse shadow-[0_0_22px_rgba(247,74,53,0.95)] p-2 cursor-pointer transition-transform duration-200 active:scale-95"
         title="Volver arriba"
@@ -1687,7 +1724,7 @@ export default function Page() {
       />
 
       {/* DRAWER LATERAL DESDE LA DERECHA HASTA EL LOGO CIRCULAR */}
-      <div 
+      <div
         className={`fixed top-0 right-0 h-[100dvh] w-[calc(100%-68px)] max-w-[340px] bg-[#101010]/95 backdrop-blur-2xl border-l border-white/10 z-[9990] lg:hidden flex flex-col justify-between items-start px-6 pt-16 pb-6 overflow-y-auto no-scrollbar transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-[0_0_40px_rgba(0,0,0,0.85)] ${
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
@@ -1743,13 +1780,13 @@ export default function Page() {
       {/* NAV DOCK DE ESCRITORIO */}
       <nav
         className={`fixed top-0 left-0 w-[88px] h-screen bg-[#0e0e0e] border-r border-[#262626] z-[9999] hidden lg:flex flex-col items-center justify-between py-4 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-          isHeroIntroComplete 
-            ? 'opacity-100 translate-x-0' 
+          isHeroIntroComplete
+            ? 'opacity-100 translate-x-0'
             : 'opacity-0 -translate-x-full'
         }`}
       >
         <div className="w-full flex items-center justify-center border-b border-[#222222] pb-3">
-          <div 
+          <div
             onClick={() => scrollToSection('home')}
             className="w-11 h-11 aspect-square bg-[#f74a35] hover:bg-[#f74a35] rounded-full flex items-center justify-center animate-pulse shadow-[0_0_22px_rgba(247,74,53,0.95)] p-2 cursor-pointer transition-transform duration-200 hover:scale-110 active:scale-95"
             title="Volver arriba"
@@ -1762,8 +1799,8 @@ export default function Page() {
           {menuItems.map((item, idx) => {
             const isActive = activeSection === item.id;
             return (
-              <div 
-                key={item.id} 
+              <div
+                key={item.id}
                 className="relative group flex items-center justify-center w-full overflow-visible animate-bounce-icon"
                 style={{ animationDelay: `${200 + idx * 70}ms` }}
               >
@@ -1792,10 +1829,10 @@ export default function Page() {
       </nav>
 
       {/* 2. ASIDE (SOLO ESCRITORIO) */}
-      <aside 
+      <aside
         className={`fixed top-0 left-[88px] w-[332px] h-screen border-r border-[#333] shadow-2xl z-[60] flex-col font-datatype overflow-hidden bg-cover bg-center bg-no-repeat transition-all duration-300 hidden lg:flex ${
-          isHeroIntroComplete 
-            ? 'opacity-100 pointer-events-auto delay-[950ms]' 
+          isHeroIntroComplete
+            ? 'opacity-100 pointer-events-auto delay-[950ms]'
             : 'opacity-0 pointer-events-none'
         }`}
         style={{
@@ -1803,12 +1840,12 @@ export default function Page() {
         }}
       >
         <div className="flex-1 w-full overflow-y-auto no-scrollbar flex flex-col justify-between p-3 gap-2 font-datatype text-[9px]">
-          
+
           <div className={`w-full flex flex-col gap-2 ${
             !isOpenChat && isOpenPlayer ? 'flex-1 min-h-0' : 'flex-shrink-0'
           }`}>
             {/* MÓDULO 1: CLIMA, FECHA Y HORA */}
-            <div 
+            <div
               className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-xl p-2.5 border border-white/10 flex flex-col justify-center items-start text-left font-datatype leading-[1.2] space-y-1 flex-shrink-0 ${
                 isHeroIntroComplete ? 'animate-slide-top-ease' : 'opacity-0'
               }`}
@@ -1833,7 +1870,7 @@ export default function Page() {
             </div>
 
             {/* MÓDULO 2: REPRODUCTOR DE AUDIO */}
-            <div 
+            <div
               className={`w-full transition-all duration-300 relative overflow-hidden shadow-2xl flex flex-col font-datatype ${
                 isOpenPlayer ? 'bg-[#f74a35] p-2.5 rounded-2xl border-0 shadow-2xl' : 'bg-[#121212]/90 backdrop-blur-md p-2 border border-white/10 rounded-2xl shadow-xl'
               } ${
@@ -1844,7 +1881,7 @@ export default function Page() {
               style={{ animationDelay: '1100ms' }}
             >
               <div className="w-full h-full flex-1 relative flex flex-col items-center justify-between font-datatype">
-                <div 
+                <div
                   onClick={handleTogglePlayer}
                   className="w-full flex items-center justify-between cursor-pointer select-none font-datatype p-2 pr-8 gap-2 relative min-h-[38px] flex-shrink-0"
                 >
@@ -1912,7 +1949,7 @@ export default function Page() {
           </div>
 
           {/* MÓDULO 3: CHAT EN VIVO DESKTOP */}
-          <div 
+          <div
             className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-2xl p-2 border border-white/10 shadow-2xl flex flex-col font-datatype transition-all duration-300 overflow-hidden ${
               isOpenChat ? 'flex-1 min-h-[180px]' : 'flex-shrink-0'
             } ${
@@ -1975,7 +2012,7 @@ export default function Page() {
       <div className={`flex flex-col transition-all duration-700 ease-out w-full ${
         isHeroIntroComplete ? 'lg:!w-[calc(100%-420px)] lg:!ml-[420px]' : 'lg:!w-full lg:!ml-0'
       }`}>
-        
+
         {/* 1. HOME: LOGO + REPRODUCTOR + CHAT (MOBILE) */}
         <section
           ref={homeRef}
@@ -2092,12 +2129,12 @@ export default function Page() {
             )}
 
             <div className="w-full flex-1 flex flex-col items-center justify-center pointer-events-auto z-10 relative">
-              <div 
-                ref={heroLogoRef} 
+              <div
+                ref={heroLogoRef}
                 key={logoAnimKey}
                 className={`animated-logo-svg h-auto flex items-center justify-center pointer-events-auto text-[#e3e3e3] transition-all duration-1000 ease-out transform-gpu ${
-                  isHeroIntroComplete && isHomeInView 
-                    ? 'opacity-100 scale-100 filter blur-0' 
+                  isHeroIntroComplete && isHomeInView
+                    ? 'opacity-100 scale-100 filter blur-0'
                     : 'opacity-0 scale-90 filter blur-lg pointer-events-none'
                 }`}
                 style={{
@@ -2110,11 +2147,11 @@ export default function Page() {
             </div>
           </div>
 
-          <div 
+          <div
             onClick={() => scrollToSection('servicios')}
             className={`hidden lg:flex absolute bottom-8 right-2 sm:right-3 z-40 flex-col items-center gap-4 cursor-pointer font-datatype select-none transition-all duration-700 ease-out group p-2.5 ${
-              isHeroIntroComplete 
-                ? 'opacity-100 translate-y-0 delay-[1600ms]' 
+              isHeroIntroComplete
+                ? 'opacity-100 translate-y-0 delay-[1600ms]'
                 : 'lg:opacity-0 lg:translate-y-6 lg:pointer-events-none'
             }`}
           >
@@ -2142,7 +2179,7 @@ export default function Page() {
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-start justify-between w-full max-w-[1100px] mx-auto relative z-10 my-auto">
             <div className="md:col-span-7 space-y-6 flex flex-col justify-center items-start pl-0 md:pl-0 pr-0 md:pr-4">
-              <div 
+              <div
                 className="w-full space-y-6 transition-transform duration-100 ease-out"
                 style={{
                   transform: isMobileView ? 'none' : `translateY(${historiaParallaxOffset * -70}px)`,
@@ -2159,7 +2196,7 @@ export default function Page() {
                     <div className="h-16" />
                   )}
                 </div>
-                
+
                 <div className="font-datatype text-neutral-200 space-y-6 w-full">
                   <div
                     className={`transition-all duration-700 ease-out transform-gpu ${
@@ -2216,7 +2253,7 @@ export default function Page() {
                   : 'opacity-0 translate-x-24 pointer-events-none'
               }`}
             >
-              <div 
+              <div
                 className="w-full transition-transform duration-100 ease-out"
                 style={{
                   transform: isMobileView ? 'none' : `translateY(${historiaParallaxOffset * 70}px)`,
@@ -2235,7 +2272,7 @@ export default function Page() {
           id="filosofia"
           className="block w-full min-h-screen relative bg-[#181818] p-0"
         >
-          <div 
+          <div
             className="absolute inset-0 w-full h-full z-0 pointer-events-none opacity-40"
             style={{
               backgroundColor: '#181818',
@@ -2248,7 +2285,7 @@ export default function Page() {
           />
 
           <div className="w-full min-h-screen relative z-10 grid grid-cols-1 md:grid-cols-2 gap-0 items-start">
-            
+
             <div className="w-full h-[52vh] min-h-[340px] lg:h-screen relative lg:sticky lg:top-0 bg-black overflow-hidden border-b lg:border-b-0 lg:border-r border-white/10 shadow-2xl z-20">
               {philosophyImages.map((imgUrl, idx) => {
                 const isActive = philosophySlideIndex === idx;
@@ -2288,7 +2325,7 @@ export default function Page() {
             </div>
 
             <div className="p-6 sm:p-10 md:p-12 lg:p-16 space-y-6 text-sm sm:text-base md:text-lg font-normal leading-relaxed text-neutral-300 font-datatype flex flex-col justify-center py-16 sm:py-24 min-h-screen">
-              
+
               <TypewriterHeadingUnificado
                 text="FILOSOFÍA"
                 className="text-[1.25rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold text-[#e3e3e3] font-boldonse tracking-tight relative h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
@@ -2351,7 +2388,7 @@ export default function Page() {
 
         {/* 4. SERVICIOS */}
         <section ref={serviciosRef} id="servicios" className="w-full min-h-screen relative flex flex-col justify-center items-center transform-gpu overflow-hidden p-0 m-0 bg-[#181818]">
-          <div 
+          <div
             className="absolute inset-0 w-full h-full z-0 pointer-events-none opacity-40"
             style={{
               backgroundColor: '#181818',
@@ -2365,7 +2402,7 @@ export default function Page() {
 
           <div className="relative z-10 w-full h-full min-h-screen flex flex-col justify-center items-center pt-24 sm:pt-32 pb-16 sm:pb-20 px-4 sm:px-6 md:px-12 lg:px-0 box-sizing-border max-w-[1100px] mx-auto">
             <div className="flex flex-col w-full gap-8 items-stretch my-auto justify-center">
-              
+
               <TypewriterHeadingUnificado
                 text="SERVICIOS"
                 className="text-[1.5rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold text-[#e3e3e3] font-boldonse tracking-tight relative h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
@@ -2387,7 +2424,7 @@ export default function Page() {
                     >
                       <div>
                         <div className="flex items-center justify-between border-b pb-3 mb-3 border-white/10">
-                          <h3 
+                          <h3
                             className="font-boldonse text-xl sm:text-2xl font-black uppercase tracking-wider"
                             style={{ color: service.borderColor }}
                           >
@@ -2447,7 +2484,7 @@ export default function Page() {
         {/* 5. ARCHIVO */}
         <section ref={archivoRef} id="archivo" className="block w-full min-h-screen relative p-0 m-0 bg-[#181818] text-[#e3e3e3] py-16 sm:py-24">
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
-            <div 
+            <div
               className="absolute inset-0 w-full h-[140%] z-0 opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
               style={{
                 backgroundImage: `url('/images/filosofia/Radio_en_Casa_Background_Filosofia.png')`,
@@ -2457,7 +2494,7 @@ export default function Page() {
                 transform: `translateY(${(scrollProgress * 0.4) * -120}px)`,
               }}
             />
-            <div 
+            <div
               className="absolute inset-0 z-10"
               style={{
                 backgroundImage: 'repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) 2px, transparent 2px, transparent 4px)',
@@ -2466,7 +2503,7 @@ export default function Page() {
           </div>
 
           <div className="relative z-10 w-full max-w-[1100px] mx-auto px-4 sm:px-6 md:px-12 lg:px-0 space-y-8 sm:space-y-12">
-            
+
             <div className="space-y-3 sm:space-y-4 w-full font-datatype">
               <ScrollFadeText delay={100}>
                 <TypewriterHeadingUnificado
@@ -2523,7 +2560,7 @@ export default function Page() {
                   <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-wider font-boldonse text-[#e3e3e3] border-b border-[#5c5c5c]/40 pb-3">
                     TAMBIÉN PASARON POR RADIO EN CASA
                   </h3>
-                  <div 
+                  <div
                     className="text-neutral-300 text-xs sm:text-sm md:text-base leading-relaxed tracking-wide font-datatype bg-[#141414] p-4 sm:p-6 border border-neutral-800 rounded-none shadow-inner [&_strong]:text-[#f74a35] [&_strong]:font-black"
                     dangerouslySetInnerHTML={{ __html: rawBrandsTextHTML }}
                   />
@@ -2594,8 +2631,8 @@ export default function Page() {
         </section>
 
         {/* 6. COMUNIDAD */}
-        <section 
-          id="comunidad" 
+        <section
+          id="comunidad"
           className="w-full pt-8 sm:pt-12 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 relative bg-black text-[#e3e3e3] z-10 flex flex-col justify-start items-center transform-gpu min-h-screen overflow-hidden bg-cover bg-center bg-no-repeat"
           style={{
             backgroundImage: `url('/images/historia/Radio_en_Casa_Background_Historia_01.png')`,
@@ -2606,7 +2643,7 @@ export default function Page() {
           <div className="w-full max-w-[1100px] mx-auto space-y-6 sm:space-y-8 relative z-10 px-0 sm:px-4 md:px-0">
             <AnimateOnScroll duration={600} offset={25}>
               <div className="bg-[#181818]/90 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-none border border-[#5c5c5c]/60 shadow-2xl space-y-4 font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed">
-                
+
                 <div className="flex items-center justify-between gap-3 pb-2">
                   <TypewriterHeadingUnificado
                     text="COMUNIDAD"
@@ -2621,7 +2658,7 @@ export default function Page() {
                     }}
                   />
                 </div>
-                
+
                 <div className="pt-2 sm:pt-4 font-datatype">
                   <p>
                     Este es nuestro espacio para que, si todavía no lo hiciste, te sumes a nuestro ecosistema de más de 10 años de historia. Lo podés hacer como Groupie, apoyándonos, o mediante un intercambio más activo que nos potencie.
@@ -2632,7 +2669,7 @@ export default function Page() {
 
             {/* GRUPO DE MEMBRESÍAS CON TEXTOS UNIFICADORES */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-8 sm:mt-10 md:mt-14 font-datatype items-stretch">
-              
+
               {/* GROUPIE */}
               {(() => {
                 const item = membershipsData[0];
@@ -2675,10 +2712,10 @@ export default function Page() {
                         </div>
 
                         <div className="pt-4 sm:pt-6">
-                          <a 
-                            href={item.link} 
-                            target="_blank" 
-                            rel="noopener noreferrer" 
+                          <a
+                            href={item.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="block w-full relative bg-[#181818] text-[#e6e1d5] font-mono border-2 border-[#e6e1d5] border-b-[8px] sm:border-b-[12px] px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-bold tracking-[0.2em] text-left hover:bg-[#e6e1d5] hover:text-neutral-900 transition-all duration-200 font-datatype leading-snug"
                           >
                             <span className="block uppercase">{firstWord}</span>
@@ -2693,7 +2730,7 @@ export default function Page() {
 
               {/* GRUPO DE 3 TARJETAS */}
               <div className="lg:col-span-9 bg-black/60 border-2 border-[#f74a35] p-3 sm:p-4 md:p-6 backdrop-blur-sm shadow-2xl relative flex flex-col justify-between space-y-4">
-                
+
                 <div className="w-full space-y-3 pt-1 pb-1 text-left">
                   <div className="w-full sm:w-fit text-[#e3e3e3] font-bold !text-[0.95rem] sm:!text-[0.95rem] md:!text-[1rem] uppercase border-l-4 border-[#f74a35] pl-3.5 pr-5 py-2.5 bg-[#181818]/90 font-datatype leading-snug shadow-xl">
                     MEMBRESÍAS DE INTERCAMBIO
@@ -2715,8 +2752,8 @@ export default function Page() {
                     const isAnotherHovered = activeMembership !== null && !isHovered;
 
                     const buttonParts = item.buttonText.split(' ');
-                    const firstWord = buttonParts[0]; 
-                    const restOfText = buttonParts.slice(1).join(' '); 
+                    const firstWord = buttonParts[0];
+                    const restOfText = buttonParts.slice(1).join(' ');
 
                     return (
                       <AnimateOnScroll key={item.id} delay={150 * (idx + 2)} duration={650 + idx * 80} offset={45} className="h-full">
@@ -2743,10 +2780,10 @@ export default function Page() {
                           </div>
 
                           <div className="pt-4 sm:pt-6">
-                            <a 
-                              href={item.link} 
-                              target="_blank" 
-                              rel="noopener noreferrer" 
+                            <a
+                              href={item.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
                               className="block w-full relative bg-[#181818] text-[#e6e1d5] font-mono border-2 border-[#e6e1d5] border-b-[8px] sm:border-b-[12px] px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-bold tracking-[0.2em] text-left hover:bg-[#e6e1d5] hover:text-neutral-900 transition-all duration-200 font-datatype leading-snug"
                             >
                               <span className="block uppercase">{firstWord}</span>
@@ -2766,7 +2803,7 @@ export default function Page() {
 
         {/* 7. ALIANZAS */}
         <section id="alianzas" className="flex w-full pt-24 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
-          <div 
+          <div
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
             style={{
               backgroundImage: `url('/images/filosofia/Radio_en_Casa_Background_Filosofia.png')`,
@@ -2776,7 +2813,7 @@ export default function Page() {
               transform: `translateY(${(scrollProgress * 0.6) * -120}px)`,
             }}
           >
-            <div 
+            <div
               className="absolute inset-0 z-10"
               style={{
                 backgroundImage: 'repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) 2px, transparent 2px, transparent 4px)',
@@ -2820,10 +2857,10 @@ export default function Page() {
 
                   <div className="p-5 sm:p-8 space-y-4 bg-black border-t border-white/10">
                     <div className="h-14 sm:h-16 w-auto flex items-center justify-start">
-                      <ImageWithPlaceholder 
-                        src="/images/programas/Salgo_Arriba_Logo_Radio_en_Casa.png" 
-                        alt="Salgo Arriba Logo" 
-                        className="max-h-full w-auto object-contain filter brightness-0 invert opacity-100" 
+                      <ImageWithPlaceholder
+                        src="/images/programas/Salgo_Arriba_Logo_Radio_en_Casa.png"
+                        alt="Salgo Arriba Logo"
+                        className="max-h-full w-auto object-contain filter brightness-0 invert opacity-100"
                       />
                     </div>
 
@@ -2864,8 +2901,8 @@ export default function Page() {
         </section>
 
         {/* 8. RECONOCIMIENTOS */}
-        <section 
-          id="reconocimientos" 
+        <section
+          id="reconocimientos"
           className="flex w-full min-h-screen py-16 md:py-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-white text-neutral-900 relative flex-col justify-center items-center transform-gpu bg-repeat-y bg-top lg:bg-cover lg:bg-center"
           style={{
             backgroundImage: `url('/images/reconocimientos/Radio_en_Casa_Background_Reconocimientos.png')`,
@@ -2891,7 +2928,7 @@ export default function Page() {
 
         {/* 9. FANZINE */}
         <section id="fanzine" className="flex w-full pt-24 sm:pt-32 pb-20 sm:pb-24 px-4 sm:px-6 md:px-12 lg:px-0 bg-[#181818] text-[#e3e3e3] relative flex-col justify-center items-center transform-gpu min-h-screen overflow-hidden">
-          <div 
+          <div
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
             style={{
               backgroundImage: `url('/images/filosofia/Radio_en_Casa_Background_Filosofia.png')`,
@@ -2901,7 +2938,7 @@ export default function Page() {
               transform: `translateY(${(scrollProgress * 0.7) * -120}px)`,
             }}
           >
-            <div 
+            <div
               className="absolute inset-0 z-10"
               style={{
                 backgroundImage: 'repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) 2px, transparent 2px, transparent 4px)',
@@ -2946,10 +2983,10 @@ export default function Page() {
                     </p>
 
                     <div className="pt-3 w-full">
-                      <a 
-                        href="https://radioencasa.substack.com/subscribe?utm_source=menu&simple=true&next=https%3A%2F%2Fradioencasa.substack.com%2Fp%2Fultima-prueba-a-ver-que-onda" 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        href="https://radioencasa.substack.com/subscribe?utm_source=menu&simple=true&next=https%3A%2F%2Fradioencasa.substack.com%2Fp%2Fultima-prueba-a-ver-que-onda"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="inline-block relative bg-[#181818] text-[#e6e1d5] font-mono border-2 border-[#e6e1d5] border-b-[8px] sm:border-b-[12px] px-5 sm:px-6 py-3 text-xs sm:text-sm font-bold tracking-[0.18em] text-left hover:bg-[#e6e1d5] hover:text-neutral-900 transition-all duration-200 font-datatype leading-snug uppercase shadow-xl"
                       >
                         <span className="block uppercase">Suscribirse al Newsletter →</span>
@@ -3002,7 +3039,7 @@ export default function Page() {
                   text="STORE"
                   className="text-[1.5rem] sm:text-[1.69rem] md:text-[2.02rem] lg:text-[3.25rem] font-extrabold tracking-wider text-[#e3e3e3] font-boldonse h1-custom leading-[1.8rem] sm:leading-[3.82rem]"
                 />
-                
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 md:gap-16 pt-2 font-datatype items-start">
                   <div className="space-y-3 font-datatype">
                     <p className="text-neutral-300 font-medium font-datatype leading-relaxed">
@@ -3029,10 +3066,10 @@ export default function Page() {
                 </div>
 
                 <div className="pt-2 sm:pt-4 flex justify-start font-datatype">
-                  <a 
-                    href="https://radioencasa.mitiendanube.com/" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
+                  <a
+                    href="https://radioencasa.mitiendanube.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="block w-full sm:w-auto relative bg-[#181818] text-[#e6e1d5] font-mono border-2 border-[#f74a35] border-b-[8px] sm:border-b-[12px] px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-bold tracking-[0.2em] text-left hover:bg-[#f74a35] hover:text-white transition-all duration-200 font-datatype uppercase shadow-md"
                   >
                     <span className="block uppercase">Ir a la tienda →</span>
@@ -3045,7 +3082,7 @@ export default function Page() {
 
         {/* 11. CONTACTO */}
         <section id="contacto" className="w-full pt-0 pb-0 mb-0 bg-[#181818] text-[#ececec] relative flex flex-col justify-between overflow-hidden transform-gpu min-h-screen">
-          <div 
+          <div
             className="absolute inset-0 w-full h-[140%] z-0 pointer-events-none opacity-40 mix-blend-luminosity will-change-transform transition-transform duration-100 ease-linear"
             style={{
               backgroundImage: `url('/images/filosofia/Radio_en_Casa_Background_Filosofia.png')`,
@@ -3055,7 +3092,7 @@ export default function Page() {
               transform: `translateY(${(scrollProgress * 0.8) * -120}px)`,
             }}
           >
-            <div 
+            <div
               className="absolute inset-0 z-10"
               style={{
                 backgroundImage: 'repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4) 2px, transparent 2px, transparent 4px)',
@@ -3129,8 +3166,8 @@ export default function Page() {
 
             <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-5 pt-4 pb-4 relative z-10">
               <div className="w-full flex justify-start items-center">
-                <div 
-                  ref={heroLogoRefEnd} 
+                <div
+                  ref={heroLogoRefEnd}
                   key={logoEndAnimKey}
                   className="animated-logo-svg h-auto w-full max-w-[220px] pointer-events-auto text-[#e3e3e3] transition-all duration-1000 ease-out"
                 >
@@ -3149,10 +3186,10 @@ export default function Page() {
               </div>
               <p className="font-datatype text-[9.35px] flex items-baseline gap-1 text-left">
                 <span>Design & Dev. by</span>
-                <a 
-                  href="https://www.guapo.studio" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
+                <a
+                  href="https://www.guapo.studio"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-[#e3e3e3] hover:text-[#f74a35] underline underline-offset-2 transition-colors duration-300 font-bold font-datatype text-[9.35px] uppercase"
                 >
                   Guapo./

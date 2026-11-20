@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     template: '%s | RADIO EN CASA',
   },
   description:
-    'Radio online en vivo y estudio profesional de podcast, streaming y producciones audiovisuales en Palermo Soho, Buenos Aires. Más de 10 años creando contenidos.',
+    'Medio independiente de producciones audiovisuales: Radio, Podcast y Streaming. Más de 10 años difundiendo emprendedores y artistas de nuestra comunidad.',
   keywords: [
     'radio en casa',
     'estudio de podcast buenos aires',
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     siteName: 'Radio en Casa',
     title: 'RADIO EN CASA | Podcast & Streaming',
     description:
-      'Radio online en vivo y estudio profesional de podcast, streaming y producciones audiovisuales en Palermo Soho, Buenos Aires.',
+      'Medio independiente de producciones audiovisuales: Radio, Podcast y Streaming. Más de 10 años difundiendo emprendedores y artistas de nuestra comunidad.',
     images: [
       {
         url: '/og-radio-en-casa.jpg',
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     site: '@radioencasa',
     title: 'RADIO EN CASA | Podcast & Streaming',
     description:
-      'Radio online en vivo y estudio profesional de podcast, streaming y producciones audiovisuales en Palermo Soho, Buenos Aires.',
+      'Medio independiente de producciones audiovisuales: Radio, Podcast y Streaming. Más de 10 años difundiendo emprendedores y artistas de nuestra comunidad.',
     images: ['/og-radio-en-casa.jpg'],
   },
 };
@@ -76,7 +76,7 @@ const jsonLd = {
       logo: 'https://radioencasa.com/icon.svg',
       image: 'https://radioencasa.com/og-radio-en-casa.jpg',
       description:
-        'Radio online en vivo y estudio profesional de podcast, streaming y producciones audiovisuales en Palermo Soho, Buenos Aires.',
+        'Medio independiente de producciones audiovisuales: Radio, Podcast y Streaming. Más de 10 años difundiendo emprendedores y artistas de nuestra comunidad.',
       foundingDate: '2016',
       telephone: '+54-11-4831-7132',
       email: 'info@radioencasa.com',

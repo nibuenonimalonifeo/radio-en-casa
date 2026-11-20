@@ -169,22 +169,46 @@ function SubstackFanzineFeed() {
   );
 }
 
-// --- COMPONENTE CHAT EN VIVO OFICIAL DE TLK.IO (IFRAME DIRECTO) ---
+// --- COMPONENTE CHAT EN VIVO OFICIAL DE TLK.IO ---
 
 function TlkioChat({ heightClass = 'h-full min-h-[220px]' }: { heightClass?: string }) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    container.innerHTML = '';
+    const oldScript = document.getElementById('tlkio-embed-script');
+    if (oldScript) oldScript.remove();
+
+    const tlkDiv = document.createElement('div');
+    tlkDiv.id = 'tlkio';
+    tlkDiv.setAttribute('data-channel', 'radioencasa');
+    tlkDiv.setAttribute('data-theme', 'theme--night');
+    tlkDiv.style.width = '100%';
+    tlkDiv.style.height = '100%';
+    container.appendChild(tlkDiv);
+
+    const script = document.createElement('script');
+    script.id = 'tlkio-embed-script';
+    script.src = 'https://tlk.io/embed.js';
+    script.type = 'text/javascript';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      const s = document.getElementById('tlkio-embed-script');
+      if (s) s.remove();
+    };
+  }, []);
+
   return (
     <div
+      ref={containerRef}
       className={`w-full ${heightClass} bg-[#121212] overflow-hidden rounded-xl border border-white/10 relative`}
-      style={{ minHeight: '360px' }}
-    >
-      <iframe
-        src="https://tlk.io/radioencasa?theme=theme--night"
-        title="Chat en vivo Radio en Casa"
-        className="w-full h-full border-0 block"
-        style={{ width: '100%', height: '100%', minHeight: '360px' }}
-        loading="lazy"
-      />
-    </div>
+      style={{ minHeight: '380px' }}
+    />
   );
 }
 
@@ -2003,7 +2027,7 @@ export default function Page() {
                   </span>
                 </div>
                 <div className="w-full h-[380px] min-h-[380px] bg-[#121212] rounded-xl overflow-hidden border border-white/10">
-                  <TlkioChat heightClass="h-[380px] min-h-[380px]" />
+                  {isMobileView && <TlkioChat heightClass="h-[380px] min-h-[380px]" />}
                 </div>
               </div>
             </div>

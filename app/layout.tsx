@@ -1,14 +1,15 @@
 import type { Metadata } from 'next';
+import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.radioencasa.com'),
+  metadataBase: new URL('https://radioencasa.com'),
   title: 'Radio en Casa — Mudamos la forma de hacer radio',
   description:
     'Radio online, estudio de podcast, streaming y producciones audiovisuales desde Palermo Soho, Buenos Aires.',
   openGraph: {
     type: 'website',
     locale: 'es_AR',
-    url: 'https://www.radioencasa.com/',
+    url: 'https://radioencasa.com/',
     siteName: 'Radio en Casa',
     title: 'Radio en Casa — Mudamos la forma de hacer radio',
     description:
@@ -31,3 +32,15 @@ export const metadata: Metadata = {
     images: ['/og-radio-en-casa.jpg'],
   },
 };
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="es">
+      <body>{children}</body>
+    </html>
+  );
+}

@@ -7,7 +7,7 @@ const GA_MEASUREMENT_ID = 'G-JGMF9SXT6D';
 export const metadata: Metadata = {
   metadataBase: new URL('https://radioencasa.com'),
   title: {
-    default: 'RADIO EN CASA — RADIO PODCAST STREAMING',
+    default: 'RADIO EN CASA | Podcast & Streaming',
     template: '%s | RADIO EN CASA',
   },
   description:
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     locale: 'es_AR',
     url: 'https://radioencasa.com/',
     siteName: 'Radio en Casa',
-    title: 'RADIO EN CASA — RADIO PODCAST STREAMING',
+    title: 'RADIO EN CASA | Podcast & Streaming',
     description:
       'Radio online en vivo y estudio profesional de podcast, streaming y producciones audiovisuales en Palermo Soho, Buenos Aires.',
     images: [
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     site: '@radioencasa',
-    title: 'RADIO EN CASA — RADIO PODCAST STREAMING',
+    title: 'RADIO EN CASA | Podcast & Streaming',
     description:
       'Radio online en vivo y estudio profesional de podcast, streaming y producciones audiovisuales en Palermo Soho, Buenos Aires.',
     images: ['/og-radio-en-casa.jpg'],

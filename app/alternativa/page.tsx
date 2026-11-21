@@ -500,11 +500,11 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
         })}
       </div>
 
-      {/* BOTONES SIEMPRE JUSTO DEBAJO DE LA TARJETA ACTIVA */}
+      {/* BOTONES CIRCULARES SIEMPRE JUSTO DEBAJO DE LA TARJETA ACTIVA */}
       <div className="flex items-center gap-6 mt-8 z-40 justify-center md:justify-start w-full max-w-[460px]">
         <button
           onClick={handlePrev}
-          className="bg-[#ffcc00] text-[#121212] hover:bg-[#e6b800] flex items-center justify-center transition-all duration-300 shadow-xl cursor-pointer rounded-xl font-datatype p-3.5 sm:p-4 group"
+          className="w-14 h-14 sm:w-16 sm:h-16 bg-[#ffcc00] text-[#121212] hover:bg-[#e6b800] flex items-center justify-center transition-all duration-300 shadow-xl cursor-pointer rounded-full font-datatype group flex-shrink-0"
           aria-label="Hito anterior"
           title="Hito anterior"
         >
@@ -518,7 +518,7 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
 
         <button
           onClick={handleNext}
-          className="bg-[#f74a35] text-white hover:bg-[#d93a26] flex items-center justify-center transition-all duration-300 shadow-xl cursor-pointer rounded-xl font-datatype p-3.5 sm:p-4 group"
+          className="w-14 h-14 sm:w-16 sm:h-16 bg-[#f74a35] text-white hover:bg-[#d93a26] flex items-center justify-center transition-all duration-300 shadow-xl cursor-pointer rounded-full font-datatype group flex-shrink-0"
           aria-label="Siguiente hito"
           title="Siguiente hito"
         >
@@ -2473,7 +2473,7 @@ export default function AlternativaPage() {
                     <div
                       key={service.id}
                       onClick={() => setActiveServiceId(isActive ? null : service.id)}
-                      className={`cursor-pointer transition-all duration-500 ease-in-out bg-[#141414] p-6 shadow-2xl flex flex-col justify-between font-datatype relative overflow-hidden rounded-2xl ${
+                      className={`group cursor-pointer transition-all duration-500 ease-in-out bg-[#141414] p-6 shadow-2xl flex flex-col justify-between font-datatype relative overflow-hidden rounded-2xl ${
                         isActive
                           ? 'md:flex-[3.5] bg-[#1c1c1c] z-20'
                           : 'md:flex-1 opacity-90 hover:opacity-100 hover:bg-[#1a1a1a]'
@@ -2510,10 +2510,12 @@ export default function AlternativaPage() {
 
                       <div className="pt-4 flex items-center justify-end">
                         <span
-                          className={`text-lg sm:text-xl font-black font-datatype leading-none transition-all duration-300 ${
-                            isActive ? 'scale-110' : 'hover:text-white'
+                          className={`w-9 h-9 rounded-full flex items-center justify-center text-lg sm:text-xl font-black font-datatype leading-none shadow-md transition-all duration-300 ${
+                            isActive
+                              ? 'bg-[#f74a35] text-white scale-110'
+                              : 'bg-[#262626] group-hover:bg-[#303030]'
                           }`}
-                          style={{ color: isActive ? '#f74a35' : service.accentColor }}
+                          style={{ color: isActive ? '#ffffff' : service.accentColor }}
                         >
                           {isActive ? '-' : '+'}
                         </span>

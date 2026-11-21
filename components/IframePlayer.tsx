@@ -4,17 +4,19 @@ import { useState, useEffect, useRef } from 'react';
 
 interface StreamInfo {
   nowPlaying: string;
-  image: string;
+  image?: string;
   onlineListeners: number;
   uniqueListeners: number;
   history: string[];
   streamUrl: string;
 }
 
-export default function IframePlayer({ 
+const FALLBACK_COVER = '/images/servicios/Radio_en_Casa_logo_REC-04.svg';
+
+export default function IframePlayer({
   width = 280,
-  isForceCollapsed = false 
-}: { 
+  isForceCollapsed = false,
+}: {
   width?: number;
   isForceCollapsed?: boolean;
 }) {
@@ -23,14 +25,17 @@ export default function IframePlayer({
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [volume, setVolume] = useState<number>(80);
   const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [imgError, setImgError] = useState<boolean>(false);
   const [streamInfo, setStreamInfo] = useState<StreamInfo>({
     nowPlaying: 'Radio en Casa - En Vivo',
-    image: '',
+    image: FALLBACK_COVER,
     onlineListeners: 0,
     uniqueListeners: 0,
     history: [],
     streamUrl: '/api/stream/audio',
   });
+
+  const activeCover = streamInfo.image || FALLBACK_COVER;
 
   const fetchStreamData = async () => {
     try {
@@ -50,6 +55,11 @@ export default function IframePlayer({
     return () => clearInterval(interval);
   }, []);
 
+  // Resetea el estado de error cada vez que llega una nueva URL de portada desde data.art
+  useEffect(() => {
+    setImgError(false);
+  }, [activeCover]);
+
   // Registrar MediaSession para evitar que el navegador congele el audio al cambiar de pestaña
   useEffect(() => {
     if ('mediaSession' in navigator) {
@@ -58,28 +68,26 @@ export default function IframePlayer({
         artist: 'EN VIVO',
         album: 'Radio en Casa',
         artwork: [
-          { src: streamInfo.image || '/images/radio-en-casa-favicon.svg', sizes: '512x512', type: 'image/png' }
-        ]
+          { src: activeCover, sizes: '512x512', type: 'image/png' },
+        ],
       });
     }
-  }, [streamInfo.nowPlaying, streamInfo.image]);
+  }, [streamInfo.nowPlaying, activeCover]);
 
   const togglePlay = () => {
     if (!audioRef.current) return;
 
     if (isPlaying) {
       audioRef.current.pause();
-      // En transmisiones en vivo, vaciamos el src sin hacer removeAttribute
       audioRef.current.src = '';
       setIsPlaying(false);
       setIsLoading(false);
     } else {
       setIsLoading(true);
-      // Forzamos la conexión limpia a la API de streaming
       const audioSource = `/api/stream/audio?t=${Date.now()}`;
       audioRef.current.src = audioSource;
       audioRef.current.volume = isMuted ? 0 : volume / 100;
-      
+
       const playPromise = audioRef.current.play();
       if (playPromise !== undefined) {
         playPromise
@@ -116,9 +124,11 @@ export default function IframePlayer({
     }
   };
 
+  const isFallback = imgError || activeCover === FALLBACK_COVER;
+
   return (
-    <div 
-      className={`w-full bg-[#121212] border-0 p-3 shadow-2xl flex flex-col items-center gap-3 font-datatype text-left rounded-none ${
+    <div
+      className={`w-full bg-[#121212] p-3 shadow-2xl flex flex-col items-center gap-3 font-datatype text-left rounded-xl ${
         isForceCollapsed ? 'hidden' : 'block'
       }`}
       style={{ maxWidth: `${width}px` }}
@@ -143,29 +153,27 @@ export default function IframePlayer({
       />
 
       {/* PORTADA EN GRANDE OCUPANDO EL ANCHO DEL MÓDULO */}
-      <div className="w-full h-44 bg-black/90 border-0 overflow-hidden relative flex-shrink-0 flex items-center justify-center rounded-none">
-        {streamInfo.image ? (
-          <img
-            src={streamInfo.image}
-            alt="Tapa del tema"
-            className="w-full h-full object-cover"
-            onError={(e) => {
-              (e.currentTarget as HTMLImageElement).style.display = 'none';
-            }}
-          />
-        ) : (
-          <span className="text-[#f74a35] font-black text-xl font-datatype">RADIO EN CASA</span>
-        )}
-        
+      <div className="w-full h-44 bg-black/90 overflow-hidden relative flex-shrink-0 flex items-center justify-center rounded-xl">
+        <img
+          src={imgError ? FALLBACK_COVER : activeCover}
+          alt={streamInfo.nowPlaying || 'Tapa del tema en vivo'}
+          className={
+            isFallback
+              ? 'w-24 h-24 object-contain filter invert brightness-95 opacity-90'
+              : 'w-full h-full object-cover'
+          }
+          onError={() => setImgError(true)}
+        />
+
         {isPlaying && (
-          <div className="absolute top-2 left-2 bg-[#f74a35] text-white text-[8px] font-bold px-1.5 py-0.5 uppercase tracking-wider animate-pulse font-datatype z-10 shadow-md rounded-none">
+          <div className="absolute top-2 left-2 bg-[#f74a35] text-white text-[8px] font-bold px-2 py-0.5 uppercase tracking-wider animate-pulse font-datatype z-10 shadow-md rounded-full">
             LIVE
           </div>
         )}
       </div>
 
       {/* CONTROLES DEL PLAYER (PLAY / PAUSA Y VOLUMEN) */}
-      <div className="w-full bg-black/80 p-2 border-0 flex items-center justify-between gap-2.5 rounded-none">
+      <div className="w-full bg-black/80 p-2 flex items-center justify-between gap-2.5 rounded-xl">
         <button
           onClick={togglePlay}
           className="w-9 h-9 rounded-full bg-[#f74a35] hover:bg-[#d93a26] text-white flex items-center justify-center text-xs font-bold shadow-lg transition-transform active:scale-95 flex-shrink-0 cursor-pointer"
@@ -181,7 +189,11 @@ export default function IframePlayer({
         </button>
 
         <div className="flex-1 flex items-center gap-2 px-1">
-          <button onClick={toggleMute} className="text-neutral-400 hover:text-white transition-colors cursor-pointer" title={isMuted ? 'Activar sonido' : 'Silenciar'}>
+          <button
+            onClick={toggleMute}
+            className="text-neutral-400 hover:text-white transition-colors cursor-pointer"
+            title={isMuted ? 'Activar sonido' : 'Silenciar'}
+          >
             <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
               {isMuted || volume === 0 ? (
                 <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z" />
@@ -196,17 +208,21 @@ export default function IframePlayer({
             max="100"
             value={isMuted ? 0 : volume}
             onChange={handleVolumeChange}
-            className="w-full h-1 accent-[#f74a35] bg-neutral-800 cursor-pointer rounded-none"
+            aria-label="Volumen"
+            className="w-full h-1 accent-[#f74a35] bg-neutral-800 cursor-pointer"
           />
         </div>
       </div>
 
       {/* TÍTULO DEL TEMA SONANDO EN VIVO */}
-      <div className="w-full bg-black/60 p-2.5 border-0 font-datatype text-left space-y-1 rounded-none">
+      <div className="w-full bg-black/60 p-2.5 font-datatype text-left space-y-1 rounded-xl">
         <span className="text-[8.5px] uppercase font-bold text-[#f74a35] tracking-widest block font-datatype">
           NOW PLAYING:
         </span>
-        <p className="text-neutral-200 !text-[13px] sm:!text-[14px] font-bold leading-relaxed font-datatype m-0 truncate" title={streamInfo.nowPlaying}>
+        <p
+          className="text-neutral-200 !text-[13px] sm:!text-[14px] font-bold leading-relaxed font-datatype m-0 truncate"
+          title={streamInfo.nowPlaying}
+        >
           {streamInfo.nowPlaying}
         </p>
       </div>

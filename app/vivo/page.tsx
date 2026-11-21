@@ -2619,12 +2619,12 @@ export default function AlternativaPage() {
 
             <div className="w-full relative z-10">
               <ScrollFadeText delay={220}>
-                <div className="bg-black/85 backdrop-blur-md p-5 sm:p-8 md:p-10 shadow-2xl rounded-2xl space-y-4 font-datatype w-full text-neutral-200">
+                <div className="py-2 sm:py-4 space-y-4 font-datatype w-full text-neutral-200">
                   <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-wider font-boldonse text-[#e3e3e3] pb-2">
                     TAMBIÉN PASARON POR RADIO EN CASA
                   </h3>
                   <div
-                    className="text-neutral-300 text-xs sm:text-sm md:text-base leading-relaxed tracking-wide font-datatype bg-[#141414] p-4 sm:p-6 rounded-xl shadow-inner [&_strong]:text-[#f74a35] [&_strong]:font-black"
+                    className="text-neutral-300 text-xs sm:text-sm md:text-base leading-relaxed tracking-wide font-datatype [&_strong]:text-[#f74a35] [&_strong]:font-black"
                     dangerouslySetInnerHTML={{ __html: rawBrandsTextHTML }}
                   />
                 </div>
@@ -2632,7 +2632,7 @@ export default function AlternativaPage() {
             </div>
 
             <div className="w-full relative z-10">
-              <div className="bg-black/85 backdrop-blur-md p-5 sm:p-8 md:p-10 shadow-2xl rounded-2xl space-y-6 font-datatype w-full text-neutral-200">
+              <div className="py-2 sm:py-4 space-y-6 font-datatype w-full text-neutral-200">
                 <ScrollFadeText delay={250}>
                   <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-wider font-boldonse text-[#e3e3e3] pb-2">
                     LA HISTORIA DE ESTA CASA
@@ -2645,7 +2645,7 @@ export default function AlternativaPage() {
                   </p>
                 </ScrollFadeText>
 
-                <div className="bg-[#141414] p-4 sm:p-6 rounded-xl shadow-inner text-neutral-300 text-xs sm:text-sm md:text-base leading-relaxed tracking-wide font-datatype flex flex-wrap gap-x-2 gap-y-1 [&_strong]:text-[#f74a35] [&_strong]:font-extrabold">
+                <div className="text-neutral-300 text-xs sm:text-sm md:text-base leading-relaxed tracking-wide font-datatype flex flex-wrap gap-x-2 gap-y-1 [&_strong]:text-[#f74a35] [&_strong]:font-extrabold">
                   {rawArchiveTextHTML.split('·').map((itemHTML, index) => (
                     <ScrollFadeText key={index} delay={(index % 6) * 40}>
                       <span className="inline-block transition-all duration-700">

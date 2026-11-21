@@ -3073,7 +3073,7 @@ export default function AlternativaPage() {
         <section
           ref={storeRef}
           id="store"
-          className="flex w-full min-h-screen relative overflow-hidden text-[#ececec] pt-0 pb-24 sm:pb-32 flex-col justify-between items-center bg-repeat-y bg-top lg:bg-cover lg:bg-center"
+          className="flex w-full min-h-screen relative overflow-hidden text-[#ececec] pt-16 sm:pt-24 pb-24 sm:pb-32 flex-col justify-between items-center bg-repeat-y bg-top lg:bg-cover lg:bg-center"
           style={{
             backgroundImage: `url('/images/reconocimientos/Radio_en_Casa_Background_Reconocimientos.png')`,
             backgroundSize: isMobileView ? '100% auto' : 'cover',
@@ -3081,12 +3081,12 @@ export default function AlternativaPage() {
         >
           <div className="w-full relative left-0 right-0 top-0 mb-0 overflow-hidden z-10 py-0">
             <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 md:px-12 lg:px-0">
-              <div className="w-full h-auto sm:h-[48vh] sm:min-h-[320px] overflow-hidden bg-transparent shadow-none rounded-b-2xl">
+              <div className="w-full h-auto sm:h-[48vh] sm:min-h-[320px] overflow-hidden bg-transparent shadow-2xl rounded-2xl">
                 <img
                   src="/images/tienda/Radio_en_Casa_Header.png"
                   alt="Tienda oficial y merchandising de Radio en Casa"
                   loading="eager"
-                  className="w-full h-auto sm:h-full object-contain sm:object-cover object-center filter brightness-95 block"
+                  className="w-full h-auto sm:h-full object-contain sm:object-cover object-center filter brightness-95 block rounded-2xl"
                   onError={(e) => {
                     const img = e.currentTarget as HTMLImageElement;
                     if (!img.src.includes('Radio_en_Casa_Header_01.png')) {

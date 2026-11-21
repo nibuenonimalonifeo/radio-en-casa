@@ -22,7 +22,7 @@ function ImageWithPlaceholder({
   return (
     <div className="relative w-full h-full overflow-hidden bg-transparent">
       {!loaded && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-transparent border border-white/5 animate-pulse p-4">
+        <div className="absolute inset-0 z-10 flex items-center justify-center bg-transparent animate-pulse p-4">
           <img
             src="/images/servicios/Radio_en_Casa_logo_REC-04.svg"
             alt=""
@@ -86,10 +86,10 @@ function SubstackFanzineFeed() {
     return (
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pt-4 font-datatype">
         {Array.from({ length: 3 }).map((_, i) => (
-          <div key={i} className="bg-[#1a1a1a] border border-neutral-800 rounded-none p-5 h-64 animate-pulse flex flex-col justify-between">
-            <div className="w-full h-32 bg-neutral-800 rounded-none mb-3" />
-            <div className="h-4 bg-neutral-800 rounded-none w-3/4 mb-2" />
-            <div className="h-3 bg-neutral-800 rounded-none w-1/2" />
+          <div key={i} className="bg-[#1a1a1a] rounded-2xl p-5 h-64 animate-pulse flex flex-col justify-between">
+            <div className="w-full h-32 bg-neutral-800 rounded-xl mb-3" />
+            <div className="h-4 bg-neutral-800 rounded-lg w-3/4 mb-2" />
+            <div className="h-3 bg-neutral-800 rounded-lg w-1/2" />
           </div>
         ))}
       </div>
@@ -106,7 +106,7 @@ function SubstackFanzineFeed() {
               href={post.canonical_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group bg-[#1a1a1a] border border-[#5c5c5c]/60 hover:border-[#f74a35] rounded-none overflow-hidden shadow-2xl transition-all duration-300 flex flex-col justify-between transform hover:-translate-y-1"
+              className="group bg-[#1a1a1a] hover:bg-[#222222] rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 flex flex-col justify-between transform hover:-translate-y-1"
             >
               {post.cover_image ? (
                 <div className="w-full h-40 overflow-hidden bg-black/60 relative">
@@ -118,12 +118,12 @@ function SubstackFanzineFeed() {
                       (e.currentTarget as HTMLImageElement).style.display = 'none';
                     }}
                   />
-                  <div className="absolute top-2 right-2 bg-black/80 text-[#f74a35] text-[9px] font-bold px-2 py-0.5 rounded-none uppercase border border-[#f74a35]/40 font-datatype z-20">
+                  <div className="absolute top-2 right-2 bg-black/80 text-[#f74a35] text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase font-datatype z-20">
                     {new Date(post.post_date).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' })}
                   </div>
                 </div>
               ) : (
-                <div className="w-full h-24 bg-[#141414] border-b border-white/5 flex items-center justify-start px-5 relative">
+                <div className="w-full h-24 bg-[#141414] flex items-center justify-start px-5 relative">
                   <span className="text-[#f74a35] font-black text-xs uppercase tracking-widest font-datatype">
                     RADIO EN CASA /// FANZINE
                   </span>
@@ -142,7 +142,7 @@ function SubstackFanzineFeed() {
                   )}
                 </div>
 
-                <div className="pt-2 border-t border-neutral-800 flex items-center justify-between text-xs text-[#f74a35] font-bold uppercase tracking-wider font-datatype">
+                <div className="pt-2 flex items-center justify-between text-xs text-[#f74a35] font-bold uppercase tracking-wider font-datatype">
                   <span>Leer publicación</span>
                   <span className="transform group-hover:translate-x-1 transition-transform">→</span>
                 </div>
@@ -150,7 +150,7 @@ function SubstackFanzineFeed() {
             </a>
           ))
         ) : (
-          <div className="col-span-full bg-[#1a1a1a] p-8 border border-[#f74a35] rounded-none text-center space-y-4 font-datatype">
+          <div className="col-span-full bg-[#1a1a1a] p-8 rounded-2xl text-center space-y-4 font-datatype shadow-2xl">
             <p className="text-neutral-300 text-base font-datatype">
               Visitá nuestro boletín completo directamente en Substack para leer todas las publicaciones del Fanzine.
             </p>
@@ -206,7 +206,7 @@ function TlkioChat({ heightClass = 'h-full min-h-[220px]' }: { heightClass?: str
   return (
     <div
       ref={containerRef}
-      className={`w-full ${heightClass} bg-[#121212] overflow-hidden rounded-xl border border-white/10 relative`}
+      className={`w-full ${heightClass} bg-[#121212] overflow-hidden rounded-xl relative`}
       style={{ minHeight: '380px' }}
     />
   );
@@ -317,7 +317,7 @@ function AnimateOnScroll({
   );
 }
 
-// --- TITULAR MÁQUINA DE ESCRIBIR UNIFICADO (SEO-SAFE H2) ---
+// --- TITULAR MÁQUINA DE ESCRIBIR UNIFICADO ---
 
 function TypewriterHeadingUnificado({
   text,
@@ -464,7 +464,7 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
               onClick={() => setCurrentIndex(idx)}
               className={`${
                 isCenter ? 'relative' : 'absolute top-0 left-0'
-              } w-full h-auto ${theme.bg} ${theme.text} border-2 border-[rgb(23_23_23_/_0)] p-5 sm:p-6 pb-7 sm:pb-8 shadow-2xl transition-all duration-700 ease-out cursor-pointer select-none rounded-none flex flex-col justify-between font-datatype overflow-visible`}
+              } w-full h-auto ${theme.bg} ${theme.text} p-5 sm:p-6 pb-7 sm:pb-8 shadow-2xl transition-all duration-700 ease-out cursor-pointer select-none rounded-2xl flex flex-col justify-between font-datatype overflow-visible`}
               style={{
                 transform: `translateX(${translateX}px) translateY(${translateY}px) translateZ(${translateZ}px) rotateZ(${rotateZ}deg) scale(${scale})`,
                 opacity,
@@ -483,11 +483,11 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
               </div>
 
               {card.img && isCenter ? (
-                <div className="w-full h-36 sm:h-44 my-3 sm:my-4 overflow-hidden rounded-none bg-neutral-950/90 border border-black/30 flex-shrink-0 shadow-inner p-0">
+                <div className="w-full h-36 sm:h-44 my-3 sm:my-4 overflow-hidden rounded-xl bg-neutral-950/90 flex-shrink-0 shadow-inner p-0">
                   <img
                     src={card.img}
                     alt={`Hito ${card.year} — ${card.title} en Radio en Casa`}
-                    className="w-full h-full object-cover object-center rounded-none"
+                    className="w-full h-full object-cover object-center rounded-xl"
                   />
                 </div>
               ) : null}
@@ -500,11 +500,11 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
         })}
       </div>
 
-      {/* BOTONES SIEMPRE JUSTO DEBAJO DE LA TARJETA ACTIVA */}
+      {/* BOTONES CIRCULARES SIEMPRE JUSTO DEBAJO DE LA TARJETA ACTIVA */}
       <div className="flex items-center gap-6 mt-8 z-40 justify-center md:justify-start w-full max-w-[460px]">
         <button
           onClick={handlePrev}
-          className="bg-[#ffcc00] text-[#121212] hover:bg-[#e6b800] flex items-center justify-center transition-all duration-300 shadow-xl border border-transparent cursor-pointer rounded-none font-datatype p-3.5 sm:p-4 group"
+          className="w-14 h-14 sm:w-16 sm:h-16 bg-[#ffcc00] text-[#121212] hover:bg-[#e6b800] flex items-center justify-center transition-all duration-300 shadow-xl cursor-pointer rounded-full font-datatype group flex-shrink-0"
           aria-label="Hito anterior"
           title="Hito anterior"
         >
@@ -518,7 +518,7 @@ function FanStackedCards({ items }: { items: typeof historyCardsData }) {
 
         <button
           onClick={handleNext}
-          className="bg-[#f74a35] text-white hover:bg-[#d93a26] flex items-center justify-center transition-all duration-300 shadow-xl border border-transparent cursor-pointer rounded-none font-datatype p-3.5 sm:p-4 group"
+          className="w-14 h-14 sm:w-16 sm:h-16 bg-[#f74a35] text-white hover:bg-[#d93a26] flex items-center justify-center transition-all duration-300 shadow-xl cursor-pointer rounded-full font-datatype group flex-shrink-0"
           aria-label="Siguiente hito"
           title="Siguiente hito"
         >
@@ -541,9 +541,9 @@ function Recognitions3Columns({ items }: { items: typeof recognitionsData }) {
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 font-datatype">
       {items.map((item, idx) => (
         <AnimateOnScroll key={item.id || idx} delay={idx * 100} duration={650} offset={35} className="h-full">
-          <div className="bg-white/95 backdrop-blur-md border border-neutral-300/90 hover:border-[#f74a35] p-6 shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-full rounded-none space-y-4">
+          <div className="bg-white/95 backdrop-blur-md p-6 shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col justify-between h-full rounded-2xl space-y-4">
             <div className="space-y-3">
-              <div className="flex items-center justify-between gap-2 border-b border-neutral-200 pb-2">
+              <div className="flex items-center justify-between gap-2 pb-2">
                 <span className="text-xs font-bold uppercase tracking-widest text-[#f74a35]">
                   {item.media}
                 </span>
@@ -566,7 +566,7 @@ function Recognitions3Columns({ items }: { items: typeof recognitionsData }) {
             </div>
 
             {item.link && (
-              <div className="pt-3 border-t border-neutral-200/80">
+              <div className="pt-3">
                 <a
                   href={item.link}
                   target="_blank"
@@ -752,28 +752,28 @@ const servicesQuadrants = [
   {
     id: 'radio',
     label: 'RADIO',
-    borderColor: '#f74a35',
+    accentColor: '#f74a35',
     shortText: 'Un formato para quienes, como nosotros, creen que la radio nunca va a morir...',
     fullText: 'Fue la forma en la que empezamos en 2016 y sigue siendo parte de nuestra identidad. Por eso seguimos ofreciendo la posibilidad de crear programas de radio transmitidos en vivo a través de nuestra web, desde donde también difundimos artistas que forman parte de nuestra comunidad. A diferencia de los medios tradicionales, la transmisión online permite que tu contenido pueda escucharse desde cualquier lugar del mundo. Además, formamos parte de plataformas como TuneIn y RadioCut.',
   },
   {
     id: 'podcast',
     label: 'PODCAST',
-    borderColor: '#ff7700',
+    accentColor: '#ff7700',
     shortText: 'El podcast es probablemente el formato donde más recorrido tenemos...',
     fullText: 'Durante varios años fuimos el estudio elegido por Posta, participando del crecimiento de una industria que recién comenzaba a desarrollarse y grabando en 2019 los primeros contenidos originales de Spotify producidos en nuestro país. Acompañamos proyectos independientes como Concha Podcast y Quemar un Patrullero. Realizamos podcasts en formato audio y video, ofreciendo grabación, edición y diseño sonoro.',
   },
   {
     id: 'streaming',
     label: 'STREAMING',
-    borderColor: '#ffcc00',
+    accentColor: '#ffcc00',
     shortText: 'El streaming puede parecer un formato nuevo, pero para nosotros empezó antes...',
     fullText: 'En 2018 realizamos nuestras primeras transmisiones audiovisuales en vivo, cuando este formato todavía no tenía la dimensión que alcanzaría años después. Producimos streamings para canales propios o plataformas como YouTube, Twitch, Facebook, X e Instagram. Trabajamos con un sistema multicámara Full HD 1920x1080, switcher profesional y cámaras inalámbricas.',
   },
   {
     id: 'outdoor',
     label: 'OUTDOOR',
-    borderColor: '#215164',
+    accentColor: '#215164',
     shortText: 'Así llamamos a todo aquello que hacemos fuera del estudio...',
     fullText: 'Llevamos nuestra experiencia, tecnología y manera de hacer contenidos a nuevos escenarios. Realizamos coberturas, transmisiones y registros audiovisuales en eventos, teatros, festivales y locaciones privadas. Ideal para entrevistas en exteriores o formatos presenciales. A lo largo de los años realizamos producciones en Ciudad Cultural Konex, Teatro Margarita Xirgu y nuestro espacio Salgo Arriba.',
   },
@@ -1008,7 +1008,7 @@ const socialMenuItems = [
   {
     label: 'Instagram',
     link: 'https://www.instagram.com/radioencasa/',
-    hoverClass: 'hover:text-white hover:bg-[#f74a35] hover:border-[#f74a35]',
+    hoverClass: 'hover:text-white hover:bg-[#f74a35]',
     icon: (
       <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
@@ -1018,7 +1018,7 @@ const socialMenuItems = [
   {
     label: 'Facebook',
     link: 'https://www.facebook.com/RadioEnCasa',
-    hoverClass: 'hover:text-white hover:bg-[#1877F2] hover:border-[#1877F2]',
+    hoverClass: 'hover:text-white hover:bg-[#1877F2]',
     icon: (
       <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
         <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z" />
@@ -1028,7 +1028,7 @@ const socialMenuItems = [
   {
     label: 'X (Twitter)',
     link: 'https://x.com/radioencasa',
-    hoverClass: 'hover:text-white hover:bg-[#f74a35] hover:border-[#f74a35]',
+    hoverClass: 'hover:text-white hover:bg-[#f74a35]',
     icon: (
       <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -1038,7 +1038,7 @@ const socialMenuItems = [
   {
     label: 'TikTok',
     link: 'https://www.tiktok.com/@radioencasa',
-    hoverClass: 'hover:text-white hover:bg-[#ff0050] hover:border-[#ff0050]',
+    hoverClass: 'hover:text-white hover:bg-[#ff0050]',
     icon: (
       <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
         <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
@@ -1048,7 +1048,7 @@ const socialMenuItems = [
   {
     label: 'YouTube',
     link: 'https://www.youtube.com/radioencasa',
-    hoverClass: 'hover:text-white hover:bg-[#f74a35] hover:border-[#f74a35]',
+    hoverClass: 'hover:text-white hover:bg-[#f74a35]',
     icon: (
       <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
         <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
@@ -1058,7 +1058,7 @@ const socialMenuItems = [
   {
     label: 'Twitch',
     link: 'https://www.twitch.tv/radioencasa',
-    hoverClass: 'hover:text-white hover:bg-[#9146FF] hover:border-[#9146FF]',
+    hoverClass: 'hover:text-white hover:bg-[#9146FF]',
     icon: (
       <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
         <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z" />
@@ -1068,7 +1068,7 @@ const socialMenuItems = [
   {
     label: 'LinkedIn',
     link: 'https://www.linkedin.com/company/radioencasa',
-    hoverClass: 'hover:text-white hover:bg-[#0A66C2] hover:border-[#0A66C2]',
+    hoverClass: 'hover:text-white hover:bg-[#0A66C2]',
     icon: (
       <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
         <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
@@ -1078,7 +1078,7 @@ const socialMenuItems = [
   {
     label: 'WhatsApp',
     link: 'https://wa.me/5491128999200',
-    hoverClass: 'hover:text-white hover:bg-[#25D366] hover:border-[#25D366]',
+    hoverClass: 'hover:text-white hover:bg-[#25D366]',
     icon: (
       <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
         <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.296-.883-.646-1.479-1.446-1.652-1.743-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
@@ -1087,7 +1087,7 @@ const socialMenuItems = [
   }
 ];
 
-export default function Page() {
+export default function AlternativaPage() {
   const [activeSection, setActiveSection] = useState<string>('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
@@ -1753,12 +1753,12 @@ export default function Page() {
       {/* BOTÓN MÓVIL HAMBURGUESA (DERECHA) */}
       <button
         onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-        className="fixed top-3 right-3 z-[9999] lg:hidden w-11 h-11 bg-[#121212]/95 hover:bg-[#1c1c1c] border-0 rounded-full flex flex-col items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_20px_rgba(0,0,0,0.85)] p-2.5 transition-all duration-200 active:scale-95"
+        className="fixed top-3 right-3 z-[9999] lg:hidden w-11 h-11 bg-[#121212]/95 hover:bg-[#1c1c1c] rounded-full flex flex-col items-center justify-center gap-1.5 cursor-pointer shadow-[0_0_20px_rgba(0,0,0,0.85)] p-2.5 transition-all duration-200 active:scale-95"
         aria-label="Abrir Menú"
       >
-        <span className={`w-6 h-0.5 bg-[#e3e3e3] rounded-none transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-        <span className={`w-6 h-0.5 bg-[#e3e3e3] rounded-none transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`} />
-        <span className={`w-6 h-0.5 bg-[#e3e3e3] rounded-none transition-transform duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+        <span className={`w-6 h-0.5 bg-[#e3e3e3] rounded-full transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+        <span className={`w-6 h-0.5 bg-[#e3e3e3] rounded-full transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'opacity-100'}`} />
+        <span className={`w-6 h-0.5 bg-[#e3e3e3] rounded-full transition-transform duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
       </button>
 
       {/* OVERLAY SUTIL IZQUIERDO */}
@@ -1771,7 +1771,7 @@ export default function Page() {
 
       {/* DRAWER LATERAL DESDE LA DERECHA HASTA EL LOGO CIRCULAR */}
       <div
-        className={`fixed top-0 right-0 h-[100dvh] w-[calc(100%-68px)] max-w-[340px] bg-[#101010]/95 backdrop-blur-2xl border-l border-white/10 z-[9990] lg:hidden flex flex-col justify-between items-start px-6 pt-16 pb-6 overflow-y-auto no-scrollbar transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-[0_0_40px_rgba(0,0,0,0.85)] ${
+        className={`fixed top-0 right-0 h-[100dvh] w-[calc(100%-68px)] max-w-[340px] bg-[#101010]/95 backdrop-blur-2xl rounded-l-3xl z-[9990] lg:hidden flex flex-col justify-between items-start px-6 pt-16 pb-6 overflow-y-auto no-scrollbar transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] shadow-[0_0_40px_rgba(0,0,0,0.85)] ${
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -1786,7 +1786,7 @@ export default function Page() {
                   setIsMobileMenuOpen(false);
                   scrollToSection(item.id);
                 }}
-                className={`group flex items-center justify-start gap-1.5 cursor-pointer bg-transparent border-none p-0 text-left transition-all duration-300 ${
+                className={`group flex items-center justify-start gap-1.5 cursor-pointer bg-transparent p-0 text-left transition-all duration-300 ${
                   isActive ? 'text-[#f74a35] translate-x-1' : 'text-[#ececec] hover:text-[#f74a35]'
                 }`}
               >
@@ -1804,7 +1804,7 @@ export default function Page() {
         </div>
 
         {/* ÍCONOS DE REDES SOCIALES EN 2 LÍNEAS DE 4 */}
-        <div className="w-full pt-4 border-t border-white/10 pl-2 flex-shrink-0">
+        <div className="w-full pt-4 pl-2 flex-shrink-0">
           <div className="grid grid-cols-4 gap-3 w-fit justify-items-start">
             {socialMenuItems.map((social, idx) => (
               <a
@@ -1814,7 +1814,7 @@ export default function Page() {
                 rel="noopener noreferrer"
                 aria-label={social.label}
                 title={social.label}
-                className={`w-9 h-9 rounded-full bg-[#161616] border border-white/10 flex items-center justify-center text-neutral-300 transition-all duration-300 shadow-md ${social.hoverClass}`}
+                className={`w-9 h-9 rounded-full bg-[#161616] flex items-center justify-center text-neutral-300 transition-all duration-300 shadow-md ${social.hoverClass}`}
               >
                 {social.icon}
               </a>
@@ -1826,13 +1826,13 @@ export default function Page() {
       {/* NAV DOCK DE ESCRITORIO */}
       <nav
         aria-label="Navegación principal"
-        className={`fixed top-0 left-0 w-[88px] h-screen bg-[#0e0e0e] border-r border-[#262626] z-[9999] hidden lg:flex flex-col items-center justify-between py-4 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+        className={`fixed top-0 left-0 w-[88px] h-screen bg-[#0e0e0e] z-[9999] hidden lg:flex flex-col items-center justify-between py-4 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] ${
           isHeroIntroComplete
             ? 'opacity-100 translate-x-0'
             : 'opacity-0 -translate-x-full'
         }`}
       >
-        <div className="w-full flex items-center justify-center border-b border-[#222222] pb-3">
+        <div className="w-full flex items-center justify-center pb-3">
           <div
             onClick={() => scrollToSection('home')}
             className="w-11 h-11 aspect-square bg-[#f74a35] hover:bg-[#f74a35] rounded-full flex items-center justify-center animate-pulse shadow-[0_0_22px_rgba(247,74,53,0.95)] p-2 cursor-pointer transition-transform duration-200 hover:scale-110 active:scale-95"
@@ -1864,7 +1864,7 @@ export default function Page() {
                 </button>
 
                 <div className="absolute left-[78px] opacity-0 pointer-events-none -translate-x-[6px] group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-x-0 transition-all duration-200 ease-out z-[10000] pl-2">
-                  <div className="bg-[#121212] text-white border border-[#f74a35] font-datatype font-bold text-[10px] tracking-wider uppercase px-3 py-1.5 rounded-full shadow-[0_10px_25px_rgba(0,0,0,0.8)] whitespace-nowrap flex items-center gap-1.5">
+                  <div className="bg-[#121212] text-white font-datatype font-bold text-[10px] tracking-wider uppercase px-3 py-1.5 rounded-full shadow-[0_10px_25px_rgba(0,0,0,0.8)] whitespace-nowrap flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-[#f74a35] animate-pulse" />
                     {item.label}
                   </div>
@@ -1878,7 +1878,7 @@ export default function Page() {
       {/* 2. ASIDE (SOLO ESCRITORIO) */}
       <aside
         aria-label="Radio en vivo y chat"
-        className={`fixed top-0 left-[88px] w-[332px] h-screen border-r border-[#333] shadow-2xl z-[60] flex-col font-datatype overflow-hidden bg-cover bg-center bg-no-repeat transition-all duration-300 hidden lg:flex ${
+        className={`fixed top-0 left-[88px] w-[332px] h-screen shadow-2xl z-[60] flex-col font-datatype overflow-hidden bg-cover bg-center bg-no-repeat transition-all duration-300 hidden lg:flex ${
           isHeroIntroComplete
             ? 'opacity-100 pointer-events-auto delay-[950ms]'
             : 'opacity-0 pointer-events-none'
@@ -1894,7 +1894,7 @@ export default function Page() {
           }`}>
             {/* MÓDULO 1: CLIMA, FECHA Y HORA */}
             <div
-              className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-xl p-2.5 border border-white/10 flex flex-col justify-center items-start text-left font-datatype leading-[1.2] space-y-1 flex-shrink-0 ${
+              className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-2xl p-3 flex flex-col justify-center items-start text-left font-datatype leading-[1.2] space-y-1.5 flex-shrink-0 shadow-xl ${
                 isHeroIntroComplete ? 'animate-slide-top-ease' : 'opacity-0'
               }`}
               style={{ animationDelay: '950ms' }}
@@ -1907,7 +1907,7 @@ export default function Page() {
                   {isHeroIntroComplete ? <TypewriterText text={temperature || '--°C'} speed={50} /> : ''}
                 </span>
               </div>
-              <div className="flex items-center gap-2 w-full justify-between pt-1 border-t border-white/10">
+              <div className="flex items-center gap-2 w-full justify-between pt-1">
                 <span className="font-datatype font-extrabold text-neutral-300 !text-[12px] uppercase tracking-tight">
                   {isHeroIntroComplete && timeString ? <TypewriterText text={timeString.split(' — ')[0]} speed={35} /> : ''}
                 </span>
@@ -1919,8 +1919,8 @@ export default function Page() {
 
             {/* MÓDULO 2: REPRODUCTOR DE AUDIO */}
             <div
-              className={`w-full transition-all duration-300 relative overflow-hidden shadow-2xl flex flex-col font-datatype ${
-                isOpenPlayer ? 'bg-[#f74a35] p-2.5 rounded-2xl border-0 shadow-2xl' : 'bg-[#121212]/90 backdrop-blur-md p-2 border border-white/10 rounded-2xl shadow-xl'
+              className={`w-full transition-all duration-300 relative overflow-hidden shadow-2xl flex flex-col font-datatype rounded-2xl ${
+                isOpenPlayer ? 'bg-[#f74a35] p-2.5' : 'bg-[#121212]/90 backdrop-blur-md p-2'
               } ${
                 !isOpenChat && isOpenPlayer ? 'flex-1 min-h-0' : 'flex-shrink-0'
               } ${
@@ -1935,7 +1935,7 @@ export default function Page() {
                 >
                   {!isOpenPlayer && (
                     <div className="flex flex-col gap-2 w-full min-w-0 pr-1" onClick={(e) => e.stopPropagation()}>
-                      <div className="flex items-center gap-2 bg-[#1a1a1a] px-2.5 py-1.5 rounded-full border border-white/10 w-full flex-shrink-0">
+                      <div className="flex items-center gap-2 bg-[#1a1a1a] px-2.5 py-1.5 rounded-full w-full flex-shrink-0">
                         <button
                           onClick={toggleMiniAudio}
                           className="w-7 h-7 bg-[#f74a35] hover:bg-[#d93a26] text-white rounded-full flex items-center justify-center hover:scale-105 transition-transform flex-shrink-0 cursor-pointer shadow-md p-0"
@@ -1999,7 +1999,7 @@ export default function Page() {
 
           {/* MÓDULO 3: CHAT EN VIVO DESKTOP */}
           <div
-            className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-2xl p-2 border border-white/10 shadow-2xl flex flex-col font-datatype transition-all duration-300 overflow-hidden ${
+            className={`w-full bg-[#121212]/90 backdrop-blur-md rounded-2xl p-2 shadow-2xl flex flex-col font-datatype transition-all duration-300 overflow-hidden ${
               isOpenChat ? 'flex-1 min-h-[180px]' : 'flex-shrink-0'
             } ${
               isHeroIntroComplete ? 'animate-slide-bottom-ease' : 'opacity-0'
@@ -2030,7 +2030,7 @@ export default function Page() {
               isOpenChat ? 'flex-1 min-h-0 grid-rows-[1fr] opacity-100 pt-1 scale-y-100' : 'grid-rows-[0fr] opacity-0 pt-0 scale-y-0 -translate-y-2'
             }`}>
               <div className="overflow-hidden w-full h-full flex flex-col min-h-0">
-                <div className="overflow-hidden flex flex-col h-full w-full bg-black rounded-xl border border-white/10 flex-1 min-h-0">
+                <div className="overflow-hidden flex flex-col h-full w-full bg-black rounded-xl flex-1 min-h-0">
                   {!isMobileView && <TlkioChat />}
                 </div>
               </div>
@@ -2038,7 +2038,7 @@ export default function Page() {
           </div>
 
           {/* REDES SOCIALES */}
-          <div className="w-full pt-2 pb-1 border-t border-white/10 flex items-center justify-around gap-2 flex-shrink-0 mt-auto">
+          <div className="w-full pt-2 pb-1 flex items-center justify-around gap-2 flex-shrink-0 mt-auto">
             {socialMenuItems.map((social, idx) => (
               <a
                 key={idx}
@@ -2047,7 +2047,7 @@ export default function Page() {
                 rel="noopener noreferrer"
                 aria-label={social.label}
                 title={social.label}
-                className={`w-8 h-8 rounded-full bg-[#161616] border border-white/10 flex items-center justify-center text-neutral-300 transition-all duration-300 font-datatype shadow-md ${social.hoverClass}`}
+                className={`w-8 h-8 rounded-full bg-[#161616] flex items-center justify-center text-neutral-300 transition-all duration-300 font-datatype shadow-md ${social.hoverClass}`}
               >
                 {social.icon}
               </a>
@@ -2068,7 +2068,6 @@ export default function Page() {
           id="home"
           className="w-full min-h-screen flex flex-col justify-start lg:justify-between items-center relative bg-[#181818] overflow-visible lg:overflow-hidden transform-gpu"
         >
-          {/* ÚNICO H1 SEMÁNTICO DE LA PORTADA PARA SEO */}
           <h1 className="sr-only">
             Radio en Casa — Estudio de Podcast, Streaming y Radio Online en Palermo Soho, Buenos Aires
           </h1>
@@ -2099,7 +2098,7 @@ export default function Page() {
               <div className="absolute inset-0 bg-black/60 backdrop-blur-sm pointer-events-none z-20" />
             </div>
 
-            <div className="relative z-10 w-full max-w-[340px] flex flex-col items-center gap-4 bg-[#121212]/95 border border-white/10 p-4 rounded-2xl shadow-2xl font-datatype">
+            <div className="relative z-10 w-full max-w-[340px] flex flex-col items-center gap-4 bg-[#121212]/95 p-4 rounded-2xl shadow-2xl font-datatype">
               <div className="w-full max-w-[260px] h-auto flex items-center justify-center pt-1 pb-1">
                 <AnimatedLogo showBandText={false} />
               </div>
@@ -2110,14 +2109,14 @@ export default function Page() {
               </div>
 
               {/* 2. CHAT MOBILE CON ALTURA VISIBLE FORZADA */}
-              <div className="w-full flex flex-col gap-2 pt-2 border-t border-white/10">
+              <div className="w-full flex flex-col gap-2 pt-2">
                 <div className="flex items-center gap-2 px-1">
                   <span className="w-2 h-2 rounded-full bg-[#f74a35] animate-pulse" />
                   <span className="font-bold text-white text-xs uppercase tracking-widest font-datatype">
                     Chat en vivo
                   </span>
                 </div>
-                <div className="w-full h-[380px] min-h-[380px] bg-[#121212] rounded-xl overflow-hidden border border-white/10">
+                <div className="w-full h-[380px] min-h-[380px] bg-[#121212] rounded-xl overflow-hidden">
                   {isMobileView && <TlkioChat heightClass="h-[380px] min-h-[380px]" />}
                 </div>
               </div>
@@ -2172,7 +2171,7 @@ export default function Page() {
                     setIsHeroIntroComplete(true);
                     setIsBgGlitching(false);
                   }}
-                  className={`bg-[#202020] text-[#e3e3e3] px-7 py-3.5 font-mono font-datatype text-xs sm:text-sm font-bold uppercase tracking-widest shadow-2xl flex items-center gap-3 transition-all duration-700 ease-in-out cursor-pointer hover:bg-[#f74a35] hover:text-white ${
+                  className={`bg-[#202020] text-[#e3e3e3] px-7 py-3.5 rounded-full font-mono font-datatype text-xs sm:text-sm font-bold uppercase tracking-widest shadow-2xl flex items-center gap-3 transition-all duration-700 ease-in-out cursor-pointer hover:bg-[#f74a35] hover:text-white ${
                     isTuningFadingUp ? '-translate-y-24 opacity-0 filter blur-sm' : 'translate-y-0 opacity-100 animate-bounce'
                   }`}
                 >
@@ -2264,7 +2263,7 @@ export default function Page() {
                     style={{ transitionDelay: '100ms' }}
                   >
                     <p className="!text-[0.95rem] sm:!text-[1.125rem] lg:!text-[1.25rem] !leading-[1.7]">
-                      <span className="bg-black/85 text-[#e3e3e3] px-2.5 py-1 rounded-none [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">
+                      <span className="bg-black/85 text-[#e3e3e3] px-3 py-1.5 rounded-lg [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">
                         En ese momento internet, las redes sociales y las nuevas formas de consumo ya estaban transformando la manera en que las personas se comunicaban, pero la radio seguía manteniendo estructuras pensadas para otra época.
                       </span>
                     </p>
@@ -2279,7 +2278,7 @@ export default function Page() {
                     style={{ transitionDelay: '450ms' }}
                   >
                     <p className="!text-[0.95rem] sm:!text-[1.125rem] lg:!text-[1.25rem] !leading-[1.7]">
-                      <span className="bg-black/85 text-[#e3e3e3] px-2.5 py-1 rounded-none [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">
+                      <span className="bg-black/85 text-[#e3e3e3] px-3 py-1.5 rounded-lg [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">
                         Entendimos que el futuro no estaba en trasladar una cabina tradicional a internet, sino en crear un espacio abierto, flexible y preparado para una nueva generación de contenidos.
                       </span>
                     </p>
@@ -2294,7 +2293,7 @@ export default function Page() {
                     style={{ transitionDelay: '800ms' }}
                   >
                     <p className="!text-[0.95rem] sm:!text-[1.125rem] lg:!text-[1.25rem] !leading-[1.7]">
-                      <span className="bg-black/85 text-[#e3e3e3] px-2.5 py-1 rounded-none [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">
+                      <span className="bg-black/85 text-[#e3e3e3] px-3 py-1.5 rounded-lg [box-decoration-break:clone] [-webkit-box-decoration-break:clone]">
                         Un lugar donde la radio pudiera convivir con nuevos formatos, donde las personas fueran protagonistas y donde las historias pudieran expandirse más allá del audio.
                       </span>
                     </p>
@@ -2343,7 +2342,7 @@ export default function Page() {
 
           <div className="w-full min-h-screen relative z-10 grid grid-cols-1 md:grid-cols-2 gap-0 items-start">
 
-            <div className="w-full h-[52vh] min-h-[340px] lg:h-screen relative lg:sticky lg:top-0 bg-black overflow-hidden border-b lg:border-b-0 lg:border-r border-white/10 shadow-2xl z-20">
+            <div className="w-full h-[52vh] min-h-[340px] lg:h-screen relative lg:sticky lg:top-0 bg-black overflow-hidden shadow-2xl z-20">
               {philosophyImages.map((imgItem, idx) => {
                 const isActive = philosophySlideIndex === idx;
                 return (
@@ -2367,7 +2366,7 @@ export default function Page() {
                 );
               })}
 
-              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-30 overflow-x-auto max-w-[90%] no-scrollbar px-3 py-1 bg-black/60 backdrop-blur-sm rounded-full border border-white/10">
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-30 overflow-x-auto max-w-[90%] no-scrollbar px-3 py-1.5 bg-black/60 backdrop-blur-sm rounded-full">
                 {philosophyImages.map((_, idx) => (
                   <button
                     key={idx}
@@ -2422,7 +2421,7 @@ export default function Page() {
                   Si sentís que tenés algo para contar,{' '}
                   <button
                     onClick={() => scrollToSection('contacto')}
-                    className="group inline-relative inline-flex flex-col cursor-pointer bg-transparent border-none p-0 m-0 text-left align-baseline"
+                    className="group inline-relative inline-flex flex-col cursor-pointer bg-transparent p-0 m-0 text-left align-baseline"
                   >
                     <span className="text-[#e3e3e3] transition-colors duration-300 group-hover:text-[#f74a35] hover:underline">
                       golpeanos la puerta.
@@ -2432,7 +2431,7 @@ export default function Page() {
               </ScrollFadeText>
 
               <ScrollFadeText delay={800}>
-                <div className="mt-4 bg-[#121212]/95 backdrop-blur-md border-2 border-[#f74a35] p-4 shadow-2xl rounded-none">
+                <div className="mt-4 bg-[#121212]/95 backdrop-blur-md p-5 shadow-2xl rounded-2xl">
                   <p className="text-base sm:text-lg md:text-xl font-bold uppercase tracking-wider text-[#e3e3e3] font-boldonse leading-snug">
                     En Radio en Casa seguimos mudando la forma de hacer radio.
                   </p>
@@ -2474,18 +2473,17 @@ export default function Page() {
                     <div
                       key={service.id}
                       onClick={() => setActiveServiceId(isActive ? null : service.id)}
-                      className={`cursor-pointer transition-all duration-500 ease-in-out bg-[#141414] p-5 border-2 shadow-2xl flex flex-col justify-between font-datatype relative overflow-hidden rounded-none ${
+                      className={`group cursor-pointer transition-all duration-500 ease-in-out bg-[#141414] p-6 shadow-2xl flex flex-col justify-between font-datatype relative overflow-hidden rounded-2xl ${
                         isActive
-                          ? 'md:flex-[3.5] bg-[#1a1a1a] z-20'
-                          : 'md:flex-1 opacity-85 hover:opacity-100 hover:bg-[#181818]'
+                          ? 'md:flex-[3.5] bg-[#1c1c1c] z-20'
+                          : 'md:flex-1 opacity-90 hover:opacity-100 hover:bg-[#1a1a1a]'
                       }`}
-                      style={{ borderColor: service.borderColor }}
                     >
                       <div>
-                        <div className="flex items-center justify-between border-b pb-3 mb-3 border-white/10">
+                        <div className="flex items-center justify-between pb-3 mb-3">
                           <h3
                             className="font-boldonse text-xl sm:text-2xl font-black uppercase tracking-wider"
-                            style={{ color: service.borderColor }}
+                            style={{ color: service.accentColor }}
                           >
                             {service.label}
                           </h3>
@@ -2502,7 +2500,7 @@ export default function Page() {
                             isActive ? 'grid-rows-[1fr] opacity-100 pt-2' : 'grid-rows-[0fr] opacity-0 pointer-events-none'
                           }`}>
                             <div className="overflow-hidden">
-                              <p className="!text-[0.95rem] sm:!text-[1.05rem] text-neutral-200 leading-relaxed font-datatype border-t border-white/10 pt-3">
+                              <p className="!text-[0.95rem] sm:!text-[1.05rem] text-neutral-200 leading-relaxed font-datatype pt-3">
                                 {service.fullText}
                               </p>
                             </div>
@@ -2511,9 +2509,14 @@ export default function Page() {
                       </div>
 
                       <div className="pt-4 flex items-center justify-end">
-                        <span className={`text-lg sm:text-xl font-black font-datatype leading-none transition-all duration-300 ${
-                          isActive ? 'text-[#f74a35] scale-110' : 'text-neutral-400 hover:text-white'
-                        }`}>
+                        <span
+                          className={`w-9 h-9 rounded-full flex items-center justify-center text-lg sm:text-xl font-black font-datatype leading-none shadow-md transition-all duration-300 ${
+                            isActive
+                              ? 'bg-[#f74a35] text-white scale-110'
+                              : 'bg-[#262626] group-hover:bg-[#303030]'
+                          }`}
+                          style={{ color: isActive ? '#ffffff' : service.accentColor }}
+                        >
                           {isActive ? '-' : '+'}
                         </span>
                       </div>
@@ -2573,7 +2576,7 @@ export default function Page() {
               </ScrollFadeText>
               <ScrollFadeText delay={200}>
                 <p className="font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed font-medium">
-                  <span className="bg-black/85 text-[#e3e3e3] px-2.5 py-1 rounded-none [box-decoration-break:clone] [-webkit-box-decoration-break:clone] font-datatype">
+                  <span className="bg-black/85 text-[#e3e3e3] px-3 py-1.5 rounded-lg [box-decoration-break:clone] [-webkit-box-decoration-break:clone] font-datatype">
                     Durante más de diez años trabajamos junto a proyectos independientes, empresas, organizaciones y comunidades que encontraron en Radio en Casa un espacio para desarrollar sus contenidos.
                   </span>
                 </p>
@@ -2581,18 +2584,18 @@ export default function Page() {
             </div>
 
             <div className="w-full font-datatype">
-              <div className="relative bg-[#1e1e1e]/95 p-3 sm:p-4 md:p-5 rounded-none border border-[#5c5c5c]/60 shadow-2xl w-full font-datatype">
-                <div className="bg-[#141414] border border-neutral-800 rounded-none p-4 sm:p-5 md:p-6 overflow-hidden relative shadow-inner w-full">
+              <div className="relative bg-[#1e1e1e]/95 p-3 sm:p-4 md:p-5 rounded-2xl shadow-2xl w-full font-datatype">
+                <div className="bg-[#141414] rounded-xl p-4 sm:p-5 md:p-6 overflow-hidden relative shadow-inner w-full">
                   <div className="animate-scroll-infinite flex items-center space-x-8 sm:space-x-12 md:space-x-16">
                     {[...clientLogos, ...clientLogos].map((client, idx) => (
                       <div
                         key={idx}
-                        className="h-12 sm:h-14 md:h-16 w-28 sm:w-32 md:w-36 flex items-center justify-center flex-shrink-0 border-0 bg-transparent"
+                        className="h-12 sm:h-14 md:h-16 w-28 sm:w-32 md:w-36 flex items-center justify-center flex-shrink-0 bg-transparent"
                       >
                         <img
                           src={client.src}
                           alt={client.name}
-                          className="max-h-full max-w-full w-auto h-auto object-contain m-auto border-0 outline-none filter brightness-0 invert opacity-100"
+                          className="max-h-full max-w-full w-auto h-auto object-contain m-auto outline-none filter brightness-0 invert opacity-100"
                           onError={(e) => {
                             const parent = (e.currentTarget as HTMLImageElement).parentElement;
                             if (parent) parent.style.display = 'none';
@@ -2603,7 +2606,7 @@ export default function Page() {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between pt-3 px-2 sm:px-3 font-datatype text-neutral-400 border-t border-[#5c5c5c]/40 mt-3">
+                <div className="flex items-center justify-between pt-3 px-2 sm:px-3 font-datatype text-neutral-400 mt-2">
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 bg-[#f74a35] animate-ping flex-shrink-0 rounded-full" />
                     <span className="tracking-wide text-[#f74a35] font-bold text-[10px] sm:text-xs md:text-sm font-datatype uppercase">
@@ -2616,12 +2619,12 @@ export default function Page() {
 
             <div className="w-full relative z-10">
               <ScrollFadeText delay={220}>
-                <div className="bg-black/85 backdrop-blur-md border border-[#5c5c5c]/40 p-5 sm:p-8 md:p-10 shadow-2xl rounded-none space-y-4 font-datatype w-full text-neutral-200">
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-wider font-boldonse text-[#e3e3e3] border-b border-[#5c5c5c]/40 pb-3">
+                <div className="bg-black/85 backdrop-blur-md p-5 sm:p-8 md:p-10 shadow-2xl rounded-2xl space-y-4 font-datatype w-full text-neutral-200">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-wider font-boldonse text-[#e3e3e3] pb-2">
                     TAMBIÉN PASARON POR RADIO EN CASA
                   </h3>
                   <div
-                    className="text-neutral-300 text-xs sm:text-sm md:text-base leading-relaxed tracking-wide font-datatype bg-[#141414] p-4 sm:p-6 border border-neutral-800 rounded-none shadow-inner [&_strong]:text-[#f74a35] [&_strong]:font-black"
+                    className="text-neutral-300 text-xs sm:text-sm md:text-base leading-relaxed tracking-wide font-datatype bg-[#141414] p-4 sm:p-6 rounded-xl shadow-inner [&_strong]:text-[#f74a35] [&_strong]:font-black"
                     dangerouslySetInnerHTML={{ __html: rawBrandsTextHTML }}
                   />
                 </div>
@@ -2629,9 +2632,9 @@ export default function Page() {
             </div>
 
             <div className="w-full relative z-10">
-              <div className="bg-black/85 backdrop-blur-md border border-[#5c5c5c]/40 p-5 sm:p-8 md:p-10 shadow-2xl rounded-none space-y-6 font-datatype w-full text-neutral-200">
+              <div className="bg-black/85 backdrop-blur-md p-5 sm:p-8 md:p-10 shadow-2xl rounded-2xl space-y-6 font-datatype w-full text-neutral-200">
                 <ScrollFadeText delay={250}>
-                  <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-wider font-boldonse text-[#e3e3e3] border-b border-[#5c5c5c]/40 pb-3">
+                  <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold uppercase tracking-wider font-boldonse text-[#e3e3e3] pb-2">
                     LA HISTORIA DE ESTA CASA
                   </h3>
                 </ScrollFadeText>
@@ -2642,7 +2645,7 @@ export default function Page() {
                   </p>
                 </ScrollFadeText>
 
-                <div className="bg-[#141414] p-4 sm:p-6 border border-neutral-800 rounded-none shadow-inner text-neutral-300 text-xs sm:text-sm md:text-base leading-relaxed tracking-wide font-datatype flex flex-wrap gap-x-2 gap-y-1 [&_strong]:text-[#f74a35] [&_strong]:font-extrabold [&_strong]:border-none">
+                <div className="bg-[#141414] p-4 sm:p-6 rounded-xl shadow-inner text-neutral-300 text-xs sm:text-sm md:text-base leading-relaxed tracking-wide font-datatype flex flex-wrap gap-x-2 gap-y-1 [&_strong]:text-[#f74a35] [&_strong]:font-extrabold">
                   {rawArchiveTextHTML.split('·').map((itemHTML, index) => (
                     <ScrollFadeText key={index} delay={(index % 6) * 40}>
                       <span className="inline-block transition-all duration-700">
@@ -2657,9 +2660,9 @@ export default function Page() {
 
                 <ScrollFadeText delay={400}>
                   <div className="pt-2 font-datatype">
-                    <div className="w-full bg-[#1e1e1e] border border-[#5c5c5c]/60 p-4 sm:p-5 md:p-6 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 select-none text-neutral-200 rounded-none">
+                    <div className="w-full bg-[#1e1e1e] p-4 sm:p-5 md:p-6 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 select-none text-neutral-200 rounded-2xl">
                       <div className="flex items-start sm:items-center gap-3.5">
-                        <span className="w-3.5 h-3.5 bg-[#f74a35] border border-black/50 flex-shrink-0 animate-pulse rounded-full mt-2 sm:mt-0" />
+                        <span className="w-3.5 h-3.5 bg-[#f74a35] flex-shrink-0 animate-pulse rounded-full mt-2 sm:mt-0" />
                         <div className="space-y-2.5 font-datatype">
                           <p className="text-[#e3e3e3] font-black font-boldonse !text-[1.125rem] sm:!text-[1.2rem] md:!text-[1.3rem] uppercase tracking-wider !leading-[1.45]">
                             ¿Tu proyecto pasó por Radio en Casa y no aparece en este archivo?
@@ -2667,12 +2670,11 @@ export default function Page() {
                           <p className="text-neutral-300 font-datatype !text-[1.05rem] sm:!text-[1.1rem] md:!text-[1.15rem] font-medium flex flex-wrap items-baseline gap-1.5 !leading-[1.5]">
                             <button
                               onClick={() => scrollToSection('contacto')}
-                              className="group inline-relative inline-flex flex-col cursor-pointer bg-transparent border-none p-0 m-0 text-left align-baseline font-datatype"
+                              className="group inline-relative inline-flex flex-col cursor-pointer bg-transparent p-0 m-0 text-left align-baseline font-datatype"
                             >
-                              <span className="text-[#f74a35] font-bold !text-[1.05rem] sm:!text-[1.1rem] md:!text-[1.15rem] transition-colors duration-300 group-hover:text-white font-datatype">
+                              <span className="text-[#f74a35] font-bold !text-[1.05rem] sm:!text-[1.1rem] md:!text-[1.15rem] transition-colors duration-300 group-hover:text-white font-datatype underline underline-offset-4">
                                 Escribinos.
                               </span>
-                              <span className="h-[2px] w-full bg-[#f74a35] transition-colors duration-300 group-hover:bg-white" />
                             </button>
                             <span className="font-bold !text-[1.05rem] sm:!text-[1.1rem] md:!text-[1.15rem] text-neutral-300 font-datatype">
                               Nos encantaría sumar ese recuerdo.
@@ -2702,7 +2704,7 @@ export default function Page() {
 
           <div className="w-full max-w-[1100px] mx-auto space-y-6 sm:space-y-8 relative z-10 px-0 sm:px-4 md:px-0">
             <AnimateOnScroll duration={600} offset={25}>
-              <div className="bg-[#181818]/90 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-none border border-[#5c5c5c]/60 shadow-2xl space-y-4 font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed">
+              <div className="bg-[#181818]/90 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-2xl shadow-2xl space-y-4 font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed">
 
                 <div className="flex items-center justify-between gap-3 pb-2">
                   <TypewriterHeadingUnificado
@@ -2746,21 +2748,21 @@ export default function Page() {
                       <div
                         onMouseEnter={() => setActiveMembership(item.id)}
                         onMouseLeave={() => setActiveMembership(null)}
-                        className={`bg-[#1e1e1e]/90 backdrop-blur-md border p-5 sm:p-6 flex flex-col justify-between transition-all duration-500 ease-out cursor-pointer shadow-xl h-full font-datatype transform-gpu rounded-none ${
+                        className={`bg-[#1e1e1e]/90 backdrop-blur-md p-5 sm:p-6 flex flex-col justify-between transition-all duration-500 ease-out cursor-pointer shadow-xl h-full font-datatype transform-gpu rounded-2xl ${
                           isHovered
-                            ? 'scale-105 z-20 border-[#f74a35] shadow-2xl bg-[#242424]'
+                            ? 'scale-105 z-20 shadow-2xl bg-[#262626]'
                             : isAnotherHovered
-                            ? 'scale-95 opacity-80 z-0 border-[#5c5c5c]/60'
-                            : 'scale-100 opacity-100 border-[#5c5c5c]/60 hover:border-[#f74a35]'
+                            ? 'scale-95 opacity-80 z-0'
+                            : 'scale-100 opacity-100 hover:bg-[#242424]'
                         }`}
                       >
                         <div className="space-y-3 sm:space-y-4">
-                          <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#e3e3e3] uppercase border-b border-[#5c5c5c]/40 pb-3 font-boldonse leading-[2.2rem] sm:leading-[2.5rem] md:leading-[2.75rem]">
+                          <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#e3e3e3] uppercase pb-2 font-boldonse leading-[2.2rem] sm:leading-[2.5rem] md:leading-[2.75rem]">
                             {item.titleLine1}
                           </h3>
                           <div className="space-y-3">
                             {item.subtitle && (
-                              <div className="w-full text-[#e3e3e3] font-bold !text-[0.95rem] sm:!text-[0.95rem] md:!text-[1rem] uppercase border-l-4 border-[#f74a35] pl-3.5 pr-4 py-2.5 bg-[#121212]/90 font-datatype leading-snug shadow-xl">
+                              <div className="w-full text-[#f74a35] font-bold !text-[0.95rem] sm:!text-[0.95rem] md:!text-[1rem] uppercase px-4 py-2.5 rounded-xl bg-[#121212]/90 font-datatype leading-snug shadow-lg">
                                 {item.subtitle}
                               </div>
                             )}
@@ -2790,10 +2792,10 @@ export default function Page() {
               })()}
 
               {/* GRUPO DE 3 TARJETAS */}
-              <div className="lg:col-span-9 bg-black/60 border-2 border-[#f74a35] p-3 sm:p-4 md:p-6 backdrop-blur-sm shadow-2xl relative flex flex-col justify-between space-y-4">
+              <div className="lg:col-span-9 bg-black/65 p-4 sm:p-5 md:p-7 rounded-2xl backdrop-blur-sm shadow-2xl relative flex flex-col justify-between space-y-4">
 
                 <div className="w-full space-y-3 pt-1 pb-1 text-left">
-                  <div className="w-full sm:w-fit text-[#e3e3e3] font-bold !text-[0.95rem] sm:!text-[0.95rem] md:!text-[1rem] uppercase border-l-4 border-[#f74a35] pl-3.5 pr-5 py-2.5 bg-[#181818]/90 font-datatype leading-snug shadow-xl">
+                  <div className="w-full sm:w-fit text-[#f74a35] font-bold !text-[0.95rem] sm:!text-[0.95rem] md:!text-[1rem] uppercase px-4 py-2.5 rounded-xl bg-[#181818]/95 font-datatype leading-snug shadow-lg">
                     MEMBRESÍAS DE INTERCAMBIO
                   </div>
                   <p className="!text-[1rem] sm:!text-[0.95rem] md:!text-[1rem] text-neutral-300 font-datatype leading-relaxed">
@@ -2821,16 +2823,16 @@ export default function Page() {
                         <div
                           onMouseEnter={() => setActiveMembership(item.id)}
                           onMouseLeave={() => setActiveMembership(null)}
-                          className={`bg-[#1e1e1e]/90 backdrop-blur-md border p-5 sm:p-6 flex flex-col justify-between transition-all duration-500 ease-out cursor-pointer shadow-xl h-full font-datatype transform-gpu rounded-none ${
+                          className={`bg-[#1e1e1e]/90 backdrop-blur-md p-5 sm:p-6 flex flex-col justify-between transition-all duration-500 ease-out cursor-pointer shadow-xl h-full font-datatype transform-gpu rounded-2xl ${
                             isHovered
-                              ? 'scale-105 z-20 border-[#f74a35] shadow-2xl bg-[#242424]'
+                              ? 'scale-105 z-20 shadow-2xl bg-[#262626]'
                               : isAnotherHovered
-                              ? 'scale-95 opacity-80 z-0 border-[#5c5c5c]/60'
-                              : 'scale-100 opacity-100 border-[#5c5c5c]/60 hover:border-[#f74a35]'
+                              ? 'scale-95 opacity-80 z-0'
+                              : 'scale-100 opacity-100 hover:bg-[#242424]'
                           }`}
                         >
                           <div className="space-y-3 sm:space-y-4">
-                            <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#e3e3e3] uppercase border-b border-[#5c5c5c]/40 pb-3 font-boldonse leading-[2.2rem] sm:leading-[2.5rem] md:leading-[2.75rem]">
+                            <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold text-[#e3e3e3] uppercase pb-2 font-boldonse leading-[2.2rem] sm:leading-[2.5rem] md:leading-[2.75rem]">
                               {item.titleLine1}
                             </h3>
                             {item.desc && (
@@ -2884,7 +2886,7 @@ export default function Page() {
 
           <div className="w-full max-w-[1100px] mx-auto space-y-6 relative z-10 px-0 sm:px-4 md:px-0">
             <AnimateOnScroll duration={600} offset={25}>
-              <div className="w-full bg-[#1e1e1e]/90 backdrop-blur-md p-5 sm:p-6 border border-[#5c5c5c]/60 shadow-xl space-y-3 font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed rounded-none">
+              <div className="w-full bg-[#1e1e1e]/90 backdrop-blur-md p-6 sm:p-8 shadow-xl space-y-3 font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed rounded-2xl">
                 <TypewriterHeadingUnificado
                   text="ALIANZAS"
                   seoLabel="Alianzas Culturales y Espacios Asociados a Radio en Casa"
@@ -2895,7 +2897,7 @@ export default function Page() {
                   Con ellos tenemos distintos acuerdos para darle más y mejores beneficios a nuestra comunidad. Si tenés algún espacio y queres formar parte de este circuito{' '}
                   <button
                     onClick={() => scrollToSection('contacto')}
-                    className="text-[#e3e3e3] underline hover:text-[#f74a35] transition-colors cursor-pointer bg-transparent border-none p-0 m-0 inline font-bold"
+                    className="text-[#e3e3e3] underline hover:text-[#f74a35] transition-colors cursor-pointer bg-transparent p-0 m-0 inline font-bold"
                   >
                     escribinos
                   </button>{' '}
@@ -2906,8 +2908,8 @@ export default function Page() {
 
             <div className="w-full font-datatype">
               <AnimateOnScroll delay={200} duration={700} offset={45}>
-                <div className="border border-[#5c5c5c]/60 shadow-2xl flex flex-col hover:border-[#f74a35] transition-colors duration-300 font-datatype rounded-none overflow-hidden bg-black">
-                  <div className="w-full aspect-video overflow-hidden rounded-none bg-black shadow-inner p-0 m-0">
+                <div className="shadow-2xl flex flex-col transition-all duration-300 font-datatype rounded-2xl overflow-hidden bg-black">
+                  <div className="w-full aspect-video overflow-hidden bg-black shadow-inner p-0 m-0">
                     <iframe
                       src="https://www.youtube.com/embed/LJbSpPJivuc?autoplay=1&mute=1&loop=1&playlist=LJbSpPJivuc"
                       title="Salgo Arriba — Alianza cultural con Radio en Casa"
@@ -2917,7 +2919,7 @@ export default function Page() {
                     />
                   </div>
 
-                  <div className="p-5 sm:p-8 space-y-4 bg-black border-t border-white/10">
+                  <div className="p-6 sm:p-8 space-y-4 bg-black">
                     <div className="h-14 sm:h-16 w-auto flex items-center justify-start">
                       <ImageWithPlaceholder
                         src="/images/programas/Salgo_Arriba_Logo_Radio_en_Casa.png"
@@ -2934,7 +2936,7 @@ export default function Page() {
                     <div className="pt-1">
                       <button
                         onClick={() => scrollToSection('comunidad')}
-                        className="w-full sm:w-auto inline-flex items-center gap-3.5 text-[#e3e3e3] hover:text-[#f74a35] font-bold text-sm sm:text-base border-l-4 border-[#f74a35] pl-4 pr-5 py-3 bg-[#121212]/90 hover:bg-[#1a1a1a] font-datatype leading-snug shadow-xl transition-all duration-300 cursor-pointer text-left no-underline"
+                        className="w-full sm:w-auto inline-flex items-center gap-3.5 text-[#e3e3e3] hover:text-[#f74a35] font-bold text-sm sm:text-base px-5 py-3.5 rounded-xl bg-[#161616] hover:bg-[#1e1e1e] font-datatype leading-snug shadow-xl transition-all duration-300 cursor-pointer text-left no-underline"
                       >
                         <img
                           src="/images/Radio_en_Casa_logo_REC.svg"
@@ -2948,7 +2950,7 @@ export default function Page() {
                       </button>
                     </div>
 
-                    <div className="pt-4 border-t border-[#5c5c5c]/40 flex flex-wrap items-center justify-between gap-2 font-mono text-xs sm:text-sm font-datatype">
+                    <div className="pt-4 flex flex-wrap items-center justify-between gap-2 font-mono text-xs sm:text-sm font-datatype">
                       <span className="text-[#f74a35] font-bold">@salgoarriba</span>
                       <a href="https://www.salgoarriba.com" target="_blank" rel="noopener noreferrer" className="inline-block relative bg-[#181818] text-[#e6e1d5] font-mono border-2 border-[#e6e1d5] border-b-[8px] px-4 py-2 text-xs font-bold tracking-[0.15em] text-left hover:bg-[#e6e1d5] hover:text-neutral-900 transition-all duration-200">
                         www.salgoarriba.com →
@@ -2973,7 +2975,7 @@ export default function Page() {
         >
           <div className="w-full max-w-[1100px] mx-auto space-y-8 px-0 sm:px-4 md:px-0 relative z-10 my-auto">
             <AnimateOnScroll duration={600} offset={25}>
-              <div className="space-y-3 font-datatype text-left bg-white/90 backdrop-blur-md p-4 sm:p-5 rounded-none border border-neutral-300/80 shadow-sm">
+              <div className="space-y-3 font-datatype text-left bg-white/90 backdrop-blur-md p-6 sm:p-7 rounded-2xl shadow-lg">
                 <TypewriterHeadingUnificado
                   text="RECONOCIMIENTOS"
                   seoLabel="Reconocimientos, Prensa y Trayectoria de Radio en Casa"
@@ -3011,7 +3013,7 @@ export default function Page() {
 
           <div className="w-full max-w-[1100px] mx-auto px-0 sm:px-4 md:px-0 space-y-6 sm:space-y-8 relative z-10">
             <AnimateOnScroll duration={750} offset={35}>
-              <div className="w-full bg-[#1e1e1e]/90 backdrop-blur-md p-6 sm:p-8 md:p-10 border border-[#5c5c5c]/60 shadow-xl font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed rounded-none">
+              <div className="w-full bg-[#1e1e1e]/90 backdrop-blur-md p-6 sm:p-8 md:p-10 shadow-xl font-datatype text-sm sm:text-base md:text-lg text-neutral-200 leading-relaxed rounded-2xl">
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
                   <div className="md:col-span-4 flex items-center justify-center p-2 min-h-[160px]">
                     <div
@@ -3042,7 +3044,7 @@ export default function Page() {
                       Este es nuestro tablero de anuncios, diario de viaje y cartelera comunitaria. Un lugar donde compartimos novedades, recomendaciones, lanzamientos, convocatorias y todo aquello que creemos que vale la pena descubrir.
                     </p>
 
-                    <p className="text-[#f74a35] font-bold border-t border-[#5c5c5c]/60 pt-3 font-datatype">
+                    <p className="text-[#f74a35] font-bold pt-2 font-datatype">
                       Porque una comunidad no se construye solamente grabando contenidos. También se construye compartiendo lo que nos entusiasma.
                     </p>
 
@@ -3079,7 +3081,7 @@ export default function Page() {
         >
           <div className="w-full relative left-0 right-0 top-0 mb-0 overflow-hidden z-10 py-0">
             <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 md:px-12 lg:px-0">
-              <div className="w-full h-auto sm:h-[48vh] sm:min-h-[320px] overflow-hidden bg-transparent border-0 shadow-none rounded-none">
+              <div className="w-full h-auto sm:h-[48vh] sm:min-h-[320px] overflow-hidden bg-transparent shadow-none rounded-b-2xl">
                 <img
                   src="/images/tienda/Radio_en_Casa_Header.png"
                   alt="Tienda oficial y merchandising de Radio en Casa"
@@ -3098,7 +3100,7 @@ export default function Page() {
 
           <div className="w-full max-w-[1100px] mx-auto space-y-6 sm:space-y-8 relative z-20 mt-4 sm:mt-6 px-4 sm:px-6 md:px-12 lg:px-0">
             <AnimateOnScroll delay={150} duration={600} offset={25}>
-              <div className="bg-[#121212]/95 backdrop-blur-md p-6 sm:p-8 md:p-10 border border-[#5c5c5c]/60 rounded-none shadow-2xl space-y-4 sm:space-y-6 font-datatype text-xs sm:text-sm md:text-base text-neutral-200 leading-relaxed">
+              <div className="bg-[#121212]/95 backdrop-blur-md p-6 sm:p-8 md:p-10 rounded-2xl shadow-2xl space-y-4 sm:space-y-6 font-datatype text-xs sm:text-sm md:text-base text-neutral-200 leading-relaxed">
                 <TypewriterHeadingUnificado
                   text="STORE"
                   seoLabel="Store Oficial y Merchandising de Radio en Casa"
@@ -3115,7 +3117,7 @@ export default function Page() {
                   <div className="space-y-3 font-datatype">
                     <button
                       onClick={() => scrollToSection('comunidad')}
-                      className="w-full inline-flex items-center gap-3.5 text-[#e3e3e3] hover:text-[#f74a35] font-bold text-sm sm:text-base border-l-4 border-[#f74a35] pl-4 pr-5 py-3 bg-[#181818]/90 hover:bg-[#1e1e1e] font-datatype leading-snug shadow-xl transition-all duration-300 cursor-pointer text-left no-underline"
+                      className="w-full inline-flex items-center gap-3.5 text-[#e3e3e3] hover:text-[#f74a35] font-bold text-sm sm:text-base px-5 py-3.5 rounded-xl bg-[#1a1a1a] hover:bg-[#222222] font-datatype leading-snug shadow-xl transition-all duration-300 cursor-pointer text-left no-underline"
                     >
                       <img
                         src="/images/Radio_en_Casa_logo_REC.svg"
@@ -3165,7 +3167,7 @@ export default function Page() {
             />
           </div>
 
-          <div className="w-full h-[320px] sm:h-[480px] bg-[#111111] border-b border-[#5c5c5c]/60 relative overflow-hidden group shadow-xl z-10">
+          <div className="w-full h-[320px] sm:h-[480px] bg-[#111111] relative overflow-hidden group shadow-xl z-10">
             <iframe
               title="Ubicación de Radio en Casa en Malabia 2134, Palermo Soho, Buenos Aires"
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.5826978182937!2d-58.4238515!3d-34.5893083!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb58097b6294b%3A0x6b453a2ef5638c4b!2sMalabia%202134%2C%20C1425EZD%20CABA%2C%20Argentina!5e0!3m2!1ses!2sar!4v1700000000000!5m2!1ses!2sar"
@@ -3176,7 +3178,7 @@ export default function Page() {
           </div>
 
           <div className="w-full max-w-[1100px] mx-auto space-y-6 mt-6 px-4 md:px-0 mb-0 pb-0 relative z-10">
-            <div className="w-full font-datatype text-left pb-6 border-b border-[#5c5c5c]/40 font-boldonse space-y-5 sm:space-y-6">
+            <div className="w-full font-datatype text-left pb-6 font-boldonse space-y-5 sm:space-y-6">
               <a
                 href="https://maps.google.com/?q=Malabia+2134,+CABA,+Argentina"
                 target="_blank"

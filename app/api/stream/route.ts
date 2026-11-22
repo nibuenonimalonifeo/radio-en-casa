@@ -9,7 +9,6 @@ function normalizeArtUrl(art?: unknown, title?: string): string {
   if (typeof art !== 'string') return FALLBACK_IMAGE;
   const trimmed = art.trim();
 
-  // Si Centova Cast devuelve su imagen genérica "nocover.png", usamos el logo de Radio en Casa
   if (!trimmed || trimmed.toLowerCase().includes('nocover.png')) {
     return FALLBACK_IMAGE;
   }
@@ -25,9 +24,8 @@ function normalizeArtUrl(art?: unknown, title?: string): string {
     fullUrl = `https://streaming01.shockmedia.com.ar/${trimmed}`;
   }
 
-  const separator = fullUrl.includes('?') ? '&' : '?';
   const cacheKey = encodeURIComponent(title || String(Date.now()));
-  return `${fullUrl}${separator}v=${cacheKey}`;
+  return `/api/stream/cover?url=${encodeURIComponent(fullUrl)}&v=${cacheKey}`;
 }
 
 export async function GET() {

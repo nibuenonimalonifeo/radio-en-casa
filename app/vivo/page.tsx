@@ -4,6 +4,29 @@ import { useEffect, useRef, useState, ReactNode } from 'react';
 import AnimatedLogo from '@/components/AnimatedLogo';
 import IframePlayer from '@/components/IframePlayer';
 
+// --- DECODIFICADOR DE ENTIDADES HTML (INCLUIDA DOBLE CODIFICACIÓN DE SUBSTACK) ---
+
+function decodeHtmlEntities(raw?: string): string {
+  if (!raw) return '';
+  const cleaned = raw.replace(/&+(&#[0-9]+;|&#x[0-9a-fA-F]+;|&[a-zA-Z]+;)/g, '$1');
+
+  if (typeof document !== 'undefined') {
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = cleaned;
+    return textarea.value;
+  }
+
+  return cleaned
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(Number(dec)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ');
+}
+
 // --- COMPONENTE AUXILIAR CON PLACEHOLDER REC ESTÁTICO ---
 
 function ImageWithPlaceholder({
@@ -100,55 +123,60 @@ function SubstackFanzineFeed() {
     <div className="w-full space-y-6 pt-4 font-datatype">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.length > 0 ? (
-          posts.map((post) => (
-            <a
-              key={post.id}
-              href={post.canonical_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group bg-[#1a1a1a] hover:bg-[#222222] rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 flex flex-col justify-between transform hover:-translate-y-1"
-            >
-              {post.cover_image ? (
-                <div className="w-full h-40 overflow-hidden bg-black/60 relative">
-                  <ImageWithPlaceholder
-                    src={post.cover_image}
-                    alt={`${post.title} — Fanzine Radio en Casa`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).style.display = 'none';
-                    }}
-                  />
-                  <div className="absolute top-2 right-2 bg-black/80 text-[#f74a35] text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase font-datatype z-20">
-                    {new Date(post.post_date).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' })}
+          posts.map((post) => {
+            const decodedTitle = decodeHtmlEntities(post.title);
+            const decodedSubtitle = decodeHtmlEntities(post.subtitle);
+
+            return (
+              <a
+                key={post.id}
+                href={post.canonical_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group bg-[#1a1a1a] hover:bg-[#222222] rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 flex flex-col justify-between transform hover:-translate-y-1"
+              >
+                {post.cover_image ? (
+                  <div className="w-full h-40 overflow-hidden bg-black/60 relative">
+                    <ImageWithPlaceholder
+                      src={post.cover_image}
+                      alt={`${decodedTitle} — Fanzine Radio en Casa`}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                    <div className="absolute top-2 right-2 bg-black/80 text-[#f74a35] text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase font-datatype z-20">
+                      {new Date(post.post_date).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' })}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="w-full h-24 bg-[#141414] flex items-center justify-start px-5 relative">
+                    <span className="text-[#f74a35] font-black text-xs uppercase tracking-widest font-datatype">
+                      RADIO EN CASA /// FANZINE
+                    </span>
+                  </div>
+                )}
+
+                <div className="p-5 flex-1 flex flex-col justify-between space-y-3 font-datatype">
+                  <div className="space-y-1.5">
+                    <h3 className="font-extrabold text-[#e3e3e3] text-base group-hover:text-[#f74a35] transition-colors leading-snug font-boldonse">
+                      {decodedTitle}
+                    </h3>
+                    {decodedSubtitle && (
+                      <p className="text-neutral-300 !text-[0.98rem] sm:!text-[0.875rem] line-clamp-3 leading-relaxed font-datatype">
+                        {decodedSubtitle}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="pt-2 flex items-center justify-between text-xs text-[#f74a35] font-bold uppercase tracking-wider font-datatype">
+                    <span>Leer publicación</span>
+                    <span className="transform group-hover:translate-x-1 transition-transform">→</span>
                   </div>
                 </div>
-              ) : (
-                <div className="w-full h-24 bg-[#141414] flex items-center justify-start px-5 relative">
-                  <span className="text-[#f74a35] font-black text-xs uppercase tracking-widest font-datatype">
-                    RADIO EN CASA /// FANZINE
-                  </span>
-                </div>
-              )}
-
-              <div className="p-5 flex-1 flex flex-col justify-between space-y-3 font-datatype">
-                <div className="space-y-1.5">
-                  <h3 className="font-extrabold text-[#e3e3e3] text-base group-hover:text-[#f74a35] transition-colors leading-snug font-boldonse">
-                    {post.title}
-                  </h3>
-                  {post.subtitle && (
-                    <p className="text-neutral-300 !text-[0.98rem] sm:!text-[0.875rem] line-clamp-3 leading-relaxed font-datatype">
-                      {post.subtitle}
-                    </p>
-                  )}
-                </div>
-
-                <div className="pt-2 flex items-center justify-between text-xs text-[#f74a35] font-bold uppercase tracking-wider font-datatype">
-                  <span>Leer publicación</span>
-                  <span className="transform group-hover:translate-x-1 transition-transform">→</span>
-                </div>
-              </div>
-            </a>
-          ))
+              </a>
+            );
+          })
         ) : (
           <div className="col-span-full bg-[#1a1a1a] p-8 rounded-2xl text-center space-y-4 font-datatype shadow-2xl">
             <p className="text-neutral-300 text-base font-datatype">

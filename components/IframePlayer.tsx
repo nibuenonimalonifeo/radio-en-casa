@@ -269,9 +269,11 @@ export default function IframePlayer({
             </svg>
 
             {/* FRANJA INFERIOR CON TEXTO EN 1 SOLA LÍNEA Y BOTÓN REDONDEADO */}
-            <div className="absolute inset-x-0 bottom-0 z-20 px-2.5 pt-5 pb-2.5 bg-gradient-to-t from-black/95 via-black/75 to-transparent flex items-center justify-between gap-2">
+            <div className="absolute inset-x-0 bottom-0 z-20 px-2.5 pt-5 pb-2.5 bg-gradient-to-t from-black/95 via-black/75 to-transparent flex items-end justify-between gap-2">
               <p className="!text-[13px] sm:!text-[14px] !leading-[1.15] text-[#e3e3e3] font-datatype font-normal uppercase tracking-tight m-0 text-left">
-                ¿QUERÉS SONAR EN ESTA CASA?
+                ¿QUERÉS SONAR
+                <br />
+                EN ESTA CASA?
               </p>
               <button
                 type="button"

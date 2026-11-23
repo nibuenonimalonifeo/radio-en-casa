@@ -4,6 +4,29 @@ import { useEffect, useRef, useState, ReactNode } from 'react';
 import AnimatedLogo from '@/components/AnimatedLogo';
 import IframePlayer from '@/components/IframePlayer';
 
+// --- DECODIFICADOR DE ENTIDADES HTML (INCLUIDA DOBLE CODIFICACIÓN DE SUBSTACK) ---
+
+function decodeHtmlEntities(raw?: string): string {
+  if (!raw) return '';
+  const cleaned = raw.replace(/&+(&#[0-9]+;|&#x[0-9a-fA-F]+;|&[a-zA-Z]+;)/g, '$1');
+
+  if (typeof document !== 'undefined') {
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = cleaned;
+    return textarea.value;
+  }
+
+  return cleaned
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(Number(dec)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ');
+}
+
 // --- COMPONENTE AUXILIAR CON PLACEHOLDER REC ESTÁTICO ---
 
 function ImageWithPlaceholder({
@@ -100,55 +123,60 @@ function SubstackFanzineFeed() {
     <div className="w-full space-y-6 pt-4 font-datatype">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.length > 0 ? (
-          posts.map((post) => (
-            <a
-              key={post.id}
-              href={post.canonical_url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group bg-[#1a1a1a] hover:bg-[#222222] rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 flex flex-col justify-between transform hover:-translate-y-1"
-            >
-              {post.cover_image ? (
-                <div className="w-full h-40 overflow-hidden bg-black/60 relative">
-                  <ImageWithPlaceholder
-                    src={post.cover_image}
-                    alt={`${post.title} — Fanzine Radio en Casa`}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).style.display = 'none';
-                    }}
-                  />
-                  <div className="absolute top-2 right-2 bg-black/80 text-[#f74a35] text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase font-datatype z-20">
-                    {new Date(post.post_date).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' })}
+          posts.map((post) => {
+            const decodedTitle = decodeHtmlEntities(post.title);
+            const decodedSubtitle = decodeHtmlEntities(post.subtitle);
+
+            return (
+              <a
+                key={post.id}
+                href={post.canonical_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group bg-[#1a1a1a] hover:bg-[#222222] rounded-2xl overflow-hidden shadow-2xl transition-all duration-300 flex flex-col justify-between transform hover:-translate-y-1"
+              >
+                {post.cover_image ? (
+                  <div className="w-full h-40 overflow-hidden bg-black/60 relative">
+                    <ImageWithPlaceholder
+                      src={post.cover_image}
+                      alt={`${decodedTitle} — Fanzine Radio en Casa`}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                    <div className="absolute top-2 right-2 bg-black/80 text-[#f74a35] text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase font-datatype z-20">
+                      {new Date(post.post_date).toLocaleDateString('es-AR', { day: '2-digit', month: '2-digit' })}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="w-full h-24 bg-[#141414] flex items-center justify-start px-5 relative">
+                    <span className="text-[#f74a35] font-black text-xs uppercase tracking-widest font-datatype">
+                      RADIO EN CASA /// FANZINE
+                    </span>
+                  </div>
+                )}
+
+                <div className="p-5 flex-1 flex flex-col justify-between space-y-3 font-datatype">
+                  <div className="space-y-1.5">
+                    <h3 className="font-extrabold text-[#e3e3e3] text-base group-hover:text-[#f74a35] transition-colors leading-snug font-boldonse">
+                      {decodedTitle}
+                    </h3>
+                    {decodedSubtitle && (
+                      <p className="text-neutral-300 !text-[0.98rem] sm:!text-[0.875rem] line-clamp-3 leading-relaxed font-datatype">
+                        {decodedSubtitle}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="pt-2 flex items-center justify-between text-xs text-[#f74a35] font-bold uppercase tracking-wider font-datatype">
+                    <span>Leer publicación</span>
+                    <span className="transform group-hover:translate-x-1 transition-transform">→</span>
                   </div>
                 </div>
-              ) : (
-                <div className="w-full h-24 bg-[#141414] flex items-center justify-start px-5 relative">
-                  <span className="text-[#f74a35] font-black text-xs uppercase tracking-widest font-datatype">
-                    RADIO EN CASA /// FANZINE
-                  </span>
-                </div>
-              )}
-
-              <div className="p-5 flex-1 flex flex-col justify-between space-y-3 font-datatype">
-                <div className="space-y-1.5">
-                  <h3 className="font-extrabold text-[#e3e3e3] text-base group-hover:text-[#f74a35] transition-colors leading-snug font-boldonse">
-                    {post.title}
-                  </h3>
-                  {post.subtitle && (
-                    <p className="text-neutral-300 !text-[0.98rem] sm:!text-[0.875rem] line-clamp-3 leading-relaxed font-datatype">
-                      {post.subtitle}
-                    </p>
-                  )}
-                </div>
-
-                <div className="pt-2 flex items-center justify-between text-xs text-[#f74a35] font-bold uppercase tracking-wider font-datatype">
-                  <span>Leer publicación</span>
-                  <span className="transform group-hover:translate-x-1 transition-transform">→</span>
-                </div>
-              </div>
-            </a>
-          ))
+              </a>
+            );
+          })
         ) : (
           <div className="col-span-full bg-[#1a1a1a] p-8 rounded-2xl text-center space-y-4 font-datatype shadow-2xl">
             <p className="text-neutral-300 text-base font-datatype">
@@ -554,6 +582,19 @@ function Recognitions3Columns({ items }: { items: typeof recognitionsData }) {
                 )}
               </div>
 
+              {item.videoId && (
+                <div className="w-full aspect-video rounded-xl overflow-hidden bg-black shadow-md">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${item.videoId}`}
+                    title={item.title}
+                    className="w-full h-full border-0 block"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    loading="lazy"
+                  />
+                </div>
+              )}
+
               <h3 className="text-lg sm:text-xl font-extrabold text-neutral-900 font-boldonse leading-snug">
                 {item.title}
               </h3>
@@ -816,14 +857,23 @@ const membershipsData = [
   },
 ];
 
-const recognitionsData = [
+const recognitionsData: Array<{
+  id: string;
+  year: string;
+  media: string;
+  title: string;
+  desc: string;
+  link: string | null;
+  videoId?: string;
+}> = [
   {
     id: '09',
     year: '2026',
     media: 'Diario MDZ',
     title: 'John Buis: "La profundidad en 119 minutos"',
     desc: 'Entrevista sobre la vigencia del formato largo frente al consumo efímero de redes sociales.',
-    link: 'https://www.mdzol.com/sociedad/john-buis-la-profundidad-no-esta-lo-que-viste-los-primeros-dos-segundos-sino-los-119-minutos-que-no-entran-un-reel-n1562006'
+    link: 'https://www.mdzol.com/sociedad/john-buis-la-profundidad-no-esta-lo-que-viste-los-primeros-dos-segundos-sino-los-119-minutos-que-no-entran-un-reel-n1562006',
+    videoId: '3wgtUYoqhDA',
   },
   {
     id: '08',
@@ -831,7 +881,7 @@ const recognitionsData = [
     media: 'Universidad de San Isidro / Buena Cosecha',
     title: 'Festival ReSuena & Libro "Oficios Varios"',
     desc: 'Convocatoria al Panel Nacional de Podcast y publicación del relato "Trabajar y vivir en Radio en Casa".',
-    link: 'https://buenacosechaeditora.mitiendanube.com/productos/oficios-varios-e4tal/'
+    link: 'https://buenacosechaeditora.mitiendanube.com/productos/oficios-varios-e4tal/',
   },
   {
     id: '07',
@@ -839,7 +889,7 @@ const recognitionsData = [
     media: 'Premio Internacional Poldy Bird',
     title: 'Medalla de Condecoración',
     desc: 'Reconocimiento a la trayectoria por la contribución e innovación continua en los medios radiales.',
-    link: null
+    link: null,
   },
   {
     id: '06',
@@ -847,7 +897,7 @@ const recognitionsData = [
     media: 'Editorial Galerna',
     title: 'Libro "Hacer radio hoy"',
     desc: 'Participación especial con testimonio de gestión en la obra de Mario Portugal y Héctor Yudchak.',
-    link: 'https://www.google.com.ar/books/edition/Hacer_radio_hoy/UuwgEAAAQBAJ?hl=es-419&gbpv=0'
+    link: 'https://www.google.com.ar/books/edition/Hacer_radio_hoy/UuwgEAAAQBAJ?hl=es-419&gbpv=0',
   },
   {
     id: '05',
@@ -855,7 +905,7 @@ const recognitionsData = [
     media: 'UADE',
     title: 'Nuevos formatos de comunicación',
     desc: 'Conferencia universitaria sobre la transformación del audio analógico a streaming y podcast.',
-    link: 'https://www.youtube.com/watch?v=KwANj0JPNQc'
+    link: 'https://www.youtube.com/watch?v=KwANj0JPNQc',
   },
   {
     id: '04',
@@ -863,7 +913,7 @@ const recognitionsData = [
     media: 'UCA (Radiofónicos)',
     title: 'Programa Browser',
     desc: 'Mesa de debate sobre las nuevas plataformas de contenidos sonoros e identidad independiente.',
-    link: 'https://www.facebook.com/watch/live/?ref=watch_permalink&v=794138124291700'
+    link: 'https://www.facebook.com/watch/live/?ref=watch_permalink&v=794138124291700',
   },
   {
     id: '03',
@@ -871,7 +921,7 @@ const recognitionsData = [
     media: 'Percha Mag',
     title: 'Entrevista a fondo',
     desc: 'Nota de cobertura cultural sobre el fenómeno independiente y la comunidad de creadores del estudio.',
-    link: 'http://www.perchamag.com.ar/'
+    link: 'http://www.perchamag.com.ar/',
   },
   {
     id: '02',
@@ -879,7 +929,7 @@ const recognitionsData = [
     media: 'Escuela de Comunicación (ETER)',
     title: 'Experiencia y pasión por la radio',
     desc: 'Entrevista académica sobre la fundación, modelo de trabajo e innovación tecnológica en Radio en Casa.',
-    link: 'https://eter.edu.ar/pasa-en-eter/mas-experiencias-y-mas-ganas-de-hacer-radio'
+    link: 'https://eter.edu.ar/pasa-en-eter/mas-experiencias-y-mas-ganas-de-hacer-radio',
   },
   {
     id: '01',
@@ -887,8 +937,8 @@ const recognitionsData = [
     media: 'Infobae',
     title: 'Una visita a la fábrica de podcasts más grande de Argentina',
     desc: 'Informe especial sobre el rol pionero de Radio en Casa como hub de producción de audio digital.',
-    link: 'https://www.infobae.com/tendencias/2017/09/19/una-visita-a-la-fabrica-de-podcasts-mas-grande-de-argentina/'
-  }
+    link: 'https://www.infobae.com/tendencias/2017/09/19/una-visita-a-la-fabrica-de-podcasts-mas-grande-de-argentina/',
+  },
 ];
 
 const rawArchiveTextHTML = `<strong class="font-extrabold text-[#f74a35]">70/30</strong> · 4ta Nota · Acabar · Aguante comiquero · Al demonio con el diablo · Alfred Pennyworth Presenta · Argentina Inglaterra 1986 · Arrodillate y pedime perdón · A ser · Así pega · Batalla cultural · Beyond deadlines · Birra en casa · Boomerang 2.0 · Bruja moderna · Buen día banda · Cada una · Café con java · Café con psicoanálisis · Café fandango · Campos imaginarios · Casi Famosas · Catástrofes cotidianas · <strong class="font-extrabold text-[#f74a35]">Centro Simon Wiesenthal</strong> · Charlas en el camino · Charlas entre almas · Checa en la radio · Cine ersátil y más · <strong class="font-extrabold text-[#f74a35]">Comadre</strong> · Comedia · Cómo hacíamos sin vos · Compañero de ruta · <strong class="font-extrabold text-[#f74a35]">Concha Podcast</strong> · Con eso no se jode · Copa o gulag · Corre Forest · Corazonada · Cosa rara · Cryptomate · Debe haber algo mejor · Datamundi · Debe haber algo mejor · Demasiados libros · Detrás del algoritmo · Disneycast · <strong class="font-extrabold text-[#f74a35]">Divorciadas</strong> · Don borbotón · <strong class="font-extrabold text-[#f74a35]">Dot Hotels</strong> · Dos amigos hablando de musicales · Ecos · Efecto placebo · El amor después · El camino del héroe · El camino es hacia adentro · El Deseo de Pandora · Electrocíclicas · El fin del mundo · El Gourmet: 20 años siendo parte de tu vida · El gran podcast ilustrado · El grupo de los miércoles · <strong class="font-extrabold text-[#f74a35]">El navío azul</strong> · El pasaje · El podcast de Chequeado · El poder de NosOtras · El probador · El refugio · <strong class="font-extrabold text-[#f74a35]">Encendidas</strong> · Entre caníbales · Entre sabanas y diván · Eso que te mueve · Épico y bizarro · Es una trampa · Esto con Nat no pasaba · Euphoria: El Podcast · Expediente abierto · F5 Minds · Familia tipo · Feria americana · Familia Baredes · Filtrado · Filosa y jugosa · Filosos · Filtrado · Final del juego · Fomo · Formula Fan · Futuro abierto · Garys Road · Gatocracia · Geeky legal · Generación Y · Gente de mierd · Gorda podcast · Guía de supervivencia · Hablemos de música · Happening · Happy Hour · Hasta acá llegamos · Hasta la vista · #hellobaires · His Dark Materials: El Podcast · Hodor Hodor Hodor · Hotel, dulce hotel · <strong class="font-extrabold text-[#f74a35]">Hoy trasnoche</strong> · Humanos · Humanos y Robots · <strong class="font-extrabold text-[#f74a35]">Hundido</strong> · Hypeados · Inprevia · Intensos · Ir a más · Jaula de negocios · Juego interior · Juro que es Posta · Justo en el centro · La bruja y el cura · La chica de rulos · La crisis del amor · Lag mental · La gota · La hora Secretum · La papa · La podcast · La previa en casa · <strong class="font-extrabold text-[#f74a35]">La radio MAK</strong> · La runfla · La scaloneta · La trama · La vida después de · La vuelta · Lettera 22 · Libre de Gluten · Linaje de brujas · Lineas paralelas · <strong class="font-extrabold text-[#f74a35]">Locos & Bohemios</strong> · Los animales no se aburren · Los de afuera son de palo · Lucía y sus gemelas · Lupulados · Made in casa · Malas y Santas · Mas 54 radio · Más cerca del cielo · Mas rebeldes · Mega Viajeros Adventure · Mejor país del mundo · Mercurias · Misión presidencial · Modo positivo · <strong class="font-extrabold text-[#f74a35]">Mondongo, el décimo arte</strong> · Mujeres extraordinarias · Mujeres soberanas · Mujeres teníamos que ser · Multicast · Mundo Vice · Mypod · <strong class="font-extrabold text-[#f74a35]">Nerdearla</strong> · Nenes de mamá · Niños indigo · No era el plan · No es lo que parece · No hay apuro · No hay backup · No me olvidé de vos · Nos tapó el agua · <strong class="font-extrabold text-[#f74a35]">Notirey</strong> · No todo está perdido · Nunca ames a nadie · Off the record · Omitir intro · On the road · Opiniones memeticas · Pata de lana · Pausa Podcast · Pedí delivery · Pendejos madurando · Pernocte · <strong class="font-extrabold text-[#f74a35]">Pica en Punta</strong> · Pila de libros · Pip podcast · Placeres violentos · Planeta 57 · Podcast 934 · Podcast al 13013 · Podcasteros del zodíaco · Podestodo · Podkas · Polémica en /VAR · Ponele · Por un puñado de dólares · <strong class="font-extrabold text-[#f74a35]">Quemar un Patrullero</strong> · ¿Qué pasa? · Radio Guachafa · Radio La Flor · Rapidas y Furiosas · Rayuela · Realidad morosa · Remodelatour · <strong class="font-extrabold text-[#f74a35]">Rompiendo la 4ta pared</strong> · Sana · Secuencia modulada · Sendero · <strong class="font-extrabold text-[#f74a35]">Seremos Historia</strong> · Servicio Completo · Shakshuka · Shelter · Shot de Tania · Sin barbijo · Sin dimensión · Sin filtro · <strong class="font-extrabold text-[#f74a35]">Skyvan</strong> · Soltate el pelo · Somos FE · Somos novios · Subite al pony · Sumar inversión · Swingirls · <strong class="font-extrabold text-[#f74a35]">Sys Army</strong> · Tecla cualquiera · Te cuento lo que veo · Tematizados · Territorio · Te sigo desde memento · The 8 agency · The Rebuild · Tiempo para más · Tiktalks · Todo es fake · Todo sobre la mesa · Tradición y futuro · Tradoctas · Tres pibas · Tripulación Atucha · Tu pregunta no molesta · Universo de posibilidades · Un mixtape · <strong class="font-extrabold text-[#f74a35]">Un nuevo match</strong> · UPS · Urocast · Vale 4 · Vidas paralelas · Vivir Mashiaj · Volver al cine · Wachas · Watchmen: El Podcast · <strong class="font-extrabold text-[#f74a35]">Who you are</strong> · Yonki · Y parió la abuela!`;
@@ -903,7 +953,7 @@ const menuItems = [
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
         <path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z" />
       </svg>
-    )
+    ),
   },
   {
     id: 'filosofia',
@@ -912,7 +962,7 @@ const menuItems = [
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
         <path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 21l3.52-.93C9.33 20.67 10.63 21 12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm0 15c-1.25 0-2.45-.31-3.53-.87l-.25-.13-2.1.55.56-2.05-.16-.26C5.96 14.16 5.5 12.87 5.5 12c0-3.58 2.92-6.5 6.5-6.5s6.5 2.92 6.5 6.5-2.92 6.5-6.5 6.5z" />
       </svg>
-    )
+    ),
   },
   {
     id: 'servicios',
@@ -921,7 +971,7 @@ const menuItems = [
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
         <path d="M12 1c-4.97 0-9 4.03-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7c0-4.97-4.03-9-9-9z" />
       </svg>
-    )
+    ),
   },
   {
     id: 'archivo',
@@ -930,7 +980,7 @@ const menuItems = [
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
         <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
       </svg>
-    )
+    ),
   },
   {
     id: 'comunidad',
@@ -939,7 +989,7 @@ const menuItems = [
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
         <path d="M16.5 13c-1.2 0-3.07.34-4.24 1-1.17-.66-3.04-1-4.26-1C6.2 13 2 13.9 2 15.5V18h18v-2.5c0-1.6-4.2-2.5-5.5-2.5zM6 11c1.66 0 3-1.34 3-3S7.66 5 6 5 3 6.34 3 8s1.34 3 3 3zm12 0c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3z" />
       </svg>
-    )
+    ),
   },
   {
     id: 'alianzas',
@@ -949,7 +999,7 @@ const menuItems = [
         <circle cx="9" cy="12" r="6" />
         <circle cx="15" cy="12" r="6" />
       </svg>
-    )
+    ),
   },
   {
     id: 'reconocimientos',
@@ -958,7 +1008,7 @@ const menuItems = [
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
         <path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 15.9V18H8v2h8v-2h-3v-2.1c1.92-.45 3.38-1.95 3.61-3.96C19.08 11.63 21 9.55 21 7V6c0-1.1-.9-1-2-1zM5 8V7h2v3.82C5.84 10.4 5 9.3 5 8zm14 0c0 1.3-.84 2.4-2 2.82V7h2v1z" />
       </svg>
-    )
+    ),
   },
   {
     id: 'fanzine',
@@ -967,7 +1017,7 @@ const menuItems = [
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
         <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c-1.1-.9-2-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
       </svg>
-    )
+    ),
   },
   {
     id: 'store',
@@ -976,7 +1026,7 @@ const menuItems = [
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
         <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
       </svg>
-    )
+    ),
   },
   {
     id: 'contacto',
@@ -985,7 +1035,7 @@ const menuItems = [
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
       </svg>
-    )
+    ),
   },
 ];
 
@@ -1013,7 +1063,7 @@ const socialMenuItems = [
       <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
       </svg>
-    )
+    ),
   },
   {
     label: 'Facebook',
@@ -1023,7 +1073,7 @@ const socialMenuItems = [
       <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
         <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z" />
       </svg>
-    )
+    ),
   },
   {
     label: 'X (Twitter)',
@@ -1033,7 +1083,7 @@ const socialMenuItems = [
       <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
         <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
       </svg>
-    )
+    ),
   },
   {
     label: 'TikTok',
@@ -1043,7 +1093,7 @@ const socialMenuItems = [
       <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
         <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
       </svg>
-    )
+    ),
   },
   {
     label: 'YouTube',
@@ -1053,7 +1103,7 @@ const socialMenuItems = [
       <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
         <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
       </svg>
-    )
+    ),
   },
   {
     label: 'Twitch',
@@ -1063,7 +1113,7 @@ const socialMenuItems = [
       <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
         <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714Z" />
       </svg>
-    )
+    ),
   },
   {
     label: 'LinkedIn',
@@ -1073,7 +1123,7 @@ const socialMenuItems = [
       <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
         <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z" />
       </svg>
-    )
+    ),
   },
   {
     label: 'WhatsApp',
@@ -1083,8 +1133,8 @@ const socialMenuItems = [
       <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
         <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.296-.883-.646-1.479-1.446-1.652-1.743-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
       </svg>
-    )
-  }
+    ),
+  },
 ];
 
 export default function AlternativaPage() {
@@ -3073,7 +3123,7 @@ export default function AlternativaPage() {
         <section
           ref={storeRef}
           id="store"
-          className="flex w-full min-h-screen relative overflow-hidden text-[#ececec] pt-0 pb-24 sm:pb-32 flex-col justify-between items-center bg-repeat-y bg-top lg:bg-cover lg:bg-center"
+          className="flex w-full min-h-screen relative overflow-hidden text-[#ececec] pt-16 sm:pt-24 pb-24 sm:pb-32 flex-col justify-between items-center bg-repeat-y bg-top lg:bg-cover lg:bg-center"
           style={{
             backgroundImage: `url('/images/reconocimientos/Radio_en_Casa_Background_Reconocimientos.png')`,
             backgroundSize: isMobileView ? '100% auto' : 'cover',
@@ -3081,12 +3131,12 @@ export default function AlternativaPage() {
         >
           <div className="w-full relative left-0 right-0 top-0 mb-0 overflow-hidden z-10 py-0">
             <div className="w-full max-w-[1100px] mx-auto px-4 sm:px-6 md:px-12 lg:px-0">
-              <div className="w-full h-auto sm:h-[48vh] sm:min-h-[320px] overflow-hidden bg-transparent shadow-none rounded-b-2xl">
+              <div className="w-full h-auto sm:h-[48vh] sm:min-h-[320px] overflow-hidden bg-transparent shadow-2xl rounded-2xl">
                 <img
                   src="/images/tienda/Radio_en_Casa_Header.png"
                   alt="Tienda oficial y merchandising de Radio en Casa"
                   loading="eager"
-                  className="w-full h-auto sm:h-full object-contain sm:object-cover object-center filter brightness-95 block"
+                  className="w-full h-auto sm:h-full object-contain sm:object-cover object-center filter brightness-95 block rounded-2xl"
                   onError={(e) => {
                     const img = e.currentTarget as HTMLImageElement;
                     if (!img.src.includes('Radio_en_Casa_Header_01.png')) {

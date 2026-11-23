@@ -268,17 +268,15 @@ export default function IframePlayer({
               </g>
             </svg>
 
-            {/* FRANJA INFERIOR CON TEXTO Y BOTÓN REDONDEADO */}
-            <div className="absolute inset-x-0 bottom-0 z-20 px-3 pt-5 pb-2.5 bg-gradient-to-t from-black/95 via-black/75 to-transparent flex items-end justify-between gap-2">
-              <p className="!text-[9.5px] !leading-[1.3] text-[#e3e3e3] font-datatype font-normal uppercase tracking-tight m-0 text-left">
-                ¿QUERÉS SONAR
-                <br />
-                EN ESTA CASA?
+            {/* FRANJA INFERIOR CON TEXTO EN 1 SOLA LÍNEA Y BOTÓN REDONDEADO */}
+            <div className="absolute inset-x-0 bottom-0 z-20 px-2.5 pt-5 pb-2.5 bg-gradient-to-t from-black/95 via-black/75 to-transparent flex items-center justify-between gap-1.5">
+              <p className="!text-[8.5px] !leading-none text-[#e3e3e3] font-datatype font-normal uppercase tracking-tight m-0 text-left whitespace-nowrap">
+                ¿QUERÉS SONAR EN ESTA CASA?
               </p>
               <button
                 type="button"
                 onClick={handleGoToContacto}
-                className="flex-shrink-0 bg-[#242424] hover:bg-[#f74a35] text-[#f74a35] hover:text-white rounded-full px-3 py-1 !text-[9.5px] font-normal uppercase tracking-wider font-datatype cursor-pointer transition-colors shadow-md"
+                className="flex-shrink-0 bg-[#242424] hover:bg-[#f74a35] text-[#f74a35] hover:text-white rounded-full px-2.5 py-1 !text-[8.5px] font-normal uppercase tracking-wider font-datatype cursor-pointer transition-colors shadow-md leading-none"
               >
                 ESCRIBINOS
               </button>

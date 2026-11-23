@@ -55,12 +55,10 @@ export default function IframePlayer({
     return () => clearInterval(interval);
   }, []);
 
-  // Resetea el estado de error cada vez que llega una nueva URL de portada desde data.art
   useEffect(() => {
     setImgError(false);
   }, [activeCover]);
 
-  // Registrar MediaSession para evitar que el navegador congele el audio al cambiar de pestaña
   useEffect(() => {
     if ('mediaSession' in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({
@@ -124,6 +122,15 @@ export default function IframePlayer({
     }
   };
 
+  const handleGoToContacto = () => {
+    const contactoEl = document.getElementById('contacto');
+    if (contactoEl) {
+      contactoEl.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.location.href = '/#contacto';
+    }
+  };
+
   const isFallback = imgError || activeCover === FALLBACK_COVER;
 
   return (
@@ -133,6 +140,21 @@ export default function IframePlayer({
       }`}
       style={{ maxWidth: `${width}px` }}
     >
+      <style jsx>{`
+        @keyframes vinylSpin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+        .animate-vinyl-loop {
+          animation: vinylSpin 5.5s linear infinite;
+          transform-origin: 96px 76px;
+        }
+      `}</style>
+
       <audio
         ref={audioRef}
         id="radio-audio-element"
@@ -152,23 +174,136 @@ export default function IframePlayer({
         }}
       />
 
-      {/* PORTADA EN GRANDE OCUPANDO EL ANCHO DEL MÓDULO */}
-      <div className="w-full h-44 bg-black/90 overflow-hidden relative flex-shrink-0 flex items-center justify-center rounded-xl">
-        <img
-          src={imgError ? FALLBACK_COVER : activeCover}
-          alt={streamInfo.nowPlaying || 'Tapa del tema en vivo'}
-          className={
-            isFallback
-              ? 'w-24 h-24 object-contain filter invert brightness-95 opacity-90'
-              : 'w-full h-full object-cover'
-          }
-          onError={() => setImgError(true)}
-        />
+      {/* PORTADA / BANDEJA GIRADISCOS FLAT CON LOGO EN MÁSCARA CIRCULAR */}
+      <div className="w-full h-44 bg-[#181818] overflow-hidden relative flex-shrink-0 flex items-center justify-center rounded-xl">
+        {isFallback ? (
+          <div className="w-full h-full relative select-none overflow-hidden">
+            <svg
+              viewBox="0 0 240 168"
+              preserveAspectRatio="xMidYMid slice"
+              className="w-full h-full block"
+              role="img"
+              aria-label="Bandeja de vinilo girando - Radio en Casa"
+            >
+              <defs>
+                <clipPath id="vinyl-center-label-mask">
+                  <circle cx="96" cy="76" r="22" />
+                </clipPath>
+              </defs>
 
-        {isPlaying && (
-          <div className="absolute top-2 left-2 bg-[#f74a35] text-white text-[8px] font-bold px-2 py-0.5 uppercase tracking-wider animate-pulse font-datatype z-10 shadow-md rounded-full">
-            LIVE
+              {/* Detalles mínimos de la bandeja */}
+              <circle cx="24" cy="24" r="3.5" fill="#f74a35" />
+              <rect x="34" y="22.5" width="12" height="3" rx="1.5" fill="#2c2c2c" />
+
+              {/* Plato metálico */}
+              <circle cx="96" cy="76" r="68" fill="#222222" />
+
+              {/* Disco de vinilo girando en loop */}
+              <g className="animate-vinyl-loop">
+                <circle cx="96" cy="76" r="64" fill="#090909" />
+
+                {/* Surcos concéntricos flat */}
+                <circle cx="96" cy="76" r="56" fill="none" stroke="#181818" strokeWidth="1" />
+                <circle cx="96" cy="76" r="48" fill="none" stroke="#151515" strokeWidth="1" />
+                <circle cx="96" cy="76" r="40" fill="none" stroke="#181818" strokeWidth="1" />
+                <circle cx="96" cy="76" r="32" fill="none" stroke="#151515" strokeWidth="1" />
+
+                {/* Reflejos diagonales flat */}
+                <path
+                  d="M 96 12 A 64 64 0 0 1 151.4 44 L 118.2 63.2 A 25.6 25.6 0 0 0 96 50.4 Z"
+                  fill="#ffffff"
+                  opacity="0.065"
+                />
+                <path
+                  d="M 96 140 A 64 64 0 0 1 40.6 108 L 73.8 88.8 A 25.6 25.6 0 0 0 96 101.6 Z"
+                  fill="#ffffff"
+                  opacity="0.065"
+                />
+
+                {/* Galleta central roja con el logo REC dentro de una máscara redonda */}
+                <g clipPath="url(#vinyl-center-label-mask)">
+                  <circle cx="96" cy="76" r="22" fill="#f74a35" />
+                  <g transform="translate(96, 76) scale(1.12)">
+                    {/* Marco exterior C */}
+                    <path
+                      d="M -11 -7 C -11 -11.5, -7.5 -12, -4 -12 L 8 -12 C 11 -12, 12 -11, 12 -8 L 12 -2 L 5.5 -2 L 5.5 -6 C 5.5 -7, 4.5 -7.5, 2.5 -7.5 L -3 -7.5 C -5 -7.5, -5.5 -7, -5.5 -4.5 L -5.5 4.5 C -5.5 7, -5 7.5, -3 7.5 L 2.5 7.5 C 4.5 7.5, 5.5 7, 5.5 6 L 5.5 2 L 12 2 L 12 8 C 12 11, 11 12, 8 12 L -4.5 12 L -7 9.2 L -7 12 C -10.5 12, -11 10.5, -11 7 Z"
+                      fill="#e3e3e3"
+                    />
+                    {/* R interior */}
+                    <path
+                      d="M -4.2 -3.8 L 3 -3.8 C 5.6 -3.8, 6.6 -3.1, 6.6 -1.1 L 6.6 0.6 C 6.6 2.2, 5.5 2.9, 3.2 2.9 L 0.2 2.9 L 0.2 6 L -4.2 6 Z"
+                      fill="#e3e3e3"
+                    />
+                    {/* Hueco interno de la R */}
+                    <rect x="-0.5" y="-1.3" width="3.2" height="1.9" fill="#f74a35" />
+                    {/* Pata diagonal de la R */}
+                    <path d="M 1 2.2 L 4.2 2.2 L 7 6 L 3.4 6 Z" fill="#e3e3e3" />
+                  </g>
+                </g>
+              </g>
+
+              {/* Eje central fijo */}
+              <circle cx="96" cy="76" r="4" fill="#ececec" />
+              <circle cx="96" cy="76" r="1.5" fill="#121212" />
+
+              {/* Brazo fonocaptor geométrico flat */}
+              <g
+                style={{
+                  transformOrigin: '198px 34px',
+                  transform: isPlaying ? 'rotate(0deg)' : 'rotate(-16deg)',
+                  transition: 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)',
+                }}
+              >
+                <circle cx="198" cy="34" r="13" fill="#232323" />
+                <circle cx="198" cy="34" r="7" fill="#323232" />
+                <rect
+                  x="201"
+                  y="17"
+                  width="11"
+                  height="13"
+                  rx="2.5"
+                  transform="rotate(28 198 34)"
+                  fill="#3e3e3e"
+                />
+                <path
+                  d="M 198 34 L 180 78 L 158 100"
+                  fill="none"
+                  stroke="#dcdcdc"
+                  strokeWidth="3.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <g transform="translate(158, 100) rotate(44)">
+                  <rect x="-4" y="-2.5" width="8" height="14" rx="2" fill="#f74a35" />
+                  <rect x="-2.2" y="9.5" width="4.4" height="3.5" rx="1" fill="#ececec" />
+                </g>
+              </g>
+            </svg>
+
+            {/* FRANJA INFERIOR CON TEXTO Y BOTÓN REDONDEADO */}
+            <div className="absolute inset-x-0 bottom-0 z-20 px-3 pt-5 pb-2.5 bg-gradient-to-t from-black/95 via-black/75 to-transparent flex items-end justify-between gap-2">
+              <p className="!text-[9.5px] !leading-[1.3] text-[#e3e3e3] font-datatype font-normal uppercase tracking-tight m-0 text-left">
+                ¿QUERÉS SONAR
+                <br />
+                EN ESTA CASA?
+              </p>
+              <button
+                type="button"
+                onClick={handleGoToContacto}
+                className="flex-shrink-0 bg-[#242424] hover:bg-[#f74a35] text-[#f74a35] hover:text-white rounded-full px-3 py-1 !text-[9.5px] font-normal uppercase tracking-wider font-datatype cursor-pointer transition-colors shadow-md"
+              >
+                ESCRIBINOS
+              </button>
+            </div>
           </div>
+        ) : (
+          <img
+            key={activeCover}
+            src={activeCover}
+            alt={streamInfo.nowPlaying || 'Tapa del tema en vivo'}
+            className="w-full h-full object-cover"
+            onError={() => setImgError(true)}
+          />
         )}
       </div>
 

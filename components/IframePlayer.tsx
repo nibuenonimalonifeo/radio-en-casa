@@ -270,13 +270,13 @@ export default function IframePlayer({
 
             {/* FRANJA INFERIOR CON TEXTO EN 1 SOLA LÍNEA Y BOTÓN REDONDEADO */}
             <div className="absolute inset-x-0 bottom-0 z-20 px-2.5 pt-5 pb-2.5 bg-gradient-to-t from-black/95 via-black/75 to-transparent flex items-center justify-between gap-2">
-              <p className="!text-[10.5px] !leading-none text-[#e3e3e3] font-datatype font-normal uppercase tracking-tight m-0 text-left whitespace-nowrap">
+              <p className="!text-[13px] sm:!text-[14px] !leading-[1.15] text-[#e3e3e3] font-datatype font-normal uppercase tracking-tight m-0 text-left">
                 ¿QUERÉS SONAR EN ESTA CASA?
               </p>
               <button
                 type="button"
                 onClick={handleGoToContacto}
-                className="flex-shrink-0 bg-[#242424] hover:bg-[#f74a35] text-[#f74a35] hover:text-white rounded-full px-2.5 py-1.5 !text-[10.5px] font-normal uppercase tracking-wider font-datatype cursor-pointer transition-colors shadow-md leading-none"
+                className="flex-shrink-0 bg-[#242424] hover:bg-[#f74a35] text-[#f74a35] hover:text-white rounded-full px-3 py-1.5 !text-[13px] sm:!text-[14px] font-normal uppercase tracking-wider font-datatype cursor-pointer transition-colors shadow-md leading-none"
               >
                 ESCRIBINOS
               </button>

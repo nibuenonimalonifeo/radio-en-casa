@@ -174,7 +174,7 @@ export default function IframePlayer({
         }}
       />
 
-      {/* PORTADA / BANDEJA GIRADISCOS FLAT CON LOGO EN MÁSCARA CIRCULAR */}
+      {/* PORTADA / BANDEJA GIRADISCOS FLAT CON LOGO SVG OFICIAL EN EL CENTRO */}
       <div className="w-full h-44 bg-[#181818] overflow-hidden relative flex-shrink-0 flex items-center justify-center rounded-xl">
         {isFallback ? (
           <div className="w-full h-full relative select-none overflow-hidden">
@@ -185,12 +185,6 @@ export default function IframePlayer({
               role="img"
               aria-label="Bandeja de vinilo girando - Radio en Casa"
             >
-              <defs>
-                <clipPath id="vinyl-center-label-mask">
-                  <circle cx="96" cy="76" r="22" />
-                </clipPath>
-              </defs>
-
               {/* Detalles mínimos de la bandeja */}
               <circle cx="24" cy="24" r="3.5" fill="#f74a35" />
               <rect x="34" y="22.5" width="12" height="3" rx="1.5" fill="#2c2c2c" />
@@ -220,24 +214,18 @@ export default function IframePlayer({
                   opacity="0.065"
                 />
 
-                {/* Galleta central roja con el logo REC dentro de una máscara redonda */}
-                <g clipPath="url(#vinyl-center-label-mask)">
-                  <circle cx="96" cy="76" r="22" fill="#f74a35" />
-                  <g transform="translate(96, 76) scale(1.12)">
-                    {/* Marco exterior C */}
+                {/* Galleta central roja SVG oficial (512x512 escalada exacta a radio 22 en 96,76) */}
+                <g transform="translate(96, 76) scale(0.0859375) translate(-256, -256)">
+                  <circle fill="#F74A35" cx="256" cy="256" r="256" />
+                  <g>
                     <path
-                      d="M -11 -7 C -11 -11.5, -7.5 -12, -4 -12 L 8 -12 C 11 -12, 12 -11, 12 -8 L 12 -2 L 5.5 -2 L 5.5 -6 C 5.5 -7, 4.5 -7.5, 2.5 -7.5 L -3 -7.5 C -5 -7.5, -5.5 -7, -5.5 -4.5 L -5.5 4.5 C -5.5 7, -5 7.5, -3 7.5 L 2.5 7.5 C 4.5 7.5, 5.5 7, 5.5 6 L 5.5 2 L 12 2 L 12 8 C 12 11, 11 12, 8 12 L -4.5 12 L -7 9.2 L -7 12 C -10.5 12, -11 10.5, -11 7 Z"
-                      fill="#e3e3e3"
+                      fill="#E3E3E3"
+                      d="M359.789,231.893L359.789,231.893c0-23.738-19.242-42.981-42.98-42.981H154.248v135.801h39.426v-96.375h124.499v8.761H204.991v39.426h24.641l15.472,37.368c2.712,6.55,9.101,10.819,16.19,10.819h96.475v-39.426h-83.44l-3.629-8.761h44.456C339.705,276.525,359.789,256.44,359.789,231.893z"
                     />
-                    {/* R interior */}
                     <path
-                      d="M -4.2 -3.8 L 3 -3.8 C 5.6 -3.8, 6.6 -3.1, 6.6 -1.1 L 6.6 0.6 C 6.6 2.2, 5.5 2.9, 3.2 2.9 L 0.2 2.9 L 0.2 6 L -4.2 6 Z"
-                      fill="#e3e3e3"
+                      fill="#E3E3E3"
+                      d="M435.043,237.099v-44.872c0-45.056-36.525-81.581-81.581-81.581H158.556c-45.056,0-81.581,36.525-81.581,81.581v129.17c0,45.056,36.525,81.581,81.581,81.581h35.118v-33.992l28.799,33.992h130.988c45.056,0,81.581-36.525,81.581-81.581v-36.111h-47.589v70.124h-262.89V158.24h262.89v78.859H435.043z"
                     />
-                    {/* Hueco interno de la R */}
-                    <rect x="-0.5" y="-1.3" width="3.2" height="1.9" fill="#f74a35" />
-                    {/* Pata diagonal de la R */}
-                    <path d="M 1 2.2 L 4.2 2.2 L 7 6 L 3.4 6 Z" fill="#e3e3e3" />
                   </g>
                 </g>
               </g>

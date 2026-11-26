@@ -1015,7 +1015,7 @@ const menuItems = [
     label: 'Fanzine',
     icon: (
       <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c-1.1-.9-2-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
       </svg>
     ),
   },
@@ -1183,6 +1183,7 @@ export default function AlternativaPage() {
   const [isOpenChat, setIsOpenChat] = useState<boolean>(true);
 
   const [nowPlayingText, setNowPlayingText] = useState<string>('Radio en Casa - En Vivo');
+  const [playedHistory, setPlayedHistory] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchStreamInfo = async () => {
@@ -1191,7 +1192,10 @@ export default function AlternativaPage() {
         if (res.ok) {
           const data = await res.json();
           if (data?.nowPlaying) {
-            setNowPlayingText(data.nowPlaying);
+            setNowPlayingText(decodeHtmlEntities(data.nowPlaying));
+          }
+          if (Array.isArray(data?.history)) {
+            setPlayedHistory(data.history);
           }
         }
       } catch (err) {
@@ -2039,8 +2043,29 @@ export default function AlternativaPage() {
                 <div className={`grid transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] overflow-hidden w-full ${
                   isOpenPlayer ? 'flex-1 grid-rows-[1fr] opacity-100 pt-1 pb-1 bg-transparent' : 'grid-rows-[0fr] opacity-0 pt-0 pb-0'
                 }`}>
-                  <div className="overflow-hidden w-full h-full flex flex-col justify-center items-center gap-2 bg-transparent">
+                  <div className="overflow-hidden w-full h-full flex flex-col justify-start items-center gap-2.5 bg-transparent">
                     <IframePlayer width={280} />
+
+                    {/* LISTADO DE ÚLTIMOS EMITIDOS: SOLO VISIBLE SI PLAYER ESTÁ MAXIMIZADO Y CHAT MINIMIZADO */}
+                    {isOpenPlayer && !isOpenChat && playedHistory.length > 0 && (
+                      <div className="w-full flex-1 min-h-0 bg-[#121212]/95 rounded-xl p-2.5 text-left flex flex-col gap-1.5 overflow-hidden">
+                        <span className="text-[#f74a35] font-black text-[8.5px] uppercase tracking-widest px-1 flex-shrink-0 font-datatype">
+                          ÚLTIMOS EMITIDOS
+                        </span>
+                        <div className="flex-1 overflow-y-auto no-scrollbar space-y-1 px-1 font-datatype">
+                          {playedHistory.map((track, idx) => (
+                            <div
+                              key={idx}
+                              className="text-[8.5px] text-neutral-300 py-1 border-b border-white/10 last:border-b-0 truncate font-datatype"
+                              title={decodeHtmlEntities(track)}
+                            >
+                              <strong className="text-[#f74a35] mr-1.5">[{idx + 1}]</strong>
+                              {decodeHtmlEntities(track)}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

@@ -13,6 +13,24 @@ interface StreamInfo {
 
 const FALLBACK_COVER = '/images/servicios/Radio_en_Casa_logo_REC-04.svg';
 
+function decodeHtml(raw: string): string {
+  if (!raw) return '';
+  if (typeof document !== 'undefined') {
+    const txt = document.createElement('textarea');
+    txt.innerHTML = raw;
+    return txt.value;
+  }
+  return raw
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(Number(dec)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ');
+}
+
 export default function IframePlayer({
   width = 280,
   isForceCollapsed = false,
@@ -42,7 +60,10 @@ export default function IframePlayer({
       const res = await fetch('/api/stream', { cache: 'no-store' });
       if (res.ok) {
         const data = await res.json();
-        setStreamInfo(data);
+        setStreamInfo({
+          ...data,
+          nowPlaying: decodeHtml(data.nowPlaying || 'Radio en Casa - En Vivo'),
+        });
       }
     } catch (err) {
       console.warn('Error cargando info del stream:', err);
@@ -285,13 +306,16 @@ export default function IframePlayer({
             </div>
           </div>
         ) : (
-          <img
-            key={activeCover}
-            src={activeCover}
-            alt={streamInfo.nowPlaying || 'Tapa del tema en vivo'}
-            className="w-full h-full object-cover"
-            onError={() => setImgError(true)}
-          />
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              key={activeCover}
+              src={activeCover}
+              alt={streamInfo.nowPlaying || 'Tapa del tema en vivo'}
+              className="w-full h-full object-cover"
+              onError={() => setImgError(true)}
+            />
+          </>
         )}
       </div>
 

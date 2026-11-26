@@ -5,27 +5,72 @@ export const revalidate = 0;
 
 const FALLBACK_IMAGE = '/images/servicios/Radio_en_Casa_logo_REC-04.svg';
 
-function normalizeArtUrl(art?: unknown, title?: string): string {
-  if (typeof art !== 'string') return FALLBACK_IMAGE;
-  const trimmed = art.trim();
+function cleanTrackTitle(rawTitle: string): string {
+  return rawTitle
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(Number(dec)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCharCode(parseInt(hex, 16)))
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/\s*[\(\[].*?[\)\]]\s*/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 
-  if (!trimmed || trimmed.toLowerCase().includes('nocover.png')) {
-    return FALLBACK_IMAGE;
+async function fetchItunesCover(title: string): Promise<string | null> {
+  try {
+    const cleaned = cleanTrackTitle(title);
+    if (!cleaned || cleaned.toLowerCase().includes('radio en casa') || !cleaned.includes('-')) {
+      return null;
+    }
+
+    const res = await fetch(
+      `https://itunes.apple.com/search?term=${encodeURIComponent(cleaned)}&media=music&entity=song&limit=1`,
+      { cache: 'no-store' }
+    );
+
+    if (!res.ok) return null;
+
+    const json = await res.json();
+    const artwork = json?.results?.[0]?.artworkUrl100;
+
+    if (typeof artwork === 'string' && artwork.length > 0) {
+      return artwork.replace('100x100bb', '600x600bb');
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+async function resolveCoverUrl(art?: unknown, title?: string): Promise<string> {
+  const rawArt = typeof art === 'string' ? art.trim() : '';
+  const isNoCover = !rawArt || rawArt.toLowerCase().includes('nocover');
+
+  if (!isNoCover) {
+    let fullUrl = rawArt;
+    if (rawArt.startsWith('http://')) {
+      fullUrl = rawArt.replace('http://', 'https://');
+    } else if (rawArt.startsWith('//')) {
+      fullUrl = `https:${rawArt}`;
+    } else if (rawArt.startsWith('/')) {
+      fullUrl = `https://streaming01.shockmedia.com.ar${rawArt}`;
+    } else if (!rawArt.startsWith('https://')) {
+      fullUrl = `https://streaming01.shockmedia.com.ar/${rawArt}`;
+    }
+
+    const cacheKey = encodeURIComponent(title || String(Date.now()));
+    return `/api/stream/cover?url=${encodeURIComponent(fullUrl)}&v=${cacheKey}`;
   }
 
-  let fullUrl = trimmed;
-  if (trimmed.startsWith('http://')) {
-    fullUrl = trimmed.replace('http://', 'https://');
-  } else if (trimmed.startsWith('//')) {
-    fullUrl = `https:${trimmed}`;
-  } else if (trimmed.startsWith('/')) {
-    fullUrl = `https://streaming01.shockmedia.com.ar${trimmed}`;
-  } else if (!trimmed.startsWith('https://')) {
-    fullUrl = `https://streaming01.shockmedia.com.ar/${trimmed}`;
+  if (title) {
+    const itunesArt = await fetchItunesCover(title);
+    if (itunesArt) {
+      return itunesArt;
+    }
   }
 
-  const cacheKey = encodeURIComponent(title || String(Date.now()));
-  return `/api/stream/cover?url=${encodeURIComponent(fullUrl)}&v=${cacheKey}`;
+  return FALLBACK_IMAGE;
 }
 
 export async function GET() {
@@ -35,7 +80,8 @@ export async function GET() {
       {
         cache: 'no-store',
         headers: {
-          'User-Agent': 'RadioEnCasaWeb/1.0',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+          'Referer': 'https://streaming01.shockmedia.com.ar/',
         },
       }
     );
@@ -45,13 +91,14 @@ export async function GET() {
     }
 
     const data = await response.json();
+    const resolvedImage = await resolveCoverUrl(data.art, data.title);
 
     return NextResponse.json(
       {
         nowPlaying: data.title || 'Radio en Casa - En Vivo',
-        image: normalizeArtUrl(data.art, data.title),
-        onlineListeners: data.listeners ?? 0,
-        uniqueListeners: data.ulistener ?? 0,
+        image: resolvedImage,
+        onlineListeners: Number(data.listeners) || 0,
+        uniqueListeners: Number(data.ulistener) || 0,
         bitrate: data.bitrate || '128 kbps',
         djUsername: data.djusername || null,
         djProfile: data.djprofile || null,

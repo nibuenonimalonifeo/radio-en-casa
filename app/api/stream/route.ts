@@ -93,6 +93,19 @@ export async function GET() {
     const data = await response.json();
     const resolvedImage = await resolveCoverUrl(data.art, data.title);
 
+    const cleanedHistory = Array.isArray(data.history)
+      ? data.history
+          .map((item: unknown) =>
+            typeof item === 'string'
+              ? item
+                  .replace(/<br\s*\/?>/gi, '') // Quita cualquier <br>
+                  .replace(/^\d+\.\)\s*/, '') // Quita "1.) ", "2.) ", etc.
+                  .trim()
+              : ''
+          )
+          .filter(Boolean)
+      : [];
+
     return NextResponse.json(
       {
         nowPlaying: data.title || 'Radio en Casa - En Vivo',
@@ -102,7 +115,7 @@ export async function GET() {
         bitrate: data.bitrate || '128 kbps',
         djUsername: data.djusername || null,
         djProfile: data.djprofile || null,
-        history: Array.isArray(data.history) ? data.history : [],
+        history: cleanedHistory,
         streamUrl: '/api/stream/audio',
       },
       {
